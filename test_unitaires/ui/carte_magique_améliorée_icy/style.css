@@ -1,0 +1,105 @@
+:root {
+  --primary: #00c8ff;
+  --hover: #ff3366;
+  --bg: #ffffff;
+  --text-dark: #1e2a38;
+  --text-light: #333;
+  --shadow: rgba(0, 200, 255, 0.2);
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f9fc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Grille pour test unitaire */
+.parcours-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px;
+}
+
+/* Carte magique */
+.card-comp {
+  width: 300px;
+  background: var(--bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px var(--shadow);
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.card-comp:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 200, 255, 0.4);
+}
+
+.card-comp .icon {
+  font-size: 36px;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.card-comp .title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--text-dark);
+}
+
+.card-comp .summary {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+/* Contenu expansible magique */
+.full-text {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.6s ease,
+    opacity 0.4s ease;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-light);
+  margin-top: 12px;
+}
+
+/* Bouton de fermeture */
+.reduce-btn {
+  display: none;
+  margin-top: 12px;
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.reduce-btn:hover {
+  color: var(--hover);
+}
+
+/* État étendu */
+.card-comp.expanded .full-text {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.card-comp.expanded .reduce-btn {
+  display: inline-block;
+}

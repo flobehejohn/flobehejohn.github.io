@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test Granular Synth</title>
+    <style>
+      body {
+        background: #111;
+        color: #0ff;
+        font-family: sans-serif;
+        text-align: center;
+        padding-top: 50px;
+      }
+
+      button {
+        font-size: 18px;
+        margin: 10px;
+        padding: 10px 20px;
+      }
+
+      audio {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <button onclick="document.querySelector('audio').play()">
+      ▶️ Test WAV
+    </button>
+    <audio src="./assets/audio/example.wav" controls></audio>
+
+    <h1>Test Granular Synthèse</h1>
+    <button id="play">▶️ Démarrer</button>
+    <button id="stop">⏹️ Stop</button>
+    <button onclick="document.querySelector('audio').play()">
+      ▶️ Test WAV direct
+    </button>
+    <audio src="./assets/audio/example.wav" controls></audio>
+
+    <script type="module">
+      import Granular from "./assets/js/granular.js";
+
+      async function loadAudio(url, audioCtx) {
+        try {
+          const response = await fetch(url);
+          const arrayBuffer = await response.arrayBuffer();
+          return await audioCtx.decodeAudioData(arrayBuffer);
+        } catch (err) {
+          console.error("Erreur de chargement audio :", err);
+        }
+      }
+
+      let granular = null;
+      let voiceId = null;
+
+      document.getElementById("play").addEventListener("click", async () => {
+        const audioCtx = new (window.AudioContext ||
+          window.webkitAudioContext)();
+
+        granular = new Granular({
+          audioContext: audioCtx,
+          envelope: {
+            attack: 0.1,
+            release: 0.4,
+          },
+          density: 0.8,
+          spread: 0.2,
+          pitch: 1,
+        });
+
+        const buffer = await loadAudio("./assets/audio/example.wav", audioCtx);
+        if (!buffer) {
+          console.error("Le fichier audio n'a pas pu être chargé.");
+          return;
+        }
+
+        await granular.setBuffer(buffer);
+
+        voiceId = granular.startVoice({
+          position: 0.3,
+          volume: 0.9,
+        });
+
+        window.granular = granular;
+        window.voiceId = voiceId;
+      });
+
+      document.getElementById("stop").addEventListener("click", () => {
+        if (window.granular && window.voiceId !== undefined) {
+          window.granular.stopVoice(window.voiceId);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+:root {
+  --primary: #00c8ff;
+  --bg: #111;
+  --shadow: rgba(0, 200, 255, 0.4);
+  --text: #fff;
+}
+
+body {
+  background: #0b0f13;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  color: var(--text);
+}
+
+.magic-card {
+  background: #1a1f24;
+  border-radius: 16px;
+  width: 320px;
+  padding: 24px;
+  box-shadow: 0 0 20px var(--shadow);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: box-shadow 0.2s ease;
+}
+
+.magic-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(120deg, transparent, var(--primary), transparent);
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.magic-card.clicked::before {
+  animation: shimmer 0.7s ease-out;
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) translate(-100%, -100%);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translate(100%, 100%);
+  }
+}
+
+.magic-card:hover {
+  box-shadow: 0 0 30px var(--primary);
+}
+
+.magic-card-content {
+  text-align: center;
+  position: relative;
+}
+
+.icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.details.open {
+  opacity: 1;
+}
+
+.close-btn {
+  margin-top: 12px;
+  background: none;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+  background: var(--primary);
+  color: #000;
+}

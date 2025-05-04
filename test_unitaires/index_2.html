@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Site de Florian-Behejohn</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+
+    <!-- Intégration des polices -->
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic' rel='stylesheet'>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/theme.min.css">
+    <link rel="stylesheet" href="assets/css/color-defaults.min.css">
+    <link rel="stylesheet" href="assets/css/swatch-custom.css" media="screen">
+    <link rel="stylesheet" href="assets/fonts/fontawesome/css/all.min.css">
+
+    <!-- Styles additionnels pour la section de badges / compétences -->
+    <style>
+        .skill-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+        .skill-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .skill-card i {
+            margin-bottom: 10px;
+        }
+        .filters .btn {
+            margin: 5px;
+        }
+        .figure-image img {
+            width: 50%;
+            height: auto; /* correction des attributs */
+        }
+    </style>
+</head>
+
+<body class="normal-header">
+
+    <!-- MENU NAVIGATION -->
+    <div id="masthead" class="navbar navbar-static-top navbar-sticky swatch-custom" role="banner">
+        <div class="container">
+            <div class="row">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".main-navbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="index.html" class="navbar-brand">
+                        <img src="assets/images/log_zim.jpg" alt="Logo ZIMAN" style="width:30px;height:30px;">
+                        FLORIAN-BEHEJOHN
+                    </a>
+                </div>
+
+                <nav class="collapse navbar-collapse main-navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="index.html">Accueil</a></li>
+                        <li><a href="portfolio_florian_b.html">Portfolio</a></li>
+                        <li><a href="parcours.html">Parcours</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENU PRINCIPAL -->
+    <div id="content">
+        <article>
+            <!-- SECTION ACCUEIL -->
+            <section id="two" class="section swatch-custom">
+                <div class="container">
+                    <header class="hero-section text-center">
+                        <h1 class="super hairline bordered-normal os-animation" data-os-animation="fadeInDown">
+                            Un créateur sonore et visuel, au croisement de l'innovation et de l’émotion.
+                        </h1>
+                        <p class="lead os-animation" data-os-animation="fadeInUp">
+                            Designer sonore, compositeur et expert en production multimédia, j’explore la frontière entre le son, l’image et la technologie pour donner vie à des expériences immersives et interactives.
+                        </p>
+                    </header>
+                    <div class="figure text-center">
+                        <span class="figure-image">
+                            <img src="assets/images/people/moi_.png" alt="Mon Profil">
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION À PROPOS -->
+            <section class="section swatch-custom">
+                <div class="container">
+                    <div class="row">
+                        <!-- Div de la zone titre + cartes parcours -->
+                        <div class="col-md-12 text-center">
+                            <!-- Titre header -->
+                            <header class="element-tall-top element-medium-bottom os-animation" data-os-animation="fadeIn">
+                                <!-- Titre du blok parcours-->
+                                <h1 class="bigger hairline bordered">Un Parcours Entre Création et Innovation</h1>
+                            </header>
+                            <!-- Les cartes parcours -->
+                            <!-- Carte Parcours 1-->
+                            <div class="col-md-6 card-comp">
+                                <div class="icon"><i class="fa fa-volume-up"></i></div>
+                                <p class="short-text">Designer sonore, producteur musical, ingénieur du son .</p>
+                                <div class="expand-btn"><i class="fa fa-chevron-down"></i></div>
+                                <p class="full-text">
+                                    De la <strong>composition musicale</strong> à la <strong>post-production audio</strong>, j’opère comme <strong>ingénieur du son</strong>
+                                    et <strong>régisseur</strong>  sur <strong>scène</strong> et en <strong>studio</strong> , collaborant avec des <strong>institutions culturelles</strong>,
+                                    des industries créatives et des entreprises technologiques pour créer des <strong>expériences sonores innovantes</strong> et <strong>collectives</strong>.
+                                    J’interviens dans  le <strong>spectacle vivant</strong>, <strong>le cinéma</strong>, <strong>le marketing</strong> et <strong>les arts numériques</strong>
+                                    dans la <strong>conception d’environnements sonores immersifs</strong>.
+                                    <span class="reduce-btn"><i class="fa fa-chevron-up"></i></span>
+                                </p>
+                            </div>
+                            <!-- Carte Parcours 2-->
+                            <div class="col-md-6 card-comp">
+                                <div class="icon"><i class="fa fa-film fa-lg text-primary"></i></div>
+                                <p class="short-text"> Concepteur sonore et audiovisuel</p>
+                                <div class="expand-btn"><i class="fa fa-chevron-down"></i></div>
+                                <p class="full-text">
+
+                                    J’ai réalisé des <strong>habillages  sonores </strong>et<strong> visuels</strong> pour des <strong>événements culturels</strong> ,<strong>expositions</strong>
+                                    et <strong>productions médiatiques</strong>. De la création de <strong>performances trans-médias</strong>  à l’<strong>exploitation de dispositifs de diffusion</strong>
+                                    (son, lumière, vidéo, mur d’images), j’associe <strong>poésie</strong>,<strong>altérité</strong>, <strong>mise en scène</strong> et <strong>innovation technologique</strong>.
+                                    Mon expertise s’étend de la<strong> réalisation de bandes-son </strong>pour <strong>documentaires et publicités</strong>  (Nova, Parrot/Dafact) à la<strong>
+                                        direction artistique
+                                    </strong>  d’<strong>applications mobiles immersives</strong>, en passant par la <strong>production d’albums</strong>, d’<strong>
+                                        installations interactives
+                                    </strong> et d’<strong>audioguides muséographiques</strong> (MACVAL, Radio Nova, CLEA).
+                                    <span class="reduce-btn"><i class="fa fa-chevron-up"></i></span>
+                                </p>
+                            </div>
+                            <!-- Carte Parcours 3-->
+                            <div class="col-md-6 card-comp">
+                                <div class="icon"><i class="fa fa-users-cog fa-lg text-primary"></i></div>
+                                <p class="short-text"> Intervenant et pédagogue</p>
+                                <div class="expand-btn"><i class="fa fa-chevron-down"></i></div>
+                                <p class="full-text">
+                                    J’anime des **ateliers de création sonore et audiovisuelle** pour **tous publics**, du conservatoire aux quartiers populaires, en passant par les écoles et les centres culturels.
+                                    Mon approche allie **transmission pédagogique et exploration artistique**, intégrant les nouvelles technologies au service de la **composition musicale, de l’enregistrement et
+                                    de la postproduction**.J’ai conçu et dirigé des **projets collaboratifs d’envergure** dans des **résidences artistiques, des actions éducatives et des formations professionnelles**,
+                                    favorisant **l’inclusion culturelle et l’expression créative**.</strong> et d’<strong>audioguides muséographiques</strong> (MACVAL, Radio Nova, CLEA).
+                                    <span class="reduce-btn"><i class="fa fa-chevron-up"></i></span>
+                                </p>
+                            </div>
+                            <!-- Carte Parcours 4-->
+                            <div class="col-md-6 card-comp">
+                                <div class="icon"><i class="fas fa-code-branch fa-lg text-primary"></i></div>
+                                <p class="short-text"> Innovation & numérique</p>
+                                <div class="expand-btn"><i class="fa fa-chevron-down"></i></div>
+                                <p class="full-text">
+                                    Passionné par la **création interactive**, je conçois des **expériences multimédias** où **code, UI/UX et son** fusionnent.
+                                    De la **programmation audio avancée** (Max MSP, Pure Data) au **développement web et design d’interaction**, j’expérimente et optimise en continu.
+                                    Curieux et autodidacte, je suis toujours prêt à **approfondir, innover et relever de nouveaux défis**.
+                                    **Autonome mais engagé dans le collectif**, je m’adapte aux méthodes **Lean, Scrum ou improvisation agile** pour travailler efficacement en équipe et soutenir l’intelligence collective.
+                                    <span class="reduce-btn"><i class="fa fa-chevron-up"></i></span>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION COMPÉTENCES / BADGES FILTRABLES (Isotope) -->
+            <section id="skills" class="section swatch-custom">
+                <div class="container">
+                    <header class="text-center os-animation" data-os-animation="fadeIn" data-os-animation-delay="0s">
+                        <h2 class="bigger hairline bordered">Mes Compétences</h2>
+                        <p class="lead">Filtrez par catégorie et note pour découvrir mes outils et savoir-faire</p>
+                    </header>
+
+                    <!-- Filtres par catégorie -->
+                    <div class="text-center filters os-animation" data-os-animation="fadeInUp" data-os-animation-delay="0.2s">
+                        <button class="btn btn-primary" data-filter="*">Tous</button>
+                        <button class="btn btn-primary" data-filter=".audio">Audio</button>
+                        <button class="btn btn-primary" data-filter=".code">Code</button>
+                        <button class="btn btn-primary" data-filter=".régie">régie</button>
+                        <button class="btn btn-primary" data-filter=".pedago">Pédagogie</button>
+                    </div>
+
+                    <!-- Filtres / tri par note -->
+                    <div class="text-center sorters os-animation" data-os-animation="fadeInUp" data-os-animation-delay="0.3s" style="margin-top:10px;">
+                        <button class="btn btn-secondary" data-sort-by="original-order">Ordre Initial</button>
+                        <button class="btn btn-secondary" data-sort-by="rating" data-sort-order="asc">Note Asc.</button>
+                        <button class="btn btn-secondary" data-sort-by="rating" data-sort-order="desc">Note Desc.</button>
+                    </div>
+
+                    <!-- Grille Isotope -->
+                    <div class="row grid os-animation" data-os-animation="fadeIn" data-os-animation-delay="0.4s" style="margin-top: 30px;">
+
+                        <!-- Audio 1 -->
+                        <div class="col-md-4 grid-item audio" data-rating="4.5">
+                            <div class="skill-card">
+                                <i class="fas fa-music fa-2x"></i>
+                                <h3>Production Audio</h3>
+                                <p>Pro Tools, Ableton Live, Cubase – Mixage, mastering, enregistrement.</p>
+                                <div class="rating-stars">
+                                    <!-- 4,5 étoiles -->
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Audio 2 -->
+                        <div class="col-md-4 grid-item audio" data-rating="4">
+                            <div class="skill-card">
+                                <i class="fas fa-headphones fa-2x"></i>
+                                <h3>Post-Production</h3>
+                                <p>Montage audio, habillages, jingles, identités sonores, podcasts, MAO.</p>
+                                <div class="rating-stars">
+                                    <!-- 4 étoiles -->
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Code 1 : C# / .NET6 -->
+                        <div class="col-md-4 grid-item code" data-rating="3">
+                            <div class="skill-card">
+                                <i class="fas fa-window-restore fa-2x"></i>
+                                <h3>Développement C# (.NET6)</h3>
+                                <p>Applications web (ASP.NET Core), scripts, dotnet CLI, design pattern MVC.</p>
+                                <div class="rating-stars">
+                                    <!-- 3 étoiles -->
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Code 2 : Python -->
+                        <div class="col-md-4 grid-item code" data-rating="3.5">
+                            <div class="skill-card">
+                                <i class="fas fa-code fa-2x"></i>
+                                <h3>Python</h3>
+                                <p>Data scripts, from_cam_to_midi_encore_moins_sensible.py, DSU Planner…</p>
+                                <div class="rating-stars">
+                                    <!-- 3.5 étoiles -->
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Code 3 : PowerShell -->
+                        <div class="col-md-4 grid-item code" data-rating="3">
+                            <div class="skill-card">
+                                <i class="fas fa-terminal fa-2x"></i>
+                                <h3>PowerShell</h3>
+                                <p>Automatisation sous Windows, scripts de déploiement et administration.</p>
+                                <div class="rating-stars">
+                                    <!-- 3 étoiles -->
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Code 4 : HTML/CSS -->
+                        <div class="col-md-4 grid-item code" data-rating="4.5">
+                            <div class="skill-card">
+                                <i class="fab fa-html5 fa-2x"></i>
+                                <h3>HTML/CSS</h3>
+                                <p>Responsive design, animations CSS, intégration Bootstrap, cross-browser.</p>
+                                <div class="rating-stars">
+                                    <!-- 4.5 étoiles -->
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Code 5 : JavaScript -->
+                        <div class="col-md-4 grid-item code" data-rating="4">
+                            <div class="skill-card">
+                                <i class="fab fa-js fa-2x"></i>
+                                <h3>JavaScript</h3>
+                                <p>ES6+, DOM scripting, animations, frameworks légers, manipulations JSON.</p>
+                                <div class="rating-stars">
+                                    <!-- 4 étoiles -->
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Code 6 : Node.js -->
+                        <div class="col-md-4 grid-item code" data-rating="3.5">
+                            <div class="skill-card">
+                                <i class="fab fa-node fa-2x"></i>
+                                <h3>Node.js</h3>
+                                <p>Serveur, APIs, npm scripts, Express, Socket.io, écosystème JS Back-end.</p>
+                                <div class="rating-stars">
+                                    <!-- 3.5 étoiles -->
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Installation (existant) -->
+                        <div class="col-md-4 grid-item régie" data-rating="4.5">
+                            <div class="skill-card">
+                                <i class="fas fa-tools fa-2x"></i>
+                                <h3>Installation Technique</h3>
+                                <p>Mise en place de dispositifs audio/vidéo, câblage, exploitation de murs d’images.</p>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Soft Skills (existant) -->
+                        <div class="col-md-4 grid-item soft" data-rating="5">
+                            <div class="skill-card">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                                <h3>Formation & Animation</h3>
+                                <p>Ateliers MAO tous publics, anglais courant, rédaction de projets et comptes-rendus.</p>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Audio + Code => Design d’interaction (existant) -->
+                        <div class="col-md-4 grid-item audio code" data-rating="3">
+                            <div class="skill-card">
+                                <i class="fas fa-laptop-code fa-2x"></i>
+                                <h3>Design d’interaction</h3>
+                                <p>Programmation audio (Max MSP, Pure Data) et interfaces interactives (UI/UX).</p>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            
+
+            <!-- SECTION PORTFOLIO -->
+            <section class="section swatch-custom text-center">
+                <div class="container">
+                    <header class="os-animation" data-os-animation="fadeIn">
+                        <h2 class="bigger hairline bordered">Découvrez Mes Réalisations</h2>
+                    </header>
+                    <p class="lead os-animation" data-os-animation="fadeInUp">
+                        🎧 <strong>Des productions sonores immersives</strong><br>
+                        🎬 <strong>Des créations audiovisuelles uniques</strong><br>
+                        🚀 <strong>Un engagement constant dans l’innovation multimédia</strong>
+                    </p>
+                    <a href="portfolio_florian_b.html" class="btn btn-primary btn-lg os-animation" data-os-animation="fadeInRight">
+                        Explorer mon Portfolio
+                    </a>
+                </div>
+            </section>
+        </article>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="swatch-custom text-center">
+        <div class="container">
+            <p>© 2025 Florian Behejohn - Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS UNIQUES ET OPTIMISÉS -->
+    <script src="assets/js/packages.min.js"></script>
+    <script src="assets/js/theme.min.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

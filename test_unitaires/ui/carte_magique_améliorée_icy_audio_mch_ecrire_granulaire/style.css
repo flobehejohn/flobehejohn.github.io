@@ -1,0 +1,58 @@
+:root {
+  --primary: #00c8ff;
+  --shadow: rgba(0, 200, 255, 0.4);
+}
+
+body {
+  margin: 0;
+  background: #0b0f13;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.magic-card {
+  width: 320px;
+  background: #1a1f24;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 0 20px var(--shadow);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.magic-card.clicked::before {
+  animation: shimmer 0.7s ease-out;
+}
+
+.magic-card-content {
+  text-align: center;
+}
+
+.details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.6s ease,
+    opacity 0.4s ease;
+}
+
+.details.open {
+  opacity: 1;
+}
+
+.close-btn {
+  margin-top: 12px;
+  background: none;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}

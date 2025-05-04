@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carte Magique Audio ✨</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="magic-card" id="magicCard">
+      <div class="magic-card-content">
+        <div class="icon">🔮</div>
+        <h3>Compétence Magique</h3>
+        <p class="summary">Clique pour révéler le secret...</p>
+        <div class="details" id="details">
+          <p>
+            ✨ Tu maîtrises l'art des interfaces immersives et animées. Bravo !
+          </p>
+          <button class="close-btn">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+    <audio id="clickSound" src="sounds/click.mp3" preload="auto"></audio>
+    <audio id="closeSound" src="sounds/close.mp3" preload="auto"></audio>
+    <audio id="magicSound" src="magic-sparkle.mp3" preload="auto"></audio>
+
+    <script src="script.js"></script>
+  </body>
+</html>

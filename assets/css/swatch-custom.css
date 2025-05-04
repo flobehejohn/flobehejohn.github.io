@@ -1,0 +1,1690 @@
+﻿/* ================================
+   🚀 NAVBAR STICKY ÉTAT FIXE
+================================ */
+
+/* ================================
+   🚀 NAVBAR - Couleur élégante du texte
+================================ */
+
+/* 🔧 Fix prioritaire pour garantir l’affichage carré des cartes magiques */
+.magic-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+  gap: 32px !important;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.magic-grid .card-comp {
+  width: 100%;
+  aspect-ratio: 1/1; /* Carré parfait */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.magic-grid .card-comp.expanded {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 200, 255, 0.3);
+}
+
+.magic-grid .card-comp .full-text {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.7s ease,
+    opacity 0.5s ease;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+
+.magic-grid .card-comp.expanded .full-text {
+  opacity: 1 !important;
+}
+
+.magic-grid .card-comp .close-btn {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  margin-top: 15px;
+  background: none;
+  border: 1px solid #00c8ff;
+  color: #00c8ff;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.magic-grid .card-comp.expanded .close-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.magic-grid .card-comp.opening-sibling {
+  transform: scale(0.98);
+  filter: brightness(0.9);
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+.swatch-custom.navbar-sticky,
+.swatch-custom .navbar-brand,
+.swatch-custom .navbar-nav .nav-link,
+.swatch-custom .site-title {
+  color: #1e2a38 !important;
+}
+navbar,
+.navbar-brand,
+.navbar-nav .nav-link,
+.site-title {
+  color: #1e2a38; /* Bleu-gris foncé élégant */
+}
+.site-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 100%;
+  transition:
+    max-width 0.3s ease,
+    font-size 0.3s ease;
+  font-size: 0.9rem; /* Valeur par défaut */
+  flex: 1 1 auto;
+}
+
+body,
+button,
+.navbar,
+.navbar-toggler,
+.audio-player-nav-btn {
+  font-family: "Inter", sans-serif !important;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #00c8ff;
+  text-rendering: optimizeLegibility;
+}
+
+.swatch-custom.navbar-sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1050;
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid rgba(0, 200, 255, 0.6);
+  padding: 10px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ EFFET HOVER BLUFFANT POUR NAVBAR */
+.navbar-nav .nav-link {
+  position: relative;
+  color: #1e2a38;
+  font-weight: 500;
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+/* 🔥 Hover visuel avec glow, surbrillance et underline animé */
+.navbar-nav .nav-link:hover {
+  color: #00c8ff;
+  text-shadow:
+    0 0 6px rgba(0, 200, 255, 0.1),
+    0 0 12px rgba(0, 200, 255, 0.3);
+}
+
+/* ✨ Animation underline fluide */
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, #00c8ff, #5fbff9);
+  transition: transform 0.4s ease;
+  border-radius: 2px;
+}
+
+.navbar-nav .nav-link:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ================================
+   🖼️ BRAND & LOGO
+================================ */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  text-decoration: none;
+}
+
+.navbar-brand img.brand-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ================================
+   🎧 BOUTON AUDIO
+================================ */
+.audio-player-nav-btn {
+  background: transparent;
+  border: none;
+  color: #5fbff9;
+  font-size: 32px;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0 10px;
+  position: relative;
+}
+
+.audio-player-nav-btn:hover {
+  transform: scale(1.1);
+  color: #00c8ff;
+}
+
+/* Halo en lecture */
+.audio-player-nav-btn.playing::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 160%;
+  height: 160%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: 0 0 18px 4px rgba(95, 191, 249, 0.5);
+  animation: pulse-glow 1.5s infinite ease-in-out;
+  z-index: -1;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+/* ================================
+   🍔 HAMBURGER BUTTON
+================================ */
+.navbar-toggler {
+  border: none;
+  background: transparent;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  padding: 0;
+  position: relative;
+  z-index: 1001;
+}
+/* Conteneur des barres */
+.navbar-toggler-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 28px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+/* Barres */
+.navbar-toggler-icon .icon-bar {
+  width: 100%;
+  height: 3px;
+  background: #1e2a38;
+  border-radius: 2px;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+  transform-origin: center;
+}
+.navbar-toggler:not(.collapsed) .icon-bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.navbar-toggler:not(.collapsed) .icon-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-toggler:not(.collapsed) .icon-bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ================================
+   ✅ NAVBAR RESPONSIVE UNIVERSELLE
+================================ */
+@media screen and (max-width: 991px) {
+  .navbar .container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    overflow: visible;
+  }
+
+  .navbar-brand {
+    max-width: calc(
+      100% - 120px
+    ); /* ✅ Ajustement précis : audio (~44px) + hamburger (~40px) + marges (~30px) */
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .navbar-brand .site-title {
+    font-size: 0.85rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .navbar-brand img.brand-logo {
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  #navRightGroup {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    margin-left: 4px;
+    margin-right: 18px;
+    flex-shrink: 0;
+  }
+
+  .audio-player-nav-btn {
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .navbar-toggler {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    margin: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar-toggler-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    height: auto;
+  }
+
+  .navbar-toggler-icon .icon-bar {
+    width: 100%;
+    height: 3px;
+    background-color: #1e2a38;
+    border-radius: 2px;
+  }
+
+  .swatch-custom .navbar-collapse {
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(8px);
+    border-radius: 0 0 8px 8px;
+    padding: 10px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeInMenu 0.3s ease-in-out;
+  }
+
+  @keyframes fadeInMenu {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-brand {
+    max-width: calc(100% - 80px); /* Ligne à modifier en priorité */
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .site-title {
+    max-width: 100%;
+    font-size: 0.85rem;
+  }
+}
+
+/* ================================
+   🌐 TYPOGRAPHIE MODERNE
+================================ */
+body {
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #00c8ff;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  margin-bottom: 40px;
+}
+
+p {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #a0a0a0;
+  max-width: 850px;
+  margin: 0 auto;
+  text-align: justify;
+}
+/* ============================================
+   🎯 ESPACEMENT ET ORGANISATION DES SECTIONS
+   ============================================ */
+.section {
+  padding: 50px 0;
+}
+
+.hero-section p {
+  text-align: center, justify;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section-space {
+  height: 25px; /* Espacement par défaut */
+}
+
+/* Réduction de l'espace sur mobile */
+@media (max-width: 768px) {
+  .section-space {
+    height: 15px; /* Moins d’espace sur petits écrans */
+  }
+}
+
+/* Espacement plus grand pour les écrans larges */
+@media (min-width: 1200px) {
+  .section-space {
+    height: 50px; /* Plus d’espace sur grands écrans */
+  }
+}
+
+.section-space-short {
+  height: 15px; /* Espacement par défaut */
+}
+
+/* Réduction de l'espace sur mobile */
+@media (max-width: 768px) {
+  .section-space {
+    height: 50px; /* Moins d’espace sur petits écrans */
+  }
+}
+
+/* Espacement plus grand pour les écrans larges */
+@media (min-width: 1200px) {
+  .section-space {
+    height: 80px; /* Plus d’espace sur grands écrans */
+  }
+}
+
+/* ============================================
+   🌟 CARTES DE COMPÉTENCES INTERACTIVES (Dynamisme + Adaptabilité)
+   ============================================ */
+/* ✅ Grille fluide et centrée pour les cartes parcours */
+.parcours-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+  grid-template-rows: repeat(2, auto); /* 2 lignes auto */
+  gap: 32px;
+  width: 100%;
+  max-width: 2960px; /* carré 2x2 de 4 cartes */
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+  justify-items: center;
+}
+
+/* ✅ Carte parcours dans la grille */
+.card-comp {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 2/1; /* carré parfait */
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.3s ease-out,
+    box-shadow 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ✨ Effet "décollage" au hover */
+.card-comp:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 200, 255, 0.3);
+}
+
+/* 💎 Icône */
+.card-comp .icon {
+  font-size: 32px;
+  color: #00c8ff;
+  margin-bottom: 10px;
+}
+
+/* 💬 Texte déroulant */
+.full-text {
+  display: none;
+  margin-top: 10px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.reduce-btn {
+  display: none;
+  cursor: pointer;
+  color: #00c8ff;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+/* 🌟 Carte ouverte */
+.card-comp.expanded {
+  box-shadow: 0 8px 20px rgba(0, 200, 255, 0.3);
+  transform: scale(1.03);
+}
+
+/* ✅ Adaptation tablette */
+@media (max-width: 1023px) {
+  .card-comp {
+    width: calc(100% - 48px); /* plus large et centrée */
+    max-width: 600px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .parcours-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .card-comp {
+    aspect-ratio: auto; /* Permet la hauteur fluide sur mobile */
+    text-align: center; /* 🟦 CENTRÉ ligne par ligne */
+  }
+}
+/* 📱 Ultra mobile */
+@media (max-width: 480px) {
+  .parcours-grid {
+    gap: 24px;
+    padding: 16px;
+  }
+
+  .card-comp {
+    width: 100%;
+    max-width: 95vw;
+    margin: 0 auto;
+    padding: 16px;
+  }
+}
+
+/* 🌌 Transition de couleur localisée pour la zone magique */
+#magic-section.magic-transition {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(245, 250, 255, 1) 15%,
+    rgba(0, 200, 255, 0.05) 50%,
+    rgba(245, 250, 255, 1) 85%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  transition: background 1.5s ease-in-out;
+  position: relative;
+  z-index: 1;
+}
+
+/* 🌈 Halo doux autour des cartes dans cette section */
+#magic-section .card-comp {
+  border: 1px solid rgba(0, 200, 255, 0.12);
+  box-shadow:
+    0 6px 12px rgba(0, 200, 255, 0.08),
+    0 0 0 1px rgba(0, 200, 255, 0.05) inset;
+  transition:
+    box-shadow 0.4s ease,
+    transform 0.4s ease;
+}
+
+/* ✨ Hover avec glow fluide */
+#magic-section .card-comp:hover {
+  box-shadow:
+    0 12px 24px rgba(0, 200, 255, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.05);
+  transform: translateY(-6px) scale(1.015);
+}
+
+/* 🌟 Transition progressive du fond au scroll */
+@media (prefers-reduced-motion: no-preference) {
+  #magic-section.magic-transition::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    height: 150%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0, 200, 255, 0.1) 0%,
+      transparent 80%
+    );
+    opacity: 0;
+    animation: subtleGlow 6s infinite alternate ease-in-out;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes subtleGlow {
+    0% {
+      opacity: 0.2;
+      transform: scale(1.05);
+    }
+
+    100% {
+      opacity: 0.6;
+      transform: scale(1.12);
+    }
+  }
+}
+
+/* ============================================
+   🌟 IMAGE CENTRÉE ET AGRANDIE (Adaptée)
+   ============================================ */
+.figure {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0;
+  width: 100%;
+  height: 100vh;
+}
+
+.figure img {
+  width: auto;
+  height: 95vh;
+  max-height: 95vh;
+  display: block;
+  object-fit: contain;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+  .figure {
+    padding: 10px 0;
+  }
+
+  .figure img {
+    transform: scale(0.9);
+  }
+}
+
+/* =========================
+   Correctifs de compatibilité
+   ========================= */
+/* ============================================
+   🎨 BOUTONS FILTRES (EFFET BOMBÉ & SUBTIL)
+   ============================================ */
+.filters .btn {
+  border-radius: 9px; /* Arrondi élégant */
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #00c8ff;
+  color: #fff;
+  border: none;
+  padding: 4px 24px; /* 📏 Réduction de l'épaisseur */
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+  /* 🌟 Effet bombé ultra-réaliste */
+  box-shadow:
+    inset 0 2px 6px rgba(255, 255, 255, 0.3),
+    /* Lumière subtile interne */ inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+    /* Ombre interne douce */ 0 5px 10px rgba(0, 0, 0, 0.1),
+    /* Ombre externe douce */ 0 1px 0 #0099dd; /* Ombre dure simulant l'épaisseur */
+
+  position: relative;
+  display: inline-block;
+}
+
+/* 🖱️ Effet au survol : SCINTILLEMENT & OMBRES DYNAMIQUES */
+.filters .btn:hover {
+  background-color: #00a7d9;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 3px 10px rgba(255, 255, 255, 0.6),
+    /* Accentuation du bombé */ inset 0 -3px 6px rgba(0, 0, 0, 0.2),
+    /* Ombre interne subtile */ 0 8px 18px rgba(0, 168, 217, 0.4),
+    /* Ombre projetée scintillante */ 0 6px 0 #0088cc; /* Ombre dure plus contrastée */
+  /* 💡 Ajout d'un léger éclaircissement progressif */
+  animation: shineEffect 0.6s ease-in-out infinite alternate;
+}
+
+/* ✨ Animation de scintillement */
+@keyframes shineEffect {
+  0% {
+    box-shadow:
+      inset 0 3px 8px rgba(255, 255, 255, 0.4),
+      inset 0 -2px 5px rgba(0, 0, 0, 0.3),
+      0 5px 12px rgba(0, 0, 0, 0.2),
+      0 1px 0 #e1e5e6;
+  }
+
+  100% {
+    box-shadow:
+      inset 0 4px 10px rgba(255, 255, 255, 0.6),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.2),
+      0 10px 20px rgba(0, 168, 217, 0.5),
+      0 1px 0 #e1e5e6;
+  }
+}
+
+/* 🎯 Effet "pressé" ultra-réaliste */
+.filters .btn:active {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    /* Adoucissement de la lumière interne */ inset 0 -1px 3px
+      rgba(0, 0, 0, 0.1),
+    /* Réduction de l'ombre interne */ 0 4px 10px rgba(0, 0, 0, 0.2),
+    /* Ombre portée légère */ 0 2px 0 #0068a0; /* Ombre plus foncée pour effet réaliste */
+}
+
+/* ============================================
+   🔹 BOUTONS TRI (EFFET BOMBÉ & SCINTILLANT)
+   ============================================ */
+.sorters .btn {
+  border-radius: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #0088cc;
+  color: #fff;
+  border: none;
+  padding: 7px 20px; /* Ajustement pour une meilleure harmonie */
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  display: inline-block;
+  /* 🌟 Effet bombé subtil */
+  box-shadow:
+    inset 0 2px 6px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.3),
+    0 6px 12px rgba(0, 0, 0, 0.2),
+    0 1px 0 #006699;
+}
+
+/* 🖱️ Effet au survol : Scintillement & ombres dynamiques */
+.sorters .btn:hover {
+  background-color: #006fa8;
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 3px 10px rgba(255, 255, 255, 0.5),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.2),
+    0 8px 15px rgba(0, 112, 168, 0.4),
+    0 6px 0 #005580;
+  /* 💡 Effet scintillant */
+  animation: shineEffectSorters 0.6s ease-in-out infinite alternate;
+}
+
+/* ✨ Animation de scintillement pour les boutons TRI */
+@keyframes shineEffectSorters {
+  0% {
+    box-shadow:
+      inset 0 2px 6px rgba(255, 255, 255, 0.3),
+      inset 0 -2px 5px rgba(0, 0, 0, 0.3),
+      0 6px 12px rgba(0, 0, 0, 0.2),
+      0 1px 0 #e1e5e6;
+  }
+
+  100% {
+    box-shadow:
+      inset 0 3px 8px rgba(255, 255, 255, 0.5),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.2),
+      0 9px 16px rgba(0, 112, 168, 0.5),
+      0 1px 0 #e1e5e6;
+  }
+}
+
+/* 🎯 Effet "pressé" ultra-réaliste */
+.sorters .btn:active {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.1),
+    0 4px 10px rgba(0, 0, 0, 0.2),
+    0 2px 0 #004c80;
+}
+
+/* ============================================
+   ✨ ANIMATION DE CLIC FLUIDE
+   ============================================ */
+@keyframes buttonPress {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.97);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.filters .btn:active,
+.sorters .btn:active {
+  animation: buttonPress 0.15s ease-in-out;
+}
+
+/* ============================================
+   📱 RESPONSIVE DESIGN : ADAPTATION MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  .filters,
+  .sorters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+  }
+
+  /* 🌟 Boutons plus compacts mais gardant leur effet bombé */
+  .filters .btn {
+    flex: 1 1 auto;
+    min-width: 10px;
+    max-width: 200px;
+    padding: 8px 6px;
+    font-size: 0.9rem;
+    box-shadow:
+      inset 0 2px 5px rgba(255, 255, 255, 0.3),
+      /* Adoucissement lumière interne */ inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+      /* Ombre interne */ 0 4px 10px rgba(0, 0, 0, 0.15),
+      /* Ombre externe */ 0 1px 0 #0088cc; /* Renforcement du relief */
+    /* ✨ Adaptation de l'effet de survol */
+    transition: all 0.3s ease-in-out;
+  }
+
+  .filters .btn:hover {
+    background-color: #00a7d9;
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 3px 8px rgba(255, 255, 255, 0.4),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.2),
+      0 6px 14px rgba(0, 168, 217, 0.35),
+      0 4px 0 #0073b9;
+    animation: shineEffectMobile 0.6s ease-in-out infinite alternate;
+  }
+
+  /* ✨ Effet de scintillement ajusté pour mobile */
+  @keyframes shineEffectMobile {
+    0% {
+      box-shadow:
+        inset 0 2px 6px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+        0 4px 10px rgba(0, 0, 0, 0.2),
+        0 1px 0 #e1e5e6;
+    }
+
+    100% {
+      box-shadow:
+        inset 0 3px 8px rgba(255, 255, 255, 0.5),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.2),
+        0 7px 12px rgba(0, 168, 217, 0.4),
+        0 1px 0 #e1e5e6;
+    }
+  }
+
+  /* 🎯 Effet "pressé" plus naturel */
+  .filters .btn:active {
+    transform: translateY(3px);
+    box-shadow:
+      inset 0 2px 4px rgba(255, 255, 255, 0.2),
+      inset 0 -1px 3px rgba(0, 0, 0, 0.1),
+      0 3px 8px rgba(0, 0, 0, 0.15),
+      0 1px 0 #0068a0;
+  }
+
+  /* 🔹 BOUTONS TRI - Version mobile */
+  .sorters .btn {
+    flex: 1 1 auto;
+    max-width: 100px;
+    padding: 6px 12px;
+    font-size: 0.81rem;
+    background-color: #006699;
+    box-shadow:
+      inset 0 2px 5px rgba(255, 255, 255, 0.3),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+      0 4px 10px rgba(0, 0, 0, 0.15),
+      0 1px 0 #005580;
+  }
+
+  .sorters .btn:hover {
+    background-color: #005fa8;
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 3px 8px rgba(255, 255, 255, 0.5),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.2),
+      0 6px 12px rgba(0, 112, 168, 0.35),
+      0 3px 0 #004c80;
+    animation: shineEffectMobileSorters 0.6s ease-in-out infinite alternate;
+  }
+
+  /* ✨ Scintillement ajusté pour mobile */
+  @keyframes shineEffectMobileSorters {
+    0% {
+      box-shadow:
+        inset 0 2px 6px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.3),
+        0 5px 10px rgba(0, 0, 0, 0.2),
+        0 1px 0 #e1e5e6;
+    }
+
+    100% {
+      box-shadow:
+        inset 0 3px 8px rgba(255, 255, 255, 0.5),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.2),
+        0 7px 14px rgba(0, 112, 168, 0.4),
+        0 1px 0 #e1e5e6;
+    }
+  }
+
+  /* 🎯 Effet "pressé" au clic */
+  .sorters .btn:active {
+    transform: translateY(3px);
+    box-shadow:
+      inset 0 2px 4px rgba(255, 255, 255, 0.2),
+      inset 0 -1px 3px rgba(0, 0, 0, 0.1),
+      0 3px 8px rgba(0, 0, 0, 0.15),
+      0 1px 0 #004c80;
+  }
+}
+
+/* ✅ GRILLE FLUIDE & CENTRÉE POUR LES SKILL-CARDS */
+
+.grid-wrapper-container {
+  width: 100%;
+  overflow-x: hidden;
+  padding: 0 22px;
+}
+
+.grid-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px 32px; /* ⬆️⬅️➡️ Plus de lisibilité sur desktop */
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* ✅ Colonne fluide avec espace vertical ET horizontal */
+.grid-item {
+  width: calc(25% - 32px); /* 4 colonnes + gap plus large */
+  box-sizing: border-box;
+  padding: 30px;
+}
+
+/* 📐 Adaptation 3 colonnes (tablette paysage / laptop) */
+@media (max-width: 1439px) {
+  .grid-item {
+    width: calc(33.33% - 32px);
+  }
+}
+
+/* 📐 Adaptation 2 colonnes (tablette portrait / petits laptops) */
+@media (max-width: 1023px) {
+  .grid-item {
+    width: calc(50% - 32px);
+  }
+}
+
+/* 📱 1 colonne centrée sans débordement */
+@media (max-width: 767px) {
+  .grid-item {
+    width: 90%;
+    margin: 0 auto 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .skill-card {
+    width: 90%;
+    max-width: 95vw; /* ✅ plus large que 480px */
+    margin: 0 auto;
+  }
+}
+
+/* 🖼️ Images et logos sans débordement */
+.skill-card img,
+.skill-card .logo {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ✅ Logo adaptatif avec clamp */
+.logo.size-xs {
+  width: clamp(16px, 4vw, 24px);
+}
+.logo.size-sm {
+  width: clamp(24px, 5vw, 32px);
+}
+.logo.size-md {
+  width: clamp(32px, 6vw, 40px);
+}
+.logo.size-lg {
+  width: clamp(40px, 7vw, 64px);
+}
+.logo.size-xl {
+  width: clamp(56px, 8vw, 80px);
+}
+.logo.size-xxl {
+  width: clamp(64px, 10vw, 120px);
+}
+
+/* ✅ STYLE DES CARTES */
+.skill-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ TITRE */
+.skill-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 0 8px;
+}
+
+/* ✅ PARAGRAPHE TRONQUÉ */
+.skill-card p {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.4;
+  text-align: left;
+  margin: 0 auto;
+  padding: 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 4.5em;
+}
+
+.skill-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+/* 📱 Ajustements responsifs */
+@media (max-width: 768px) {
+  .skill-card {
+    padding: 16px;
+    min-height: 280px;
+  }
+
+  .skill-card h3 {
+    font-size: 1.4rem;
+  }
+
+  .skill-card p {
+    font-size: 1.1rem;
+    max-height: 4.2em;
+  }
+}
+
+/* 🌟 LOGOS ALIGNÉS ET RESPONSIVES -------------- */
+.software-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Permet aux logos de s'adapter sur plusieurs lignes si besoin */
+  gap: 28px; /* Espacement entre les logos */
+  width: 100%;
+  height: auto;
+}
+
+/* 🌟 LOGOS logiciel interactifs------------- */
+.software-logos .logo {
+  width: 40px;
+  height: auto;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  cursor: pointer;
+  filter: brightness(0) saturate(100%) invert(43%) sepia(82%) saturate(334%)
+    hue-rotate(160deg) brightness(100%) contrast(101%);
+}
+
+/* 🌟 Effet hover (ordinateur seulement)-------------------- */
+@media (hover: hover) {
+  .software-logos .logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px #00c8ff;
+  }
+}
+
+/* 🌟 Icône sélectionnée------------ */
+.software-logos .logo.selected {
+  box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.8);
+  transform: scale(1.3);
+  border-radius: 6px;
+}
+
+/* 🌟 Icônes SVG agrandies uniquement dans la fenêtre modale */
+.modal-content .software-logos .logo {
+  width: 80px; /* 1.5 fois plus grande que la taille de base (40px x 1.5 = 60px) */
+  max-height: 80px;
+  height: auto;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  cursor: pointer;
+  filter: brightness(0) saturate(100%) invert(43%) sepia(82%) saturate(334%)
+    hue-rotate(160deg) brightness(100%) contrast(101%);
+}
+
+/* 🌟 Effet hover sur les icônes dans la modale (ordinateur seulement) */
+@media (hover: hover) {
+  .modal-content .software-logos .logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 12px #00c8ff;
+  }
+}
+
+/* 🌟 Icône sélectionnée dans la modale */
+.modal-content .software-logos .logo.selected {
+  box-shadow: 0px 0px 12px rgba(255, 0, 0, 0.8);
+  transform: scale(1);
+  border-radius: 8px;
+}
+
+/* 🌟 Responsive adapté pour tablettes */
+@media (max-width: 768px) {
+  .modal-content .software-logos .logo {
+    width: 45px; /* taille harmonieuse pour tablettes */
+    max-height: 45px;
+  }
+}
+
+/* 🌟 Responsive adapté pour mobiles */
+@media (max-width: 480px) {
+  .modal-content .software-logos .logo {
+    width: 50px; /* taille adaptée pour mobiles */
+    max-height: 50px;
+  }
+}
+
+/* 🌟 LOGOS RESPONSIVE dans skill-card */
+.skill-card .software-logos .logo {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 🌟 Étoiles notation  _____________*/
+.rating-stars i {
+  color: #ffd700; /* moyenne générale */
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+}
+
+.rating-stars i.selected {
+  color: #ff0000; /* Notation spécifique rouge _________*/
+}
+
+/* 🌟 Custom rating (nom outil uniquement) --------- */
+.custom-rating {
+  display: none;
+  color: red;
+  font-weight: bold;
+  margin-top: 8px;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.91rem;
+}
+/* 🌟 Notation dédiée affichée */
+.custom-rating.show {
+  display: block;
+}
+
+/* 🌟 Responsive dynamique du texte (Mobile/Tablettes) */
+@media (max-width: 768px) {
+  .custom-rating {
+    font-size: 1.3rem; /* taille réduite tablette */
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-rating {
+    font-size: 1.6rem; /* taille très réduite smartphone */
+  }
+}
+
+/* 🌟 LOGOS RÉPONDANT AUX PETITS ÉCRANS */
+@media (max-width: 768px) {
+  .software-logos .logo {
+    width: 30px; /* Réduction harmonieuse sur tablettes */
+    max-height: 30px;
+    filter: brightness(0) saturate(100%) invert(43%) sepia(82%) saturate(334%)
+      hue-rotate(160deg) brightness(100%) contrast(101%);
+  }
+}
+
+@media (max-width: 480px) {
+  .software-logos .logo {
+    width: 25px; /* Miniaturisation pour les écrans mobiles */
+    max-height: 25px;
+    filter: brightness(0) saturate(100%) invert(43%) sepia(82%) saturate(334%)
+      hue-rotate(160deg) brightness(100%) contrast(101%);
+  }
+}
+
+/* ✅ Taille de logo adaptative par classes */
+.logo.size-xs {
+  width: 16px;
+  max-height: 16px;
+}
+
+.logo.size-sm {
+  width: 24px;
+  max-height: 24px;
+}
+
+.logo.size-md {
+  width: 32px;
+  max-height: 32px;
+}
+
+.logo.size-lg {
+  width: 48px;
+  max-height: 48px;
+}
+
+.logo.size-xl {
+  width: 64px;
+  max-height: 64px;
+}
+
+.logo.size-xxl {
+  width: 96px;
+  max-height: 96px;
+}
+
+/* 💻 Tablette (≥768px) */
+@media (min-width: 768px) {
+  .logo.size-xs {
+    width: 20px;
+    max-height: 20px;
+  }
+
+  .logo.size-sm {
+    width: 28px;
+    max-height: 28px;
+  }
+
+  .logo.size-md {
+    width: 40px;
+    max-height: 40px;
+  }
+
+  .logo.size-lg {
+    width: 56px;
+    max-height: 56px;
+  }
+
+  .logo.size-xl {
+    width: 72px;
+    max-height: 72px;
+  }
+
+  .logo.size-xxl {
+    width: 108px;
+    max-height: 108px;
+  }
+}
+
+/* 🖥️ Desktop (≥1024px) */
+@media (min-width: 1024px) {
+  .logo.size-xs {
+    width: 24px;
+    max-height: 24px;
+  }
+
+  .logo.size-sm {
+    width: 32px;
+    max-height: 32px;
+  }
+
+  .logo.size-md {
+    width: 40px;
+    max-height: 40px;
+  }
+
+  .logo.size-lg {
+    width: 64px;
+    max-height: 64px;
+  }
+
+  .logo.size-xl {
+    width: 80px;
+    max-height: 80px;
+  }
+
+  .logo.size-xxl {
+    width: 120px;
+    max-height: 120px;
+  }
+}
+
+/* 🏆 NOTATION ÉTOILES */
+.rating-stars i {
+  color: #ffd700;
+  margin: 2px;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* ⭐ Effet au survol */
+.rating-stars i:hover {
+  transform: scale(1.2);
+  color: #ffa500;
+}
+/* 🌟 MODAL EN SURIMPRESSION */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* 🌟 Contenu de la modale */
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh; /* Limite la hauteur pour éviter qu'elle dépasse */
+  text-align: center;
+  position: relative;
+  overflow-y: auto; /* Permet le défilement interne si nécessaire */
+  touch-action: none; /* Désactive l'effet par défaut de scroll sur mobile */
+}
+
+/* 🌟 Empêche le scroll du fond uniquement quand la modale est ouverte */
+body.modal-open {
+  overflow: hidden; /* Bloque uniquement le scroll sans repositionner la page */
+}
+
+/* 🌟 Ajout pour éviter le saut de page */
+body.modal-open .page-content {
+  position: relative;
+}
+
+/* 🌟 Effet d’ouverture */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 🌟 LOGOS DANS LA MODALE */
+.modal-content .software-logos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Permet de s’adapter aux petits écrans */
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.modal-content .modal-logo {
+  width: 45px;
+  max-height: 65px;
+  filter: brightness(0) saturate(100%) invert(43%) sepia(82%) saturate(334%)
+    hue-rotate(160deg) brightness(100%) contrast(101%);
+}
+
+/* 🌟 BOUTON DE FERMETURE */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* 🌟 DRAG SCROLL SUR MOBILE */
+@media (max-width: 768px) {
+  .modal-content {
+    max-height: 85vh; /* Augmente la hauteur utilisable sur mobile */
+    overflow-y: auto; /* Active le scroll vertical */
+    -webkit-overflow-scrolling: touch; /* Permet un scroll fluide sur iOS */
+  }
+}
+
+/* Cible l'image par son ID */
+#magic-photo {
+  display: block; /* Pour s’assurer qu’elle se centre bien */
+  margin: 0 auto; /* Centre horizontalement */
+  max-width: 100%; /* Ajuste selon ton goût d'agrandissement */
+  height: auto;
+  transition:
+    transform 0.8s ease,
+    opacity 0.8s ease;
+}
+
+/* ============================================
+   ✨ GESTION DES APPARITIONS / DISPARITIONS RANDOMISÉES
+============================================ */
+#magic-photo {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  transition:
+    transform 2.5s ease-in-out,
+    opacity 2.5s ease-in-out,
+    clip-path 2.5s ease-in-out,
+    filter 2.5s ease-in-out;
+}
+
+/* 🌊 Effet de vague (distorsion) */
+#magic-photo.wave-out {
+  clip-path: polygon(
+    0% 50%,
+    10% 45%,
+    20% 55%,
+    30% 50%,
+    40% 45%,
+    50% 55%,
+    60% 50%,
+    70% 45%,
+    80% 55%,
+    90% 50%,
+    100% 45%,
+    100% 100%,
+    0% 100%
+  );
+  opacity: 0;
+}
+
+/* 🎭 Fragmentation et duplication */
+#magic-photo.fragment {
+  clip-path: polygon(10% 10%, 50% 30%, 90% 10%, 90% 90%, 50% 70%, 10% 90%);
+  opacity: 0;
+}
+
+/* 🕶️ Effet d'ombrage et glitch */
+#magic-photo.shadow-fade {
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+}
+
+/* 🎇 Effet de pixels dispersés */
+#magic-photo.pixelate {
+  filter: contrast(200%) blur(3px);
+  opacity: 0;
+}
+
+/* 🔄 Effet miroir et duplication */
+#magic-photo.mirror {
+  transform: scaleX(-1) scale(1.2);
+  opacity: 0.8;
+}
+
+/* ✨ Animation glitch avancée */
+@keyframes glitchOut {
+  0% {
+    clip-path: inset(0 0 0 0);
+    transform: scale(1) skew(0deg);
+  }
+
+  25% {
+    clip-path: inset(10% 0 0 10%);
+    transform: scale(1.1) skewX(5deg);
+  }
+
+  50% {
+    clip-path: inset(0 5% 5% 0);
+    transform: scale(1.1) skewY(5deg);
+  }
+
+  75% {
+    clip-path: inset(5% 10% 10% 0);
+    transform: scale(1) skewX(-5deg);
+  }
+
+  100% {
+    clip-path: inset(50% 50% 50% 50%);
+    opacity: 0;
+    transform: scale(0.3) skew(15deg);
+  }
+}
+
+#magic-photo.disappear.glitch {
+  animation: glitchOut 2.5s forwards ease-in-out;
+}
+
+/* --- [ 1) Effets d'apparition/disparition ] --- */
+
+/* Chaque mot est en inline-block pour pouvoir animer facilement */
+.anim-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    text-shadow 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* .anim-in = quand on veut faire apparaître le mot */
+.anim-word.anim-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* .anim-out = pour le masquer (disparition) */
+.anim-word.anim-out {
+  opacity: 0 !important;
+  transform: translateY(-10px);
+}
+
+/* --- [ 2) Glow dynamique avec appui prolongé ] --- */
+.anim-word.click-glow {
+  background-color: rgba(0, 200, 255, 0.2);
+  box-shadow: 0 0 8px rgba(0, 200, 255, 0.7);
+  border-radius: 4px;
+  transition:
+    box-shadow 0.3s ease-out,
+    background-color 0.3s ease-out,
+    filter 0.3s ease-out;
+}
+
+/* 🌀 Effet vaporeux progressif */
+.anim-word.click-glow.held {
+  animation:
+    glowExpand 10s ease-out forwards,
+    colorShift 10s ease-in-out forwards;
+}
+
+/* ✨ Animation de l'expansion + flou progressif */
+@keyframes glowExpand {
+  0% {
+    box-shadow: 0 0 8px rgba(0, 200, 255, 0.7);
+    filter: blur(0px);
+  }
+
+  20% {
+    box-shadow: 0 0 15px rgba(0, 180, 255, 0.6);
+    filter: blur(1px);
+  }
+
+  40% {
+    box-shadow: 0 0 22px rgba(0, 160, 255, 0.5);
+    filter: blur(2px);
+  }
+
+  60% {
+    box-shadow: 0 0 30px rgba(0, 140, 255, 0.4);
+    filter: blur(3px);
+  }
+
+  80% {
+    box-shadow: 0 0 38px rgba(0, 120, 255, 0.3);
+    filter: blur(4px);
+  }
+
+  100% {
+    box-shadow: 0 0 45px rgba(0, 100, 255, 0.2);
+    filter: blur(5px);
+  }
+}
+
+/* 🌈 Animation du changement de couleur progressif */
+@keyframes colorShift {
+  0% {
+    background-color: rgba(0, 200, 255, 0.2);
+  }
+
+  20% {
+    background-color: rgba(0, 180, 255, 0.3);
+  }
+
+  40% {
+    background-color: rgba(0, 160, 255, 0.4);
+  }
+
+  60% {
+    background-color: rgba(0, 140, 255, 0.5);
+  }
+
+  80% {
+    background-color: rgba(0, 120, 255, 0.6);
+  }
+
+  100% {
+    background-color: rgba(0, 100, 255, 0.7);
+  }
+}
+
+/* --- [ 3) Effet HOVER ultra-subtil pour montrer l’interactivité ] --- */
+.anim-word:hover {
+  /* Légère ombre portée derrière le mot */
+  text-shadow: 0px 3px 10px rgba(0, 200, 255, 0.3);
+  transform: translateY(-2px); /* Légère élévation */
+  transition:
+    transform 0.2s ease,
+    text-shadow 0.3s ease;
+}

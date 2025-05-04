@@ -1,0 +1,104 @@
+﻿<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>🎧 Bouton 3D + Image Cercle</title>
+    <style>
+      :root {
+        --bg: #22262a;
+        --light: #33393f;
+        --dark: #111315;
+        --primary: #5fbff9;
+        --text-light: rgba(255, 255, 255, 0.85);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: var(--bg);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--text-light);
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+      }
+
+      /* ✅ Image ronde avec effet de relief */
+      .cover {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        padding: 12px;
+        background: linear-gradient(135deg, var(--bg) 0%, #020509 100%);
+        box-shadow:
+          10px 10px 20px var(--dark),
+          -10px -10px 20px var(--light);
+      }
+
+      .cover img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .track-title {
+        font-size: 1.2rem;
+        font-weight: 500;
+        letter-spacing: 1px;
+      }
+
+      /* ✅ Bouton circulaire effet 3D */
+      .circle-btn {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: none;
+        background: linear-gradient(135deg, var(--bg), #121416);
+        box-shadow:
+          5px 5px 10px var(--dark),
+          -5px -5px 10px var(--light);
+        color: var(--text-light);
+        font-size: 32px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .circle-btn:hover {
+        transform: scale(1.05);
+        box-shadow:
+          3px 3px 6px var(--dark),
+          -3px -3px 6px var(--light);
+        color: var(--primary);
+      }
+
+      .circle-btn:active {
+        transform: scale(0.95);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="cover">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/4/48/Section.80-Cover.jpg"
+          alt="Cover Art"
+        />
+      </div>
+      <div class="track-title">🎵 Blow My High (Members Only)</div>
+      <button class="circle-btn" id="playBtn">▶️</button>
+    </div>
+  </body>
+</html>

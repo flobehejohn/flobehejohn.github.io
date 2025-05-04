@@ -1,767 +1,1881 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Accueil du site Florian-Behejohn.com</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="yes" name="apple-mobile-web-app-capable">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="assets/css/theme.min.css">
-        <link rel="stylesheet" href="assets/css/color-defaults.min.css" media="screen">
-        <link rel="stylesheet" href="assets/css/swatch-white.min.css" media="screen">
-        <link rel="stylesheet" href="assets/css/swatch-blue.min.css" media="screen">
-        <link rel="stylesheet" href="assets/css/swatch-gray.min.css" media="screen">
-        <link rel="stylesheet" href="assets/css/swatch-black.min.css" media="screen">
-        <link rel="stylesheet" href="assets/css/swatch-white-black.min.css" media="screen">
-        <link rel="stylesheet" href="assets/css/swatch-white-green.min.css" media="screen">
-        <link rel="stylesheet" href="assets/css/swatch-white-red.min.css" media="screen">
-        <link rel="stylesheet" href="assets/css/fonts.min.css" media="screen">
-    </head>
-    <body class="normal-header">
-        <div id="masthead" class="navbar navbar-static-top swatch-white navbar-sticky" role="banner"  >
-            <!-- **************barre de navigation*********************** -->
-            <div class="container" >
-                <div class="row"><!-- ******************* row= ligne********************** -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".main-navbar">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <div class="col-xs-1 col-lg-12">  <!-- ************adapter en mode responsive l'icone et le titre ******************** -->  
-                            <a href="index.html" class="navbar-brand">
-                                <img src="assets/images/log_zim.jpg" alt="Logo de ZIMAN" width="30" height="30" >FLORIAN-BEHEJOHN.COM
-                            </a>
-                        </div>
-                    </div>  
-                        <nav class="collapse navbar-collapse main-navbar " role="navigation">                            
-                            <!-- ****************************liste  selecteur de partie de site dans la nav bar************************ -->
-                            <ul class="nav navbar-nav navbar-right"> 
-                                <li class="dropdown menu-item-object-oxy_mega_menu ">
-                                    <a href="index.html" >Accueil</a>                            
-                                </li>
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Florian-Behejohn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-                                <li class="dropdown ">
-                                    <a href="portfolio_florian_b.html" >Portfolio</a>                            
-                                </li>
+    <meta content="yes" name="apple-mobile-web-app-capable" />
 
-                                <li class="dropdown">
-                                    <a href="parcours.html" >Parcours</a>                            
-                                </li>
+    <!-- Intégration des polices -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
 
-                                <li class="dropdown">
-                                    <a href="contact.html" >Contact</a>                            
-                                </li>                                
-                            </ul>
-                        </nav>                      
-                </div>    
+    <!-- CSS de base -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/theme.min.css" />
+    <link rel="stylesheet" href="assets/css/color-defaults.min.css" />
+    <link rel="stylesheet" href="assets/fonts/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="assets/css/swatch-custom.css" />
+    <link rel="stylesheet" href="assets/css/swatch-blue-navbar.css" />
+    <link rel="stylesheet" href="assets/audio/auto_radio/style.css" />
+    <link rel="stylesheet" href="assets/css/style_audio_player.css" />
+  </head>
+
+  <body class="normal-header">
+    <div
+      id="masthead"
+      class="navbar navbar-expand-lg navbar-sticky swatch-custom"
+    >
+      <div class="container d-flex justify-content-between align-items-center">
+        <!-- BRAND -->
+        <a href="index.html" class="navbar-brand d-flex align-items-center">
+          <img src="assets/images/log_zim.jpg" alt="Logo" class="brand-logo" />
+          <span class="site-title">FLORIAN-BEHEJOHN</span>
+        </a>
+
+        <!-- AUDIO + HAMBURGER -->
+        <div class="d-flex align-items-center" id="navRightGroup">
+          <button
+            id="openAudioPlayer"
+            class="audio-player-nav-btn"
+            title="Lecteur Audio"
+          >
+            <i class="fas fa-headphones-alt"></i>
+          </button>
+          <button
+            class="navbar-toggler collapsed"
+            type="button"
+            data-toggle="collapse"
+            data-target="#main-navbar"
+            aria-controls="main-navbar"
+            aria-expanded="false"
+            aria-label="Menu"
+          >
+            <span class="navbar-toggler-icon">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </span>
+          </button>
+        </div>
+
+        <!-- MENU COLLAPSABLE -->
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">Accueil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="portfolio_florian_b.html">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="parcours.html">Parcours</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🎧 LECTEUR AUDIO MODALE DIRECTEMENT INTÉGRÉ -->
+
+    <div id="responsiveWrapper">
+      <div class="audio-player-modal" id="audioPlayerModal">
+        <div class="modal-content-player">
+          <button class="close-button" id="closePlayerModal">&times;</button>
+          <div class="drag-bar" id="dragBar" title="Déplacer la fenêtre"></div>
+
+          <div class="radio">
+            <div class="info-panel" id="infoPanel">
+              <h2 id="trackTitle">Chargement...</h2>
             </div>
+            <div class="cover" id="cover">
+              <img
+                id="coverArt"
+                src="assets/images/platine.jpg"
+                alt="Cover Art"
+              />
+            </div>
+            <div class="controls">
+              <div class="buttons">
+                <button class="button" id="prevBtn" title="Précédent">
+                  <div class="icon prev"></div>
+                </button>
+                <button class="button" id="toggleBtn" title="Lecture / Pause">
+                  <div class="icon play"></div>
+                  <div class="icon pause"><span></span><span></span></div>
+                </button>
+                <button class="button" id="stopBtn" title="Stop">
+                  <div class="icon stop"></div>
+                </button>
+                <button class="button" id="nextBtn" title="Suivant">
+                  <div class="icon next"></div>
+                </button>
+                <button class="button" id="sfxBtn" title="SFX On/Off">
+                  🔊
+                </button>
+              </div>
+              <div class="sliders">
+                <span class="time" id="timeDisplay">0:00</span>
+                <input
+                  type="range"
+                  class="progress"
+                  id="progress"
+                  value="0"
+                  max="100"
+                />
+                <!-- Remplace 🔉 par une balise <i> Font Awesome -->
+                <div class="volume-container">
+                  <i class="fas fa-volume-up volume-icon"></i>
+                  <input
+                    type="range"
+                    class="volume"
+                    id="volume"
+                    value="100"
+                    max="100"
+                    title="Volume"
+                  />
+                </div>
+              </div>
+            </div>
+            <audio id="audioPlayer" preload="auto"></audio>
+          </div>
         </div>
-        <!-- ***************************début du site***************************** -->
-        <div id="content">
-            <article>
-                <section id="two" class="section swatch-white">
-                    <div class="container">
-                        <div class="row">
-                            <div class=" col-md-12 text-center">
-                                <header class="element-normal-top element-no-bottom not-condensed os-animation" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                    <h1 class="super hairline bordered-normal">
-                                        Salut , je suis Florian Behejohn <br> faiseur pluridisciplinaire
-                                    </h1>
-                                </header>
-                                <div class="figure  element-no-top element-no-bottom image-filter-none image-filter-onhover fade-none text-center figcaption-middle normalwidth" data-os-animation="fadeInUp" data-os-animation-delay=".1s">
-                                    <span class="figure-image">
-                                        <img src="assets/images/people/moi_.png" class="normalwidth" alt="My Profile" width="50%" height="50%">
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+      </div>
+    </div>
+
+    <!-- CONTENU PRINCIPAL -->
+    <div id="content">
+      <article>
+        <!-- SECTION ACCUEIL -->
+        <section id="two" class="section swatch-custom">
+          <div class="container">
+            <header class="hero-section text-center animated-text">
+              <h1 class="super hairline bordered-normal">
+                Un créateur sonore et visuel, au croisement de l'innovation et
+                de l’émotion.
+              </h1>
+
+              <section-space></section-space>
+
+              <p class="lead">
+                Designer sonore, compositeur et expert en production multimédia,
+                j’explore la frontière entre le son, l’image et la technologie
+                pour donner vie à des expériences immersives et interactives.
+              </p>
+            </header>
+            <!-- On ajoute un ID pour cibler spécifiquement cette image -->
+            <div class="figure text-center">
+              <span class="figure-image">
+                <img
+                  id="magic-photo"
+                  src="assets/images/people/moi_.png"
+                  alt="Mon Profil"
+                />
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION À PROPOS -->
+        <section id="parcours" class="section swatch-custom">
+          <div class="container">
+            <!-- Div de la zone titre + cartes parcours -->
+            <!-- Titre header -->
+            <header class="hero-section text-center animated-text">
+              <h1 class="super hairline bordered-normal">
+                <span class="anim-word anim-in">Un</span>
+                <span class="anim-word anim-in">Parcours</span>
+                <span class="anim-word anim-in">Entre</span>
+                <span class="anim-word anim-in">Création</span>
+                <span class="anim-word anim-in">et</span>
+                <span class="anim-word anim-in">Innovation</span>
+              </h1>
+            </header>
+            <!-- Espace responsive -->
+            <div class="section-space"></div>
+
+            <!-- Les cartes parcours -->
+            <!-- Carte Parcours 1 -->
+            <div class="parcours-grid">
+              <section id="magic-section" class="section magic-transition">
+                <div class="section-space"></div>
+
+                <div class="magic-grid">
+                  <!-- Carte 1 -->
+
+                  <div class="card-comp card-magique" id="magicCard1">
+                    <div class="magic-card-content">
+                      <div class="icon pulsate">
+                        <i class="fa fa-volume-up"></i>
+                      </div>
+                      <h3 class="card-title">Mon Univers Sonore</h3>
+                      <p class="short-text glow-text">
+                        ✨ Clique pour révéler mon parcours...
+                      </p>
+                      <div class="full-text" id="details1">
+                        <p class="magic-text">
+                          De la <strong>composition musicale</strong> à la
+                          <strong>post-production audio</strong>, je travaille
+                          en tant que <strong>ingénieur du son</strong> et
+                          <strong>régisseur</strong> sur
+                          <strong>scène</strong> et en <strong>studio</strong>.
+                          Je collabore avec des
+                          <strong>institutions culturelles</strong>, des
+                          industries créatives et des entreprises technologiques
+                          pour façonner des
+                          <strong>expériences sonores innovantes</strong> et
+                          <strong>collectives</strong>. J’interviens dans le
+                          <strong>spectacle vivant</strong>,
+                          <strong>le cinéma</strong>,
+                          <strong>le marketing</strong> et
+                          <strong>les arts numériques</strong>, en participant à
+                          la
+                          <strong
+                            >conception d’environnements sonores
+                            immersifs</strong
+                          >.
+                        </p>
+                        <button class="close-btn">Fermer</button>
+                      </div>
                     </div>
-                </section>
-                <!-- ***************section de présentation de moi**************** -->
-                <section class="section swatch-gray">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <header class="element-tall-top element-medium-bottom not-condensed os-animation" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                    <h1 class="bigger hairline bordered bordered-normal">
-                                       Quelques éléments me concernant
-                                    </h1>
-                                </header>
-                                <div class="col-md-6">
-                                    <p class="lead text-justify element-no-top element-short-bottom os-animation" data-os-animation="fadeIn" data-os-animation-delay="0.2s">
-                                        Designer sonore et compositeur freelance, j'ai une expérience confirmée en production sonore, en conception et en réalisation de projets multimédias audio (web, pub, application). En partenariat avec des agences de communication, des laboratoires de recherche et de développement industriel, des artistes, je travaille depuis plusieurs années comme compositeur/réalisateur pour des éditeurs de librairies musicales commerciales (French trade), des  régies publicitaires  (Nova Spot) et   des   producteurs   indépendants    (One shot production).
-                                    </p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p class="lead text-justify element-no-top element-normal-bottom os-animation" data-os-animation="fadeIn" data-os-animation-delay="0.2s">
-                                        J'accompagne le client depuis la conception  du projet  jusqu'à l'implémentation  des productions.Je réalise le contenu sonore d’interfaces numériques tant pour des appareils mobiles et des tablettes tactiles par exemple que pour des spécialistes de la muséographie, de la cartographie numérique, de la signalétique de transport ou de l'industrie automobile.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                  </div>
+
+                  <!-- Carte 2 -->
+                  <div class="card-comp card-magique" id="magicCard2">
+                    <div class="magic-card-content">
+                      <div class="icon pulsate"><i class="fa fa-film"></i></div>
+                      <h3 class="card-title">Audiovisuel & Création</h3>
+                      <p class="short-text glow-text">
+                        📽️ Clique pour découvrir mes créations visuelles...
+                      </p>
+                      <div class="full-text" id="details2">
+                        <p class="magic-text">
+                          J’ai conçu des <strong>habillages sonores</strong> et
+                          <strong>visuels</strong> pour divers
+                          <strong>événements culturels</strong>,
+                          <strong>expositions</strong> et
+                          <strong>productions médiatiques</strong>. De la
+                          création de
+                          <strong>performances trans-médias</strong> à l’<strong
+                            >exploitation de dispositifs de diffusion</strong
+                          >
+                          (son, lumière, vidéo, mur d’images), je fusionne
+                          <strong>poésie</strong>, <strong>altérité</strong>,
+                          <strong>mise en scène</strong> et
+                          <strong>innovation technologique</strong>. Mon
+                          expertise inclut la
+                          <strong>réalisation de bandes-son</strong> pour
+                          <strong>documentaires et publicités</strong> ainsi que
+                          la <strong>direction artistique</strong> d’<strong
+                            >applications mobiles immersives</strong
+                          >, la <strong>production d’albums</strong>, d’<strong
+                            >installations interactives</strong
+                          >
+                          et d’<strong>audioguides muséographiques</strong>.
+                        </p>
+                        <button class="close-btn">Fermer</button>
+                      </div>
                     </div>
-                </section>
+                  </div>
 
-                
-                <section class="section swatch-blue">
-                    <div class="container">
-                        <div class="row vertical-middle">
-                            <div class="col-md-6 text-right small-screen-center">
-                                <div class="figure  element-tall-top element-no-bottom os-animation image-filter-none image-filter-onhover fade-in text-center figcaption-middle" data-os-animation="fadeInRight" data-os-animation-delay="0s">
-                                    <span class="figure-image">
-                                        <img src="assets/images/uploads/son2.png" alt="" class="normalwidth " >
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6 element-normal-top text-left small-screen-center">
-                                <header class="text-left element-tall-top element-no-bottom not-condensed os-animation" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                    <h1 class="bigger hairline bordered bordered-normal">
-                                        AUDIO
-                                    </h1>
-                                    <p class="lead element-medium-top">
-                                        DESIGN SONORE 
-                                    </p>
-                                </header>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-                                        <span>CONCEPTION DE PROJET AUDIO</span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100" style="width: 98%;">
-                                        <span>PRODUCTION SONORE</span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
-                                        <span>ENREGISTREMENT SONORE</span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-                                        <span>SUIVI DE PROJET</span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-                                        <span>Intégration </span>
-                                    </div>
-                                    
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
-                                        <span>WWWISE </span>
-                                    </div>
-                                    
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                                        <span>FMOD </span>
-                                    </div>
-                                    
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
-                                        <span>UNITY </span>
-                                    </div>
-                                    
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
-                                        <span>PURE DATA </span>
-                                    </div>
-                                    
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-                                        <span>MAX MSP </span>
-                                    </div>
-                                    
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
-                                        <span>SUPER COLLIDER</span>
-                                    </div>
-                                    
-                                </div>
-                                
-                                <p class="lead">
-                                    MUSIQUE ASSISTÉE PAR ORDINATEUR / DJ
-                                </p>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100" style="width: 99%;">
-                                        <span>ABLETON LIVE</span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
-                                        <span>LOGIC PRO</span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" style="width: 55%;">
-                                        <span>CUBASE</span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
-                                        <span>PROTOOLS</span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-                                        <span>AUDACITY </span>
-                                    </div>
-                                    
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;">
-                                        <span>PÉDAGOGIE</span>
-                                    </div>
-                                    
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="97" aria-valuemin="0" aria-valuemax="100" style="width: 97%;">
-                                        <span>NATIVE INSTRUMENT TRAKTOR</span>
-                                    </div>
-                                    
-                                </div>
-                                <p class="lead">
-                                    TECHNICIEN SON 
-                                </p>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-                                        <span>RÉGIE SON</span>
-                                    </div>                                    
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
-                                        <span>CAPTATION HF</span>
-                                    </div>                                    
-                                </div>
-                                <div class="progress element-short-top element-normal-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-                                        <span>ASSISTANT SON</span>
-                                    </div>                                    
-                                </div>
-                            </div>
-                        </div>
+                  <!-- Carte 3 -->
+                  <div class="card-comp card-magique" id="magicCard3">
+                    <div class="magic-card-content">
+                      <div class="icon pulsate">
+                        <i class="fa fa-chalkboard-teacher"></i>
+                      </div>
+                      <h3 class="card-title">Transmission & Pédagogie</h3>
+                      <p class="short-text glow-text">
+                        📚 Clique pour en savoir plus sur mon approche
+                        éducative...
+                      </p>
+                      <div class="full-text" id="details3">
+                        <p class="magic-text">
+                          J’anime des
+                          <strong>ateliers de création sonore</strong> et
+                          <strong>audiovisuelle</strong> destinés à
+                          <strong>tous publics</strong>, du conservatoire aux
+                          quartiers populaires, en passant par les écoles et les
+                          centres culturels. Mon approche allie
+                          <strong>transmission pédagogique</strong> et
+                          <strong>exploration artistique</strong>, intégrant les
+                          nouvelles technologies pour la
+                          <strong>composition musicale</strong>,
+                          l’enregistrement et la
+                          <strong>postproduction</strong>. J’ai dirigé de
+                          <strong>grands projets collaboratifs</strong> dans des
+                          <strong>résidences artistiques</strong>, des
+                          <strong>actions éducatives</strong> et des
+                          <strong>formations professionnelles</strong>,
+                          favorisant l’<strong>inclusion culturelle</strong> et
+                          l’<strong>expression créative</strong>.
+                        </p>
+                        <button class="close-btn">Fermer</button>
+                      </div>
                     </div>
-                </section>
+                  </div>
 
-                <section class="section swatch-gray">
-                    <div class="container">
-                        <div class="row vertical-middle">
-                            <div class="col-md-6 text-right small-screen-center">
-                                <div class="figure  element-tall-top element-no-bottom os-animation image-filter-none image-filter-onhover fade-in text-center figcaption-middle" data-os-animation="fadeInRight" data-os-animation-delay="0s">
-                                    <span class="figure-image">
-                    <img src="assets/images/uploads/image-40-devices.png" alt="" class="normalwidth" >
-                </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6 element-normal-top text-left small-screen-center">
-                                <header class="text-left element-tall-top element-no-bottom not-condensed os-animation" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                    <h1 class="bigger hairline bordered bordered-normal">
-                    IMAGE / ILLUSTRATION
-                </h1>
-                                    <p class="lead element-medium-top">
-                                        PHOTO 
-                                    </p>
-                                </header>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 98%;">
-                                        <span>PRISE DE VUE EXTÉRIEUR</span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;">
-                                        <span>PRISE DE VUE STUDIO </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
-                                        <span>DÉVELOPPEMENT PHOTO </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-                                        <span>TIRAGE PHOTO </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" style="width: 88%;">
-                                        <span>ADOBE PHOTOSHOP </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100" style="width: 98%;">
-                                        <span>ADOBE LIGHTROOM </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100" style="width: 98%;">
-                                        <span>ADOBE ILLUSTRATOR </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="93" aria-valuemin="0" aria-valuemax="100" style="width: 93%;">
-                                        <span>ADOBE IN DESIGN </span>
-                                    </div>
-                                </div>
-                                <p class="lead">
-                                    VIDÉO 
-                                </p>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100" style="width: 98%;">
-                                        <span>PRISE DE VUE </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
-                                        <span>ADOBE PREMIERE PRO </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;">
-                                        <span>ADOBE AFTER EFFECTS </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
-                                        <span>RÉGIE MUR DE LED EN SALLE </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100" style="width: 82%;">
-                                        <span>RÉGIE VIDÉO PROJECTION </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-                                        <span>NOVA LCT </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;">
-                                        <span>GRAND VJ </span>
-                                    </div>
-                                </div>
-                                <p class="lead">
-                                    3D 
-                                </p>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
-                                        <span>SKETCH UP </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
-                                        <span>BLENDER </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                  <!-- Carte 4 -->
+                  <div class="card-comp card-magique" id="magicCard4">
+                    <div class="magic-card-content">
+                      <div class="icon pulsate">
+                        <i class="fas fa-code-branch"></i>
+                      </div>
+                      <h3 class="card-title">Innovation Numérique</h3>
+                      <p class="short-text glow-text">
+                        🧠 Clique pour explorer mes projets interactifs...
+                      </p>
+                      <div class="full-text" id="details4">
+                        <p class="magic-text">
+                          Passionné par la
+                          <strong>création interactive</strong>, je conçois des
+                          <strong>expériences multimédias</strong> où
+                          <strong>code</strong>, <strong>UI/UX</strong> et
+                          <strong>son</strong> fusionnent. De la
+                          <strong>programmation audio avancée</strong> (Max MSP,
+                          Pure Data) au <strong>développement web</strong> et
+                          <strong>design d’interaction</strong>, j’expérimente
+                          et optimise en continu. Curieux et autodidacte, je
+                          suis toujours prêt à approfondir, innover et relever
+                          de nouveaux défis. <strong>Autonome</strong> mais
+                          engagé dans le <strong>collectif</strong>, je m’adapte
+                          aux méthodes <strong>Lean</strong>,
+                          <strong>Scrum</strong> ou improvisation
+                          <strong>agile</strong> pour travailler efficacement en
+                          équipe et soutenir l’intelligence collective.
+                        </p>
+                        <button class="close-btn">Fermer</button>
+                      </div>
                     </div>
-                </section>
+                  </div>
+                </div>
+                <div class="section-space"></div>
+              </section>
+            </div>
+          </div>
+        </section>
+        <!-- SECTION CARTES MAGIQUES -->
 
-                <section class="section swatch-blue">
-                    <div class="container">
-                        <div class="row element-short-bottom">
-                            <div class="col-md-6 text-right small-screen-center">
-                                <div class="figure  element-tall-top element-no-bottom os-animation image-filter-none image-filter-onhover fade-in text-center figcaption-middle" data-os-animation="fadeInRight" data-os-animation-delay="0s">
-                                    <span class="figure-image">
-                    <img src="assets/images/uploads/web.png" alt="" class="normalwidth">
-                </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6 element-normal-top text-left small-screen-center">
-                                <header class="text-left element-tall-top element-no-bottom not-condensed os-animation" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                    <h1 class="bigger hairline bordered bordered-normal">
-                    DEVELLOPPEMENT INFORMATIQUE
-                </h1>
-                                    <p class="lead">
-                                        WEB- PROGRAMATION
-                                    </p>
-                                </header>
-                                <div class="progress element-medium-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-                                        <span>HTML </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-                                        <span>CSS </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
-                                        <span>BOOTSRAP</span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: 35%;">
-                                        <span>JAVASCRIPT </span>
-                                    </div>
-                                </div>
-                                <div class="progress element-short-top element-short-bottom os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                                        <span>PYTHON </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+        <!-- SECTION COMPÉTENCES / BADGES FILTRABLES (Isotope) -->
+        <section id="skills" class="section swatch-custom">
+          <div class="grid-wrapper-container">
+            <!-- ✅ En-tête de section -->
+            <header class="hero-section text-center animated-text">
+              <h2 class="super hairline bordered-normal">Mes Compétences</h2>
+              <div class="section-space-short"></div>
+              <p class="lead">
+                Filtrez par catégorie et note pour découvrir mes
+                capacités.Cliquez sur les cartes pour découvrir mes savoir-faire
+              </p>
+            </header>
 
+            <div class="section-space"></div>
 
+            <!-- ✅ Filtres de catégorie (classes sans accent) -->
+            <div
+              class="text-center filters os-animation"
+              data-os-animation="fadeInUp"
+              data-os-animation-delay="0.2s"
+            >
+              <button class="btn btn-primary" data-filter="*">Tous</button>
+              <button class="btn btn-primary" data-filter=".audio">
+                Audio
+              </button>
+              <button class="btn btn-primary" data-filter=".visuel">
+                Visuel
+              </button>
+              <button class="btn btn-primary" data-filter=".code">Code</button>
+              <button class="btn btn-primary" data-filter=".regie">
+                Régie
+              </button>
+              <!-- corrigé: 'régie' → 'regie' -->
+              <button class="btn btn-primary" data-filter=".pedago">
+                Transmission
+              </button>
+              <button class="btn btn-primary" data-filter=".admin">
+                admin
+              </button>
+              <button class="btn btn-primary" data-filter=".suivant">
+                Suivant
+              </button>
+            </div>
 
+            <div class="section-space-short"></div>
 
+            <!-- ✅ Filtres de tri -->
+            <div
+              class="text-center sorters os-animation"
+              data-os-animation="fadeInUp"
+              data-os-animation-delay="0.3s"
+              style="margin-top: 10px"
+            >
+              <button class="btn btn-secondary" data-sort-by="original-order">
+                Ordre Initial
+              </button>
+              <button
+                class="btn btn-secondary"
+                data-sort-by="rating"
+                data-sort-order="asc"
+              >
+                Note Asc.
+              </button>
+              <button
+                class="btn btn-secondary"
+                data-sort-by="rating"
+                data-sort-order="desc"
+              >
+                Note Desc.
+              </button>
+            </div>
 
+            <div class="section-space"></div>
 
-                
-                <section class="section swatch-white">
-                    <div class="container-fullwidth">
-                        <div class="row">
-                            <div class="col-md-12 ">
-                                <header class="text-center element-tall-top element-medium-bottom os-animation condensed" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                    <h1 class="bigger hairline bordered bordered-normal">
-                                        QUELQUES PRISES DE VUES 
-                                    </h1>
-                                </header>
-                                <div class="portfolio-container element-short-top element-no-bottom">
-                                    <div class="portfolio masonry use-masonry " data-padding="0" data-col-xs="3" data-col-sm="1" data-col-md="4" data-col-lg="6" data-layout="masonry">
+            <!-- Grille Isotope -->
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="2" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20190130_135633_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20190130_135633_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        
+            <div
+              class="grid-wrapper os-animation"
+              data-os-animation="fadeIn"
+              data-os-animation-delay="0.4s"
+              style="margin-top: 30px"
+            >
+              <div class="grid-sizer"></div>
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="2" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20190303_000640_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20190303_000640_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <!-- Audio 1 vraieupdate -->
 
+              <div class="grid-item audio pedago" data-rating="4.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Ableton Live":4.5,"Cubase":2.5,"Pro Tools":3.5,"native-instruments":4,"Waves":3,"Audacity":3,"Logic":3.5,"flstudio":2.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/ableton.svg"
+                      alt="Ableton Live"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/cubase.svg"
+                      alt="Cubase"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/protools.svg"
+                      alt="Pro Tools"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/native-instruments-seeklogo.svg"
+                      alt="Native-Instruments"
+                      class="logo size-xxl"
+                      style="width: 150px"
+                    />
+                    <img
+                      src="assets/images/svg/waves.svg"
+                      alt="Waves"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/audacity_.svg"
+                      alt="Audacity"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/icons8-logic-pro-x.svg"
+                      alt="Logic"
+                      class="logo size-md"
+                    />
+                  </div>
+                  <h3>Production & Édition Audio</h3>
+                  <p>
+                    Séquenceurs & DAW : Maîtrise avancée de Ableton Live, Pro
+                    Tools, Cubase, FL Studio, pour la production musicale,
+                    l'enregistrement, le mixage et le mastering. Création et
+                    traitement: Édition avancée d'audio avec iZotope RX, Waves
+                    Suite, FabFilter Pro-Q3, Melodyne pour correction et
+                    optimisation du son.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -><span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
+              <!-- Audio 2 vraieupdate -->
 
-                                        
+              <div class="grid-item audio" data-rating="3.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Midas":3.5,"Allen-Heath":3,"l-Acoustics":2.5,"Neumann":3,"Shure":3}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/Shure_Logo.svg"
+                      alt="Shure"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/zoom_Corporation_logo.svg"
+                      alt="Zoom"
+                      class="logo size-xl"
+                      style="height: 30px; display: block"
+                    />
+                    <img
+                      src="assets/images/svg/midas_logo_transparent.avif"
+                      alt="Midas"
+                      class="logo size-xxl"
+                    />
+                    <img
+                      src="assets/images/svg/Neumann.svg"
+                      alt="Neumann"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/allen-heath-vector-logo.svg"
+                      alt="Allen-Heath"
+                      class="logo"
+                      style="
+                        width: 80px;
+                        height: 30px; /* Hauteur réduite pour recadrer verticalement */
+                        object-fit: cover; /* recadrage */
+                        object-position: center; /* centre le recadrage */
+                        display: block;
+                      "
+                    />
+                    <img
+                      src="assets/images/svg/l-Acoustics_Square_Logo.svg"
+                      alt="l-Acoustics"
+                      class="logo size-sm"
+                    />
+                  </div>
+                  <h3>Captation & diffusion Audio</h3>
+                  <p>
+                    Patch analogique & numérique : Expérience sur Allen & Heath
+                    Qu-16, Midas M32R Live + stage box DL32 en studio et en
+                    live. Enregistrement multi-sources : Configuration pour voix
+                    cabine déportée, captation simultanée de plusieurs artistes
+                    avec gestion d’écoutes retours via Behringer P16-M. Prise de
+                    son en extérieur : Reportage, captation ambisonique (Sound
+                    Field), enregistrement de banques audio avec ZOOM F8n Pro,
+                    Sennheiser Ambeo VR, Tascam DR-100MKIII. Prise en studio :
+                    Configurations mono-point (Neumann U87, Shure SM7B),
+                    multipoint (XY, ORTF, MS, Decca Tree) avec préamplification
+                    Focusrite ISA One, API 512c.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -><span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="4" data-title="Playful mood">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0.9s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20190223_001114_1.jpg" class="figure-image magnific" data-links="
-                         " target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20190223_001114_1.jpg" alt="Playful mood" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <!-- Audio 3 vraieupdate -->
 
+              <div class="grid-item audio" data-rating="3.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Ircam Tools":3.5,"iZotopeRX":4,"melodyne":4.5,"autotune":3.5,"Boss":3,"wwise":2.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/ircam.svg"
+                      alt="Ircam Tools"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/iZotope_logo.svg"
+                      alt="iZotopeRX"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/melodyne_logo.svg"
+                      alt="melodyne"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/AutoTune_white_logo_with_new_teal_wave.webp"
+                      alt="Antares Autotune"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/boss.png"
+                      alt="Boss"
+                      class="logo size-xl"
+                      style="
+                        width: 80px;
+                        height: 30px; /* Hauteur réduite pour recadrer verticalement */
+                        object-fit: cover; /* recadrage */
+                        object-position: center; /* centre le recadrage */
+                        display: block;
+                      "
+                    />
+                    <img
+                      src="assets/images/svg/wwise_.png"
+                      alt="wwise"
+                      class="logo size-lg"
+                    />
+                  </div>
+                  <h3>Post-Production</h3>
+                  <p>
+                    Mixage, Mastering & Restauration : SSL Fusion, Waves L2/L3,
+                    Ozone 11, iZotope RX Suite (dérushage, restauration,
+                    denoising, de-reverb, spectral repair). Correction &
+                    Transformation Vocale : Antares Auto-Tune (studio & live),
+                    Melodyne, looper Electro-Harmonix (720, 95000, Stereo Memory
+                    Man), Boss RC-505. Spatialisation & Binaural : IRCAM Tools
+                    (SPAT, HEar, TraX), Sound Particles, Dear Reality. Formats
+                    Audio & Sound Design : WWISE, FMOD, fabrication pour la
+                    radio, habillage sonore, publicité et podcasts.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -><span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="4" data-title="Playful mood">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0.9s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20190801_211017_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20190801_211017_1.jpg" alt="Playful mood" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <!-- Audio 4 vraieupdate -->
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="2" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20210330_024717_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20210330_024717_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <div class="grid-item audio" data-rating="3">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"makeMusic_Finale":2.5,"vsl":3,"Spectrasonics":3}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/finale-music-vector-logo.svg"
+                      alt="makeMusic_Finale"
+                      class="logo size-xl"
+                      style="
+                        width: 80px;
+                        height: 30px; /* Hauteur réduite pour recadrer verticalement */
+                        object-fit: cover; /* recadrage */
+                        object-position: center; /* centre le recadrage */
+                        display: block;
+                      "
+                    />
+                    <img
+                      src="assets/images/svg/vsl.svg"
+                      alt="vsl"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/spectrasonics Logo Solid 2022.avif"
+                      alt="Spectrasonics"
+                      class="logo size-xxl"
+                    />
+                  </div>
+                  <h3>Composition Musicale Arrangement</h3>
+                  <p>
+                    Composition & Arrangement : Instruments virtuels avancés :
+                    Native Instruments Komplete, Spectrasonics Omnisphere,
+                    Arturia V Collection, Spitfire Audio Plugins d’arrangement
+                    orchestral : EastWest ComposerCloud, Orchestral Tools,
+                    Vienna Symphonic Library.Outils d’écriture et d’édition de
+                    partitions : Finale (MakeMusic) ,Sibelius Ultimate (Avid
+                    Technology),MuseScore (Logiciel libre).
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -><span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="2" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20200913_205636_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20200913_205636_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <!-- Audio 5 vraieupdate -->
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="2" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20210410_061757_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20210410_061757_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <div class="grid-item audio" data-rating="4">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"vst3":4.5,"vsl":3,"Audio_Units":3,"Synthèse modulaire":3}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/platform-logo-vst3_.svg"
+                      alt="vst3"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/audio_Units_Logo.svg"
+                      alt="Audio_Units"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/Dd_logo.svg"
+                      alt="Synthèse modulaire"
+                      class="logo size-xxl"
+                    />
+                  </div>
+                  <h3>Sound Design & Synthèse Sonore</h3>
+                  <p>
+                    Création de textures et de paysages sonores avec Elektron
+                    Digitakt, Moog Sub37, Arturia MicroFreak. Maîtrise des
+                    synthèses avancées : additive (Phase Plant, Razor),
+                    soustractive (Moog Minitaur, Prophet Rev2), granulaire
+                    (Granulator II, Tasty Chips GR-1), concaténative (CataRT,
+                    Audiostellar). Samplers & Modulaire : Kontakt, Maschine,
+                    Reaktor, Make Noise, Mutable Instruments. Conception sonore
+                    avec VSTs & générateurs audio (Max/MSP, SuperCollider, Sound
+                    Particles).
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -><span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="2" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20200904_151150_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20200904_151150_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <!-- Audio 6 vraieupdate -->
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="2" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20200916_145353_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20200916_145353_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <div class="grid-item audio code" data-rating="2.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"MIDI":4,"Max-Msp":2.5,"SuperCollider":2.5,"Dante":2.5,"Open sound control":2.5,"Processing":2.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/mIDI_LOGO.svg"
+                      alt="MIDI"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/c74-dark.svg"
+                      alt="Max-Msp"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/superCollider_logo.svg"
+                      alt="SuperCollider"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/dante-seeklogo.svg"
+                      alt="Dante"
+                      class="logo size-xxl"
+                      style="
+                        width: 80px;
+                        height: 30px; /* Hauteur réduite pour recadrer verticalement */
+                        object-fit: cover; /* recadrage */
+                        object-position: center; /* centre le recadrage */
+                        display: block;
+                      "
+                    />
+                    <img
+                      src="assets/images/svg/logo_osc.svg"
+                      alt="Open sound control"
+                      class="logo size-md"
+                    />
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="2" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20210330_005707_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20210330_005707_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+                    <img
+                      src="assets/images/svg/processing_2021_logo.svg.png"
+                      alt="Processing"
+                      class="logo size-md"
+                    />
+                  </div>
+                  <h3>Design d’interaction</h3>
+                  <p>
+                    Développement d’interfaces interactives musicales et
+                    audiovisuelles en temps réel. Intégration de vision par
+                    ordinateur et de systèmes MIDI pour la génération musicale
+                    basée sur le mouvement. Programmation audio réactive et
+                    synthèse algorithmique appliquée à la performance live et
+                    aux installations interactives. Outils & Technologies :
+                    Vision par ordinateur : OpenCV, MediaPipe Contrôle &
+                    Interaction : MIDO (MIDI), OSC Programmation audio :
+                    Max/MSP, SuperCollider, Pure Data Environnement créatif :
+                    Python, TouchDesigner, Processing Expertise en interaction
+                    gestuelle et génération sonore dynamique.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -><span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
+              <!-- Audio 7 vraieupdate -->
 
+              <div class="grid-item audio pedago" data-rating="4">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Afro":4,"Latin":4,"Oriental":3.5,"e-Drums":3.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/djembe-svgrepo-com.svg"
+                      alt="Afro"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/bongos-svgrepo-com.svg"
+                      alt="Latin"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/tablas-svgrepo-com.svg"
+                      alt="Oriental"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/roland_Corporation_logo.svg"
+                      alt="e-Drums"
+                      class="logo size-xxl"
+                    />
+                  </div>
+                  <h3>Percussionniste</h3>
+                  <p>
+                    Percussionniste polyvalent explorant les interactions entre
+                    percussions traditionnelles et numériques. Spécialiste du
+                    jeu sans baguette, fusionnant percussions acoustiques et
+                    électroniques dans des contextes variés (live, studio, sound
+                    design). Percussions traditionnelles : Latines : Bongos,
+                    Congas, Cajón Africaines : Djembé, Tamtam, Dum Dum
+                    Percussions rares : Tablas, Zarb , Hang Lutherie urbaine :
+                    Création d’instruments à partir d’objets récupérés Jeu et
+                    performance : Solo : Enregistrement, banque de sons, sound
+                    design Jeu en groupe : Accompagnement et improvisation
+                    collective Ateliers & pédagogie : Initiation aux percussions
+                    pour groupes (jusqu'à 20 pers.)
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -><span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
-                                      
-                                        
+              <!-- Audio 8 vraieupdate -->
 
-                                        
+              <div class="grid-item audio regie" data-rating="4.5">
+                <div class="skill-card" data-tool-ratings='{"Régie son":4.5}'>
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/faders.svg"
+                      alt="Régie son"
+                      class="logo size-xxl"
+                    />
+                  </div>
+                  <h3>Régisseur Son Studio & Événementiel</h3>
+                  <p>
+                    Gestion et exploitation sonore pour studios, spectacles,
+                    concerts, radio, podcasts, événements corporate
+                    (indoor/outdoor), mariages et salons professionnels.
+                    Expertise en installation, calibration et optimisation des
+                    systèmes de diffusion. Maîtrise du mixage live,
+                    enregistrement multipiste et post-production audio.
+                    Coordination technique et gestion d’équipe pour une
+                    exécution fluide. Réseaux & intercoms : Dante, AES67,
+                    Clear-Com. Consoles : Midas, Allen & Heath, Yamaha CL/QL,
+                    SSL. Micros : Neumann, Shure, Sennheiser, Rode. Expert en
+                    routing, spatialisation et diffusion sonore immersive.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -><span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-wide" data-menu-order="1" data-title="Cactus Love">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0.3s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20200801_183823_1.jpg" class="figure-image magnific" data-links="
-                         " target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20200801_183823_1.jpg" alt="Cactus Love" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <!-- Audio 9 vraie update -->
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="3" data-title="Colors galore">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0.6s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20200805_235804_1.jpg" class="figure-image magnific-vimeo" data-links="
-                         " target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20200805_235804_1.jpg" alt="Colors galore" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <div class="grid-item audio regie" data-rating="3.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Prépa/Installation":4}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/mic_ass.svg"
+                      alt="Prépa/Installation"
+                      class="logo size-xxl"
+                      style="
+                        width: 50px;
+                        height: 400px; /* Hauteur réduite pour recadrer verticalement */
+                        object-fit: cover; /* recadrage */
+                        object-position: center; /* centre le recadrage */
+                        display: block;
+                      "
+                    />
+                  </div>
+                  <h3>Assistant Son Studio & Live</h3>
+                  <p>
+                    Technicien polyvalent en assistance sonore pour **studios,
+                    plateaux TV, concerts et événements live**. Expert en
+                    **préparation, installation et gestion des équipements
+                    audio** pour une qualité optimale.
+                    <br /><br />
+                    Installation & câblage : micros, enceintes, monitoring.
+                    Gestion du signal : patching, gain staging, diagnostics.
+                    Studio & Live : réglage des niveaux, mixage plateau,
+                    enregistrement multipiste. Maintenance : dépannage rapide
+                    sous pression.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
-                                        
+              <!-- visuel 1 vraie update -->
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="2" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20200824_205002_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20200824_205002_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <div class="grid-item visuel" data-rating="4">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Canon tools":3,"studio":3,"Captation":3,"Nikon tools":3,"extérieurs":3.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/Canon_logo.svg"
+                      alt="Canon tools"
+                      class="logo size-xxl"
+                    />
+                    <img
+                      src="assets/images/svg/photo.svg"
+                      alt="studio"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/film_camera.svg"
+                      alt="Captation"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/Nikon_Logo.svg"
+                      alt="Nikon tools"
+                      class="logo size-xxl"
+                      style="
+                        width: 100px;
+                        height: 30px; /* Hauteur réduite pour recadrer verticalement */
+                        object-fit: cover; /* recadrage */
+                        object-position: center; /* centre le recadrage */
+                        display: block;
+                      "
+                    />
+                    <img
+                      src="assets/images/svg/photo_paysage.svg"
+                      alt="extérieurs"
+                      class="logo size-xs"
+                    />
+                  </div>
+                  <h3>Prise de vue photo — studio & terrain</h3>
+                  <p>
+                    Maîtrise de la photographie argentique et numérique en 24x36
+                    et moyen format. Portraits et mode en studio/plateau,
+                    captation en extérieur, concerts, documentaire & création
+                    artistique.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="2" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20190308_232800_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20190308_232800_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <!-- visuel 2 vraie update -->
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="5" data-title="Coffee and Biscuits">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20210414_130444_1.jpg" class="figure-image magnific" data-links="" target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20210414_130444_1.jpg" alt="RER C" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <div class="grid-item visuel regie" data-rating="2.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Caméras Sony":3,"Blackmagicdesign":2.5,"OBS":3.5,"vMix":3.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/Sony_logo.svg"
+                      alt="Caméras Sony"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/Blackmagic_Design_Logo.svg"
+                      alt="Blackmagicdesign"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/open-broadcaster-software-obs-logo-vector.svg"
+                      alt="OBS"
+                      class="logo size-lg"
+                      style="
+                        width: 150px;
+                        height: 30px; /* Hauteur réduite pour recadrer verticalement */
+                        object-fit: cover; /* recadrage */
+                        object-position: center; /* centre le recadrage */
+                        display: block;
+                      "
+                    />
+                    <img
+                      src="assets/images/svg/vmix.svg"
+                      alt="vMix"
+                      class="logo size-md"
+                    />
+                  </div>
+                  <h3>Captation vidéo multicam & diffusion live</h3>
+                  <p>
+                    Configuration et gestion de dispositifs multicaméras en
+                    environnements indoor : caméras PTZ motorisées, webcams HD,
+                    caméras mobiles (smartphones stabilisés), DSLR/mirrorless
+                    (Canon) et caméras studio (Blackmagic). Routage et
+                    synchronisation des sources via cartes d’acquisition
+                    (Blackmagic, Elgato Cam Link, Atem Mini), agrégation et
+                    mixage avec Open Broadcaster Software (OBS Studio).
+                    Optimisation des flux pour diffusion multi-plateforme
+                    (YouTube, Facebook Live, Twitch, Zoom) avec encodage en
+                    temps réel, gestion des overlays et scènes dynamiques.
+                    Déploiement sur petits plateaux, conférences, événements
+                    live, captations artistiques et culturelles. Adaptation aux
+                    contraintes réseaux, optimisation du signal et de la
+                    latence.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
-                                        <div class="masonry-item portfolio-item isotope-item masonry-normal filter-masonry" data-menu-order="3" data-title="Colors galore">
-                                            <div class="figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-grayscale image-filter-invert fade-in image-filter-onhover" data-os-animation="fadeIn" data-os-animation-delay="0.6s">
-                                                <a href="assets/images/uploads/tof_acceuil/IMG_20190705_203515_1.jpg" class="figure-image magnific-vimeo" data-links="
-                         " target="_self">
-                                                    <img src="assets/images/uploads/tof_acceuil/IMG_20190705_203515_1.jpg" alt="Colors galore" class="normalwidth">
-                                                    <div class="figure-overlay grid-overlay-20">
-                                                        <div class="figure-overlay-container">
-                                                            <span class="figure-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none"><path d="M50.941 34.953v30.094M65.988 50h-30.093"></path></g></svg>                
-                            </span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+              <!-- visuel 3 vraie update -->
 
+              <div class="grid-item visuel regie" data-rating="3">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"LED modulaire":3,"HybridCast":3,"ShowLight":2.5,"LightSync":2.5,"VidéoMapping":3}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/led_wall.svg"
+                      alt="LED modulaire"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/video-player.svg"
+                      alt="HybridCast"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/lighting-svgrepo-com.svg"
+                      alt="ShowLight"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/sportlights-svgrepo-com.svg"
+                      alt="LightSync"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/projector-icon.svg"
+                      alt="VidéoMapping"
+                      class="logo size-lg"
+                    />
+                  </div>
+                  <h3>Technicien vidéo & lumière</h3>
+                  <p>
+                    Installation et exploitation de systèmes vidéo LED
+                    indoor/outdoor (pitch fins, murs d’images, dalles
+                    assemblées), avec configuration en façade et structure
+                    suspendue (ponts, totems, ground support). Routage vidéo via
+                    scalers et matrices (Analog Way, Lightware), gestion de
+                    signal SDI/HDMI/DP selon formats d’affichage. Mise en œuvre
+                    d’éclairages traditionnels (halogènes, PAR) et automatiques
+                    (Lyres, Wash, Beam) pilotés via boîtiers Sunlite Suite 1, 2,
+                    3. Intervention sur événements variés : salons
+                    professionnels, mariages, soirées privées, conventions,
+                    plateaux institutionnels (montage, exploitation, démontage).
+                    Lecture et respect de fiches techniques, coordination avec
+                    les équipes plateau et prestataires son/vidéo/lumière.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
 
+              <!-- visuel 4 vraie update -->
 
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="section swatch-gray">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <div id="slider-flex47" class="flexslider os-animation element-normal-top element-normal-bottom text-center" data-os-animation="fadeInUp" data-os-animation-delay=".1s" data-flex-speed="7000" data-flex-animation="slide" data-flex-directions="hide" data-flex-controls="show"
-                                data-flex-controlsalign="center">
-                                    <ul class="slides">
-                                        <li>
-                                            <blockquote>
-                                                <p>“La nécessité est la mère de l'invention.”</p>
-                                                <footer>
-                                                    PLATON
-                                                </footer>
-                                            </blockquote>
-                                        </li>
-                                        <li>
-                                            <blockquote>
-                                                <p>“Le mot donne à la pensée son existence la plus haute et la plus noble.”</p>
-                                                <footer>
-                                                    BARUCH SPINOZA
-                                                </footer>
-                                            </blockquote>
-                                        </li>
-                                        <li>
-                                            <blockquote>
-                                                <p>“Deviens ce que tu es“</p>
-                                                <footer>
-                                                    FRIEDRICH NIETZSCHE
-                                                </footer>
-                                            </blockquote>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="section swatch-blue section-text-shadow section-inner-shadow">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-9">
-                                <header class="text-center element-normal-top element-normal-bottom not-condensed os-animation" data-os-animation="fadeInLeft" data-os-animation-delay="0s">
-                                    <h3 class="big light bordered-normal">
-                    Si tu apprécies ce que tu vois, regarde mon portfolio.
-                </h3>
-                                </header>
-                            </div>
-                            <div class=" col-md-12">
-                                <a href="portfolio_florian_b.html" class="btn btn-primary btn-lg  element-normal-top element-normal-bottom os-animation" target="_self" data-os-animation="fadeInRight" data-os-animation-delay="0s ">
-                Liens vers le Portfolio
-            </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </article>
-        </div>
-        <footer id="footer" role="contentinfo">
-            
-        </footer>
-        <script src="assets/js/packages.min.js"></script>
-        <script src="assets/js/theme.min.js"></script>
-    </body>
+              <div class="grid-item visuel" data-rating="3">
+                <div class="skill-card" data-tool-ratings='{"Adobe":3.5}'>
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/adobe-logo.svg"
+                      alt="AdobeTools"
+                      class="logo size-xxl"
+                    />
+                  </div>
+                  <h3>MediaDesign Pro</h3>
+                  <p>
+                    Production complète de contenus médias professionnels :
+                    conception, montage, animation et habillage avec la suite
+                    Adobe (Premiere Pro, After Effects, Illustrator, InDesign,
+                    Encoder, Trapcode, Red Giant). Maîtrise du workflow de
+                    création de supports vidéo, print et motion design pour
+                    l’événementiel, le web et l’édition.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Code 1 vraie update -->
+
+              <div class="grid-item code" data-rating="2.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"C#":2.5,"NHibernate":2.5,"Swagger":2.5,"Vue.js":3,"Postman":2.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/Logo_C_sharp .svg"
+                      alt="C#"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/NHibernate.svg"
+                      alt="NHibernate"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/svgviewer-output.svg"
+                      alt="Swagger"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/vue-dot-js-svgrepo-com.svg"
+                      alt="Vue.js"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/postman-svgrepo-com.svg"
+                      alt="Postman"
+                      class="logo size-md"
+                    />
+                  </div>
+                  <h3>.NET Fullstack Packager</h3>
+                  <p>
+                    Développement d’API REST en C# (.NET 6) avec architecture
+                    modulaire, routage structuré, ORM NHibernate, logging avancé
+                    (Serilog) et documentation Swagger. Maîtrise du déploiement
+                    portable via dotnet publish, génération d’exécutables
+                    standalone Windows (self-contained), configuration Kestrel
+                    et automation par scripts PowerShell/BAT. Packaging
+                    fullstack avec Electron + Vue.js, intégration Vite, Axios,
+                    TailwindCSS, pour une interface réactive et moderne.
+                    Compétence complète en conception, build et distribution
+                    d’applications prêtes à l’emploi, sans dépendances externes.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Code 2 vraie update -->
+
+              <div class="grid-item code" data-rating="3.5">
+                <div class="skill-card" data-tool-ratings='{"PowerShell":3.5}'>
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/powershell-svgrepo-com.svg"
+                      alt="PowerShell"
+                      class="logo size-xxl"
+                    />
+                  </div>
+                  <h3>PowerShell DevOps Junior</h3>
+                  <p>
+                    Création de scripts PowerShell robustes pour automatiser le
+                    lancement d'applications fullstack (.NET + Vue.js), la
+                    gestion de build, le packaging, et le déploiement
+                    d’exécutables Windows autonomes. Gestion d’environnements
+                    Windows, automatisation de la CLI .NET (dotnet publish),
+                    orchestration de frontend/backend avec des scripts *.bat et
+                    *.ps1, lancement séquentiel et vérification des ports
+                    locaux. Optimisation du workflow développeur :
+                    configuration, build, lancement serveur, ouverture du
+                    navigateur, journalisation et logs de débogage.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Code 3 vraie update -->
+
+              <div class="grid-item code" data-rating="3.5">
+                <div class="skill-card" data-tool-ratings='{"Python":3.5}'>
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/python-127-svgrepo-com.svg"
+                      alt="Python"
+                      class="logo size-xxl"
+                    />
+                  </div>
+                  <h3>
+                    Python Interactif & Créatif – Détection, Interfaces &
+                    Automation
+                  </h3>
+                  <p>
+                    Développeur Python créatif, capable de concevoir des outils
+                    interactifs temps réel mêlant vision par ordinateur,
+                    interfaces utilisateurs (GUI/UX), automation web, traitement
+                    d'événements, et pilotage MIDI. Maîtrise avancée de
+                    bibliothèques comme MediaPipe, PyQt5, mido, Playwright, et
+                    des concepts transverses comme le multithreading, la capture
+                    comportementale et l’interfaçage physique/logiciel.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Code 4 vraie update -->
+
+              <div class="grid-item code" data-rating="3.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"html5":3,"css3":3}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/html5-01-svgrepo-com.svg"
+                      alt="html5"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/css3-01-svgrepo-com.svg"
+                      alt="css3"
+                      class="logo size-xl"
+                    />
+                  </div>
+                  <h3>Design Web & UI/UX Avancé – Front-End Créatif</h3>
+                  <p>
+                    Front-end Designer & Intégrateur capable de concevoir une
+                    expérience web riche, interactive et cohérente, du
+                    responsive le plus simple à des animations CSS complexes, en
+                    passant par l’intégration de systèmes audio ou modaux. Le
+                    tout dans une approche créative mettant l’accent sur
+                    l’esthétique, la fluidité et le confort utilisateur.
+                    Expertise en composants modulaires, architecture CSS et
+                    optimisation UX, assurant un design unique et immersif pour
+                    toutes sortes de projets (sites, portfolios, dashboards,
+                    interfaces immersives).
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Code 5 vraie update -->
+
+              <div class="grid-item code" data-rating="3">
+                <div class="skill-card" data-tool-ratings='{"JavaScript":3}'>
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/javascript-svgrepo-com.svg"
+                      alt="JavaScript"
+                      class="logo size-xl"
+                    />
+                  </div>
+                  <h3>JavaScript UX/UI & Audio Créatif</h3>
+                  <p>
+                    Développeur JavaScript orienté UX/UI dynamique, capable de
+                    concevoir et orchestrer des composants web complexes :
+                    modales personnalisées, lecteurs audio avancés,
+                    comportements responsive et interactions en temps réel. Mon
+                    approche mêle précision technique, créativité visuelle et
+                    optimisation de l’expérience utilisateur, sans dépendre de
+                    frameworks externes.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Code 6 vraie update -->
+
+              <div class="grid-item code" data-rating="2.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"React":3.5,",node.js":2.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/atom-svgrepo-com.svg"
+                      alt="React"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/nodejs-logo-svgrepo-com.svg"
+                      alt="node.js"
+                      class="logo size-xl"
+                    />
+                  </div>
+                  <h3>Node.js & React – Gestion de données côté client</h3>
+                  <p>
+                    Développeur JavaScript fullstack, capable de structurer une
+                    application React moderne avec gestion persistante de
+                    données, composants interactifs, modaux dynamiques et
+                    logique métier avancée. Maîtrise du pattern SPA (Single Page
+                    Application), de l’interface utilisateur réactive et d’une
+                    approche composant+stockage local scalable pour prototypage
+                    ou apps locales sans back-end distant.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- pedago 1 vraie update -->
+
+              <div class="grid-item pedago audio" data-rating="3.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{" Pédacollab":3.5,"Créactif":3,"Learnflow":4.5,"Audiogénèse":4,"SonoLab":5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/teacher-svgrepo-com.svg"
+                      alt=" Pédacollab"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/electronic-music-piano-svgrepo-com.svg"
+                      alt="Créactif"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/televisions-computer-screen-svgrepo-com.svg"
+                      alt="Learnflow"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/music-player-wire-svgrepo-com.svg"
+                      alt="SonoLab"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/karaoke-mic-svgrepo-com.svg"
+                      alt="Audiogénèse"
+                      class="logo size-md"
+                    />
+                  </div>
+                  <h3>Pédagogie créative en Musique Assistée par Ordinateur</h3>
+                  <p>
+                    Passeur de son et d’outils numériques, j'accompagne chaque
+                    personne dans la découverte, l’exploration et la maîtrise du
+                    son par ordinateur, dans une approche artistique, technique
+                    et profondément humaine. Ma pédagogie repose sur la création
+                    vivante, l'écoute active et la valorisation de toutes les
+                    voix, quel que soit le niveau.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- pedago 2 vraie update -->
+
+              <div class="grid-item pedago admin" data-rating="2.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Coordination pédagogique":2.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/teamwork-svgrepo-com.svg"
+                      alt="Coordi"
+                      class="logo size-xl"
+                    />
+                  </div>
+                  <h3>Coordination pédagogique & ateliers artistiques</h3>
+                  <p>
+                    Conception de programmes pédagogiques artistiques modulables
+                    (MAO, stop motion, roman-photo) adaptés aux cycles
+                    scolaires, avec rédaction de séquences, supports et fiches
+                    projet. Encadrement d’équipes d’intervenants : recrutement,
+                    plannings, accompagnement, coordination inter-écoles,
+                    animation de réunions et temps de formation. Soutien
+                    opérationnel terrain : aide à l’installation, médiation
+                    éducative, supervision de la pré-prod/post-prod (captation,
+                    montage, valorisation des créations). Gestion logistique
+                    complète : inventaire, maintenance et déploiement de
+                    matériel pédagogique (ordinateurs, MIDI, tablettes,
+                    caméras). Lien constant avec les institutions : interface
+                    écoles/institutions, bilans d’activité, participation aux
+                    comités de pilotage.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- pedago 3 vraie update -->
+
+              <div class="grid-item pedago" data-rating="3.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Écriture":3.5,"Interprétaction":3,"Mise en scène":4}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/writing-svgrepo-com.svg"
+                      alt="Écriture"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/theater-masks-svgrepo-com.svg"
+                      alt="Interprétaction"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/theatre-stage-svgrepo-com.svg"
+                      alt="Mise en scène"
+                      class="logo size-lg"
+                    />
+                  </div>
+                  <h3>Ateliers d’Écriture & Performance Narrative</h3>
+                  <p>
+                    Facilitateur d’expression poétique et littéraire, j’anime
+                    des ateliers mêlant écriture, interprétation et narration
+                    vivante. Mes interventions favorisent une dynamique
+                    participative où chacun devient auteur, conteur, acteur. Une
+                    pédagogie sensible et ouverte pour libérer la parole et
+                    créer ensemble des espaces d’imaginaire partagés.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Admin 1 vraie update -->
+
+              <div class="grid-item admin" data-rating="3">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Microsoft_Office":3.5,"google-tools":3,"calendar":2.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/Microsoft_Office_logo_(2013–2019).svg"
+                      alt="Microsoft_Office"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/google-drive-svgrepo-com.svg"
+                      alt="google-tools"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/calendar-lines-pen-svgrepo-com.svg"
+                      alt="calendar"
+                      class="logo size-lg"
+                    />
+                  </div>
+                  <h3>Office Intelligence & Gestion de Projet</h3>
+                  <p>
+                    Alliant précision technique et clarté éditoriale, je
+                    transforme la bureautique en levier stratégique de pilotage,
+                    de communication et de gestion. Mon approche repose sur
+                    l'efficacité, la lisibilité et l’adaptabilité à tous les
+                    environnements, qu’ils soient institutionnels, associatifs
+                    ou pédagogiques. Montage de dossiers administratifs et
+                    culturels (appel à projets, demandes de subvention)
+                    Coordination d’équipes à travers des documents de pilotage
+                    collaboratifs Préparation de présentations percutantes pour
+                    comités, réunions, événements Conception de supports
+                    pédagogiques ou communicationnels clairs et attractifs
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Admin 2 vraie update -->
+
+              <div class="grid-item pedago admin" data-rating="3.5">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"diagnostic":3.5,"accompagnement":3,"structuration":3.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/document-view-svgrepo-com.svg"
+                      alt="diagnostic"
+                      class="logo size-xl"
+                    />
+                    <img
+                      src="assets/images/svg/document-plus-svgrepo-com.svg"
+                      alt="accompagnement"
+                      class="logo size-md"
+                    />
+                    <img
+                      src="assets/images/svg/folders-svgrepo-com.svg"
+                      alt="structuration"
+                      class="logo size-md"
+                    />
+                  </div>
+                  <h3>
+                    Accompagnement numérique & administratif – Projets, droits &
+                    accès simplifié
+                  </h3>
+                  <p>
+                    Facilitateur administratif et formateur numérique, je rends
+                    l’accès aux outils, aux droits et à l’expression de son
+                    projet plus fluide, plus juste, plus accessible.
+                    J’interviens à la croisée des besoins techniques, humains et
+                    contextuels, pour permettre à chacun de réaliser ses
+                    démarches, se former à l’essentiel, et valoriser son projet
+                    dans les formes attendues par les institutions.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Admin 3 vraie update -->
+
+              <div class="grid-item admin" data-rating="3">
+                <div
+                  class="skill-card"
+                  data-tool-ratings='{"Gestion documentaire":3.5,"bureautique avancée":4.5,"Organisation":2.5}'
+                >
+                  <div class="software-logos">
+                    <img
+                      src="assets/images/svg/clipboard-user-svgrepo-com.svg"
+                      alt="Gestion documentaire"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/document-management-system-document-management.svg"
+                      alt="bureautique avancée"
+                      class="logo size-lg"
+                    />
+                    <img
+                      src="assets/images/svg/calendar-lines-pen-svgrepo-com.svg"
+                      alt="Organisation"
+                      class="logo size-lg"
+                    />
+                  </div>
+                  <h3>Secrétariat Administratif & Projets Sociaux</h3>
+                  <p>
+                    Interface clé entre institutions, équipes et porteurs de
+                    projet, j’assure un soutien administratif fluide et
+                    rigoureux, avec une approche humaine et accessible.
+                  </p>
+                  <div class="rating-stars"></div>
+                  <div class="custom-rating">
+                    Skills -> <span class="tool-name"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-space"></div>
+
+            <div
+              class="text-center filters os-animation"
+              data-os-animation="fadeInUp"
+              data-os-animation-delay="0.3s"
+            >
+              <section class="hero-section text-center animated-text">
+                <h2 class="bigger hairline bordered">
+                  Découvrez mon parcours et mes compétences en détail en
+                  consultant mon CV !
+                </h2>
+                <div class="section-space"></div>
+                <button
+                  id="open-cv-modal"
+                  class="btn btn-primary btn-lg os-animation"
+                  data-os-animation="fadeInRight"
+                >
+                  Mon CV
+                </button>
+              </section>
+            </div>
+            <!-- Fermeture correcte de la div section-space-short -->
+
+            <div class="section-space-short"></div>
+
+            <!-- Fenêtre modale pour afficher et télécharger le CV -->
+            <div id="cv-modal" class="modal-overlay">
+              <div class="modal-content">
+                <span class="close-btn" id="close-cv-modal">&times;</span>
+                <h2 class="text-center">Mon CV</h2>
+                <iframe
+                  id="cv-viewer"
+                  src="assets/images/cv/florian_cv.pdf"
+                  width="100%"
+                  height="500px"
+                ></iframe>
+                <div class="text-center">
+                  <a
+                    href="assets/images/cv/florian_cv.pdf"
+                    download="Florian_CV.pdf"
+                    class="btn btn-success btn-lg"
+                  >
+                    Télécharger le CV
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-space"></div>
+
+            <!-- SECTION PORTFOLIO -->
+            <section class="hero-section text-center animated-text">
+              <div class="container">
+                <header class="os-animation" data-os-animation="fadeIn">
+                  <h2 class="bigger hairline bordered">
+                    Découvrez Mes Réalisations
+                  </h2>
+                </header>
+
+                <p class="lead os-animation" data-os-animation="fadeInUp">
+                  <i class="fas fa-headphones"></i>
+                  <strong>Productions sonores immersives</strong><br />
+                  <i class="fas fa-film"></i>
+                  <strong>Créations audiovisuelles uniques</strong><br />
+                  <i class="fas fa-lightbulb"></i>
+                  <strong>Innovation multimédia constante</strong>
+                </p>
+                <div class="section-space-short"></div>
+                <div
+                  class="text-center filters os-animation"
+                  data-os-animation="fadeInUp"
+                  data-os-animation-delay="0.2s"
+                >
+                  <a
+                    href="portfolio_florian_b.html"
+                    class="btn btn-primary btn-lg os-animation"
+                    data-os-animation="fadeInRight"
+                  >
+                    Explorer mon Portfolio
+                  </a>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </article>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="swatch-custom text-center">
+      <div class="container">
+        <p>© 2025 Florian Behejohn - Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    <!-- CHARGEMENT DES SCRIPTS -->
+    <!-- 1) jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- CDN officiel Bootstrap 3.4.1 (ou version de ton projet) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="assets/js/smartresize-patch.js"></script>
+    <script src="assets/js/navbar.js"></script>
+    <!-- Barre de navigation -->
+    <script src="assets/js/skill-card.js"></script>
+    <!-- Gros script qui gère le système de skill-card pour les étoiles etc -->
+    <script src="assets/js/magic-photo.js"></script>
+    <!-- Magic photo transmutation de ma photo et particules -->
+    <script src="assets/js/animated-text.js"></script>
+    <!-- texte animé -->
+    <script src="assets/js/word-hold-effect.js"></script>
+    <!--Ajoute un effet spécial (ex. changement de couleur, agrandissement...) lorsqu'on maintient un mot cliqué.-->
+
+    <script src="assets/js/hover-menu-config.js"></script>
+
+    <script src="assets/js/theme.min.js"></script>
+
+    <!-- 4) Autres scripts spécifiques -->
+    <script src="assets/js/packages.min.js"></script>
+    <script src="assets/js/theme.min.js"></script>
+    <script src="assets/js/script.js"></script>
+
+    <!--/**
+    * ========================================================
+    * 🧠 ISOTOPE GRID POUR SKILL-CARDS
+    * Gestion du filtrage par catégorie et tri dynamique par note
+    * Basé sur la librairie Isotope.js (https://isotope.metafizzy.co/)
+    * Compatible avec layoutMode: 'fitRows' et grid responsive CSS
+    * ========================================================
+    */ Script de filtrage/tri -->
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="assets/js/isotope-skill-grid.js"></script>
+
+    <!-- MODAL DÉTAILLÉ SURIMPRESSION Création dynamique de la modale skill-modal si elle n'existe pas encore.
+    Ajout automatique au DOM, évitant d'avoir du code HTML statique inutile.
+    Gestion complète des événements :
+        Fermeture en cliquant sur l’overlay
+        Fermeture en cliquant sur le bouton (×)
+        Empêche la fermeture en cliquant sur le contenu
+    Affichage et masquage propre de la modale avec display: flex et display: none.-->
+    <script src="assets/js/skill-modal-ui.js"></script>
+
+    <!--Ce script assure plusieurs fonctionnalités :
+
+    Affichage dynamique d’une modale contenant les informations d'une skill-card sélectionnée.
+    Récupération automatique du titre, de la description, des étoiles et des logos de la carte.
+    Gestion de la fermeture de la modale via une fonction dédiée.
+    Écoute d’événements pour détecter un clic sur une skill-card et ouvrir la modale correspondante.-->
+    <script src="assets/js/skill-modal-handler.js"></script>
+
+    <!--✅ Ce script assure plusieurs fonctionnalités :
+
+    Sauvegarde et restauration de la position du scroll avant et après l’ouverture de la modale.
+    Empêche le scroll de l’arrière-plan lorsqu’une modale est ouverte pour améliorer l’expérience utilisateur.
+    Affichage dynamique de la modale avec récupération des données d’une skill-card sélectionnée.
+    Gestion propre de la fermeture avec réactivation du scroll et restauration du positionnement.-->
+    <script src="assets/js/skill-modal-scroll-handler.js"></script>
+
+    <!--Ce script assure plusieurs fonctionnalités :
+
+    Permet d'afficher du contenu masqué au clic sur "Voir plus".
+    Cache le contenu lorsqu'on clique sur "Voir moins".
+    Gère dynamiquement l'affichage des boutons pour éviter des affichages inutiles.
+    Ajoute une classe CSS .expanded pour d'éventuelles animations CSS.-->
+    <script src="assets/js/expandable-cards.js"></script>
+
+    <!--✅ Ce script assure plusieurs fonctionnalités :
+
+    Affichage dynamique de la modale avec récupération des données de la skill-card sélectionnée.
+    Gestion des étoiles de notation dynamiques en fonction des logiciels associés.
+    Interactivité avancée avec survol et clic sur les logos des logiciels pour afficher leurs notes.
+    Fermeture propre de la modale avec restauration des valeurs par défaut.-->
+    <script src="assets/js/skill-card-modal.js"></script>
+
+    <!--Ce script assure plusieurs fonctionnalités :
+
+    Ajoute un bouton animé "Mon CV" qui invite à découvrir le parcours professionnel.
+    Affiche le CV dans une fenêtre modale avec possibilité de le visualiser sans quitter la page.
+    Empêche le scroll en arrière-plan lorsque la modale est ouverte.
+    Ajoute un bouton "Télécharger le CV" en PDF.
+    Ferme proprement la modale en cliquant sur le bouton de fermeture ou en dehors.-->
+    <script src="assets/js/cv-modal-handler.js"></script>
+
+    <!--/**
+     * ==========================================================
+     * 🎧 MODULE PRINCIPAL DE GESTION DU LECTEUR AUDIO HTML5
+     * ----------------------------------------------------------
+     * Fonctionnalités :
+     * - Chargement dynamique de la playlist depuis un fichier JSON
+     * - Contrôle de la lecture (play/pause/stop/next/prev)
+     * - Affichage du titre et de la pochette de l’audio en cours
+     * - Affichage de la progression et du temps actuel
+     * - Réglage du volume
+     * - Conservation de la lecture même si la fenêtre modale est fermée
+     * ==========================================================
+     */
+    -->
+    <script src="assets/js/player.js" type="application/javascript"></script>
+
+    <!-- 🎛️ BOUTON FLOTTANT POUR RÉAFFICHER LE LECTEUR -->
+    <!-- Script de gestion du bouton flottant du lecteur audio -->
+    <script src="assets/js/floating-audio-toggle.js"></script>
+
+    <!--* ============================================
+    * 🎧 RESPONSIVE AUDIO PLAYER SCALER
+    * Ajuste dynamiquement l'échelle du lecteur audio modal
+    * pour qu'il reste lisible, centré et proportionné sur tous les écrans.
+    * ============================================
+    -->
+    <script src="assets/js/responsive-audio-player-scaler.js"></script>
+
+    <!--/**
+    * ============================================
+    * 🎧 DRAGGABLE AUDIO PLAYER
+    * Permet de déplacer manuellement le lecteur audio sur grand écran
+    * Comporte une désactivation automatique sur mobile (< 768px)
+    * ============================================
+    */-->
+    <script src="assets/js/draggable-audio-player.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const cards = document.querySelectorAll(".card-comp");
+
+        cards.forEach((card) => {
+          const expandBtn = card.querySelector(".expand-btn");
+          const fullText = card.querySelector(".full-text");
+          const reduceBtn = card.querySelector(".reduce-btn");
+
+          if (expandBtn && fullText && reduceBtn) {
+            expandBtn.addEventListener("click", () => {
+              fullText.style.display = "block";
+              reduceBtn.style.display = "inline-block";
+              card.classList.add("expanded");
+              expandBtn.style.display = "none";
+            });
+
+            reduceBtn.addEventListener("click", () => {
+              fullText.style.display = "none";
+              reduceBtn.style.display = "none";
+              card.classList.remove("expanded");
+              expandBtn.style.display = "inline-block";
+            });
+          }
+        });
+      });
+    </script>
+
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const brand = document.querySelector(".navbar-brand");
+        const title = document.querySelector(".site-title");
+        const audio = document.querySelector(".audio-player-nav-btn");
+        const burger = document.querySelector(".navbar-toggler");
+
+        if (brand && title && audio && burger) {
+          const totalWidth = brand.parentElement.getBoundingClientRect().width;
+          const reserved =
+            audio.getBoundingClientRect().width +
+            burger.getBoundingClientRect().width +
+            24;
+          const available = totalWidth - reserved;
+
+          title.style.maxWidth = `${available}px`;
+          if (title.scrollWidth > available) {
+            title.style.fontSize = "0.82rem";
+          }
+        }
+      });
+    </script>
+
+    <script type="module" src="assets/js/main.js"></script>
+  </body>
 </html>

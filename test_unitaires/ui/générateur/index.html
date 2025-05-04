@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nappes Synthétiques – 100% Web Audio</title>
+    <style>
+      body {
+        margin: 0;
+        background: linear-gradient(to bottom right, #1f1f2e 40%, #2b2b40);
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #eee;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+      h1 {
+        margin-top: 20px;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #ffb347;
+        text-shadow: 0 0 10px rgba(255, 179, 71, 0.7);
+      }
+      .synth-container {
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+        border: 1px solid #ffffff33;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 0 20px #ffb34755;
+        width: 360px;
+      }
+      .param {
+        margin-bottom: 14px;
+      }
+      .param label {
+        font-size: 0.95rem;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .param input[type="range"] {
+        width: 100%;
+        -webkit-appearance: none;
+        background: #333;
+        height: 6px;
+        border-radius: 6px;
+        outline: none;
+        cursor: pointer;
+      }
+      .param input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        background: #ffb347;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .button-start {
+        margin-top: 10px;
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #fff;
+        background: #ffb347;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 10px #ffb34788;
+      }
+      .button-start:hover {
+        opacity: 0.9;
+        box-shadow: 0 0 20px #ffb347;
+      }
+      p.note {
+        font-size: 0.8rem;
+        color: #ccc;
+        text-align: center;
+        margin-top: 16px;
+        max-width: 320px;
+        line-height: 1.3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nappes Synthétiques</h1>
+    <div class="synth-container">
+      <!-- Sliders pour sculpter la nappe -->
+      <div class="param">
+        <label for="harmoRange">Harmoniques</label>
+        <input
+          id="harmoRange"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.7"
+        />
+      </div>
+      <div class="param">
+        <label for="colorRange">Couleur du son</label>
+        <input
+          id="colorRange"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+        />
+      </div>
+      <div class="param">
+        <label for="modRateRange">Vitesse modulation (FM)</label>
+        <input
+          id="modRateRange"
+          type="range"
+          min="0.1"
+          max="10"
+          step="0.1"
+          value="2"
+        />
+      </div>
+      <div class="param">
+        <label for="modDepthRange">Profondeur modulation (FM)</label>
+        <input
+          id="modDepthRange"
+          type="range"
+          min="0"
+          max="400"
+          step="1"
+          value="100"
+        />
+      </div>
+      <div class="param">
+        <label for="delayRange">Espace (Feedback Delay)</label>
+        <input
+          id="delayRange"
+          type="range"
+          min="0"
+          max="0.9"
+          step="0.01"
+          value="0.3"
+        />
+      </div>
+      <button class="button-start" id="startBtn">Démarrer la nappe</button>
+    </div>
+
+    <p class="note">
+      Astuce : déplace chaque slider pour explorer une large palette de textures
+      sonores (mélange <strong>additif</strong>, <strong>soustractif</strong> et
+      <strong>FM</strong>). <br />100% JavaScript. Aucune ressource audio
+      externe.
+    </p>
+
+    <script>
+      /* -------------------------------------------------
+   Variables & contexte Audio
+------------------------------------------------- */
+      let audioCtx;
+      let isPlaying = false;
+
+      // Tableau pour stocker les oscillateurs “additifs”
+      const additiveOscs = [];
+      // Oscillateurs pour la FM (carrier + modulator)
+      let carrierOsc, modulatorOsc;
+      let carrierGain; // gain final du carrier
+      let modGain; // intensité de la modulation de fréquences
+
+      // Filtre soustractif
+      let filter;
+
+      // LFO minime pour donner un mouvement subtil au filtre
+      let filterLFO, filterLFOGain;
+
+      // Delay + feedback = pseudo réverb
+      let delayNode, feedbackGain;
+
+      // Connectons tout sur un Master Out
+      let masterGain;
+
+      /* -------------------------------------------------
+   Fonction d'init / démarrage
+------------------------------------------------- */
+      function initAudio() {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.5;
+        masterGain.connect(audioCtx.destination);
+
+        /* --- Filtre pour la partie soustractive --- */
+        filter = audioCtx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.value = 600;
+        filter.Q.value = 1;
+
+        filter.connect(masterGain);
+
+        // LFO sur la fréquence du filtre pour le faire bouger un peu
+        filterLFO = audioCtx.createOscillator();
+        filterLFO.type = "sine";
+        filterLFO.frequency.value = 0.1; // très lent
+        filterLFOGain = audioCtx.createGain();
+        filterLFOGain.gain.value = 100; // amplitude de la modulation
+        filterLFO.connect(filterLFOGain).connect(filter.frequency);
+        filterLFO.start();
+
+        /* --- Delay + Feedback (fausse reverb) --- */
+        delayNode = audioCtx.createDelay(5.0);
+        delayNode.delayTime.value = 0.3; // ajustable
+        feedbackGain = audioCtx.createGain();
+        feedbackGain.gain.value = 0.3;
+        // bouclage
+        delayNode.connect(feedbackGain).connect(delayNode);
+
+        // On insère ce delay en parallèle
+        const delayMix = audioCtx.createGain();
+        delayMix.gain.value = 0.4; // dosage
+        delayNode.connect(delayMix).connect(masterGain);
+
+        // Sortie du filtre => delay en parallèle
+        filter.connect(delayNode);
+
+        /* --- Partie Additive (plusieurs oscillateurs) --- */
+        const baseFreqs = [110, 220, 440, 880];
+        // Note : on crée 4 oscillateurs comme partiels “harmoniques”.
+        // On pourrait en ajouter plus pour enrichir encore.
+        baseFreqs.forEach((freq, index) => {
+          const osc = audioCtx.createOscillator();
+          osc.type = "sine";
+          osc.frequency.value = freq;
+
+          const gain = audioCtx.createGain();
+          gain.gain.value = 0.2; // On règle plus tard via le slider “harmoRange”
+
+          osc.connect(gain).connect(filter);
+          osc.start();
+          additiveOscs.push({ osc, gain });
+        });
+
+        /* --- Partie FM (un carrier + un modulateur) --- */
+        // Carrier
+        carrierOsc = audioCtx.createOscillator();
+        carrierOsc.type = "sine";
+        carrierOsc.frequency.value = 220; // base
+
+        // Modulateur
+        modulatorOsc = audioCtx.createOscillator();
+        modulatorOsc.type = "sine";
+        modulatorOsc.frequency.value = 2; // slider “modRateRange” ajustera cela
+
+        // On module la fréquence du carrier => le “classique” de la FM
+        modGain = audioCtx.createGain();
+        modGain.gain.value = 100; // slider “modDepthRange”
+        modulatorOsc.connect(modGain);
+        modGain.connect(carrierOsc.frequency);
+
+        // Sortie du carrier => Filtre => Master
+        carrierGain = audioCtx.createGain();
+        carrierGain.gain.value = 0.3; // le slider “harmoRange” influe également
+        carrierOsc.connect(carrierGain).connect(filter);
+
+        // Lancement
+        carrierOsc.start();
+        modulatorOsc.start();
+      }
+
+      /* -------------------------------------------------
+   Gestion des sliders : Interactions UI
+------------------------------------------------- */
+      const harmoSlider = document.getElementById("harmoRange");
+      const colorSlider = document.getElementById("colorRange");
+      const modRateSlider = document.getElementById("modRateRange");
+      const modDepthSlider = document.getElementById("modDepthRange");
+      const delaySlider = document.getElementById("delayRange");
+
+      harmoSlider.addEventListener("input", updateSoundParams);
+      colorSlider.addEventListener("input", updateSoundParams);
+      modRateSlider.addEventListener("input", updateSoundParams);
+      modDepthSlider.addEventListener("input", updateSoundParams);
+      delaySlider.addEventListener("input", updateSoundParams);
+
+      function updateSoundParams() {
+        if (!audioCtx || !isPlaying) return;
+
+        const harmoVal = parseFloat(harmoSlider.value);
+        const colorVal = parseFloat(colorSlider.value);
+        const modRateVal = parseFloat(modRateSlider.value);
+        const modDepthVal = parseFloat(modDepthSlider.value);
+        const delayVal = parseFloat(delaySlider.value);
+
+        // 1) Moduler le gain de chaque oscillateur additif
+        additiveOscs.forEach((obj, i) => {
+          // Variation subtile selon l’indice
+          obj.gain.gain.value = harmoVal * (0.2 + 0.1 * i);
+        });
+
+        // 2) Ajuster la fréquence de coupure et la résonance du filtre
+        // On se base sur “colorVal” pour aller d’un son très sombre à très brillant
+        const minFreq = 200;
+        const maxFreq = 8000;
+        filter.frequency.value = minFreq + colorVal * (maxFreq - minFreq);
+        filter.Q.value = 1 + colorVal * 12; // Q (résonance) plus ou moins “pincée”
+
+        // 3) Ajuster la FM
+        modulatorOsc.frequency.value = modRateVal; // Vitesse
+        modGain.gain.value = modDepthVal; // Profondeur
+        // Ajuster aussi le volume du carrier en fonction d’harmoVal pour cohérence
+        carrierGain.gain.value = 0.3 + harmoVal * 0.3;
+
+        // 4) Ajuster le Delay + feedback
+        delayNode.delayTime.value = 0.05 + delayVal * 0.4;
+        feedbackGain.gain.value = delayVal; // plus on augmente, plus ça tourne
+      }
+
+      /* -------------------------------------------------
+   Bouton Play / Stop
+------------------------------------------------- */
+      const startBtn = document.getElementById("startBtn");
+      startBtn.addEventListener("click", () => {
+        if (!isPlaying) {
+          // si audioCtx n’existe pas encore, on init
+          if (!audioCtx) {
+            initAudio();
+          }
+          audioCtx.resume(); // sur certains navigateurs, besoin d’un resume
+          isPlaying = true;
+          startBtn.textContent = "Arrêter la nappe";
+        } else {
+          // Arrêt
+          audioCtx.suspend();
+          isPlaying = false;
+          startBtn.textContent = "Démarrer la nappe";
+        }
+      });
+    </script>
+  </body>
+</html>

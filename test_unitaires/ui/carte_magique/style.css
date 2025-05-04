@@ -1,0 +1,80 @@
+/* Grille pour test unitaire */
+.parcours-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px;
+}
+
+/* Carte magique */
+.card-comp {
+  width: 300px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 200, 255, 0.2);
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.card-comp:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 200, 255, 0.4);
+}
+
+.card-comp .icon {
+  font-size: 36px;
+  color: #00c8ff;
+  margin-bottom: 12px;
+}
+
+.card-comp .title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #1e2a38;
+}
+
+/* Contenu expansible magique */
+.full-text {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.6s ease,
+    opacity 0.4s ease;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Bouton de fermeture */
+.reduce-btn {
+  display: none;
+  margin-top: 12px;
+  background: none;
+  border: none;
+  color: #00c8ff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.reduce-btn:hover {
+  color: #ff3366;
+}
+
+/* État étendu */
+.card-comp.expanded .full-text {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.card-comp.expanded .reduce-btn {
+  display: inline-block;
+}

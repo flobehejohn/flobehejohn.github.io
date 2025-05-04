@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>🎧 Lecteur Audio 3D avec Volet & SFX aligné</title>
+    <style>
+      :root {
+        --primary-color: #5fbff9;
+        --bg: #22262a;
+        --text: rgba(255, 255, 255, 0.85);
+        --light: #33393f;
+        --dark: #111315;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 1px;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+        background: var(--bg);
+        font-family: "Segoe UI", sans-serif;
+        color: var(--text);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .radio {
+        background: var(--bg);
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow:
+          10px 10px 20px var(--dark),
+          -10px -10px 20px var(--light);
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        max-width: 1000px;
+        width: 95%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .info-panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 0;
+        background: #111315;
+        color: var(--primary-color);
+        overflow: hidden;
+        transition: height 0.5s ease;
+        z-index: 0;
+        border-bottom-left-radius: 40px;
+        border-bottom-right-radius: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px;
+      }
+
+      .info-panel.open {
+        height: 50px;
+      }
+
+      #trackTitle {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        animation: scroll-text 10s linear infinite;
+        font-size: 1rem;
+      }
+
+      @keyframes scroll-text {
+        0% {
+          transform: translateX(100%);
+        }
+
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      .cover {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        padding: 10px;
+        background: linear-gradient(135deg, var(--bg) 0%, #020509 100%);
+        box-shadow:
+          10px 10px 20px var(--dark),
+          -10px -10px 20px var(--light);
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+
+      .cover img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        transition: transform 2s linear;
+      }
+
+      .cover.playing img {
+        animation: spin 4s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .controls {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .buttons {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: nowrap;
+        justify-content: center;
+        flex: 1;
+      }
+
+      .button {
+        width: 60px;
+        height: 60px;
+        background: var(--bg);
+        border: none;
+        border-radius: 50%;
+        box-shadow:
+          5px 5px 10px var(--dark),
+          -5px -5px 10px var(--light);
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .button:hover {
+        transform: scale(1.05);
+        box-shadow:
+          3px 3px 6px var(--dark),
+          -3px -3px 6px var(--light);
+      }
+
+      .button:active {
+        transform: scale(0.95);
+      }
+
+      .icon {
+        transition: all 0.3s ease-in-out;
+      }
+
+      .icon.play {
+        width: 0;
+        height: 0;
+        border-left: 20px solid var(--primary-color);
+        border-top: 14px solid transparent;
+        border-bottom: 14px solid transparent;
+      }
+
+      .icon.pause {
+        display: flex;
+        gap: 6px;
+        width: 26px;
+        height: 32px;
+        justify-content: center;
+      }
+
+      .icon.pause span {
+        width: 6px;
+        height: 100%;
+        background: var(--primary-color);
+        border-radius: 2px;
+      }
+
+      .button.playing .icon.play {
+        display: none;
+      }
+
+      .button:not(.playing) .icon.pause {
+        display: none;
+      }
+
+      .icon.stop {
+        width: 20px;
+        height: 20px;
+        background: var(--primary-color);
+        border-radius: 4px;
+      }
+
+      .icon.prev,
+      .icon.next {
+        position: relative;
+        width: 20px;
+        height: 20px;
+      }
+
+      .icon.prev::before,
+      .icon.prev::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid var(--primary-color);
+      }
+
+      .icon.prev::after {
+        left: 10px;
+      }
+
+      .icon.next::before,
+      .icon.next::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 10px solid var(--primary-color);
+      }
+
+      .icon.next::before {
+        left: 0;
+      }
+
+      .icon.next::after {
+        left: 10px;
+      }
+
+      .sliders {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      input[type="range"] {
+        appearance: none;
+        height: 4px;
+        border-radius: 2px;
+        background: #444;
+        cursor: pointer;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        appearance: none;
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        border: none;
+      }
+
+      .progress {
+        width: 200px;
+      }
+
+      .volume {
+        width: 100px;
+        background: #333;
+      }
+
+      .time {
+        font-size: 0.9rem;
+        min-width: 50px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="radio">
+      <div class="info-panel" id="infoPanel">
+        <h2 id="trackTitle">Titre de la chanson</h2>
+      </div>
+
+      <div class="cover" id="cover">
+        <img
+          id="coverArt"
+          src="https://upload.wikimedia.org/wikipedia/en/4/48/Section.80-Cover.jpg"
+          alt="Cover Art"
+        />
+      </div>
+
+      <div class="controls">
+        <div class="buttons">
+          <button class="button" id="prevBtn" title="Précédent">
+            <div class="icon prev"></div>
+          </button>
+          <button class="button" id="toggleBtn" title="Lecture / Pause">
+            <div class="icon play"></div>
+            <div class="icon pause"><span></span><span></span></div>
+          </button>
+          <button class="button" id="stopBtn" title="Stop">
+            <div class="icon stop"></div>
+          </button>
+          <button class="button" id="nextBtn" title="Suivant">
+            <div class="icon next"></div>
+          </button>
+          <button class="button" id="sfxBtn" title="SFX On/Off">
+            <div class="icon">🔊</div>
+          </button>
+        </div>
+
+        <div class="sliders">
+          <span class="time" id="timeDisplay">0:00</span>
+          <input
+            type="range"
+            class="progress"
+            id="progress"
+            value="0"
+            max="100"
+            disabled
+          />
+          <input
+            type="range"
+            class="volume"
+            id="volume"
+            value="100"
+            max="100"
+            title="Volume"
+          />
+        </div>
+      </div>
+
+      <audio id="audioPlayer" preload="auto"></audio>
+    </div>
+
+    <script>
+      const player = document.getElementById("audioPlayer");
+      const playBtn = document.getElementById("toggleBtn");
+      const stopBtn = document.getElementById("stopBtn");
+      const progress = document.getElementById("progress");
+      const timeDisplay = document.getElementById("timeDisplay");
+      const volume = document.getElementById("volume");
+      const nextBtn = document.getElementById("nextBtn");
+      const prevBtn = document.getElementById("prevBtn");
+      const cover = document.getElementById("cover");
+      const coverArt = document.getElementById("coverArt");
+      const infoPanel = document.getElementById("infoPanel");
+      const trackTitle = document.getElementById("trackTitle");
+      const sfxBtn = document.getElementById("sfxBtn");
+
+      const playlist = [
+        {
+          title: "Blow My High (Members Only)",
+          src: "https://cdn.freesound.org/previews/250/250629_4486188-lq.mp3",
+          cover:
+            "https://upload.wikimedia.org/wikipedia/en/4/48/Section.80-Cover.jpg",
+        },
+        {
+          title: "Alright",
+          src: "https://cdn.freesound.org/previews/569/569539_1415468-lq.mp3",
+          cover:
+            "https://upload.wikimedia.org/wikipedia/en/b/b2/Kendrick_Lamar_-_To_Pimp_a_Butterfly.png",
+        },
+      ];
+
+      let trackIndex = 0;
+      let isPlaying = false;
+      let sfxEnabled = true;
+
+      function playSoundFX(name) {
+        if (!sfxEnabled) return;
+        const click = new Audio(
+          "https://www.soundjay.com/buttons/sounds/button-29.mp3",
+        );
+        click.volume = 0.2;
+        click.play();
+      }
+
+      function updateProgress() {
+        progress.value = player.currentTime;
+        const minutes = Math.floor(player.currentTime / 60);
+        const seconds = Math.floor(player.currentTime % 60)
+          .toString()
+          .padStart(2, "0");
+        timeDisplay.textContent = `${minutes}:${seconds}`;
+      }
+
+      function setTrack(index) {
+        const track = playlist[index];
+        player.src = track.src;
+        coverArt.src = track.cover;
+        trackTitle.textContent = track.title;
+        player.load();
+      }
+
+      function togglePlayPause() {
+        if (player.paused) {
+          player.play().then(() => {
+            isPlaying = true;
+            playBtn.classList.add("playing");
+            cover.classList.add("playing");
+            infoPanel.classList.add("open");
+            playSoundFX("play");
+          });
+        } else {
+          player.pause();
+          isPlaying = false;
+          playBtn.classList.remove("playing");
+          cover.classList.remove("playing");
+          infoPanel.classList.remove("open");
+          playSoundFX("pause");
+        }
+      }
+
+      function stopPlayback() {
+        player.pause();
+        player.currentTime = 0;
+        isPlaying = false;
+        playBtn.classList.remove("playing");
+        cover.classList.remove("playing");
+        infoPanel.classList.remove("open");
+        playSoundFX("stop");
+      }
+
+      function nextTrack() {
+        trackIndex = (trackIndex + 1) % playlist.length;
+        setTrack(trackIndex);
+        player.play();
+        playBtn.classList.add("playing");
+        cover.classList.add("playing");
+        infoPanel.classList.add("open");
+        playSoundFX("next");
+      }
+
+      function prevTrack() {
+        trackIndex = (trackIndex - 1 + playlist.length) % playlist.length;
+        setTrack(trackIndex);
+        player.play();
+        playBtn.classList.add("playing");
+        cover.classList.add("playing");
+        infoPanel.classList.add("open");
+        playSoundFX("prev");
+      }
+
+      sfxBtn.addEventListener("click", () => {
+        sfxEnabled = !sfxEnabled;
+        sfxBtn.querySelector(".icon").textContent = sfxEnabled ? "🔊" : "🔇";
+      });
+
+      volume.addEventListener("input", (e) => {
+        player.volume = e.target.value / 100;
+      });
+
+      player.addEventListener("timeupdate", updateProgress);
+      player.addEventListener("loadedmetadata", () => {
+        progress.max = player.duration;
+      });
+
+      progress.addEventListener("input", (e) => {
+        player.currentTime = e.target.value;
+      });
+
+      playBtn.addEventListener("click", togglePlayPause);
+      stopBtn.addEventListener("click", stopPlayback);
+      nextBtn.addEventListener("click", nextTrack);
+      prevBtn.addEventListener("click", prevTrack);
+
+      setTrack(trackIndex);
+    </script>
+  </body>
+</html>

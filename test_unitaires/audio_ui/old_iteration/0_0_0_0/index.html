@@ -1,0 +1,37 @@
+﻿# Contenu HTML html_content = f"""
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test UI Audio</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="radio">
+      <audio
+        id="audioPlayer"
+        preload="none"
+        src="https://cdn.freesound.org/previews/250/250629_4486188-lq.mp3"
+      ></audio>
+      <!-- Contrôles personnalisés -->
+      <div class="controls">
+        <button type="button" class="prev" title="Titre précédent">⏮️</button>
+        <button type="button" class="toggle" title="Lecture / Pause">▶️</button>
+        <button type="button" class="stop" title="Stop">⏹️</button>
+        <button type="button" class="next" title="Titre suivant">⏭️</button>
+        <span class="time">0:00</span>
+        <input type="range" class="progress" value="0" max="100" disabled />
+        <input
+          type="range"
+          class="volume"
+          value="100"
+          max="100"
+          title="Volume"
+        />
+      </div>
+    </div>
+
+    <script src="js/player.js"></script>
+  </body>
+</html>
+"""

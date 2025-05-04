@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Synth Ultime – Additive+FM+Poly</title>
+    <style>
+      body {
+        margin: 0;
+        background: linear-gradient(to bottom right, #1f1f2e 40%, #2b2b40);
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #eee;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        overflow: hidden;
+        padding-bottom: 40px;
+      }
+
+      h1 {
+        margin-top: 20px;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #ffb347;
+        text-shadow: 0 0 10px rgba(255, 179, 71, 0.7);
+      }
+
+      .synth-container {
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+        border: 1px solid #ffffff33;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 0 20px #ffb34755;
+        width: 400px;
+        margin-top: 20px;
+      }
+
+      .param {
+        margin-bottom: 14px;
+      }
+
+      .param label {
+        font-size: 0.85rem;
+        display: block;
+        margin-bottom: 4px;
+        font-weight: 600;
+      }
+
+      .param input[type="range"],
+      .param select {
+        width: 100%;
+        cursor: pointer;
+      }
+
+      .param input[type="range"] {
+        -webkit-appearance: none;
+        background: #333;
+        height: 6px;
+        border-radius: 6px;
+        outline: none;
+      }
+
+      .param input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        background: #ffb347;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .button-start {
+        margin-top: 10px;
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #fff;
+        background: #ffb347;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 10px #ffb34788;
+      }
+
+      .button-start:hover {
+        opacity: 0.9;
+        box-shadow: 0 0 20px #ffb347;
+      }
+
+      p.note {
+        font-size: 0.8rem;
+        color: #ccc;
+        text-align: center;
+        margin-top: 16px;
+        max-width: 400px;
+        line-height: 1.3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Synth Ultime (Additive + FM + Paraphonie)</h1>
+
+    <div class="synth-container">
+      <!-- Section Choix global : On/Off, Nombre de Voix, Accord -->
+      <div class="param">
+        <label for="voiceCount">Nombre de voix (1=Mono, jusqu’à 4)</label>
+        <input
+          id="voiceCount"
+          type="range"
+          min="1"
+          max="4"
+          step="1"
+          value="2"
+        />
+      </div>
+
+      <div class="param">
+        <label for="chordSelect">Accord / Note</label>
+        <select id="chordSelect">
+          <option value="C">Do (C) Majeur</option>
+          <option value="Cm">Do (C) Mineur</option>
+          <option value="D">Ré (D) Majeur</option>
+          <option value="Dm">Ré (D) Mineur</option>
+          <option value="E">Mi (E) Majeur</option>
+          <option value="Em">Mi (E) Mineur</option>
+          <option value="G">Sol (G) Majeur</option>
+          <option value="Gm">Sol (G) Mineur</option>
+          <option value="A">La (A) Majeur</option>
+          <option value="Am" selected>La (A) Mineur</option>
+        </select>
+      </div>
+
+      <!-- Section Additive + FM + waveforms -->
+      <div class="param">
+        <label for="waveformSelect">Forme d’onde (Osc princ.)</label>
+        <select id="waveformSelect">
+          <option value="sine">sine</option>
+          <option value="square">square</option>
+          <option value="sawtooth" selected>sawtooth</option>
+          <option value="triangle">triangle</option>
+        </select>
+      </div>
+      <div class="param">
+        <label for="harmoRange">Additif (mix partiels)</label>
+        <input
+          id="harmoRange"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+        />
+      </div>
+      <div class="param">
+        <label for="fmRateRange">FM Rate (modulator freq)</label>
+        <input
+          id="fmRateRange"
+          type="range"
+          min="0.1"
+          max="20"
+          step="0.1"
+          value="2"
+        />
+      </div>
+      <div class="param">
+        <label for="fmDepthRange">FM Depth</label>
+        <input
+          id="fmDepthRange"
+          type="range"
+          min="0"
+          max="500"
+          step="1"
+          value="80"
+        />
+      </div>
+
+      <!-- Section Filtre + ADSR Filtre -->
+      <div class="param">
+        <label for="filterType">Type de filtre</label>
+        <select id="filterType">
+          <option value="lowpass" selected>lowpass</option>
+          <option value="highpass">highpass</option>
+          <option value="bandpass">bandpass</option>
+        </select>
+      </div>
+      <div class="param">
+        <label for="filterCutoffRange">Cutoff / Fréquence filtre</label>
+        <input
+          id="filterCutoffRange"
+          type="range"
+          min="100"
+          max="10000"
+          step="1"
+          value="800"
+        />
+      </div>
+      <div class="param">
+        <label for="filterQRange">Résonance (Q)</label>
+        <input
+          id="filterQRange"
+          type="range"
+          min="0"
+          max="20"
+          step="0.1"
+          value="1"
+        />
+      </div>
+      <div class="param">
+        <label for="filterEnvRange">Env. Filtre (ADSR) intensité</label>
+        <input
+          id="filterEnvRange"
+          type="range"
+          min="0"
+          max="5000"
+          step="10"
+          value="1000"
+        />
+      </div>
+
+      <!-- Section ADSR amplitude -->
+      <div class="param">
+        <label
+          >ADSR (Amplitude) – Attack / Decay / Sustain / Release
+          (secondes)</label
+        >
+        <div style="display: flex; gap: 4px">
+          <input
+            id="attackTime"
+            type="range"
+            min="0.01"
+            max="2"
+            step="0.01"
+            value="0.5"
+            style="width: 25%"
+          />
+          <input
+            id="decayTime"
+            type="range"
+            min="0.01"
+            max="2"
+            step="0.01"
+            value="0.5"
+            style="width: 25%"
+          />
+          <input
+            id="sustainLevel"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.7"
+            style="width: 25%"
+          />
+          <input
+            id="releaseTime"
+            type="range"
+            min="0.01"
+            max="3"
+            step="0.01"
+            value="1.0"
+            style="width: 25%"
+          />
+        </div>
+      </div>
+
+      <!-- Section Distorsion -->
+      <div class="param">
+        <label for="distortionRange">Distorsion</label>
+        <input
+          id="distortionRange"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+        />
+      </div>
+
+      <!-- Section Delay/Reverb improvisée -->
+      <div class="param">
+        <label for="delayRange">Espace (Delay/Feedback)</label>
+        <input
+          id="delayRange"
+          type="range"
+          min="0"
+          max="0.9"
+          step="0.01"
+          value="0.2"
+        />
+      </div>
+
+      <!-- Contrôle principal On/Off -->
+      <button class="button-start" id="startBtn">Démarrer</button>
+    </div>
+
+    <p class="note">
+      Jouez avec tous ces paramètres pour obtenir des textures variées, entre
+      <strong>additive</strong>, <strong>FM</strong>,
+      <strong>distorsion</strong> et <strong>filtrage paraphonique</strong>.
+      Accords / monophonie / polyphonie (jusqu’à 4 voix). Aucune ressource
+      externe !
+    </p>
+
+    <script>
+      /* ----------------------------------------------------------------------------
+           Variables globales
+        ---------------------------------------------------------------------------- */
+      let audioCtx;
+      let isPlaying = false;
+      let masterGain, filterNode, distortionNode, delayNode, feedbackGain;
+      let filterEnvNode; // enveloppe sur la fréquence du filtre
+
+      // Ensemble de “voix” : chaque voix = un objet { carrierOsc, modOsc, modGain, partialOscs[], partialMixGain, ampGain, ... }
+      const voices = [];
+      const MAX_VOICES = 4;
+
+      // Pour l’ADSR amplitude
+      let A = 0.5; // Attack
+      let D = 0.5; // Decay
+      let S = 0.7; // Sustain (gain)
+      let R = 1.0; // Release
+
+      // Pour l’Envelope Filtre
+      // On va moduler la freq du filtre par une enveloppe lors du (re)déclenchement
+      // “filterEnvIntensity” en Hz qu’on ajoute au cutoff quand l’enveloppe peak
+      let filterEnvIntensity = 1000;
+
+      // Quelques accords de base (en demi-tons, par rapport à la fondamentale)
+      const chordsMap = {
+        C: [0, 4, 7], // Do majeur
+        Cm: [0, 3, 7], // Do mineur
+        D: [2, 6, 9],
+        Dm: [2, 5, 9],
+        E: [4, 8, 11],
+        Em: [4, 7, 11],
+        G: [7, 11, 14],
+        Gm: [7, 10, 14],
+        A: [9, 13, 16],
+        Am: [9, 12, 16],
+      };
+
+      /* ----------------------------------------------------------------------------
+           Initialisation Audio : tout brancher
+        ---------------------------------------------------------------------------- */
+      function initAudio() {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Master
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.7;
+        masterGain.connect(audioCtx.destination);
+
+        // Filtre
+        filterNode = audioCtx.createBiquadFilter();
+        filterNode.type = "lowpass";
+        filterNode.frequency.value = 800; // sera modulé
+        filterNode.Q.value = 1;
+        filterNode.connect(masterGain);
+
+        // Enveloppe (on va s’en servir juste pour moduler la freq du filtre)
+        filterEnvNode = audioCtx.createGain();
+        filterEnvNode.gain.value = 0;
+        filterEnvNode.connect(filterNode.frequency);
+
+        // Distorsion (WaveShaper) – on place après la somme de toutes les voix
+        distortionNode = audioCtx.createWaveShaper();
+        distortionNode.oversample = "4x";
+        distortionNode.connect(filterNode);
+
+        // Delay + feedback => pseudo reverb
+        delayNode = audioCtx.createDelay(5.0);
+        delayNode.delayTime.value = 0.2;
+        feedbackGain = audioCtx.createGain();
+        feedbackGain.gain.value = 0.3;
+        delayNode.connect(feedbackGain).connect(delayNode);
+
+        const delayMix = audioCtx.createGain();
+        delayMix.gain.value = 0.3;
+        delayNode.connect(delayMix).connect(distortionNode);
+
+        // On crée un mix “sec” => distorsionNode
+        const preDistMix = audioCtx.createGain();
+        preDistMix.connect(distortionNode);
+
+        // On crée nos voix
+        for (let i = 0; i < MAX_VOICES; i++) {
+          const voice = createVoice();
+          // On connecte l’ampGain de la voix vers “preDistMix” (sec) ET “delayNode” (wet)
+          voice.ampGain.connect(preDistMix);
+          voice.ampGain.connect(delayNode);
+          voices.push(voice);
+        }
+      }
+
+      /* ----------------------------------------------------------------------------
+           Création d’une “voix” (carrier, modulator, partials, etc.)
+        ---------------------------------------------------------------------------- */
+      function createVoice() {
+        // Osc. principal (carrier)
+        const carrierOsc = audioCtx.createOscillator();
+        carrierOsc.type = "sawtooth";
+        carrierOsc.frequency.value = 220; // sera recalé
+
+        // Modulateur (FM)
+        const modOsc = audioCtx.createOscillator();
+        modOsc.type = "sine";
+        modOsc.frequency.value = 2; // slider
+
+        // Gain de mod
+        const modGain = audioCtx.createGain();
+        modGain.gain.value = 80; // slider fmDepth
+        modOsc.connect(modGain);
+        modGain.connect(carrierOsc.frequency);
+
+        // Partiels additifs
+        const partialOscs = [];
+        const baseFreqs = [1, 2, 3, 4]; // multipliers
+        baseFreqs.forEach(() => {
+          const o = audioCtx.createOscillator();
+          o.type = "sine";
+          o.frequency.value = 220; // on multipliera par X
+          partialOscs.push(o);
+        });
+
+        // Mix partiels => un gain
+        const partialMixGain = audioCtx.createGain();
+        partialMixGain.gain.value = 0.5; // slider harmo
+        partialOscs.forEach((po) => {
+          po.connect(partialMixGain);
+        });
+
+        // Somme => un sumGain
+        const sumGain = audioCtx.createGain();
+        carrierOsc.connect(sumGain);
+        partialMixGain.connect(sumGain);
+
+        // Amplitude finale (ADSR)
+        const ampGain = audioCtx.createGain();
+        ampGain.gain.value = 0;
+        sumGain.connect(ampGain);
+
+        // On démarre les oscillateurs
+        carrierOsc.start();
+        modOsc.start();
+        partialOscs.forEach((po) => po.start());
+
+        return {
+          carrierOsc,
+          modOsc,
+          modGain, // <-- on stocke pour pouvoir régler la FM Depth
+          partialOscs,
+          partialMixGain, // pour régler la quantité additive
+          ampGain, // pour ADSR amplitude
+          playing: false,
+        };
+      }
+
+      /* ----------------------------------------------------------------------------
+           Déclenche ou redéclenche l’enveloppe amplitude + enveloppe filtre
+        ---------------------------------------------------------------------------- */
+      function triggerEnvelope(voice) {
+        const now = audioCtx.currentTime;
+        const amp = voice.ampGain.gain;
+
+        // On coupe d’abord toute enveloppe en cours
+        amp.cancelScheduledValues(now);
+        amp.setValueAtTime(amp.value, now);
+
+        // Attack
+        amp.linearRampToValueAtTime(1.0, now + A);
+        // Decay vers S (sustain)
+        amp.linearRampToValueAtTime(S, now + A + D);
+
+        // De même pour la freq du filtre via filterEnvNode
+        const env = filterEnvNode.gain;
+        env.cancelScheduledValues(now);
+        env.setValueAtTime(0, now);
+        env.linearRampToValueAtTime(filterEnvIntensity, now + A); // pic pendant Attack
+        env.linearRampToValueAtTime(0, now + A + D); // redescend en Sustain
+      }
+
+      /* ----------------------------------------------------------------------------
+           Relâche l’enveloppe amplitude (Release)
+        ---------------------------------------------------------------------------- */
+      function releaseEnvelope(voice) {
+        const now = audioCtx.currentTime;
+        const amp = voice.ampGain.gain;
+        amp.cancelScheduledValues(now);
+        amp.setValueAtTime(amp.value, now);
+        amp.linearRampToValueAtTime(0, now + R);
+      }
+
+      /* ----------------------------------------------------------------------------
+           Mise à jour des paramètres en temps réel
+        ---------------------------------------------------------------------------- */
+      function updateParams() {
+        if (!audioCtx || !isPlaying) return;
+
+        const voiceCount = parseInt(
+          document.getElementById("voiceCount").value,
+          10,
+        );
+        const chordSelected = document.getElementById("chordSelect").value;
+        const waveForm = document.getElementById("waveformSelect").value;
+        const harmoVal = parseFloat(
+          document.getElementById("harmoRange").value,
+        );
+        const fmRate = parseFloat(document.getElementById("fmRateRange").value);
+        const fmDepth = parseFloat(
+          document.getElementById("fmDepthRange").value,
+        );
+
+        const fType = document.getElementById("filterType").value;
+        const fCutoff = parseFloat(
+          document.getElementById("filterCutoffRange").value,
+        );
+        const fQ = parseFloat(document.getElementById("filterQRange").value);
+        filterEnvIntensity = parseFloat(
+          document.getElementById("filterEnvRange").value,
+        );
+
+        // ADSR amplitude
+        A = parseFloat(document.getElementById("attackTime").value);
+        D = parseFloat(document.getElementById("decayTime").value);
+        S = parseFloat(document.getElementById("sustainLevel").value);
+        R = parseFloat(document.getElementById("releaseTime").value);
+
+        const distVal = parseFloat(
+          document.getElementById("distortionRange").value,
+        );
+        const delayVal = parseFloat(
+          document.getElementById("delayRange").value,
+        );
+
+        // Mettre à jour le filtre global
+        filterNode.type = fType;
+        filterNode.frequency.setTargetAtTime(
+          fCutoff,
+          audioCtx.currentTime,
+          0.01,
+        );
+        filterNode.Q.setTargetAtTime(fQ, audioCtx.currentTime, 0.01);
+
+        // Delay
+        delayNode.delayTime.setTargetAtTime(
+          0.05 + delayVal * 0.4,
+          audioCtx.currentTime,
+          0.02,
+        );
+        feedbackGain.gain.setTargetAtTime(delayVal, audioCtx.currentTime, 0.02);
+
+        // Distorsion waveShaper
+        distortionNode.curve = makeDistortionCurve(distVal * 600);
+
+        // Calcul de la fondamentale + intervalles
+        // On prend A = 220 Hz comme base (La) ; on applique l’accord choisi
+        const baseFreq = 220;
+        let intervals = chordsMap[chordSelected];
+        if (!intervals) {
+          intervals = [0];
+        }
+
+        // Activer/désactiver les voix
+        for (let i = 0; i < MAX_VOICES; i++) {
+          const voice = voices[i];
+          if (i < voiceCount) {
+            // On calcule la fréquence
+            const interval = intervals[i % intervals.length];
+            const freq = baseFreq * Math.pow(2, interval / 12);
+
+            // Applique tous les paramètres à la voix
+            setVoiceParameters(
+              voice,
+              waveForm,
+              freq,
+              fmRate,
+              fmDepth,
+              harmoVal,
+            );
+
+            // Si la voix était inactive, on la déclenche
+            if (!voice.playing) {
+              voice.playing = true;
+              triggerEnvelope(voice);
+            }
+          } else {
+            // Release si la voix était en cours
+            if (voice.playing) {
+              voice.playing = false;
+              releaseEnvelope(voice);
+            }
+          }
+        }
+      }
+
+      /* ----------------------------------------------------------------------------
+           Applique forme d’onde, freq, FM, additif, etc. sur une voix
+        ---------------------------------------------------------------------------- */
+      function setVoiceParameters(
+        voice,
+        waveForm,
+        freq,
+        fmRate,
+        fmDepth,
+        harmoVal,
+      ) {
+        // Carrier
+        voice.carrierOsc.type = waveForm;
+        voice.carrierOsc.frequency.setTargetAtTime(
+          freq,
+          audioCtx.currentTime,
+          0.02,
+        );
+
+        // Mod
+        voice.modOsc.frequency.setTargetAtTime(
+          fmRate,
+          audioCtx.currentTime,
+          0.02,
+        );
+        // Profondeur
+        voice.modGain.gain.setTargetAtTime(fmDepth, audioCtx.currentTime, 0.02);
+
+        // Partials (Additif)
+        voice.partialMixGain.gain.setTargetAtTime(
+          harmoVal,
+          audioCtx.currentTime,
+          0.02,
+        );
+        const baseFreqs = [1, 2, 3, 4];
+        voice.partialOscs.forEach((po, i) => {
+          po.frequency.setTargetAtTime(
+            freq * baseFreqs[i],
+            audioCtx.currentTime,
+            0.02,
+          );
+        });
+      }
+
+      /* ----------------------------------------------------------------------------
+           Distorsion : waveShaper
+        ---------------------------------------------------------------------------- */
+      function makeDistortionCurve(amount) {
+        // plus amount est grand, plus c’est distordu
+        const samples = 44100;
+        const curve = new Float32Array(samples);
+        const deg = Math.PI / 180;
+        for (let i = 0; i < samples; ++i) {
+          const x = (i * 2) / samples - 1;
+          curve[i] =
+            ((3 + amount) * x * 20 * deg) / (Math.PI + amount * Math.abs(x));
+        }
+        return curve;
+      }
+
+      /* ----------------------------------------------------------------------------
+           Écouteurs d’événements
+        ---------------------------------------------------------------------------- */
+      document.getElementById("startBtn").addEventListener("click", () => {
+        if (!isPlaying) {
+          if (!audioCtx) {
+            initAudio();
+          }
+          audioCtx.resume();
+          isPlaying = true;
+          document.getElementById("startBtn").textContent = "Arrêter";
+          updateParams(); // force un update immédiat
+        } else {
+          // Stop => on relâche toutes les voix
+          for (let v of voices) {
+            if (v.playing) {
+              v.playing = false;
+              releaseEnvelope(v);
+            }
+          }
+          isPlaying = false;
+          document.getElementById("startBtn").textContent = "Démarrer";
+        }
+      });
+
+      // Sur chaque changement, on update
+      const controls = [
+        "voiceCount",
+        "chordSelect",
+        "waveformSelect",
+        "harmoRange",
+        "fmRateRange",
+        "fmDepthRange",
+        "filterType",
+        "filterCutoffRange",
+        "filterQRange",
+        "filterEnvRange",
+        "attackTime",
+        "decayTime",
+        "sustainLevel",
+        "releaseTime",
+        "distortionRange",
+        "delayRange",
+      ];
+      controls.forEach((id) => {
+        document.getElementById(id).addEventListener("input", updateParams);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Synth Ultime — FM • Morphing • Reverb • Sequencer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <h1>Synth Ultime (Poly/Para/Mono + Morph + FM + Reverb + Sequencer)</h1>
+
+    <!-- SECTION 1 : Audio Master Controls -->
+    <div class="section">
+      <div class="param">
+        <label>Audio ON / OFF</label>
+        <button class="button-start" id="startBtn">Démarrer</button>
+      </div>
+      <div class="param">
+        <label>Master Volume</label>
+        <input
+          type="range"
+          id="masterVol"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.7"
+        />
+      </div>
+      <div class="param">
+        <label>Tempo (BPM)</label>
+        <input type="number" id="bpmInput" min="1" max="300" value="120" />
+      </div>
+      <div class="param">
+        <label>Loop Mode</label>
+        <select id="loopSelect">
+          <option value="once">One-Shot</option>
+          <option value="loop" selected>Loop</option>
+          <option value="reverse">Reverse</option>
+          <option value="bounce">Bounce</option>
+        </select>
+      </div>
+      <button class="button-small" id="seqPlayBtn">Lire Séquence</button>
+    </div>
+    <div class="param">
+      <button id="testNoteBtn">Test Note</button>
+    </div>
+
+    <!-- SECTION 2 : Oscillateurs, Morphing, FM -->
+    <div class="section">
+      <h3>Oscillateurs & Morphing</h3>
+      <div class="param">
+        <label>Waveform #1</label>
+        <select id="waveform1Select">
+          <option value="sine">Sine</option>
+          <option value="triangle">Triangle</option>
+          <option value="square">Square</option>
+          <option value="sawtooth" selected>Sawtooth</option>
+          <option value="pulse50">Pulse 50%</option>
+          <option value="pulse25">Pulse 25%</option>
+          <option value="customA">Custom A</option>
+          <option value="customB">Custom B</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Waveform #2</label>
+        <select id="waveform2Select">
+          <option value="sine" selected>Sine</option>
+          <option value="triangle">Triangle</option>
+          <option value="square">Square</option>
+          <option value="sawtooth">Sawtooth</option>
+          <option value="pulse50">Pulse 50%</option>
+          <option value="pulse25">Pulse 25%</option>
+          <option value="customA">Custom A</option>
+          <option value="customB">Custom B</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Morph Mix</label>
+        <input
+          id="morphRange"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+        />
+      </div>
+      <div class="param">
+        <label>FM Operators</label>
+        <input
+          id="fmOpsRange"
+          type="range"
+          min="1"
+          max="4"
+          step="1"
+          value="1"
+        />
+      </div>
+      <div class="param">
+        <label>FM Rate</label>
+        <input
+          id="fmRate"
+          type="range"
+          min="0.1"
+          max="40"
+          step="0.1"
+          value="2"
+        />
+      </div>
+      <div class="param">
+        <label>FM Depth</label>
+        <input
+          id="fmDepth"
+          type="range"
+          min="0"
+          max="800"
+          step="1"
+          value="80"
+        />
+      </div>
+      <div class="param">
+        <label>Additive Harmonics</label>
+        <input
+          id="harmonicsRange"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+        />
+      </div>
+    </div>
+
+    <!-- SECTION 3 : Effets, Filtres, Bruit -->
+    <div class="section">
+      <h3>Effets & Routing</h3>
+      <div class="param">
+        <label>Type de Filtre (Principal A)</label>
+        <select id="filterTypeA">
+          <option value="lowpass" selected>Lowpass</option>
+          <option value="highpass">Highpass</option>
+          <option value="bandpass">Bandpass</option>
+          <option value="notch">BandReject</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Cutoff A</label>
+        <input
+          id="filterCutoffA"
+          type="range"
+          min="80"
+          max="15000"
+          step="1"
+          value="800"
+        />
+      </div>
+      <div class="param">
+        <label>Resonance (Q) A</label>
+        <input
+          id="filterQA"
+          type="range"
+          min="0"
+          max="20"
+          step="0.1"
+          value="1"
+        />
+      </div>
+      <div class="param">
+        <label>Env Depth A</label>
+        <input
+          id="filterEnvDepthA"
+          type="range"
+          min="0"
+          max="5000"
+          step="10"
+          value="1000"
+        />
+      </div>
+
+      <div class="param">
+        <label>2nd Filtre / Routing</label>
+        <select id="filterTypeB">
+          <option value="off">-- Off --</option>
+          <option value="lowpass">Lowpass</option>
+          <option value="highpass">Highpass</option>
+          <option value="bandpass">Bandpass</option>
+          <option value="notch">BandReject</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Cutoff B</label>
+        <input
+          id="filterCutoffB"
+          type="range"
+          min="50"
+          max="15000"
+          step="1"
+          value="2000"
+        />
+      </div>
+      <div class="param">
+        <label>Q B</label>
+        <input
+          id="filterQB"
+          type="range"
+          min="0"
+          max="20"
+          step="0.1"
+          value="0.5"
+        />
+      </div>
+      <div class="param">
+        <label>Env Depth B</label>
+        <input
+          id="filterEnvDepthB"
+          type="range"
+          min="0"
+          max="5000"
+          step="10"
+          value="0"
+        />
+      </div>
+      <div class="param">
+        <label>Routing (Série / Parallèle)</label>
+        <select id="filtersRouting">
+          <option value="series" selected>Series</option>
+          <option value="parallel">Parallel</option>
+        </select>
+      </div>
+
+      <h4>Bruit & Distorsion</h4>
+      <div class="param">
+        <label>Noise Type</label>
+        <select id="noiseType">
+          <option value="off" selected>Aucun</option>
+          <option value="white">White</option>
+          <option value="pink">Pink</option>
+          <option value="brown">Brown</option>
+          <option value="canette">Canette</option>
+          <option value="spray">Spray</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Noise Level</label>
+        <input
+          id="noiseGain"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+        />
+      </div>
+      <div class="param">
+        <label>Dist Amount</label>
+        <input
+          id="distAmount"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+        />
+      </div>
+
+      <h4>Delay / Reverb / Pan</h4>
+      <div class="param">
+        <label>Delay Feedback</label>
+        <input
+          id="delayRange"
+          type="range"
+          min="0"
+          max="0.9"
+          step="0.01"
+          value="0.2"
+        />
+      </div>
+      <div class="param">
+        <label>Reverb Decay</label>
+        <input
+          id="reverbDecay"
+          type="range"
+          min="0.1"
+          max="5"
+          step="0.1"
+          value="2"
+        />
+      </div>
+      <div class="param">
+        <label>Reverb Mix</label>
+        <input
+          id="reverbWet"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+        />
+      </div>
+      <div class="param">
+        <label>Pan</label>
+        <input
+          id="panRange"
+          type="range"
+          min="-1"
+          max="1"
+          step="0.01"
+          value="0"
+        />
+      </div>
+    </div>
+
+    <!-- SECTION 4 : Enveloppes, LFO, Polyphonie -->
+    <div class="section">
+      <h3>Amplitude ADSR</h3>
+      <div class="param">
+        <label>Attack / Decay / Sustain / Release</label>
+        <div style="display: flex; gap: 4px">
+          <input
+            id="attackTime"
+            type="range"
+            min="0.01"
+            max="3"
+            step="0.01"
+            value="0.5"
+            style="width: 25%"
+          />
+          <input
+            id="decayTime"
+            type="range"
+            min="0.01"
+            max="3"
+            step="0.01"
+            value="0.5"
+            style="width: 25%"
+          />
+          <input
+            id="sustainLevel"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.7"
+            style="width: 25%"
+          />
+          <input
+            id="releaseTime"
+            type="range"
+            min="0.01"
+            max="5"
+            step="0.01"
+            value="1.0"
+            style="width: 25%"
+          />
+        </div>
+      </div>
+
+      <h3>LFO & Modulations</h3>
+      <div class="param">
+        <label>LFO Rate</label>
+        <input
+          id="lfoRate"
+          type="range"
+          min="0.1"
+          max="20"
+          step="0.1"
+          value="2"
+        />
+      </div>
+      <div class="param">
+        <label>LFO Depth</label>
+        <input
+          id="lfoDepth"
+          type="range"
+          min="0"
+          max="500"
+          step="1"
+          value="50"
+        />
+      </div>
+      <div class="param">
+        <label>LFO Waveform</label>
+        <select id="lfoWave">
+          <option value="sine" selected>Sine</option>
+          <option value="triangle">Triangle</option>
+          <option value="square">Square</option>
+          <option value="sawtooth">Sawtooth</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>LFO Target</label>
+        <select id="lfoTarget">
+          <option value="none" selected>None</option>
+          <option value="filterCutoff">Filter</option>
+          <option value="pan">Pan</option>
+          <option value="fmDepth">FM Depth</option>
+          <option value="pitch">Pitch</option>
+          <option value="morph">Morph</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Poly Mode (1..8)</label>
+        <input
+          id="voiceCount"
+          type="range"
+          min="1"
+          max="8"
+          step="1"
+          value="1"
+        />
+      </div>
+      <div class="param">
+        <label>Mono/Para/Poly</label>
+        <select id="polyModeSelect">
+          <option value="mono">Mono</option>
+          <option value="para" selected>Paraphonic</option>
+          <option value="poly">Polyphonic</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Accord (chord)</label>
+        <select id="chordSelect">
+          <option value="C" selected>C Maj</option>
+          <option value="Cm">C Min</option>
+          <option value="G">G</option>
+          <option value="F">F</option>
+          <option value="Am">A Min</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Transposition (semi-tons)</label>
+        <input
+          id="pitchTranspose"
+          type="range"
+          min="-24"
+          max="24"
+          step="1"
+          value="0"
+        />
+      </div>
+      <div class="param">
+        <label>Octave</label>
+        <input
+          id="octaveRange"
+          type="range"
+          min="-2"
+          max="3"
+          step="1"
+          value="0"
+        />
+      </div>
+      <div class="param">
+        <label>Stéréo Spread</label>
+        <input
+          id="stereoSpread"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+        />
+      </div>
+    </div>
+
+    <!-- SECTION 5 : Séquenceur -->
+    <div class="section">
+      <h3>Séquenceur (8 pas)</h3>
+      <p class="note">
+        Chaque pas définit la hauteur (en demi-tons), la durée (multiples de
+        double-croche) et l'activation.<br />
+        Modes loop, reverse ou bounce étendent les possibilités.
+      </p>
+      <div class="seq-steps" id="seqStepsContainer"></div>
+    </div>
+
+    <!-- UI Modulaire -->
+    <div id="synth-ui"></div>
+
+    <p class="note">
+      Un synthétiseur modulaire HTML5/JS — FM avancée, morphing spectral, deux
+      filtres configurables, bruit, distorsion, reverb, delay, enveloppes sur
+      amplitude et sur filtres, multi-LFO, polyphonie jusqu'à 8 voix, stéréo
+      spread, et séquenceur intelligent.
+    </p>
+
+    <!-- Scripts en modules -->
+    <script type="module" src="assets/js/audio/initAudio.js"></script>
+    <script type="module" src="assets/js/audio/reverbHelper.js"></script>
+    <script type="module" src="assets/js/audio/envelopes.js"></script>
+    <script type="module" src="assets/js/audio/lfoUtils.js"></script>
+    <script type="module" src="assets/js/audio/morphingUtils.js"></script>
+    <script type="module" src="assets/js/audio/distortionUtils.js"></script>
+    <script type="module" src="assets/js/audio/updateAllParams.js"></script>
+    <script type="module" src="assets/js/sequencer/initSequencerUI.js"></script>
+    <script type="module" src="assets/js/sequencer/playSequence.js"></script>
+    <script type="module" src="assets/js/main.js"></script>
+  </body>
+</html>

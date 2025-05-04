@@ -1,0 +1,1135 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      Synth Nappes Avancées — Additive • Substractive • FM • Polyphonie
+    </title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background: #222;
+        color: #ddd;
+        margin: 0;
+        padding: 0;
+      }
+      h1,
+      h2 {
+        text-align: center;
+        margin: 10px 0;
+      }
+      h1 {
+        font-size: 1.6em;
+      }
+      h2 {
+        font-size: 1.3em;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+      .section {
+        background: #333;
+        padding: 1rem;
+        border-radius: 5px;
+        min-width: 300px;
+        flex: 1 1 300px;
+      }
+      .param {
+        margin: 0.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .param label {
+        flex: 1 1 auto;
+        font-size: 0.85rem;
+      }
+      .param input[type="range"],
+      .param select {
+        flex: 1 1 auto;
+      }
+      button {
+        cursor: pointer;
+        background: #555;
+        border: 1px solid #999;
+        color: #fff;
+        padding: 0.3rem 0.6rem;
+        border-radius: 3px;
+      }
+      button:hover {
+        background: #444;
+      }
+      small {
+        color: #bbb;
+        display: inline-block;
+        margin-top: 0.3rem;
+      }
+      .inline {
+        display: inline-flex;
+        gap: 0.5rem;
+      }
+      .inline input[type="range"] {
+        width: 5em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Super Synth Nappes FM / Additive / Substractive</h1>
+
+    <div class="container">
+      <!-- Contrôles globaux et démarrage audio -->
+      <div class="section">
+        <h2>Audio Master</h2>
+        <div class="param">
+          <label>Démarrer / Arrêter</label>
+          <button id="audioToggleBtn">Démarrer Audio</button>
+        </div>
+        <div class="param">
+          <label>Volume Master</label>
+          <input
+            id="masterGain"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.8"
+          />
+        </div>
+        <div class="param">
+          <label>Mode Voix</label>
+          <select id="voiceMode">
+            <option value="mono">Monophonique</option>
+            <option value="para">Paraphonique</option>
+            <option value="poly" selected>Polyphonique (jusqu’à 8)</option>
+          </select>
+        </div>
+        <div class="param">
+          <label>Nombre de voix</label>
+          <input
+            id="voiceCount"
+            type="range"
+            min="1"
+            max="8"
+            step="1"
+            value="4"
+          />
+        </div>
+        <div class="param">
+          <label>Octave</label>
+          <input id="octave" type="range" min="-2" max="2" step="1" value="0" />
+        </div>
+      </div>
+
+      <!-- Section Oscillateurs et Morphing -->
+      <div class="section">
+        <h2>Oscillateurs & Morphing</h2>
+        <div class="param">
+          <label>Table d’onde #1</label>
+          <select id="wave1">
+            <option value="sine">Sine</option>
+            <option value="triangle">Triangle</option>
+            <option value="square">Square</option>
+            <option value="sawtooth">Saw</option>
+            <option value="pulse25">Pulse25%</option>
+            <option value="pulse50">Pulse50%</option>
+            <option value="customA" selected>Custom A</option>
+          </select>
+        </div>
+        <div class="param">
+          <label>Table d’onde #2</label>
+          <select id="wave2">
+            <option value="sine">Sine</option>
+            <option value="triangle" selected>Triangle</option>
+            <option value="square">Square</option>
+            <option value="sawtooth">Saw</option>
+            <option value="pulse25">Pulse25%</option>
+            <option value="pulse50">Pulse50%</option>
+            <option value="customB">Custom B</option>
+          </select>
+        </div>
+        <div class="param">
+          <label>Morph Mix</label>
+          <input
+            id="morphMix"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0"
+          />
+        </div>
+        <div class="param">
+          <label>Ajout Harmonique (Additive)</label>
+          <input
+            id="additiveAmount"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.3"
+          />
+        </div>
+        <div class="param">
+          <label>Op. FM (max 4)</label>
+          <input
+            id="fmOperators"
+            type="range"
+            min="1"
+            max="4"
+            step="1"
+            value="2"
+          />
+        </div>
+        <div class="param inline">
+          <label>FM Rate/Depth</label>
+          <input
+            id="fmRate"
+            type="range"
+            min="0.1"
+            max="30"
+            step="0.1"
+            value="5"
+          />
+          <input
+            id="fmDepth"
+            type="range"
+            min="0"
+            max="1000"
+            step="1"
+            value="150"
+          />
+        </div>
+      </div>
+
+      <!-- Section Filtres (Série / Parallèle), type Band-Reject -->
+      <div class="section">
+        <h2>Filtres</h2>
+        <div class="param">
+          <label>Routing Filtres</label>
+          <select id="filterRouting">
+            <option value="series" selected>Série</option>
+            <option value="parallel">Parallèle</option>
+          </select>
+        </div>
+        <div class="param inline">
+          <label>Filtre A Type</label>
+          <select id="filterAType">
+            <option value="lowpass" selected>Lowpass</option>
+            <option value="highpass">Highpass</option>
+            <option value="bandpass">Bandpass</option>
+            <option value="notch">Band Reject</option>
+          </select>
+          <label>Cut</label>
+          <input
+            id="filterACutoff"
+            type="range"
+            min="50"
+            max="12000"
+            step="1"
+            value="800"
+          />
+        </div>
+        <div class="param inline">
+          <label>Q</label>
+          <input
+            id="filterARes"
+            type="range"
+            min="0"
+            max="20"
+            step="0.1"
+            value="1"
+          />
+          <label>Env</label>
+          <input
+            id="filterAEnv"
+            type="range"
+            min="0"
+            max="4000"
+            step="10"
+            value="800"
+          />
+        </div>
+        <hr />
+        <div class="param inline">
+          <label>Filtre B Type</label>
+          <select id="filterBType">
+            <option value="lowpass">Lowpass</option>
+            <option value="highpass" selected>Highpass</option>
+            <option value="bandpass">Bandpass</option>
+            <option value="notch">Band Reject</option>
+          </select>
+          <label>Cut</label>
+          <input
+            id="filterBCutoff"
+            type="range"
+            min="50"
+            max="12000"
+            step="1"
+            value="2000"
+          />
+        </div>
+        <div class="param inline">
+          <label>Q</label>
+          <input
+            id="filterBRes"
+            type="range"
+            min="0"
+            max="20"
+            step="0.1"
+            value="0.5"
+          />
+          <label>Env</label>
+          <input
+            id="filterBEnv"
+            type="range"
+            min="0"
+            max="4000"
+            step="10"
+            value="0"
+          />
+        </div>
+      </div>
+
+      <!-- Section Bruits et enveloppes filtrées -->
+      <div class="section">
+        <h2>Bruits & Couche FX</h2>
+        <div class="param">
+          <label>Type de Bruit</label>
+          <select id="noiseType">
+            <option value="off">Aucun</option>
+            <option value="white" selected>Blanc</option>
+            <option value="pink">Rose</option>
+            <option value="brown">Brun</option>
+            <option value="canette">“Canette”</option>
+            <option value="spray">“Spray”</option>
+          </select>
+        </div>
+        <div class="param">
+          <label>Niveau Bruit</label>
+          <input
+            id="noiseGain"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.2"
+          />
+        </div>
+        <div class="param inline">
+          <label>Distorsion</label>
+          <input
+            id="distAmount"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0"
+          />
+          <label>Drive</label>
+          <input
+            id="distDrive"
+            type="range"
+            min="1"
+            max="50"
+            step="1"
+            value="1"
+          />
+        </div>
+        <div class="param inline">
+          <label>Reverb Mix</label>
+          <input
+            id="reverbMix"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.1"
+          />
+          <label>Decay</label>
+          <input
+            id="reverbDecay"
+            type="range"
+            min="0.2"
+            max="10"
+            step="0.1"
+            value="3"
+          />
+        </div>
+        <div class="param">
+          <label>Delay Feedback</label>
+          <input
+            id="delayFeedback"
+            type="range"
+            min="0"
+            max="0.9"
+            step="0.01"
+            value="0.2"
+          />
+        </div>
+      </div>
+
+      <!-- Section ADSR, LFO, modulations -->
+      <div class="section">
+        <h2>Enveloppes & LFO</h2>
+        <div class="param inline">
+          <label>ADSR Amp</label>
+          <input
+            id="ampA"
+            type="range"
+            min="0.001"
+            max="2"
+            step="0.001"
+            value="0.2"
+          />
+          <input
+            id="ampD"
+            type="range"
+            min="0.001"
+            max="2"
+            step="0.001"
+            value="0.5"
+          />
+          <input
+            id="ampS"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.8"
+          />
+          <input
+            id="ampR"
+            type="range"
+            min="0.001"
+            max="3"
+            step="0.001"
+            value="1"
+          />
+        </div>
+        <small>Attack / Decay / Sustain / Release</small>
+        <div class="param inline">
+          <label>LFO Rate</label>
+          <input
+            id="lfoRate"
+            type="range"
+            min="0.1"
+            max="20"
+            step="0.1"
+            value="2"
+          />
+          <label>Depth</label>
+          <input
+            id="lfoDepth"
+            type="range"
+            min="0"
+            max="2000"
+            step="1"
+            value="50"
+          />
+        </div>
+        <div class="param">
+          <label>Forme LFO</label>
+          <select id="lfoWave">
+            <option value="sine" selected>Sine</option>
+            <option value="triangle">Triangle</option>
+            <option value="square">Square</option>
+            <option value="sawtooth">Saw</option>
+          </select>
+        </div>
+        <div class="param">
+          <label>Cible LFO</label>
+          <select id="lfoTarget">
+            <option value="pitch">Pitch</option>
+            <option value="fmDepth">FM Depth</option>
+            <option value="filterCutoff">FilterCutoff</option>
+            <option value="morphMix" selected>Morph</option>
+            <option value="panning">Panning</option>
+          </select>
+        </div>
+        <div class="param">
+          <label>Matrice Mod (Ex. 10 slots possibles)</label>
+          <small>(Démo simple ci-dessous, “dur” dans code)</small>
+        </div>
+        <!-- On pourrait imaginer un petit tableau paramétrable ici. Ommis pour la démo. -->
+      </div>
+    </div>
+
+    <!-- Scripts : tout-en-un -->
+    <script>
+      /* ---------------------------------------------------------------------------------------
+   1) Initialisation Web Audio
+---------------------------------------------------------------------------------------- */
+      let audioCtx;
+      let masterOut;
+      let reverbNode;
+      let delayNode;
+      let distNode;
+      let noiseSource; // Bruit global
+      let noiseGainNode;
+      let voicePool = []; // Chaque voix contiendra : {oscillators:[], filterA, filterB, ampEnv, ...}
+      let isAudioStarted = false;
+
+      // Contrôles DOM
+      const btnToggle = document.getElementById("audioToggleBtn");
+      const masterGainCtrl = document.getElementById("masterGain");
+      const voiceModeCtrl = document.getElementById("voiceMode");
+      const voiceCountCtrl = document.getElementById("voiceCount");
+      const octaveCtrl = document.getElementById("octave");
+
+      // Waves
+      const wave1Ctrl = document.getElementById("wave1");
+      const wave2Ctrl = document.getElementById("wave2");
+      const morphCtrl = document.getElementById("morphMix");
+      const addCtrl = document.getElementById("additiveAmount");
+      const fmOpsCtrl = document.getElementById("fmOperators");
+      const fmRateCtrl = document.getElementById("fmRate");
+      const fmDepthCtrl = document.getElementById("fmDepth");
+
+      // Filtres
+      const filterRoutingCtrl = document.getElementById("filterRouting");
+      const fATypeCtrl = document.getElementById("filterAType");
+      const fACutCtrl = document.getElementById("filterACutoff");
+      const fAResCtrl = document.getElementById("filterARes");
+      const fAEnvCtrl = document.getElementById("filterAEnv");
+
+      const fBTypeCtrl = document.getElementById("filterBType");
+      const fBCutCtrl = document.getElementById("filterBCutoff");
+      const fBResCtrl = document.getElementById("filterBRes");
+      const fBEnvCtrl = document.getElementById("filterBEnv");
+
+      // Bruit & FX
+      const noiseTypeCtrl = document.getElementById("noiseType");
+      const noiseGainCtrl = document.getElementById("noiseGain");
+      const distAmtCtrl = document.getElementById("distAmount");
+      const distDrvCtrl = document.getElementById("distDrive");
+      const revMixCtrl = document.getElementById("reverbMix");
+      const revDecayCtrl = document.getElementById("reverbDecay");
+      const delFbkCtrl = document.getElementById("delayFeedback");
+
+      // ADSR
+      const ampA = document.getElementById("ampA");
+      const ampD = document.getElementById("ampD");
+      const ampS = document.getElementById("ampS");
+      const ampR = document.getElementById("ampR");
+
+      // LFO
+      const lfoRateCtrl = document.getElementById("lfoRate");
+      const lfoDepthCtrl = document.getElementById("lfoDepth");
+      const lfoWaveCtrl = document.getElementById("lfoWave");
+      const lfoTargetCtrl = document.getElementById("lfoTarget");
+
+      // On stocke un LFO global de démo, appliqué sur la synth (selon la cible).
+      let globalLFO, globalLFONode, globalLFODepthGain;
+
+      /* ---------------------------------------------------------------------------------------
+   2) Création / Destruction Audio
+---------------------------------------------------------------------------------------- */
+      function initAudio() {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        masterOut = audioCtx.createGain();
+        masterOut.connect(audioCtx.destination);
+
+        // Reverb par Convolver “virtuel” ou par script, ici on fait un petit node dynamic
+        reverbNode = audioCtx.createConvolver();
+        // On va générer une impulsion basique (bruit decays) à la volée
+        reverbNode.buffer = buildReverbImpulse(3); // 3s par défaut
+
+        let reverbGain = audioCtx.createGain();
+        reverbGain.gain.value = parseFloat(revMixCtrl.value);
+
+        reverbNode.connect(reverbGain).connect(masterOut);
+
+        // Delay
+        delayNode = audioCtx.createDelay(5.0);
+        delayNode.delayTime.value = 0.3;
+        let delayFeedbackGain = audioCtx.createGain();
+        delayFeedbackGain.gain.value = parseFloat(delFbkCtrl.value);
+        delayNode.connect(delayFeedbackGain).connect(delayNode);
+        // On mélange le delay dans le master et dans le reverb
+        delayNode.connect(masterOut);
+        delayNode.connect(reverbNode);
+
+        // Distorsion
+        distNode = audioCtx.createWaveShaper();
+        distNode.curve = makeDistortionCurve(
+          distAmtCtrl.value,
+          distDrvCtrl.value,
+        );
+
+        // Connect dist -> delay
+        distNode.connect(delayNode);
+
+        // Master volume
+        masterOut.gain.value = parseFloat(masterGainCtrl.value);
+
+        // Bruit
+        noiseGainNode = audioCtx.createGain();
+        noiseGainNode.gain.value = parseFloat(noiseGainCtrl.value);
+        noiseGainNode.connect(distNode);
+
+        createNoise(noiseTypeCtrl.value); // On crée la noiseSource + connect
+
+        // LFO global
+        globalLFO = audioCtx.createOscillator();
+        globalLFONode = audioCtx.createGain();
+        globalLFO.type = lfoWaveCtrl.value;
+        globalLFO.frequency.value = parseFloat(lfoRateCtrl.value);
+        globalLFONode.gain.value = parseFloat(lfoDepthCtrl.value);
+        globalLFO.connect(globalLFONode);
+        globalLFO.start();
+
+        // On crée un “modDepthNode” par param. Ex : on branchera sur FM Depth ou sur morphMix etc.
+        // Simplifié : on fera un setInterval pour lire la valeur LFO.
+        globalLFODepthGain = globalLFONode;
+        // On n'a pas de param direct : on pilotera dans un updatePeriodique().
+
+        // Créer un ensemble de voix
+        let nbVoix = parseInt(voiceCountCtrl.value);
+        createVoices(nbVoix);
+
+        isAudioStarted = true;
+      }
+
+      function createVoices(n) {
+        destroyAllVoices(); // reset
+        for (let i = 0; i < n; i++) {
+          let voice = createSingleVoice();
+          voicePool.push(voice);
+        }
+      }
+
+      function createSingleVoice() {
+        // On crée deux filtres, un panner, un enveloppe d’amplitude, etc.
+        let voice = {};
+
+        // Filtres
+        voice.filterA = audioCtx.createBiquadFilter();
+        voice.filterB = audioCtx.createBiquadFilter();
+        voice.filterA.type =
+          fATypeCtrl.value === "notch" ? "notch" : fATypeCtrl.value;
+        voice.filterB.type =
+          fBTypeCtrl.value === "notch" ? "notch" : fBTypeCtrl.value;
+
+        // Enveloppe amplitude (en node param)
+        voice.ampEnvGain = audioCtx.createGain();
+        voice.ampEnvGain.gain.value = 0;
+
+        // Chaînage : oscillator(s) -> filter(s) -> dist -> delay -> ...
+        // Mais on a un param pour le routing des 2 filtres (série ou parallèle).
+        if (filterRoutingCtrl.value === "series") {
+          voice.filterA.connect(voice.filterB).connect(voice.ampEnvGain);
+        } else {
+          // parallèle => on crée un merger… plus simple : on duplique
+          let gainA = audioCtx.createGain();
+          let gainB = audioCtx.createGain();
+          voice.filterA.connect(gainA);
+          voice.filterB.connect(gainB);
+          gainA.connect(voice.ampEnvGain);
+          gainB.connect(voice.ampEnvGain);
+        }
+
+        voice.ampEnvGain.connect(distNode);
+
+        return voice;
+      }
+
+      function destroyAllVoices() {
+        voicePool.forEach((v) => {
+          // Arrêter si needed
+          if (v.oscillators) {
+            v.oscillators.forEach((o) => o.stop());
+          }
+        });
+        voicePool = [];
+      }
+
+      function stopAudio() {
+        if (!isAudioStarted) return;
+        // Arrêter tout
+        destroyAllVoices();
+        if (globalLFO) globalLFO.stop();
+        if (noiseSource) noiseSource.disconnect();
+        if (audioCtx) audioCtx.close();
+        audioCtx = null;
+        isAudioStarted = false;
+      }
+
+      /* ---------------------------------------------------------------------------------------
+   3) Logic Nappes - Jouer/Relâcher
+   Ici, on fait un “drone” simple : chaque voix est tenue, on applique l’enveloppe
+   On pourrait aussi déclencher noteOn/noteOff sur events. 
+---------------------------------------------------------------------------------------- */
+      let isDroneOn = false;
+      function startDrone() {
+        if (!isDroneOn) {
+          // On relance la création des oscillateurs dans chaque voix
+          for (let v of voicePool) {
+            buildOscillatorsForVoice(v);
+            triggerEnv(v, true); // Attack
+          }
+          isDroneOn = true;
+        }
+      }
+      function stopDrone() {
+        if (isDroneOn) {
+          // On relâche enveloppe
+          for (let v of voicePool) {
+            triggerEnv(v, false);
+          }
+          isDroneOn = false;
+        }
+      }
+
+      function buildOscillatorsForVoice(v) {
+        // On arrête d’éventuels existants
+        if (v.oscillators) {
+          v.oscillators.forEach((o) => {
+            try {
+              o.stop();
+            } catch {}
+          });
+        }
+        v.oscillators = [];
+
+        let voiceMode = voiceModeCtrl.value;
+        let baseFreq = 220.0; // la base, A3 environ
+        let octaveShift = parseInt(octaveCtrl.value);
+        baseFreq *= Math.pow(2, octaveShift); // shift global
+
+        // On gère la polyphonie en “accord” => On peut décaler un peu la freq de chaque voix
+        // ex: – Pour la démo, on décale un microton en plus ou moins
+        let offset = Math.random() * 6 - 3; // +/- 3 demi-tons
+        if (voiceMode === "mono") offset = 0;
+
+        let freq = baseFreq * Math.pow(2, offset / 12);
+
+        // On va créer un ensemble d’oscillateurs qui gèrent :
+        // - morph : un crossfade entre 2 waveforms
+        // - additive (quelques partiels)
+        // - FM
+
+        // Simplifié : on crée 1 “carrier”, 1 “FM mod” (ou plus selon fmOpsCtrl),
+        // plus 2 oscillateurs “harmonics”.
+
+        // Carrier
+        let carrier = audioCtx.createOscillator();
+        carrier.frequency.value = freq;
+        // On stocke dans v pour MAJ
+        v.carrier = carrier;
+
+        // Wavetables custom ? On fait un standard.
+        let wave1 = wave1Ctrl.value;
+        let wave2 = wave2Ctrl.value;
+        carrier.type = wave1; // On ajustera plus tard un morph “manuel” via setPeriodicWave si besoin
+
+        // On connecte carrier -> filter(s)
+        carrier.connect(v.filterA);
+
+        // 1er mod FM
+        let modOsc = audioCtx.createOscillator();
+        modOsc.type = "sine";
+        let modGain = audioCtx.createGain();
+        let fmIndex = parseFloat(fmDepthCtrl.value);
+        modGain.gain.value = fmIndex;
+        modOsc.connect(modGain);
+        modGain.connect(carrier.frequency);
+
+        // On duplique si fmOperators > 1
+        let fmOps = parseInt(fmOpsCtrl.value);
+        for (let i = 2; i <= fmOps; i++) {
+          let mo = audioCtx.createOscillator();
+          mo.type = "sine";
+          let mg = audioCtx.createGain();
+          mg.gain.value = fmIndex / (i * 1.2);
+          mo.connect(mg);
+          mg.connect(carrier.frequency);
+          mo.frequency.value = parseFloat(fmRateCtrl.value) * i;
+          mo.start();
+          v.oscillators.push(mo);
+        }
+
+        // Additive partial
+        let addOsc = audioCtx.createOscillator();
+        addOsc.type = wave2; // param 2
+        addOsc.frequency.value = freq * 2; // 2e harmonique
+        let addGain = audioCtx.createGain();
+        addGain.gain.value = parseFloat(addCtrl.value) * 0.5;
+        addOsc.connect(addGain).connect(v.filterA);
+
+        let addOsc2 = audioCtx.createOscillator();
+        addOsc2.type = wave2;
+        addOsc2.frequency.value = freq * 3;
+        let addGain2 = audioCtx.createGain();
+        addGain2.gain.value = parseFloat(addCtrl.value) * 0.3;
+        addOsc2.connect(addGain2).connect(v.filterA);
+
+        // On lance
+        carrier.start();
+        modOsc.start();
+        addOsc.start();
+        addOsc2.start();
+
+        v.oscillators.push(carrier, modOsc, addOsc, addOsc2);
+      }
+
+      /* ---------------------------------------------------------------------------------------
+   4) Enveloppes
+---------------------------------------------------------------------------------------- */
+      function triggerEnv(voice, isNoteOn) {
+        // Attack / Decay / Sustain / Release => ampA, ampD, ampS, ampR
+        let now = audioCtx.currentTime;
+        let A = parseFloat(ampA.value);
+        let D = parseFloat(ampD.value);
+        let S = parseFloat(ampS.value);
+        let R = parseFloat(ampR.value);
+
+        let fAEnv = parseFloat(fAEnvCtrl.value);
+        let fBEnv = parseFloat(fBEnvCtrl.value);
+
+        let filterA = voice.filterA;
+        let filterB = voice.filterB;
+        let ampGain = voice.ampEnvGain.gain;
+
+        filterA.frequency.cancelScheduledValues(now);
+        filterB.frequency.cancelScheduledValues(now);
+        ampGain.cancelScheduledValues(now);
+
+        if (isNoteOn) {
+          // Attack
+          ampGain.setValueAtTime(0, now);
+          ampGain.linearRampToValueAtTime(1.0 * S, now + A + D);
+
+          // Filtres
+          let baseCutA = parseFloat(fACutCtrl.value);
+          let baseCutB = parseFloat(fBCutCtrl.value);
+
+          filterA.frequency.setValueAtTime(baseCutA, now);
+          filterA.frequency.linearRampToValueAtTime(baseCutA + fAEnv, now + A);
+
+          filterB.frequency.setValueAtTime(baseCutB, now);
+          filterB.frequency.linearRampToValueAtTime(baseCutB + fBEnv, now + A);
+        } else {
+          // Release
+          ampGain.setValueAtTime(ampGain.value, now);
+          ampGain.linearRampToValueAtTime(0, now + R);
+
+          filterA.frequency.setValueAtTime(filterA.frequency.value, now);
+          filterA.frequency.linearRampToValueAtTime(
+            parseFloat(fACutCtrl.value),
+            now + R,
+          );
+
+          filterB.frequency.setValueAtTime(filterB.frequency.value, now);
+          filterB.frequency.linearRampToValueAtTime(
+            parseFloat(fBCutCtrl.value),
+            now + R,
+          );
+        }
+      }
+
+      /* ---------------------------------------------------------------------------------------
+   5) Génération du bruit
+---------------------------------------------------------------------------------------- */
+      function createNoise(type) {
+        if (noiseSource) {
+          noiseSource.stop();
+          noiseSource.disconnect();
+          noiseSource = null;
+        }
+        if (type === "off") return;
+
+        // On va créer un AudioBuffer de bruit
+        let bufferSize = 2 * audioCtx.sampleRate;
+        let noiseBuffer = audioCtx.createBuffer(
+          1,
+          bufferSize,
+          audioCtx.sampleRate,
+        );
+        let output = noiseBuffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          let rand = Math.random() * 2 - 1; // bruit blanc de base
+          switch (type) {
+            case "white":
+              output[i] = rand;
+              break;
+            case "pink":
+              // Quick and dirty pink
+              // Pink noise approximation
+              output[i] = (output[i - 1] || 0) * 0.98 + rand * 0.3;
+              break;
+            case "brown":
+              // Brown noise approximation
+              output[i] = (output[i - 1] || 0) + rand * 0.02;
+              break;
+            case "canette":
+              // On bacle un bruit plus métallique
+              output[i] = rand * (i % 50 < 25 ? 1 : -1);
+              break;
+            case "spray":
+              // Variation plus "gaussian"
+              let r1 = Math.random() * 2 - 1;
+              let r2 = Math.random() * 2 - 1;
+              output[i] = (rand + r1 + r2) / 3;
+              break;
+          }
+        }
+
+        noiseSource = audioCtx.createBufferSource();
+        noiseSource.buffer = noiseBuffer;
+        noiseSource.loop = true;
+        noiseSource.connect(noiseGainNode);
+        noiseSource.start();
+      }
+
+      /* ---------------------------------------------------------------------------------------
+   6) Reverb / Distorsion
+---------------------------------------------------------------------------------------- */
+      function buildReverbImpulse(durationSec) {
+        let rate = audioCtx.sampleRate;
+        let length = rate * durationSec;
+        let impulse = audioCtx.createBuffer(2, length, rate);
+        for (let c = 0; c < 2; c++) {
+          let channelData = impulse.getChannelData(c);
+          for (let i = 0; i < length; i++) {
+            // Exponential decay
+            channelData[i] =
+              (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2.5);
+          }
+        }
+        return impulse;
+      }
+
+      function makeDistortionCurve(amount, drive) {
+        let n_samples = 256;
+        let curve = new Float32Array(n_samples);
+        let k = parseFloat(amount) * 100;
+        let d = parseFloat(drive);
+        for (let i = 0; i < n_samples; i++) {
+          let x = (i * 2) / n_samples - 1;
+          // Simple formula : y = x * (1 + k) / (1 + k*abs(x))
+          let y = (x * (1 + k)) / (1 + k * Math.abs(x));
+          curve[i] = y * d;
+        }
+        return curve;
+      }
+
+      /* ---------------------------------------------------------------------------------------
+   7) Mise à jour en temps réel : setInterval
+---------------------------------------------------------------------------------------- */
+      function updateAudioParams() {
+        if (!audioCtx) return;
+
+        // Master
+        masterOut.gain.value = parseFloat(masterGainCtrl.value);
+
+        // Distorsion
+        distNode.curve = makeDistortionCurve(
+          distAmtCtrl.value,
+          distDrvCtrl.value,
+        );
+
+        // Reverb decay
+        let d = parseFloat(revDecayCtrl.value);
+        reverbNode.buffer = buildReverbImpulse(d);
+        reverbNode.normalize = true;
+
+        // Delay feedback
+        let delayFbkGainNode = delayNode.children
+          ? delayNode.children[0]
+          : null;
+        // Simplifié : on a un chain => delay -> gain -> delay
+        // On va juste retaper la value
+        // On repère le gain node => on parcourt la chaîne
+        let connections = delayNode.connections || [];
+        // On ne détaillera pas trop : on peut stocker le feedback gain.
+        // Simplifions :
+        // in ce code on l’avait mis dans createDelay->feedback. On l’appelle delayFeedbackGain
+        // on va le crocheter direct :
+        // plus simple : on a mis un global “delayFeedbackGain”
+        if (delayFeedbackGain) {
+          delayFeedbackGain.gain.value = parseFloat(delFbkCtrl.value);
+        }
+
+        // Noise
+        noiseGainNode.gain.value = parseFloat(noiseGainCtrl.value);
+        if (noiseTypeCtrl.value !== currentNoiseType) {
+          currentNoiseType = noiseTypeCtrl.value;
+          createNoise(currentNoiseType);
+        }
+
+        // LFO
+        globalLFO.type = lfoWaveCtrl.value;
+        globalLFO.frequency.value = parseFloat(lfoRateCtrl.value);
+        globalLFONode.gain.value = parseFloat(lfoDepthCtrl.value);
+
+        // On applique la LFO sur la cible
+        let lfoTarg = lfoTargetCtrl.value;
+        let lfoVal = readLFOValue();
+        // On normalise lfoVal ~ [-1,1], on multiplie par depth
+        // On l’ajoute sur la param correspondante
+        let depth = parseFloat(lfoDepthCtrl.value);
+        let modValue = lfoVal * depth;
+
+        switch (lfoTarg) {
+          case "pitch":
+            // Appliquer un petit offset sur la freq carrier
+            // Sur toutes les voix
+            voicePool.forEach((v) => {
+              if (!v.carrier) return;
+              let baseFreq = v.carrier.frequency.value; // ou on stocke la freq initiale
+              // On peut stocker en .base ?
+              // Simplifions : v.carrier.frequency.setValueAtTime()
+              let freqNow = baseFreq + modValue * 0.2; // lfo pitch
+              v.carrier.frequency.setValueAtTime(freqNow, audioCtx.currentTime);
+            });
+            break;
+          case "fmDepth":
+            // On applique un offset sur le gain de modOsc
+            // On n’a pas tout stocké, simplifions
+            // On refait la param FM global
+            let baseFm = parseFloat(fmDepthCtrl.value);
+            let newFm = baseFm + modValue;
+            voicePool.forEach((v) => {
+              if (!v.oscillators) return;
+              // 2e osc est modOsc
+              v.oscillators.forEach((o, i) => {
+                // si c’est un modOsc, on suit
+                if (i > 0) {
+                  // skip le carrier
+                  let mgNode = o.context.createGain();
+                  // c’est plus compliqué car on a un gain par oscillator.
+                  // On n’a pas stocké la reference.
+                  // Pour la démo, c’est un point d’implémentation plus profond.
+                }
+              });
+            });
+            break;
+          case "filterCutoff":
+            // On modifie la cutoff du filter A
+            let baseCut = parseFloat(fACutCtrl.value);
+            let newCut = Math.max(50, baseCut + modValue);
+            voicePool.forEach((v) => {
+              v.filterA.frequency.setValueAtTime(newCut, audioCtx.currentTime);
+            });
+            break;
+          case "morphMix":
+            // On modifie la morph
+            let baseMorph = parseFloat(morphCtrl.value);
+            let actualMorph = baseMorph + modValue / 1000;
+            // Un ratio plus fin
+            // Dans la démo, on n’a pas fait la veritable table morph
+            // On simule en ajustant le type wave sur carrier
+            // (on pourrait faire un PeriodicWave custom)
+            let ratio = Math.min(1, Math.max(0, actualMorph));
+            // Appliquer ratio => si ratio>0.5 => wave2, sinon wave1
+            voicePool.forEach((v) => {
+              if (!v.carrier) return;
+              if (ratio < 0.5) {
+                v.carrier.type = wave1Ctrl.value;
+              } else {
+                v.carrier.type = wave2Ctrl.value;
+              }
+            });
+            break;
+          case "panning":
+            // Non implémenté ci-dessus (on n’a pas mis de stereo panner),
+            // On pourrait introduire un StereoPannerNode dans la chaîne
+            break;
+        }
+
+        // Mise à jour param Filtres sur les voice filter
+        let typeA = fATypeCtrl.value === "notch" ? "notch" : fATypeCtrl.value;
+        let typeB = fBTypeCtrl.value === "notch" ? "notch" : fBTypeCtrl.value;
+        let cutA = parseFloat(fACutCtrl.value);
+        let cutB = parseFloat(fBCutCtrl.value);
+        let Q_A = parseFloat(fAResCtrl.value);
+        let Q_B = parseFloat(fBResCtrl.value);
+
+        // re-routage ?
+        let routing = filterRoutingCtrl.value;
+        // On ne refait pas toute la connectique en direct
+        // (plus simple de recréer les voix ?)
+        // On se contente de mettre à jour le type, cutoff, Q
+        voicePool.forEach((v) => {
+          if (v.filterA) {
+            v.filterA.type = typeA;
+            v.filterA.frequency.setValueAtTime(cutA, audioCtx.currentTime);
+            v.filterA.Q.value = Q_A;
+          }
+          if (v.filterB) {
+            v.filterB.type = typeB;
+            v.filterB.frequency.setValueAtTime(cutB, audioCtx.currentTime);
+            v.filterB.Q.value = Q_B;
+          }
+        });
+      }
+
+      // Petit hack: on lit la phase du LFO sur un node de type = oscillator => la gain a une valeur continue
+      function readLFOValue() {
+        // Malheureusement, sans scriptProcessor ou AudioWorklet,
+        // c’est plus compliqué de lire la valeur du LFO.
+        // On feint via un custom approach.
+        // Pour la démo, on fait un random approx.
+        // Mieux : on pourrait faire un AnalyserNode, etc.
+        // On va faire un “simulateur” : let t = (performance.now()/1000)* frequency
+        let freq = parseFloat(lfoRateCtrl.value);
+        let t = (performance.now() / 1000) * freq;
+        let shape = lfoWaveCtrl.value;
+        let ph = t % 1;
+        let val = 0;
+        switch (shape) {
+          case "sine":
+            val = Math.sin(2 * Math.PI * t);
+            break;
+          case "triangle":
+            val = 1 - 4 * Math.abs(Math.round(t) - t);
+            break;
+          case "square":
+            val = ph < 0.5 ? 1 : -1;
+            break;
+          case "sawtooth":
+            val = 2 * ph - 1;
+            break;
+        }
+        return val;
+      }
+
+      /* ---------------------------------------------------------------------------------------
+   8) Boucle d’update
+---------------------------------------------------------------------------------------- */
+      let currentNoiseType = "white";
+      function loopUpdate() {
+        requestAnimationFrame(loopUpdate);
+        if (!audioCtx) return;
+        updateAudioParams();
+      }
+
+      /* ---------------------------------------------------------------------------------------
+   9) Interactions
+---------------------------------------------------------------------------------------- */
+      btnToggle.addEventListener("click", () => {
+        if (!isAudioStarted) {
+          initAudio();
+          btnToggle.textContent = "Arrêter Audio";
+          startDrone();
+        } else {
+          stopDrone();
+          stopAudio();
+          btnToggle.textContent = "Démarrer Audio";
+        }
+      });
+
+      /* Lance la boucle */
+      loopUpdate();
+    </script>
+  </body>
+</html>

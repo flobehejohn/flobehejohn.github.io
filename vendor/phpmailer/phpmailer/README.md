@@ -25,7 +25,7 @@ Build status: [![Build Status](https://travis-ci.org/PHPMailer/PHPMailer.svg)](h
 Many PHP developers utilize email in their code. The only PHP function that supports this is the mail() function. However, it does not provide any assistance for making use of popular features such as HTML-based emails and attachments.
 
 Formatting email correctly is surprisingly difficult. There are myriad overlapping RFCs, requiring tight adherence to horribly complicated formatting and encoding rules - the vast majority of code that you'll find online that uses the mail() function directly is just plain wrong!
-*Please* don't be tempted to do it yourself - if you don't use PHPMailer, there are many other excellent libraries that you should look at before rolling your own - try SwiftMailer, Zend_Mail, eZcomponents etc.
+_Please_ don't be tempted to do it yourself - if you don't use PHPMailer, there are many other excellent libraries that you should look at before rolling your own - try SwiftMailer, Zend_Mail, eZcomponents etc.
 
 The PHP mail() function usually sends via a local mail server, typically fronted by a `sendmail` binary on Linux, BSD and OS X platforms, however, Windows usually doesn't include a local mail server; PHPMailer's integrated SMTP implementation allows email sending on Windows platforms without a local mail server.
 
@@ -39,7 +39,7 @@ software availability and distribution.
 PHPMailer is available via [Composer/Packagist](https://packagist.org/packages/phpmailer/phpmailer). Alternatively, just copy the contents of the PHPMailer folder into somewhere that's in your PHP `include_path` setting. If you don't speak git or just want a tarball, click the 'zip' button at the top of the page in GitHub.
 
 PHPMailer provides an SPL-compatible autoloader, and that is the preferred way of loading the library - just `require '/path/to/PHPMailerAutoload.php';` and everything should work. The autoloader does not throw errors if it can't find classes so it prepends itself to the SPL list, allowing your own (or your framework's) autoloader to catch errors. SPL autoloading was introduced in PHP 5.1.0, so if you are using a version older than that you will need to require/include each class manually.
-PHPMailer does *not* declare a namespace because namespaces were only introduced in PHP 5.3.
+PHPMailer does _not_ declare a namespace because namespaces were only introduced in PHP 5.3.
 
 ### Minimal installation
 
@@ -93,6 +93,7 @@ You'll find plenty more to play with in the [examples](examples/) folder.
 That's it. You should now be ready to use PHPMailer!
 
 ## Localization
+
 PHPMailer defaults to English, but in the [language](language/) folder you'll find numerous (39 at the time of writing) translations for PHPMailer error messages that you may encounter. Their filenames contain [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1) language code for the translations, for example `fr` for French. To specify a language, you need to tell PHPMailer which one to use, like this:
 
 ```php
@@ -126,13 +127,14 @@ With the move to the PHPMailer GitHub organisation, you'll need to update any re
 
 `git remote set-url upstream https://github.com/PHPMailer/PHPMailer.git`
 
-Please *don't* use the SourceForge or Google Code projects any more.
+Please _don't_ use the SourceForge or Google Code projects any more.
 
 ## Changelog
 
 See [changelog](changelog.md).
 
 ## History
+
 - PHPMailer was originally written in 2001 by Brent R. Matzelle as a [SourceForge project](http://sourceforge.net/projects/phpmailer/).
 - Marcus Bointon (coolbru on SF) and Andy Prevost (codeworxtech) took over the project in 2004.
 - Became an Apache incubator project on Google Code in 2010, managed by Jim Jagielski.
@@ -141,6 +143,7 @@ See [changelog](changelog.md).
 - PHPMailer moves to the [PHPMailer organisation](https://github.com/PHPMailer) on GitHub.
 
 ### What's changed since moving from SourceForge?
+
 - Official successor to the SourceForge and Google Code projects.
 - Test suite.
 - Continuous integration with Travis-CI.

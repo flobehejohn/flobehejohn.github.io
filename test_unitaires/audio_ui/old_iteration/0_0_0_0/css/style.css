@@ -1,0 +1,184 @@
+﻿/* ================================
+   🎧 Interface Lecteur Audio
+   Fichier : style.css
+   ================================ */
+:root {
+  --primary-color: #0f0;
+  --bg-dark: #111;
+  --bg-component: #222;
+  --slider-bg: #444;
+  --volume-bg: #333;
+  --text-color: white;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-color);
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* 🎵 Conteneur principal */
+.radio {
+  background: var(--bg-component);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+  max-width: 600px;
+  width: 100%;
+}
+
+/* 🎛️ Contrôles du lecteur */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* 🎚️ Boutons */
+.controls button {
+  background: none;
+  color: var(--text-color);
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.2s ease-in-out;
+}
+
+.controls button:hover {
+  color: var(--primary-color);
+}
+
+/* 📈 Barre de progression */
+input[type="range"].progress {
+  width: 200px;
+  cursor: pointer;
+  background: var(--slider-bg);
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+/* Curseur WebKit (Chrome, Edge, Safari) */
+input[type="range"].progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 12px;
+  width: 12px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  border: none;
+  margin-top: -4px;
+}
+
+/* Curseur Firefox */
+input[type="range"].progress::-moz-range-thumb {
+  height: 12px;
+  width: 12px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  border: none;
+}
+
+/* Curseur IE/Edge */
+input[type="range"].progress::-ms-thumb {
+  height: 12px;
+  width: 12px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  border: none;
+}
+
+/* Piste IE/Edge */
+input[type="range"].progress::-ms-track {
+  background: var(--slider-bg);
+  height: 4px;
+  border-radius: 2px;
+  color: transparent;
+  border: none;
+}
+
+input[type="range"].progress::-ms-fill-lower {
+  background: var(--primary-color);
+}
+
+/* 🔊 Contrôle de volume */
+input[type="range"].volume {
+  width: 80px;
+  cursor: pointer;
+  background: var(--volume-bg);
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+input[type="range"].volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 10px;
+  width: 10px;
+  background: var(--text-color);
+  border-radius: 50%;
+  border: none;
+  margin-top: -3px;
+}
+
+input[type="range"].volume::-moz-range-thumb {
+  height: 10px;
+  width: 10px;
+  background: var(--text-color);
+  border-radius: 50%;
+  border: none;
+}
+
+input[type="range"].volume::-ms-thumb {
+  height: 10px;
+  width: 10px;
+  background: var(--text-color);
+  border-radius: 50%;
+  border: none;
+}
+
+/* Piste IE/Edge */
+input[type="range"].volume::-ms-track {
+  background: var(--volume-bg);
+  height: 4px;
+  border-radius: 2px;
+  color: transparent;
+  border: none;
+}
+
+/* ⏱️ Affichage du temps */
+.controls .time {
+  font-size: 0.9rem;
+  min-width: 65px;
+  text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .radio {
+    padding: 15px;
+  }
+
+  input[type="range"].progress {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .controls {
+    justify-content: center;
+  }
+}

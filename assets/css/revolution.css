@@ -21,7 +21,8 @@ website:    http://www.themepunch.com
   left: 0px;
 }
 
-.tp-hide-revslider, .tp-caption.tp-hidden-caption {
+.tp-hide-revslider,
+.tp-caption.tp-hidden-caption {
   visibility: hidden !important;
   display: none !important;
 }
@@ -179,7 +180,7 @@ website:    http://www.themepunch.com
 }
 
 .tp-caption.finewide_large_white {
-  color: #FFF;
+  color: #fff;
   text-shadow: none;
   font-size: 60px;
   line-height: 60px;
@@ -195,7 +196,7 @@ website:    http://www.themepunch.com
 }
 
 .tp-caption.finewide_medium_white {
-  color: #FFF;
+  color: #fff;
   text-shadow: none;
   font-size: 34px;
   line-height: 34px;
@@ -216,7 +217,7 @@ website:    http://www.themepunch.com
   font-weight: 400;
   font-size: 150px;
   line-height: 130px;
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   margin: 0px;
   border-width: 0px;
   border-style: none;
@@ -231,7 +232,7 @@ website:    http://www.themepunch.com
   font-weight: 600;
   font-size: 50px;
   line-height: 50px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   margin: 0px;
   border-width: 0px;
   border-style: none;
@@ -244,7 +245,7 @@ website:    http://www.themepunch.com
   font-weight: 300;
   font-size: 90px;
   line-height: 90px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   margin: 0px;
   letter-spacing: 20px;
   border-width: 0px;
@@ -1029,7 +1030,7 @@ website:    http://www.themepunch.com
   font-weight: 300;
   font-size: 19px;
   line-height: 19px;
-  font-family: 'Open Sans', sans;
+  font-family: "Open Sans", sans;
 }
 
 .tp-caption.noshadow {
@@ -1052,7 +1053,7 @@ website:    http://www.themepunch.com
   height: 0;
   border-left: 40px solid transparent;
   border-right: 0px solid transparent;
-  border-top: 40px solid #00A8FF;
+  border-top: 40px solid #00a8ff;
   position: absolute;
   left: -40px;
   top: 0px;
@@ -1063,7 +1064,7 @@ website:    http://www.themepunch.com
   height: 0;
   border-left: 0px solid transparent;
   border-right: 40px solid transparent;
-  border-bottom: 40px solid #00A8FF;
+  border-bottom: 40px solid #00a8ff;
   position: absolute;
   right: 0px;
   top: 0px;
@@ -1074,7 +1075,7 @@ website:    http://www.themepunch.com
   height: 0;
   border-left: 40px solid transparent;
   border-right: 0px solid transparent;
-  border-bottom: 40px solid #00A8FF;
+  border-bottom: 40px solid #00a8ff;
   position: absolute;
   left: -40px;
   top: 0px;
@@ -1085,7 +1086,7 @@ website:    http://www.themepunch.com
   height: 0;
   border-left: 0px solid transparent;
   border-right: 40px solid transparent;
-  border-top: 40px solid #00A8FF;
+  border-top: 40px solid #00a8ff;
   position: absolute;
   right: 0px;
   top: 0px;
@@ -1124,7 +1125,9 @@ website:    http://www.themepunch.com
 .tp-simpleresponsive .purchase:hover,
 .tp-simpleresponsive .button:hover,
 .tp-simpleresponsive .button.big:hover {
-  background-position: bottom, 15px 11px;
+  background-position:
+    bottom,
+    15px 11px;
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
@@ -1157,49 +1160,62 @@ website:    http://www.themepunch.com
   }
 }
 /*  BUTTON COLORS */
-.tp-simpleresponsive .button.green, .tp-simpleresponsive .button:hover.green,
-.tp-simpleresponsive .purchase.green, .tp-simpleresponsive .purchase:hover.green {
+.tp-simpleresponsive .button.green,
+.tp-simpleresponsive .button:hover.green,
+.tp-simpleresponsive .purchase.green,
+.tp-simpleresponsive .purchase:hover.green {
   background-color: #21a117;
   -webkit-box-shadow: 0px 3px 0px 0px #104d0b;
   -moz-box-shadow: 0px 3px 0px 0px #104d0b;
   box-shadow: 0px 3px 0px 0px #104d0b;
 }
 
-.tp-simpleresponsive .button.blue, .tp-simpleresponsive .button:hover.blue,
-.tp-simpleresponsive .purchase.blue, .tp-simpleresponsive .purchase:hover.blue {
+.tp-simpleresponsive .button.blue,
+.tp-simpleresponsive .button:hover.blue,
+.tp-simpleresponsive .purchase.blue,
+.tp-simpleresponsive .purchase:hover.blue {
   background-color: #1d78cb;
   -webkit-box-shadow: 0px 3px 0px 0px #0f3e68;
   -moz-box-shadow: 0px 3px 0px 0px #0f3e68;
   box-shadow: 0px 3px 0px 0px #0f3e68;
 }
 
-.tp-simpleresponsive .button.red, .tp-simpleresponsive .button:hover.red,
-.tp-simpleresponsive .purchase.red, .tp-simpleresponsive .purchase:hover.red {
+.tp-simpleresponsive .button.red,
+.tp-simpleresponsive .button:hover.red,
+.tp-simpleresponsive .purchase.red,
+.tp-simpleresponsive .purchase:hover.red {
   background-color: #cb1d1d;
   -webkit-box-shadow: 0px 3px 0px 0px #7c1212;
   -moz-box-shadow: 0px 3px 0px 0px #7c1212;
   box-shadow: 0px 3px 0px 0px #7c1212;
 }
 
-.tp-simpleresponsive .button.orange, .tp-simpleresponsive .button:hover.orange,
-.tp-simpleresponsive .purchase.orange, .tp-simpleresponsive .purchase:hover.orange {
+.tp-simpleresponsive .button.orange,
+.tp-simpleresponsive .button:hover.orange,
+.tp-simpleresponsive .purchase.orange,
+.tp-simpleresponsive .purchase:hover.orange {
   background-color: #ff7700;
   -webkit-box-shadow: 0px 3px 0px 0px #a34c00;
   -moz-box-shadow: 0px 3px 0px 0px #a34c00;
   box-shadow: 0px 3px 0px 0px #a34c00;
 }
 
-.tp-simpleresponsive .button.darkgrey, .tp-simpleresponsive .button.grey,
-.tp-simpleresponsive .button:hover.darkgrey, .tp-simpleresponsive .button:hover.grey,
-.tp-simpleresponsive .purchase.darkgrey, .tp-simpleresponsive .purchase:hover.darkgrey {
+.tp-simpleresponsive .button.darkgrey,
+.tp-simpleresponsive .button.grey,
+.tp-simpleresponsive .button:hover.darkgrey,
+.tp-simpleresponsive .button:hover.grey,
+.tp-simpleresponsive .purchase.darkgrey,
+.tp-simpleresponsive .purchase:hover.darkgrey {
   background-color: #555;
   -webkit-box-shadow: 0px 3px 0px 0px #222;
   -moz-box-shadow: 0px 3px 0px 0px #222;
   box-shadow: 0px 3px 0px 0px #222;
 }
 
-.tp-simpleresponsive .button.lightgrey, .tp-simpleresponsive .button:hover.lightgrey,
-.tp-simpleresponsive .purchase.lightgrey, .tp-simpleresponsive .purchase:hover.lightgrey {
+.tp-simpleresponsive .button.lightgrey,
+.tp-simpleresponsive .button:hover.lightgrey,
+.tp-simpleresponsive .purchase.lightgrey,
+.tp-simpleresponsive .purchase:hover.lightgrey {
   background-color: #888;
   -webkit-box-shadow: 0px 3px 0px 0px #555;
   -moz-box-shadow: 0px 3px 0px 0px #555;
@@ -1359,7 +1375,7 @@ website:    http://www.themepunch.com
   top: 50%;
   left: 50%;
   font-size: 40px;
-  color: #FFF;
+  color: #fff;
   z-index: 3;
   margin-top: -27px;
   margin-left: -28px;
@@ -2001,17 +2017,23 @@ website:    http://www.themepunch.com
   background: rgba(0, 0, 0, 0.15);
   z-index: 2;
   line-height: 100px;
-  -webkit-transition: background 0.3s, color 0.3s;
-  -moz-transition: background 0.3s, color 0.3s;
-  transition: background 0.3s, color 0.3s;
+  -webkit-transition:
+    background 0.3s,
+    color 0.3s;
+  -moz-transition:
+    background 0.3s,
+    color 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s;
 }
 
 .tp-rightarrow.preview1:after {
-  content: '\e825';
+  content: "\e825";
 }
 
 .tp-leftarrow.preview1:after {
-  content: '\e824';
+  content: "\e824";
 }
 
 .tparrows.preview1:hover:after {
@@ -2044,9 +2066,9 @@ website:    http://www.themepunch.com
   transform-origin: 100% 50%;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
-  -moz-opacity: 0.0;
-  -khtml-opacity: 0.0;
-  opacity: 0.0;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
 }
 
 .tp-leftarrow.preview1 .tp-arr-imgholder {
@@ -2057,9 +2079,9 @@ website:    http://www.themepunch.com
   transform-origin: 0% 50%;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
-  -moz-opacity: 0.0;
-  -khtml-opacity: 0.0;
-  opacity: 0.0;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
 }
 
 .tparrows.preview1:hover .tp-arr-imgholder {
@@ -2119,11 +2141,21 @@ website:    http://www.themepunch.com
   display: inline-block;
   margin-right: 5px !important;
   margin-bottom: 0px !important;
-  -webkit-transition: background-color 0.2s, border-color 0.2s;
-  -moz-transition: background-color 0.2s, border-color 0.2s;
-  -o-transition: background-color 0.2s, border-color 0.2s;
-  -ms-transition: background-color 0.2s, border-color 0.2s;
-  transition: background-color 0.2s, border-color 0.2s;
+  -webkit-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -moz-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -o-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -ms-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
   float: none !important;
   box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -2155,8 +2187,14 @@ website:    http://www.themepunch.com
   -webkit-border-radius: 30px;
   overflow: hidden;
   -webkit-transition: -webkit-transform 1.3s;
-  -webkit-transition: width 0.3s, background-color 0.3s, opacity 0.3s;
-  transition: width 0.3s, background-color 0.3s, opacity 0.3s;
+  -webkit-transition:
+    width 0.3s,
+    background-color 0.3s,
+    opacity 0.3s;
+  transition:
+    width 0.3s,
+    background-color 0.3s,
+    opacity 0.3s;
   backface-visibility: hidden;
 }
 
@@ -2173,12 +2211,12 @@ website:    http://www.themepunch.com
 }
 
 .tp-rightarrow.preview2:after {
-  content: '\e81e';
+  content: "\e81e";
   right: 18px;
 }
 
 .tp-leftarrow.preview2:after {
-  content: '\e81f';
+  content: "\e81f";
   left: 18px;
 }
 
@@ -2253,11 +2291,21 @@ website:    http://www.themepunch.com
   display: inline-block;
   margin-right: 2px !important;
   margin-bottom: 0px !important;
-  -webkit-transition: background-color 0.2s, border-color 0.2s;
-  -moz-transition: background-color 0.2s, border-color 0.2s;
-  -o-transition: background-color 0.2s, border-color 0.2s;
-  -ms-transition: background-color 0.2s, border-color 0.2s;
-  transition: background-color 0.2s, border-color 0.2s;
+  -webkit-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -moz-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -o-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -ms-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
   float: none !important;
   box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -2303,12 +2351,12 @@ website:    http://www.themepunch.com
   }
 
   .tp-rightarrow.preview2:after {
-    content: '\e81e';
+    content: "\e81e";
     right: 11px;
   }
 
   .tp-leftarrow.preview2:after {
-    content: '\e81f';
+    content: "\e81f";
     left: 11px;
   }
 
@@ -2346,12 +2394,12 @@ website:    http://www.themepunch.com
   }
 
   .tp-rightarrow.preview2:after {
-    content: '\e81e';
+    content: "\e81e";
     right: 8px;
   }
 
   .tp-leftarrow.preview2:after {
-    content: '\e81f';
+    content: "\e81f";
     left: 8px;
   }
 
@@ -2394,12 +2442,12 @@ website:    http://www.themepunch.com
   }
 
   .tp-rightarrow.preview2:after {
-    content: '\e81e';
+    content: "\e81e";
     right: 8px;
   }
 
   .tp-leftarrow.preview2:after {
-    content: '\e81f';
+    content: "\e81f";
     left: 8px;
   }
 
@@ -2445,11 +2493,11 @@ website:    http://www.themepunch.com
 }
 
 .tp-rightarrow.preview3:after {
-  content: '\e825';
+  content: "\e825";
 }
 
 .tp-leftarrow.preview3:after {
-  content: '\e824';
+  content: "\e824";
 }
 
 .tparrows.preview3 .tp-arr-iwrapper {
@@ -2533,11 +2581,21 @@ website:    http://www.themepunch.com
   display: inline-block;
   margin-right: 2px !important;
   margin-bottom: 0px !important;
-  -webkit-transition: background-color 0.2s, border-color 0.2s;
-  -moz-transition: background-color 0.2s, border-color 0.2s;
-  -o-transition: background-color 0.2s, border-color 0.2s;
-  -ms-transition: background-color 0.2s, border-color 0.2s;
-  transition: background-color 0.2s, border-color 0.2s;
+  -webkit-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -moz-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -o-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -ms-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
   float: none !important;
   box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -2639,11 +2697,11 @@ website:    http://www.themepunch.com
 }
 
 .tp-rightarrow.preview4:after {
-  content: '\e825';
+  content: "\e825";
 }
 
 .tp-leftarrow.preview4:after {
-  content: '\e824';
+  content: "\e824";
 }
 
 .tparrows.preview4 .tp-arr-allwrapper {
@@ -2705,7 +2763,7 @@ website:    http://www.themepunch.com
   color: #fff;
   position: relative;
   background: #000;
-  color: #FFF;
+  color: #fff;
   text-transform: uppercase;
   white-space: nowrap;
   letter-spacing: 1px;
@@ -2722,9 +2780,9 @@ website:    http://www.themepunch.com
   backface-visibility: hidden;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
-  -moz-opacity: 0.0;
-  -khtml-opacity: 0.0;
-  opacity: 0.0;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
 }
 
 .tparrows.preview4:after {
@@ -2780,11 +2838,21 @@ website:    http://www.themepunch.com
   display: inline-block;
   margin-right: 2px !important;
   margin-bottom: 0px !important;
-  -webkit-transition: background-color 0.2s, border-color 0.2s;
-  -moz-transition: background-color 0.2s, border-color 0.2s;
-  -o-transition: background-color 0.2s, border-color 0.2s;
-  -ms-transition: background-color 0.2s, border-color 0.2s;
-  transition: background-color 0.2s, border-color 0.2s;
+  -webkit-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -moz-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -o-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  -ms-transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
   float: none !important;
   box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -2918,8 +2986,8 @@ website:    http://www.themepunch.com
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
   -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
   border-radius: 100%;
-  -webkit-animation: tp-scaleout 1.0s infinite ease-in-out;
-  animation: tp-scaleout 1.0s infinite ease-in-out;
+  -webkit-animation: tp-scaleout 1s infinite ease-in-out;
+  animation: tp-scaleout 1s infinite ease-in-out;
 }
 
 @-webkit-keyframes tp-scaleout {
@@ -2980,7 +3048,9 @@ website:    http://www.themepunch.com
 }
 
 @-webkit-keyframes tp-bouncedelay {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     -webkit-transform: scale(0);
   }
 
@@ -2990,7 +3060,9 @@ website:    http://www.themepunch.com
 }
 
 @keyframes tp-bouncedelay {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0);
     -webkit-transform: scale(0);
   }
@@ -3006,8 +3078,8 @@ website:    http://www.themepunch.com
   width: 40px;
   height: 40px;
   text-align: center;
-  -webkit-animation: tp-rotate 2.0s infinite linear;
-  animation: tp-rotate 2.0s infinite linear;
+  -webkit-animation: tp-rotate 2s infinite linear;
+  animation: tp-rotate 2s infinite linear;
 }
 
 .tp-loader.spinner4 .dot1,
@@ -3019,8 +3091,8 @@ website:    http://www.themepunch.com
   top: 0;
   background-color: #fff;
   border-radius: 100%;
-  -webkit-animation: tp-bounce 2.0s infinite ease-in-out;
-  animation: tp-bounce 2.0s infinite ease-in-out;
+  -webkit-animation: tp-bounce 2s infinite ease-in-out;
+  animation: tp-bounce 2s infinite ease-in-out;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
   -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
 }
@@ -3028,8 +3100,8 @@ website:    http://www.themepunch.com
 .tp-loader.spinner4 .dot2 {
   top: auto;
   bottom: 0px;
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
 }
 
 @-webkit-keyframes tp-rotate {
@@ -3046,7 +3118,8 @@ website:    http://www.themepunch.com
 }
 
 @-webkit-keyframes tp-bounce {
-  0%, 100% {
+  0%,
+  100% {
     -webkit-transform: scale(0);
   }
 
@@ -3056,7 +3129,8 @@ website:    http://www.themepunch.com
 }
 
 @keyframes tp-bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(0);
     -webkit-transform: scale(0);
   }
@@ -3084,9 +3158,13 @@ website:    http://www.themepunch.com
 }
 
 @font-face {
-  font-family: 'revicons';
+  font-family: "revicons";
   src: url("../font/revicons.eot?5510888");
-  src: url("../font/revicons.eot?5510888#iefix") format("embedded-opentype"), url("../font/revicons.woff?5510888") format("woff"), url("../font/revicons.ttf?5510888") format("truetype"), url("../font/revicons.svg?5510888#revicons") format("svg");
+  src:
+    url("../font/revicons.eot?5510888#iefix") format("embedded-opentype"),
+    url("../font/revicons.woff?5510888") format("woff"),
+    url("../font/revicons.ttf?5510888") format("truetype"),
+    url("../font/revicons.svg?5510888#revicons") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -3101,7 +3179,8 @@ website:    http://www.themepunch.com
   }
 }
 */
-[class^="revicon-"]:before, [class*=" revicon-"]:before {
+[class^="revicon-"]:before,
+[class*=" revicon-"]:before {
   font-family: "revicons";
   font-style: normal;
   font-weight: normal;
@@ -3109,7 +3188,7 @@ website:    http://www.themepunch.com
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
-  margin-right: .2em;
+  margin-right: 0.2em;
   text-align: center;
   /* opacity: .8; */
   /* For safety - reset parent styles, that can break glyph codes*/
@@ -3119,7 +3198,7 @@ website:    http://www.themepunch.com
   line-height: 1em;
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
-  margin-left: .2em;
+  margin-left: 0.2em;
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
   /* Uncomment for 3D effect */
@@ -3127,217 +3206,217 @@ website:    http://www.themepunch.com
 }
 
 .revicon-search-1:before {
-  content: '\e802';
+  content: "\e802";
 }
 
 /* '' */
 .revicon-pencil-1:before {
-  content: '\e831';
+  content: "\e831";
 }
 
 /* '' */
 .revicon-picture-1:before {
-  content: '\e803';
+  content: "\e803";
 }
 
 /* '' */
 .revicon-cancel:before {
-  content: '\e80a';
+  content: "\e80a";
 }
 
 /* '' */
 .revicon-info-circled:before {
-  content: '\e80f';
+  content: "\e80f";
 }
 
 /* '' */
 .revicon-trash:before {
-  content: '\e801';
+  content: "\e801";
 }
 
 /* '' */
 .revicon-left-dir:before {
-  content: '\e817';
+  content: "\e817";
 }
 
 /* '' */
 .revicon-right-dir:before {
-  content: '\e818';
+  content: "\e818";
 }
 
 /* '' */
 .revicon-down-open:before {
-  content: '\e83b';
+  content: "\e83b";
 }
 
 /* '' */
 .revicon-left-open:before {
-  content: '\e819';
+  content: "\e819";
 }
 
 /* '' */
 .revicon-right-open:before {
-  content: '\e81a';
+  content: "\e81a";
 }
 
 /* '' */
 .revicon-angle-left:before {
-  content: '\e820';
+  content: "\e820";
 }
 
 /* '' */
 .revicon-angle-right:before {
-  content: '\e81d';
+  content: "\e81d";
 }
 
 /* '' */
 .revicon-left-big:before {
-  content: '\e81f';
+  content: "\e81f";
 }
 
 /* '' */
 .revicon-right-big:before {
-  content: '\e81e';
+  content: "\e81e";
 }
 
 /* '' */
 .revicon-magic:before {
-  content: '\e807';
+  content: "\e807";
 }
 
 /* '' */
 .revicon-picture:before {
-  content: '\e800';
+  content: "\e800";
 }
 
 /* '' */
 .revicon-export:before {
-  content: '\e80b';
+  content: "\e80b";
 }
 
 /* '' */
 .revicon-cog:before {
-  content: '\e832';
+  content: "\e832";
 }
 
 /* '' */
 .revicon-login:before {
-  content: '\e833';
+  content: "\e833";
 }
 
 /* '' */
 .revicon-logout:before {
-  content: '\e834';
+  content: "\e834";
 }
 
 /* '' */
 .revicon-video:before {
-  content: '\e805';
+  content: "\e805";
 }
 
 /* '' */
 .revicon-arrow-combo:before {
-  content: '\e827';
+  content: "\e827";
 }
 
 /* '' */
 .revicon-left-open-1:before {
-  content: '\e82a';
+  content: "\e82a";
 }
 
 /* '' */
 .revicon-right-open-1:before {
-  content: '\e82b';
+  content: "\e82b";
 }
 
 /* '' */
 .revicon-left-open-mini:before {
-  content: '\e822';
+  content: "\e822";
 }
 
 /* '' */
 .revicon-right-open-mini:before {
-  content: '\e823';
+  content: "\e823";
 }
 
 /* '' */
 .revicon-left-open-big:before {
-  content: '\e824';
+  content: "\e824";
 }
 
 /* '' */
 .revicon-right-open-big:before {
-  content: '\e825';
+  content: "\e825";
 }
 
 /* '' */
 .revicon-left:before {
-  content: '\e836';
+  content: "\e836";
 }
 
 /* '' */
 .revicon-right:before {
-  content: '\e826';
+  content: "\e826";
 }
 
 /* '' */
 .revicon-ccw:before {
-  content: '\e808';
+  content: "\e808";
 }
 
 /* '' */
 .revicon-arrows-ccw:before {
-  content: '\e806';
+  content: "\e806";
 }
 
 /* '' */
 .revicon-palette:before {
-  content: '\e829';
+  content: "\e829";
 }
 
 /* '' */
 .revicon-list-add:before {
-  content: '\e80c';
+  content: "\e80c";
 }
 
 /* '' */
 .revicon-doc:before {
-  content: '\e809';
+  content: "\e809";
 }
 
 /* '' */
 .revicon-left-open-outline:before {
-  content: '\e82e';
+  content: "\e82e";
 }
 
 /* '' */
 .revicon-left-open-2:before {
-  content: '\e82c';
+  content: "\e82c";
 }
 
 /* '' */
 .revicon-right-open-outline:before {
-  content: '\e82f';
+  content: "\e82f";
 }
 
 /* '' */
 .revicon-right-open-2:before {
-  content: '\e82d';
+  content: "\e82d";
 }
 
 /* '' */
 .revicon-equalizer:before {
-  content: '\e83a';
+  content: "\e83a";
 }
 
 /* '' */
 .revicon-layers-alt:before {
-  content: '\e804';
+  content: "\e804";
 }
 
 /* '' */
 .revicon-popup:before {
-  content: '\e828';
+  content: "\e828";
 }
 
 /* '' */

@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carte Magique Audio ✨</title>
+    <style>
+      :root {
+        --primary: #00c8ff;
+        --bg: #111;
+        --shadow: rgba(0, 200, 255, 0.4);
+        --text: #fff;
+      }
+
+      body {
+        background: #0b0f13;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        color: var(--text);
+      }
+
+      .magic-card {
+        background: #1a1f24;
+        border-radius: 16px;
+        width: 320px;
+        padding: 24px;
+        box-shadow: 0 0 20px var(--shadow);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+        transition: box-shadow 0.2s ease;
+      }
+
+      .magic-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          var(--primary),
+          transparent
+        );
+        transform: rotate(45deg);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+      }
+
+      .magic-card.clicked::before {
+        animation: shimmer 0.7s ease-out;
+      }
+
+      @keyframes shimmer {
+        0% {
+          opacity: 0;
+          transform: rotate(45deg) translate(-100%, -100%);
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: rotate(45deg) translate(100%, 100%);
+        }
+      }
+
+      .magic-card:hover {
+        box-shadow: 0 0 30px var(--primary);
+      }
+
+      .magic-card-content {
+        text-align: center;
+        position: relative;
+      }
+
+      .icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .details {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s ease;
+      }
+
+      .details.open {
+        opacity: 1;
+      }
+
+      .close-btn {
+        margin-top: 12px;
+        background: none;
+        border: 1px solid var(--primary);
+        color: var(--primary);
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .close-btn:hover {
+        background: var(--primary);
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="magic-card" id="magicCard">
+      <div class="magic-card-content">
+        <div class="icon">🔮</div>
+        <h3>Compétence Magique</h3>
+        <p class="summary">Clique pour révéler le secret...</p>
+        <div class="details" id="details">
+          <p id="magicText">
+            ✨ Tu maîtrises l'art des interfaces immersives et animées. Bravo !
+          </p>
+          <button class="close-btn">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const card = document.getElementById("magicCard");
+        const details = document.getElementById("details");
+        const closeBtn = details.querySelector(".close-btn");
+        const magicText = document.getElementById("magicText");
+        const originalText = magicText.textContent;
+
+        let isExpanded = false;
+        let animationFrame;
+
+        // 🎛️ Setup audio
+        const audioCtx = new (window.AudioContext ||
+          window.webkitAudioContext)();
+
+        // 🔊 Synthèse magique avancée
+        const playMagicSound = (mode = "open") => {
+          const baseFreq = mode === "open" ? 660 : 220;
+          const osc1 = audioCtx.createOscillator();
+          const osc2 = audioCtx.createOscillator();
+          const noise = audioCtx.createBufferSource();
+          const filter = audioCtx.createBiquadFilter();
+          const gain = audioCtx.createGain();
+
+          // Synthèse additive + FM
+          osc1.type = "sine";
+          osc1.frequency.setValueAtTime(baseFreq, audioCtx.currentTime);
+
+          osc2.type = "square";
+          osc2.frequency.setValueAtTime(baseFreq * 2, audioCtx.currentTime);
+          osc2.detune.setValueAtTime(
+            mode === "open" ? 10 : -20,
+            audioCtx.currentTime,
+          );
+
+          // Bruit blanc filtré
+          const bufferSize = audioCtx.sampleRate;
+          const buffer = audioCtx.createBuffer(
+            1,
+            bufferSize,
+            audioCtx.sampleRate,
+          );
+          const output = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            output[i] = Math.random() * 2 - 1;
+          }
+          noise.buffer = buffer;
+
+          filter.type = "lowpass";
+          filter.frequency.value = mode === "open" ? 1000 : 400;
+
+          gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioCtx.currentTime + 0.6,
+          );
+
+          // Chaînage
+          osc1.connect(filter);
+          osc2.connect(filter);
+          noise.connect(filter);
+          filter.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc1.start();
+          osc2.start();
+          noise.start();
+
+          osc1.stop(audioCtx.currentTime + 0.6);
+          osc2.stop(audioCtx.currentTime + 0.6);
+          noise.stop(audioCtx.currentTime + 0.6);
+        };
+
+        // 🪄 Machine à écrire
+        const typeWriter = (element, text) => {
+          element.textContent = "";
+          let i = 0;
+          function write() {
+            if (i < text.length) {
+              element.textContent += text.charAt(i);
+              i++;
+              setTimeout(write, 30);
+            }
+          }
+          write();
+        };
+
+        const expand = () => {
+          playMagicSound("open");
+          details.classList.add("open");
+          let height = 0;
+          const fullHeight = details.scrollHeight;
+
+          const step = () => {
+            height += 10;
+            if (height >= fullHeight) {
+              details.style.maxHeight = fullHeight + "px";
+              return;
+            }
+            details.style.maxHeight = height + "px";
+            animationFrame = requestAnimationFrame(step);
+          };
+          animationFrame = requestAnimationFrame(step);
+          typeWriter(magicText, originalText);
+        };
+
+        const collapse = () => {
+          playMagicSound("close");
+          cancelAnimationFrame(animationFrame);
+          let height = details.scrollHeight;
+          details.classList.remove("open");
+
+          const step = () => {
+            height -= 10;
+            if (height <= 0) {
+              details.style.maxHeight = "0px";
+              magicText.textContent = originalText;
+              return;
+            }
+            details.style.maxHeight = height + "px";
+            animationFrame = requestAnimationFrame(step);
+          };
+          animationFrame = requestAnimationFrame(step);
+        };
+
+        card.addEventListener("click", (e) => {
+          if (e.target === closeBtn) return;
+
+          card.classList.add("clicked");
+          setTimeout(() => card.classList.remove("clicked"), 700);
+
+          if (!isExpanded) {
+            expand();
+          } else {
+            collapse();
+          }
+          isExpanded = !isExpanded;
+        });
+
+        closeBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          collapse();
+          isExpanded = false;
+        });
+
+        // 🎇 Suivi du pointeur pour ombre dynamique
+        card.addEventListener("mousemove", (e) => {
+          const { left, top, width, height } = card.getBoundingClientRect();
+          const x = (e.clientX - left - width / 2) / 10;
+          const y = (e.clientY - top - height / 2) / 10;
+          card.style.boxShadow = `${x}px ${y}px 24px var(--shadow)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+          card.style.boxShadow = `0 0 20px var(--shadow)`;
+        });
+      });
+    </script>
+  </body>
+</html>

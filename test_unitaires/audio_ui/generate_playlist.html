@@ -1,0 +1,44 @@
+﻿<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Générateur de playlist JSON</title>
+  </head>
+  <body>
+    <h1>Générer playlist.json</h1>
+    <button id="generateBtn">Générer</button>
+    <pre id="output"></pre>
+
+    <script>
+      const publicBaseURL =
+        "https://pub-280f3c4082bb477f9ad37b96d10ee653.r2.dev/";
+
+      async function generatePlaylist() {
+        const response = await fetch(
+          "https://spring-sound-6280.florianbehejohn1.workers.dev/audio/backgrounds",
+        );
+        const keys = await response.json();
+
+        const playlist = keys
+          .filter((key) => key.endsWith(".mp3"))
+          .map((key) => ({
+            title: decodeURIComponent(key.split("/").pop()),
+            src: publicBaseURL + key,
+            cover: "assets/images/log_zim.jpg",
+          }));
+
+        const json = JSON.stringify(playlist, null, 2);
+        document.getElementById("output").textContent = json;
+
+        // Enregistrer localement
+        const blob = new Blob([json], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "playlist.json";
+        a.click();
+      }
+
+      document.getElementById("generateBtn").onclick = generatePlaylist;
+    </script>
+  </body>
+</html>

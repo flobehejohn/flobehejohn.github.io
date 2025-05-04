@@ -1,0 +1,1020 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Synth Ultime ++ : Modulaire + Séquenceur Loop</title>
+    <style>
+      body {
+        margin: 0;
+        background: linear-gradient(to bottom right, #1f1f2e 40%, #2b2b40);
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #eee;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        overflow: auto;
+        padding-bottom: 40px;
+      }
+      h1 {
+        margin-top: 20px;
+        font-size: 1.4rem;
+        text-align: center;
+        color: #ffb347;
+        text-shadow: 0 0 10px rgba(255, 179, 71, 0.7);
+      }
+      .section {
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+        border: 1px solid #ffffff33;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 0 20px #ffb34755;
+        width: 420px;
+        margin-top: 20px;
+      }
+      .param {
+        margin-bottom: 12px;
+      }
+      .param label {
+        font-size: 0.85rem;
+        display: block;
+        margin-bottom: 4px;
+        font-weight: 600;
+      }
+      .param input[type="range"],
+      .param select,
+      .param input[type="number"] {
+        width: 100%;
+        cursor: pointer;
+      }
+      .param input[type="range"] {
+        -webkit-appearance: none;
+        background: #333;
+        height: 6px;
+        border-radius: 6px;
+        outline: none;
+      }
+      .param input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        background: #ffb347;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .button-start,
+      .button-small {
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 0.95rem;
+        font-weight: bold;
+        color: #fff;
+        background: #ffb347;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 10px #ffb34788;
+      }
+      .button-start:hover,
+      .button-small:hover {
+        opacity: 0.9;
+        box-shadow: 0 0 20px #ffb347;
+      }
+      p.note {
+        font-size: 0.8rem;
+        color: #ccc;
+        text-align: center;
+        margin: 16px auto;
+        max-width: 550px;
+        line-height: 1.4;
+      }
+      .seq-steps {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .step {
+        background: #222;
+        border-radius: 6px;
+        padding: 8px;
+        width: 90px;
+        display: flex;
+        flex-direction: column;
+      }
+      .step label {
+        margin: 0;
+        font-size: 0.7rem;
+        opacity: 0.8;
+      }
+      .step input {
+        width: 80px;
+        font-size: 0.75rem;
+        margin-bottom: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Synth Ultime ++ (Modulaire + Séquenceur)</h1>
+
+    <!-- Section 1 : Contrôles Globaux -->
+    <div class="section">
+      <div class="param">
+        <label>Audio ON / OFF</label>
+        <button class="button-start" id="startBtn">Démarrer</button>
+      </div>
+      <div class="param">
+        <label>Master Volume</label>
+        <input
+          type="range"
+          id="masterVol"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.7"
+        />
+      </div>
+      <div class="param">
+        <label>Tempo (BPM)</label>
+        <input type="number" id="bpmInput" min="40" max="300" value="120" />
+      </div>
+      <div class="param">
+        <label>Loop On/Off</label>
+        <select id="loopSelect">
+          <option value="once">One-Shot</option>
+          <option value="loop" selected>Loop</option>
+        </select>
+      </div>
+      <button class="button-small" id="seqPlayBtn">Lire Séquence</button>
+    </div>
+
+    <!-- Section 2 : Oscillateurs / FM / Morphing -->
+    <div class="section">
+      <h3>Oscillateurs & FM</h3>
+      <div class="param">
+        <label>Wave #1 (base) – On morphera entre #1 et #2</label>
+        <select id="waveform1Select">
+          <option value="sine">sine</option>
+          <option value="triangle">triangle</option>
+          <option value="square">square</option>
+          <option value="sawtooth" selected>sawtooth</option>
+          <option value="pulse50">pulse50%</option>
+          <option value="pulse25">pulse25%</option>
+          <option value="customA">Custom A (4 harm)</option>
+          <option value="customB">Custom B (plus bright)</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Wave #2 (morph cible)</label>
+        <select id="waveform2Select">
+          <option value="sine" selected>sine</option>
+          <option value="triangle">triangle</option>
+          <option value="square">square</option>
+          <option value="sawtooth">sawtooth</option>
+          <option value="pulse50">pulse50%</option>
+          <option value="pulse25">pulse25%</option>
+          <option value="customA">Custom A</option>
+          <option value="customB">Custom B</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Morph Mix (0 = wave #1, 1= wave #2)</label>
+        <input
+          id="morphRange"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+        />
+      </div>
+      <div class="param">
+        <label>FM Operators (1 = simple, 2+ => plus “FM8 style” )</label>
+        <input
+          id="fmOpsRange"
+          type="range"
+          min="1"
+          max="4"
+          step="1"
+          value="1"
+        />
+      </div>
+      <div class="param">
+        <label>FM Rate</label>
+        <input
+          id="fmRate"
+          type="range"
+          min="0.1"
+          max="40"
+          step="0.1"
+          value="2"
+        />
+      </div>
+      <div class="param">
+        <label>FM Depth</label>
+        <input
+          id="fmDepth"
+          type="range"
+          min="0"
+          max="800"
+          step="1"
+          value="80"
+        />
+      </div>
+      <div class="param">
+        <label>Additive Harmonics (0 = OFF, 1=Max)</label>
+        <input
+          id="harmonicsRange"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+        />
+      </div>
+    </div>
+
+    <!-- Section 3 : Filtres / Distorsion / Routing -->
+    <div class="section">
+      <h3>Filtrage & Distorsion</h3>
+      <div class="param">
+        <label>Filter Type</label>
+        <select id="filterType">
+          <option value="lowpass" selected>lowpass</option>
+          <option value="highpass">highpass</option>
+          <option value="bandpass">bandpass</option>
+        </select>
+      </div>
+      <div class="param">
+        <label>Cutoff</label>
+        <input
+          id="filterCutoff"
+          type="range"
+          min="80"
+          max="15000"
+          step="1"
+          value="800"
+        />
+      </div>
+      <div class="param">
+        <label>Resonance (Q)</label>
+        <input
+          id="filterQ"
+          type="range"
+          min="0"
+          max="20"
+          step="0.1"
+          value="1"
+        />
+      </div>
+      <div class="param">
+        <label>Filter Env Depth</label>
+        <input
+          id="filterEnvDepth"
+          type="range"
+          min="0"
+          max="5000"
+          step="10"
+          value="1000"
+        />
+      </div>
+      <div class="param">
+        <label>Distorsion Amount</label>
+        <input
+          id="distAmount"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+        />
+      </div>
+      <div class="param">
+        <label>Delay/Reverb (Feedback)</label>
+        <input
+          id="delayRange"
+          type="range"
+          min="0"
+          max="0.9"
+          step="0.01"
+          value="0.2"
+        />
+      </div>
+    </div>
+
+    <!-- Section 4 : ADSR Ampli / Séquenceur Pas -->
+    <div class="section">
+      <h3>ADSR Amplitude</h3>
+      <div class="param">
+        <label>Attack / Decay / Sustain / Release (s)</label>
+        <div style="display: flex; gap: 4px">
+          <input
+            id="attackTime"
+            type="range"
+            min="0.01"
+            max="3"
+            step="0.01"
+            value="0.5"
+            style="width: 25%"
+          />
+          <input
+            id="decayTime"
+            type="range"
+            min="0.01"
+            max="3"
+            step="0.01"
+            value="0.5"
+            style="width: 25%"
+          />
+          <input
+            id="sustainLevel"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.7"
+            style="width: 25%"
+          />
+          <input
+            id="releaseTime"
+            type="range"
+            min="0.01"
+            max="5"
+            step="0.01"
+            value="1.0"
+            style="width: 25%"
+          />
+        </div>
+      </div>
+
+      <h3>Séquenceur (8 pas en exemple)</h3>
+      <p class="note">
+        Chaque pas définit une hauteur (demi-tons par rapport à A=220Hz), une
+        durée (en double-croches multiples) et un “active” on/off.
+      </p>
+      <div class="seq-steps" id="seqStepsContainer"></div>
+    </div>
+
+    <p class="note">
+      Ce projet démontre un <strong>mini rack modulaire</strong> (Oscillateurs,
+      FM multi-operators, morphing waveforms, filtrage, distorsion, delay) + un
+      <strong>séquenceur</strong> qui lit une suite de pas de façon
+      <strong>one-shot ou loop</strong>. Énormément de pistes sont possibles
+      pour l’étendre !
+    </p>
+
+    <script>
+      /* ----------------------------------------------------------------------------------
+   PART 1 : Variables et Structures
+---------------------------------------------------------------------------------- */
+      let audioCtx;
+      let masterGain;
+
+      // Distorsion + Filtre + Delay
+      let filterNode, filterEnvGain, distortionNode, delayNode, feedbackGain;
+
+      // Param ADSR
+      let A = 0.5,
+        D = 0.5,
+        S = 0.7,
+        R = 1.0;
+      let filterEnvDepth = 1000;
+
+      // On va gérer plusieurs opérateurs FM => un “carrier” + N modulateurs
+      const MAX_OPERATORS = 4;
+      const operators = []; // { osc, gain } pour la FM
+      let mainOsc; // l'osc résultant (carrier)
+      let partialOscs = []; // Additive partials
+      let partialMixGain;
+      let morphWaveA = null; // PeriodicWave (wave #1)
+      let morphWaveB = null; // PeriodicWave (wave #2)
+
+      // Envelope amplitude
+      let ampEnvGain;
+
+      // Master out => distortion => filter => master => out
+      // On fera un bus delay en parallèle
+
+      // Séquenceur
+      const seqStepsData = []; // array of { semitone: number, durBeats: number, active: bool }
+      let seqPlaying = false;
+      let seqCurrentStep = 0;
+      let seqTimeout = null;
+
+      // Petit helper pour creer un wave shape “pulse” ou “custom”
+      function createPeriodicWave(ctx, real, imag) {
+        return ctx.createPeriodicWave(
+          new Float32Array(real),
+          new Float32Array(imag),
+          {
+            disableNormalization: false,
+          },
+        );
+      }
+
+      /* ----------------------------------------------------------------------------------
+   PART 2 : Init Audio & Routing
+---------------------------------------------------------------------------------- */
+      function initAudio() {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Master Gain
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.7;
+        masterGain.connect(audioCtx.destination);
+
+        // Distorsion
+        distortionNode = audioCtx.createWaveShaper();
+        distortionNode.oversample = "4x";
+
+        // Filtre
+        filterNode = audioCtx.createBiquadFilter();
+        filterNode.type = "lowpass";
+        filterNode.frequency.value = 800;
+        filterNode.Q.value = 1;
+
+        // Envelope sur la freq du filtre
+        filterEnvGain = audioCtx.createGain();
+        filterEnvGain.gain.value = 0;
+        filterEnvGain.connect(filterNode.frequency);
+
+        // Delay + feedback => bus wet
+        delayNode = audioCtx.createDelay(6.0);
+        delayNode.delayTime.value = 0.2;
+        feedbackGain = audioCtx.createGain();
+        feedbackGain.gain.value = 0.3;
+        delayNode.connect(feedbackGain).connect(delayNode);
+
+        const delayMix = audioCtx.createGain();
+        delayMix.gain.value = 0.3;
+        delayNode.connect(delayMix);
+
+        // On crée un bus “clean” + bus “delayWet” => on somme => disto => filtre => master
+        const cleanBus = audioCtx.createGain();
+        cleanBus.connect(distortionNode);
+        delayMix.connect(distortionNode);
+
+        // Sortie disto => Filtre => Master
+        distortionNode.connect(filterNode);
+        filterNode.connect(masterGain);
+
+        // On crée N opérateurs FM => le dernier est le carrier
+        for (let i = 0; i < MAX_OPERATORS; i++) {
+          const osc = audioCtx.createOscillator();
+          osc.type = "sine";
+          const g = audioCtx.createGain();
+          g.gain.value = 0;
+          osc.connect(g);
+          // on n'établit pas la connection tout de suite, dépend de la config
+          operators.push({ osc, gainNode: g });
+          osc.start();
+        }
+        mainOsc = operators[0].osc; // par défaut, l’opérateur 0 est le “carrier”
+
+        // Additive
+        partialOscs = [];
+        partialMixGain = audioCtx.createGain();
+        partialMixGain.gain.value = 0.5;
+
+        // 4 partiels en plus
+        [1, 2, 3, 4].forEach(() => {
+          const o = audioCtx.createOscillator();
+          o.type = "sine";
+          o.start();
+          o.connect(partialMixGain);
+          partialOscs.push(o);
+        });
+
+        // On crée le “sumGain” final : carrier + partials => ampEnv => bus
+        const sumGain = audioCtx.createGain();
+        // amp envelope
+        ampEnvGain = audioCtx.createGain();
+        ampEnvGain.gain.value = 0;
+
+        sumGain.connect(ampEnvGain).connect(cleanBus);
+        partialMixGain.connect(sumGain);
+
+        // FM chaining : en mode “FM Operators”, l’opérateur N+1 se connecte vers la freq de l’opérateur N
+        // Le dernier (operators[0]) se connecte => sumGain
+        // On connecte physically plus tard dans updateFMOperators()
+
+        //** Crée d’abord les PeriodicWaves pour le morphing
+        buildPeriodicWaves();
+      }
+
+      /* ----------------------------------------------------------------------------------
+   PART 3 : PeriodicWaves & Morphing
+---------------------------------------------------------------------------------- */
+      function buildPeriodicWaves() {
+        // On va faire quelques waves custom
+        // Pulse 50% => real= [0, 0, 0, ...], imag= ...
+        // ou plus de manière paramétrée
+
+        // Ex: pulse50 => sinus transform => etc.
+        // Pour un code plus propre, on fabrique un helper createPeriodicWave
+        // (déjà fait plus haut).
+
+        // customA => 4 harm
+        // customB => plus bright ?
+
+        // wave Sine, tri, etc. => on utilisera l’osc.type = 'sine', 'square', etc. quand pas morph
+        // Mais pour morph => on passera par setPeriodicWave(wave mixé).
+
+        // On stocke 2 PeriodicWave globales “morphWaveA” et “morphWaveB”.
+        // L’utilisateur choisit le type #1 et #2, on reconstruit ?
+
+        // On fera la reconstruction “on the fly” dans updateParams()
+
+        morphWaveA = null;
+        morphWaveB = null;
+      }
+
+      // Création wave custom (quelques courtes formules)
+      function getPeriodicWaveForType(type) {
+        if (!audioCtx) return null;
+        // Sine, square, etc. => on renvoie null => on utilisera .type natif
+        if (
+          type === "sine" ||
+          type === "square" ||
+          type === "sawtooth" ||
+          type === "triangle"
+        ) {
+          return null;
+        }
+        // Pulse 50 => real= [0, 1, 0, -1, 0, 1, ...], c’est un wave plus tricky
+        if (type === "pulse50") {
+          // Approximons
+          const size = 16;
+          const real = new Float32Array(size);
+          const imag = new Float32Array(size);
+          for (let i = 1; i < size; i++) {
+            // indefinite series => on va juste remplir quelques partials
+            if (i % 2 !== 0) {
+              // harm odd => ...
+              real[i] = 0;
+              imag[i] = 4 / (Math.PI * i);
+            }
+          }
+          return audioCtx.createPeriodicWave(real, imag, {
+            disableNormalization: false,
+          });
+        }
+        if (type === "pulse25") {
+          // Variation
+          const size = 16;
+          const real = new Float32Array(size);
+          const imag = new Float32Array(size);
+          for (let i = 1; i < size; i++) {
+            // on bricole
+            if (i % 2 !== 0) {
+              imag[i] = (4 / (Math.PI * i)) * 0.5;
+            }
+          }
+          return audioCtx.createPeriodicWave(real, imag, {
+            disableNormalization: false,
+          });
+        }
+        if (type === "customA") {
+          // 4 harm
+          const real = [0, 1, 0.5, 0.3, 0.1];
+          const imag = [0, 0, 0, 0, 0];
+          return audioCtx.createPeriodicWave(
+            new Float32Array(real),
+            new Float32Array(imag),
+          );
+        }
+        if (type === "customB") {
+          // plus bright
+          const real = [0, 1, 1, 0.8, 0.6, 0.4, 0.2];
+          const imag = [0, 0, 0, 0, 0, 0, 0];
+          return audioCtx.createPeriodicWave(
+            new Float32Array(real),
+            new Float32Array(imag),
+          );
+        }
+        return null;
+      }
+
+      /* 
+   morphWaves() => génère un PeriodicWave qui est un mix 
+   entre waveA et waveB en proportion “morphVal”.
+   waveA, waveB contiennent [real, imag].
+   On interpole à la main, puis createPeriodicWave.
+*/
+      function morphWaves(wa, wb, morphVal) {
+        if (!wa || !wb) return null; // si un des deux est null => on ne morph pas
+        const N = Math.min(wa.real.length, wb.real.length);
+        const real = new Float32Array(N);
+        const imag = new Float32Array(N);
+        for (let i = 0; i < N; i++) {
+          real[i] = wa.real[i] * (1 - morphVal) + wb.real[i] * morphVal;
+          imag[i] = wa.imag[i] * (1 - morphVal) + wb.imag[i] * morphVal;
+        }
+        return audioCtx.createPeriodicWave(real, imag, {
+          disableNormalization: false,
+        });
+      }
+
+      /* ----------------------------------------------------------------------------------
+   PART 4 : Séquenceur
+---------------------------------------------------------------------------------- */
+      // On va construire un séquenceur de 8 pas (données modifiables)
+      function initSequencerUI() {
+        const seqContainer = document.getElementById("seqStepsContainer");
+        seqContainer.innerHTML = "";
+        for (let i = 0; i < 8; i++) {
+          const stepDiv = document.createElement("div");
+          stepDiv.className = "step";
+          // semitone, dur, active
+          seqStepsData.push({ semitone: 0, dur: 1, active: true });
+
+          stepDiv.innerHTML = `
+      <label>Step ${i + 1}</label>
+      <input type="checkbox" data-type="active" data-idx="${i}" checked />
+      <input type="number" data-type="semi" data-idx="${i}" value="0" />
+      <input type="number" data-type="dur" data-idx="${i}" value="1"/>
+    `;
+          seqContainer.appendChild(stepDiv);
+        }
+
+        // écoute
+        seqContainer.addEventListener("input", (e) => {
+          const t = e.target;
+          const idx = parseInt(t.getAttribute("data-idx"));
+          const typ = t.getAttribute("data-type");
+          if (typ === "active") {
+            seqStepsData[idx].active = t.checked;
+          } else if (typ === "semi") {
+            seqStepsData[idx].semitone = parseFloat(t.value);
+          } else if (typ === "dur") {
+            seqStepsData[idx].dur = parseFloat(t.value);
+          }
+        });
+      }
+
+      // Lecture
+      function playSequenceStep(stepIndex) {
+        if (!seqPlaying) return;
+        if (stepIndex >= seqStepsData.length) {
+          // si loop => on repart, sinon stop
+          const loopMode = document.getElementById("loopSelect").value;
+          if (loopMode === "loop") {
+            playSequenceStep(0);
+          } else {
+            seqPlaying = false;
+            return;
+          }
+          return;
+        }
+        seqCurrentStep = stepIndex;
+        const stepData = seqStepsData[stepIndex];
+        if (stepData.active) {
+          // On calcule la freq => A=220 * 2^(semi/12)
+          const freq = 220 * Math.pow(2, stepData.semitone / 12);
+          setFrequencyAllOscs(freq);
+          triggerAmpEnvelope(); // enveloppe
+          triggerFilterEnvelope();
+        }
+
+        const bpm = parseFloat(document.getElementById("bpmInput").value);
+        // stepData.dur => # de doubles-croches => 1 double-croche = 1/8 d'une mesure => 1/2 d'un temps si 4/4
+        // calculons la durée en ms
+        const beatDurationSec = 60 / bpm; // 1 temps
+        const one16Sec = beatDurationSec / 4; // croche = 1/2 temps => double croche=1/4 temps
+        const stepDurationSec = stepData.dur * one16Sec;
+
+        seqTimeout = setTimeout(() => {
+          playSequenceStep(stepIndex + 1);
+        }, stepDurationSec * 1000);
+      }
+
+      function startSequence() {
+        seqPlaying = true;
+        playSequenceStep(0);
+      }
+
+      function stopSequence() {
+        seqPlaying = false;
+        if (seqTimeout) clearTimeout(seqTimeout);
+      }
+
+      /* ----------------------------------------------------------------------------------
+   PART 5 : Enveloppes
+---------------------------------------------------------------------------------- */
+      function triggerAmpEnvelope() {
+        const now = audioCtx.currentTime;
+        ampEnvGain.gain.cancelScheduledValues(now);
+        const currentVal = ampEnvGain.gain.value;
+        ampEnvGain.gain.setValueAtTime(currentVal, now);
+        // Attack
+        ampEnvGain.gain.linearRampToValueAtTime(1, now + A);
+        // Decay => S
+        ampEnvGain.gain.linearRampToValueAtTime(S, now + A + D);
+        // Si on veut un “noteOff” par la suite => on s’en occupe plus tard => “release”
+      }
+
+      function releaseAmpEnvelope() {
+        const now = audioCtx.currentTime;
+        ampEnvGain.gain.cancelScheduledValues(now);
+        const currentVal = ampEnvGain.gain.value;
+        ampEnvGain.gain.setValueAtTime(currentVal, now);
+        ampEnvGain.gain.linearRampToValueAtTime(0, now + R);
+      }
+
+      function triggerFilterEnvelope() {
+        const now = audioCtx.currentTime;
+        filterEnvGain.gain.cancelScheduledValues(now);
+        filterEnvGain.gain.setValueAtTime(0, now);
+        // Attack
+        filterEnvGain.gain.linearRampToValueAtTime(filterEnvDepth, now + A);
+        // Decay => 0 => sustain
+        filterEnvGain.gain.linearRampToValueAtTime(0, now + A + D);
+      }
+
+      /* ----------------------------------------------------------------------------------
+   PART 6 : FM, Additive, Setting Frequencies
+---------------------------------------------------------------------------------- */
+      function setFrequencyAllOscs(freq) {
+        // On a fmOps => si =1 => operator[0] => c’est direct
+        // si =2 => operator[1].gain => etc.
+        // On gère la freq du carrier => freq
+        // On gère la freq d’autres ops => ???
+
+        // On vient de calculer => on met la freq du carrier (op0).
+        operators[0].osc.frequency.setTargetAtTime(
+          freq,
+          audioCtx.currentTime,
+          0.02,
+        );
+
+        // partials => * baseFreqs
+        [1, 2, 3, 4].forEach((mul, i) => {
+          partialOscs[i].frequency.setTargetAtTime(
+            freq * mul,
+            audioCtx.currentTime,
+            0.02,
+          );
+        });
+      }
+
+      /* ----------------------------------------------------------------------------------
+   PART 7 : Param Updates
+---------------------------------------------------------------------------------- */
+      function updateAllParams() {
+        if (!audioCtx) return;
+
+        // 1) Master Volume
+        const mv = parseFloat(document.getElementById("masterVol").value);
+        masterGain.gain.setTargetAtTime(mv, audioCtx.currentTime, 0.02);
+
+        // 2) FM Operators
+        const fmOps = parseInt(document.getElementById("fmOpsRange").value, 10);
+        // re-route
+        rerouteFMOperators(fmOps);
+
+        const fmRate = parseFloat(document.getElementById("fmRate").value);
+        const fmDepth = parseFloat(document.getElementById("fmDepth").value);
+
+        // On applique la freq & gain pour op1..opN
+        for (let i = 1; i < MAX_OPERATORS; i++) {
+          // ex si fmOps=2 => i<2 => i=1 => mod => freq, gain
+          if (i < fmOps) {
+            operators[i].osc.frequency.setTargetAtTime(
+              fmRate * i,
+              audioCtx.currentTime,
+              0.02,
+            );
+            operators[i].gainNode.gain.setTargetAtTime(
+              fmDepth / (i * 1.5),
+              audioCtx.currentTime,
+              0.02,
+            );
+          } else {
+            operators[i].gainNode.gain.setTargetAtTime(
+              0,
+              audioCtx.currentTime,
+              0.02,
+            );
+          }
+        }
+
+        // 3) Wave #1 / #2 + morph => mettons mainOsc en mode “custom wave”
+        const wave1Type = document.getElementById("waveform1Select").value;
+        const wave2Type = document.getElementById("waveform2Select").value;
+        const morphVal = parseFloat(
+          document.getElementById("morphRange").value,
+        );
+        const waveA = getPeriodicWaveForType(wave1Type);
+        const waveB = getPeriodicWaveForType(wave2Type);
+        if (waveA || waveB) {
+          // on fait un mix
+          // si waveA==null => alors c’est un type natif => on doit “extract”?
+          // plus simple : si waveA==null => on convert la wave en table
+          const waveA2 = waveA ? waveA : createWaveFromNative(wave1Type);
+          const waveB2 = waveB ? waveB : createWaveFromNative(wave2Type);
+          if (waveA2 && waveB2) {
+            const newWave = morphWaves(
+              { real: waveA2.real, imag: waveA2.imag },
+              { real: waveB2.real, imag: waveB2.imag },
+              morphVal,
+            );
+            if (newWave) {
+              operators[0].osc.setPeriodicWave(newWave);
+            }
+          }
+        } else {
+          // waveA==null && waveB==null => on applique wave1Type direct
+          operators[0].osc.type = wave1Type; // ex 'sawtooth'
+        }
+
+        // 4) Additive
+        const harmVal = parseFloat(
+          document.getElementById("harmonicsRange").value,
+        );
+        partialMixGain.gain.setTargetAtTime(
+          harmVal,
+          audioCtx.currentTime,
+          0.02,
+        );
+
+        // 5) Filtre & Distorsion
+        const fType = document.getElementById("filterType").value;
+        filterNode.type = fType;
+        const cutoff = parseFloat(
+          document.getElementById("filterCutoff").value,
+        );
+        filterNode.frequency.setTargetAtTime(
+          cutoff,
+          audioCtx.currentTime,
+          0.02,
+        );
+        const qVal = parseFloat(document.getElementById("filterQ").value);
+        filterNode.Q.setTargetAtTime(qVal, audioCtx.currentTime, 0.02);
+
+        filterEnvDepth = parseFloat(
+          document.getElementById("filterEnvDepth").value,
+        );
+
+        const distVal = parseFloat(document.getElementById("distAmount").value);
+        distortionNode.curve = makeDistortionCurve(distVal * 600);
+
+        // Delay
+        const delayVal = parseFloat(
+          document.getElementById("delayRange").value,
+        );
+        delayNode.delayTime.setTargetAtTime(
+          0.05 + delayVal * 0.4,
+          audioCtx.currentTime,
+          0.02,
+        );
+        feedbackGain.gain.setTargetAtTime(delayVal, audioCtx.currentTime, 0.02);
+
+        // 6) ADSR
+        A = parseFloat(document.getElementById("attackTime").value);
+        D = parseFloat(document.getElementById("decayTime").value);
+        S = parseFloat(document.getElementById("sustainLevel").value);
+        R = parseFloat(document.getElementById("releaseTime").value);
+      }
+
+      // Reconstruit un wave table à partir d’une wave “native”
+      function createWaveFromNative(nativeType) {
+        if (!audioCtx) return null;
+        // On va “échantillonner” la wave “nativeType” ?
+        // Simplifions => on fabrique un Oscillator offline, ou on fait un guess
+        // Pour la démo, on hack un petit code, ex: sawtooth => an array
+        // c’est un mock, pas hyper exact
+        const size = 16;
+        const real = new Float32Array(size);
+        const imag = new Float32Array(size);
+
+        switch (nativeType) {
+          case "square":
+            for (let i = 1; i < size; i += 2) {
+              imag[i] = 1 / i;
+            }
+            break;
+          case "triangle":
+            for (let i = 1; i < size; i += 2) {
+              // signe alterné
+              imag[i] = (1 / (i * i)) * (i % 4 === 1 ? 1 : -1);
+            }
+            break;
+          case "sawtooth":
+            for (let i = 1; i < size; i++) {
+              imag[i] = (1 / i) * (i % 2 === 0 ? 1 : -1);
+            }
+            break;
+          case "sine":
+          default:
+            imag[1] = 1.0;
+            break;
+        }
+        return { real, imag };
+      }
+
+      /* 
+   Reroute operators => if fmOps=2 => op1 => freq of op0
+   if fmOps=3 => op2 => freq of op1 => op1 => freq of op0
+   etc.
+*/
+      function rerouteFMOperators(count) {
+        // 1) Tout déconnecter
+        for (let i = 0; i < MAX_OPERATORS; i++) {
+          operators[i].gainNode.disconnect();
+        }
+        // 2) On chaîne
+        // carrier => operators[0], on suppose qu’il sort => sumGain
+        // pour i in [1..count-1], operators[i].gainNode => operators[i-1].osc.frequency
+        for (let i = 1; i < count; i++) {
+          operators[i].gainNode.connect(operators[i - 1].osc.frequency);
+        }
+      }
+
+      /* ----------------------------------------------------------------------------------
+   PART 8 : Distorsion
+---------------------------------------------------------------------------------- */
+      function makeDistortionCurve(amount) {
+        const nSamples = 44100;
+        const curve = new Float32Array(nSamples);
+        const deg = Math.PI / 180;
+        for (let i = 0; i < nSamples; i++) {
+          const x = (i * 2) / nSamples - 1;
+          curve[i] =
+            ((3 + amount) * x * 20 * deg) / (Math.PI + amount * Math.abs(x));
+        }
+        return curve;
+      }
+
+      /* ----------------------------------------------------------------------------------
+   PART 9 : Setup UI
+---------------------------------------------------------------------------------- */
+      window.addEventListener("DOMContentLoaded", () => {
+        initSequencerUI();
+
+        // Attache listeners
+        const paramIds = [
+          "masterVol",
+          "bpmInput",
+          "loopSelect",
+          "waveform1Select",
+          "waveform2Select",
+          "morphRange",
+          "fmOpsRange",
+          "fmRate",
+          "fmDepth",
+          "harmonicsRange",
+          "filterType",
+          "filterCutoff",
+          "filterQ",
+          "filterEnvDepth",
+          "distAmount",
+          "delayRange",
+          "attackTime",
+          "decayTime",
+          "sustainLevel",
+          "releaseTime",
+        ];
+        paramIds.forEach((id) => {
+          document
+            .getElementById(id)
+            .addEventListener("input", updateAllParams);
+        });
+
+        document.getElementById("startBtn").addEventListener("click", () => {
+          if (!audioCtx) {
+            initAudio();
+          }
+          if (audioCtx.state === "suspended") {
+            audioCtx.resume();
+          }
+          // Toggle
+          if (audioCtx.state === "running") {
+            // On veut potentiellement stopper ?
+            // Pour “stopper” on suspend l’audio context => plus de son
+            audioCtx.suspend();
+            document.getElementById("startBtn").textContent = "Démarrer";
+          } else {
+            audioCtx.resume();
+            document.getElementById("startBtn").textContent = "Stop Audio";
+          }
+          updateAllParams();
+        });
+
+        document.getElementById("seqPlayBtn").addEventListener("click", () => {
+          // lecture séquence
+          if (seqPlaying) {
+            // stop
+            stopSequence();
+            document.getElementById("seqPlayBtn").textContent = "Lire Séquence";
+          } else {
+            startSequence();
+            document.getElementById("seqPlayBtn").textContent = "Stop Séquence";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

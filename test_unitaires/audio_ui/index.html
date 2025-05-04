@@ -1,0 +1,64 @@
+﻿<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>🎧 Lecteur Audio 3D avec Volet & SFX aligné</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="radio">
+      <div class="info-panel" id="infoPanel">
+        <h2 id="trackTitle">Titre de la chanson</h2>
+      </div>
+
+      <div class="cover" id="cover">
+        <!-- ✅ Chemin relatif vers ton image locale -->
+        <img id="coverArt" src="assets/images/log_zim.jpg" alt="Cover Art" />
+      </div>
+
+      <div class="controls">
+        <div class="buttons">
+          <button class="button" id="prevBtn" title="Précédent">
+            <div class="icon prev"></div>
+          </button>
+          <button class="button" id="toggleBtn" title="Lecture / Pause">
+            <div class="icon play"></div>
+            <div class="icon pause"><span></span><span></span></div>
+          </button>
+          <button class="button" id="stopBtn" title="Stop">
+            <div class="icon stop"></div>
+          </button>
+          <button class="button" id="nextBtn" title="Suivant">
+            <div class="icon next"></div>
+          </button>
+          <button class="button" id="sfxBtn" title="SFX On/Off">🔊</button>
+        </div>
+
+        <div class="sliders">
+          <span class="time" id="timeDisplay">0:00</span>
+          <input
+            type="range"
+            class="progress"
+            id="progress"
+            value="0"
+            max="100"
+          />
+          <input
+            type="range"
+            class="volume"
+            id="volume"
+            value="100"
+            max="100"
+            title="Volume"
+          />
+        </div>
+      </div>
+
+      <audio id="audioPlayer" preload="auto"></audio>
+    </div>
+
+    <!-- ✅ Charge bien le script JavaScript -->
+    <script src="js/player.js" type="application/javascript"></script>
+  </body>
+</html>
