@@ -101,12 +101,32 @@
               <h2 id="trackTitle">Chargement...</h2>
             </div>
             <div class="cover" id="cover">
-              <img
-                id="coverArt"
-                src="assets/images/platine.jpg"
-                alt="Cover Art"
-              />
+              <picture>
+                <!-- Source optimisée WebP -->
+                <source srcset="assets/images/log_zim.webp" type="image/webp" />
+                <!-- Fallback JPEG si navigateur ne supporte pas WebP -->
+                <source srcset="assets/images/log_zim.jpg" type="image/jpeg" />
+                <img
+                  id="coverArt"
+                  src="assets/images/log_zim.jpg"
+                  alt="Logo de Florian Behejohn"
+                  loading="lazy"
+                  width="480"
+                  height="480"
+                  decoding="async"
+                  style="
+                    max-width:100%;
+                    height:auto;
+                    display:block;
+                    margin:auto;
+                    border-radius:50%;
+                    box-shadow:0 4px 32px #2223;
+                    background:#fff; /* fond blanc pour effet vinyle propre */
+                  "
+                />
+              </picture>
             </div>
+            
             <div class="controls">
               <div class="buttons">
                 <button class="button" id="prevBtn" title="Précédent">
