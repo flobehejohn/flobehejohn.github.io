@@ -159,7 +159,7 @@
     <div id="content">
       <article>
         <!-- SECTION ACCUEIL -->
-        <section id="two" class="section swatch-custom">
+        <section id="two" class="section swatch.bundle">
           <div class="container">
             <header class="hero-section text-center animated-text">
               <h1 class="super hairline bordered-normal">
@@ -178,13 +178,34 @@
             <!-- On ajoute un ID pour cibler spécifiquement cette image -->
             <div class="figure text-center">
               <span class="figure-image">
-                <img
-                  id="magic-photo"
-                  src="assets/images/people/moi_.png"
-                  alt="Mon Profil"
-                />
+                <picture>
+                  <!-- WebP optimisé (avec transparence) -->
+                  <source
+                    srcset="assets/images/people/moi_.webp"
+                    type="image/webp"
+                    width="445"
+                    height="605"
+                  />
+                  <!-- Fallback PNG (même dimensions, transparence si besoin) -->
+                  <source
+                    srcset="assets/images/people/moi_.png"
+                    type="image/png"
+                    width="445"
+                    height="605"
+                  />
+                  <img
+                    id="magic-photo"
+                    src="assets/images/people/moi_.png"
+                    width="445"
+                    height="605"
+                    alt="Portrait de Florian Behejohn, créateur sonore & visuel"
+                    loading="lazy"
+                    style="background: transparent; display: block; margin: 0 auto;"
+                  />
+                </picture>
               </span>
             </div>
+            
           </div>
         </section>
 
