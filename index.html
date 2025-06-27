@@ -1754,180 +1754,41 @@
     </footer>
 
     <!-- CHARGEMENT DES SCRIPTS -->
-    <!-- 1) jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- CDN officiel Bootstrap 3.4.1 (ou version de ton projet) -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script src="assets/js/smartresize-patch.js"></script>
-    <script src="assets/js/navbar.js"></script>
-    <!-- Barre de navigation -->
-    <script src="assets/js/skill-card.js"></script>
-    <!-- Gros script qui gère le système de skill-card pour les étoiles etc -->
-    <script src="assets/js/magic-photo.js"></script>
-    <!-- Magic photo transmutation de ma photo et particules -->
-    <script src="assets/js/animated-text.js"></script>
-    <!-- texte animé -->
-    <script src="assets/js/word-hold-effect.js"></script>
-    <!--Ajoute un effet spécial (ex. changement de couleur, agrandissement...) lorsqu'on maintient un mot cliqué.-->
+<script src="assets/js/smartresize-patch.js"></script>
+<script src="assets/js/navbar.js"></script>
+<script src="assets/js/skill-card.js"></script>
+<script src="assets/js/magic-photo.js"></script>
+<script src="assets/js/animated-text.js"></script>
+<script src="assets/js/word-hold-effect.js"></script>
+<script src="assets/js/hover-menu-config.js"></script>
+<script src="assets/js/packages.min.js"></script>
+<script src="assets/js/theme.min.js"></script>
+<script src="assets/js/script.js"></script>
 
-    <script src="assets/js/hover-menu-config.js"></script>
+<!-- Isotope grid et filtre -->
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="assets/js/isotope-skill-grid.js"></script>
 
-    
-    <!-- 4) Autres scripts spécifiques -->
-    <script src="assets/js/packages.min.js"></script>
-    <script src="assets/js/theme.min.js"></script>
-    <script src="assets/js/script.js"></script>
+<!-- MODAL BUNDLE UNIQUE -->
+<script src="assets/js/modal.js"></script>
+<!-- (Supprimé: skill-modal-ui.js, skill-modal-handler.js, skill-modal-scroll-handler.js, skill-card-modal.js, expandable-cards.js) -->
 
-    <!--/**
-    * ========================================================
-    * 🧠 ISOTOPE GRID POUR SKILL-CARDS
-    * Gestion du filtrage par catégorie et tri dynamique par note
-    * Basé sur la librairie Isotope.js (https://isotope.metafizzy.co/)
-    * Compatible avec layoutMode: 'fitRows' et grid responsive CSS
-    * ========================================================
-    */ Script de filtrage/tri -->
-    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-    <script src="assets/js/isotope-skill-grid.js"></script>
+<script src="assets/js/player.js" type="application/javascript"></script>
+<script src="assets/js/floating-audio-toggle.js"></script>
+<script src="assets/js/responsive-audio-player-scaler.js"></script>
+<script src="assets/js/draggable-audio-player.js"></script>
 
-    <!-- MODAL DÉTAILLÉ SURIMPRESSION Création dynamique de la modale skill-modal si elle n'existe pas encore.
-    Ajout automatique au DOM, évitant d'avoir du code HTML statique inutile.
-    Gestion complète des événements :
-        Fermeture en cliquant sur l’overlay
-        Fermeture en cliquant sur le bouton (×)
-        Empêche la fermeture en cliquant sur le contenu
-    Affichage et masquage propre de la modale avec display: flex et display: none.-->
-    <script src="assets/js/skill-modal-ui.js"></script>
+<!-- Le reste de tes scripts inline et modules -->
+<script>
+  // ...ton script DOMContentLoaded pour les boutons de cartes...
+</script>
+<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+<script>
+  // ...ton script pour le responsive de la navbar...
+</script>
+<script type="module" src="assets/js/main.js"></script>
 
-    <!--Ce script assure plusieurs fonctionnalités :
-
-    Affichage dynamique d’une modale contenant les informations d'une skill-card sélectionnée.
-    Récupération automatique du titre, de la description, des étoiles et des logos de la carte.
-    Gestion de la fermeture de la modale via une fonction dédiée.
-    Écoute d’événements pour détecter un clic sur une skill-card et ouvrir la modale correspondante.-->
-    <script src="assets/js/skill-modal-handler.js"></script>
-
-    <!--✅ Ce script assure plusieurs fonctionnalités :
-
-    Sauvegarde et restauration de la position du scroll avant et après l’ouverture de la modale.
-    Empêche le scroll de l’arrière-plan lorsqu’une modale est ouverte pour améliorer l’expérience utilisateur.
-    Affichage dynamique de la modale avec récupération des données d’une skill-card sélectionnée.
-    Gestion propre de la fermeture avec réactivation du scroll et restauration du positionnement.-->
-    <script src="assets/js/skill-modal-scroll-handler.js"></script>
-
-    <!--Ce script assure plusieurs fonctionnalités :
-
-    Permet d'afficher du contenu masqué au clic sur "Voir plus".
-    Cache le contenu lorsqu'on clique sur "Voir moins".
-    Gère dynamiquement l'affichage des boutons pour éviter des affichages inutiles.
-    Ajoute une classe CSS .expanded pour d'éventuelles animations CSS.-->
-    <script src="assets/js/expandable-cards.js"></script>
-
-    <!--✅ Ce script assure plusieurs fonctionnalités :
-
-    Affichage dynamique de la modale avec récupération des données de la skill-card sélectionnée.
-    Gestion des étoiles de notation dynamiques en fonction des logiciels associés.
-    Interactivité avancée avec survol et clic sur les logos des logiciels pour afficher leurs notes.
-    Fermeture propre de la modale avec restauration des valeurs par défaut.-->
-    <script src="assets/js/skill-card-modal.js"></script>
-
-    <!--Ce script assure plusieurs fonctionnalités :
-
-    Ajoute un bouton animé "Mon CV" qui invite à découvrir le parcours professionnel.
-    Affiche le CV dans une fenêtre modale avec possibilité de le visualiser sans quitter la page.
-    Empêche le scroll en arrière-plan lorsque la modale est ouverte.
-    Ajoute un bouton "Télécharger le CV" en PDF.
-    Ferme proprement la modale en cliquant sur le bouton de fermeture ou en dehors.-->
-    <script src="assets/js/cv-modal-handler.js"></script>
-
-    <!--/**
-     * ==========================================================
-     * 🎧 MODULE PRINCIPAL DE GESTION DU LECTEUR AUDIO HTML5
-     * ----------------------------------------------------------
-     * Fonctionnalités :
-     * - Chargement dynamique de la playlist depuis un fichier JSON
-     * - Contrôle de la lecture (play/pause/stop/next/prev)
-     * - Affichage du titre et de la pochette de l’audio en cours
-     * - Affichage de la progression et du temps actuel
-     * - Réglage du volume
-     * - Conservation de la lecture même si la fenêtre modale est fermée
-     * ==========================================================
-     */
-    -->
-    <script src="assets/js/player.js" type="application/javascript"></script>
-
-    <!-- 🎛️ BOUTON FLOTTANT POUR RÉAFFICHER LE LECTEUR -->
-    <!-- Script de gestion du bouton flottant du lecteur audio -->
-    <script src="assets/js/floating-audio-toggle.js"></script>
-
-    <!--* ============================================
-    * 🎧 RESPONSIVE AUDIO PLAYER SCALER
-    * Ajuste dynamiquement l'échelle du lecteur audio modal
-    * pour qu'il reste lisible, centré et proportionné sur tous les écrans.
-    * ============================================
-    -->
-    <script src="assets/js/responsive-audio-player-scaler.js"></script>
-
-    <!--/**
-    * ============================================
-    * 🎧 DRAGGABLE AUDIO PLAYER
-    * Permet de déplacer manuellement le lecteur audio sur grand écran
-    * Comporte une désactivation automatique sur mobile (< 768px)
-    * ============================================
-    */-->
-    <script src="assets/js/draggable-audio-player.js"></script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const cards = document.querySelectorAll(".card-comp");
-
-        cards.forEach((card) => {
-          const expandBtn = card.querySelector(".expand-btn");
-          const fullText = card.querySelector(".full-text");
-          const reduceBtn = card.querySelector(".reduce-btn");
-
-          if (expandBtn && fullText && reduceBtn) {
-            expandBtn.addEventListener("click", () => {
-              fullText.style.display = "block";
-              reduceBtn.style.display = "inline-block";
-              card.classList.add("expanded");
-              expandBtn.style.display = "none";
-            });
-
-            reduceBtn.addEventListener("click", () => {
-              fullText.style.display = "none";
-              reduceBtn.style.display = "none";
-              card.classList.remove("expanded");
-              expandBtn.style.display = "inline-block";
-            });
-          }
-        });
-      });
-    </script>
-
-    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const brand = document.querySelector(".navbar-brand");
-        const title = document.querySelector(".site-title");
-        const audio = document.querySelector(".audio-player-nav-btn");
-        const burger = document.querySelector(".navbar-toggler");
-
-        if (brand && title && audio && burger) {
-          const totalWidth = brand.parentElement.getBoundingClientRect().width;
-          const reserved =
-            audio.getBoundingClientRect().width +
-            burger.getBoundingClientRect().width +
-            24;
-          const available = totalWidth - reserved;
-
-          title.style.maxWidth = `${available}px`;
-          if (title.scrollWidth > available) {
-            title.style.fontSize = "0.82rem";
-          }
-        }
-      });
-    </script>
-
-    <script type="module" src="assets/js/main.js"></script>
   </body>
