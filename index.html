@@ -200,14 +200,12 @@
             <div class="figure text-center">
               <span class="figure-image">
                 <picture>
-                  <!-- WebP optimisé (avec transparence) -->
                   <source
                     srcset="assets/images/people/moi_.webp"
                     type="image/webp"
                     width="445"
                     height="605"
                   />
-                  <!-- Fallback PNG (même dimensions, transparence si besoin) -->
                   <source
                     srcset="assets/images/people/moi_.png"
                     type="image/png"
@@ -221,9 +219,24 @@
                     height="605"
                     alt="Portrait de Florian Behejohn, créateur sonore & visuel"
                     loading="lazy"
-                    style="background: transparent; display: block; margin: 0 auto;"
+                    decoding="async"
+                    style="
+                      background: none !important;
+                      display: block;
+                      margin: 0 auto;
+                      max-width: 100%;
+                      height: auto;
+                      border: none !important;
+                      box-shadow: none !important;
+                      outline: none !important;
+                    "
+                    srcset="assets/images/people/moi_.webp 445w, assets/images/people/moi_.png 445w"
+                    sizes="(max-width: 480px) 90vw, 445px"
+                    fetchpriority="auto"
                   />
                 </picture>
+                
+                
               </span>
             </div>
             
