@@ -1,7 +1,7 @@
 ﻿:root {
-  --primary: #00c8ff;
-  --shadow: rgba(0, 200, 255, 0.4);
-  --shimmer-gradient: linear-gradient(
+  --mgc-primary: #00c8ff;
+  --mgc-shadow: rgba(0, 200, 255, 0.4);
+  --mgc-shimmer-gradient: linear-gradient(
     120deg,
     transparent 40%,
     rgba(255, 255, 255, 0.5),
@@ -13,13 +13,11 @@ body {
   margin: 0;
   background: #f5faff;
   font-family: "Inter", sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 
-.parcours-grid {
+
+/* ======= Grille principale ======= */
+.mgc-parcours-grid {
   width: 100%;
   max-width: 800px;
   padding: 24px;
@@ -28,8 +26,23 @@ body {
   align-items: center;
 }
 
-.card-comp {
+/* ======= Grille des cartes ======= */
+.mgc-magic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  padding: 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  justify-items: stretch;
+  align-items: start;
+}
+
+/* ======= Carte magique ======= */
+.mgc-card {
   width: 100%;
+  max-width: 540px;
   background: #ffffff;
   border-radius: 16px;
   padding: 24px;
@@ -41,7 +54,8 @@ body {
   overflow: hidden;
   transition:
     box-shadow 0.3s ease,
-    transform 0.3s ease;
+    transform 0.3s ease,
+    all 0.6s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,51 +63,53 @@ body {
   text-align: center;
 }
 
-.card-comp:hover {
+/* Hover sur la carte */
+.mgc-card:hover {
   transform: translateY(-6px);
   box-shadow:
     0 14px 20px rgba(0, 0, 0, 0.08),
     0 4px 8px rgba(0, 200, 255, 0.3);
 }
 
-.card-comp::before {
+/* Effet shimmer à l'ouverture */
+.mgc-card::before {
   content: "";
   position: absolute;
   top: 0;
   left: -150%;
   width: 300%;
   height: 100%;
-  background: var(--shimmer-gradient);
+  background: var(--mgc-shimmer-gradient);
   transition: transform 0.6s ease;
   transform: translateX(-100%);
   pointer-events: none;
   opacity: 0.6;
 }
 
-.card-comp.expanded::before {
+.mgc-card.mgc-expanded::before {
   transform: translateX(100%);
 }
 
-.icon {
+.mgc-icon {
   font-size: 40px;
-  color: var(--primary);
+  color: var(--mgc-primary);
   margin-bottom: 12px;
 }
 
-.card-title {
+.mgc-card-title {
   font-size: 1.6rem;
   font-weight: 600;
   margin-bottom: 12px;
   color: #222;
 }
 
-.short-text {
+.mgc-short-text {
   font-size: 1rem;
   color: #555;
   margin-bottom: 18px;
 }
 
-.full-text {
+.mgc-full-text {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
@@ -103,12 +119,12 @@ body {
   width: 100%;
 }
 
-.card-comp.expanded .full-text {
+.mgc-card.mgc-expanded .mgc-full-text {
   max-height: 500px;
   opacity: 1;
 }
 
-.magic-text {
+.mgc-magic-text {
   color: #333;
   line-height: 1.6;
   font-size: 0.95rem;
@@ -116,11 +132,11 @@ body {
 }
 
 /* Affiche le bouton "Fermer" uniquement à la fin de l'animation JS */
-.close-btn {
+.mgc-close-btn {
   margin-top: 20px;
   background: none;
-  border: 1px solid var(--primary);
-  color: var(--primary);
+  border: 1px solid var(--mgc-primary);
+  color: var(--mgc-primary);
   padding: 6px 16px;
   border-radius: 6px;
   cursor: pointer;
@@ -128,67 +144,63 @@ body {
   opacity: 0;
   pointer-events: none;
 }
-
-.card-comp.show-close .close-btn {
+.mgc-card.mgc-show-close .mgc-close-btn {
   opacity: 1;
   pointer-events: auto;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .parcours-grid {
+  .mgc-parcours-grid {
     padding: 16px;
   }
-
-  .card-comp {
+  .mgc-magic-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    gap: 24px;
+    padding: 18px;
+  }
+  .mgc-card {
     padding: 20px;
   }
-
-  .card-title {
+  .mgc-card-title {
     font-size: 1.4rem;
   }
-
-  .magic-text {
+  .mgc-magic-text {
     font-size: 0.9rem;
   }
 }
 
 /* Effet scintillement sur .short-text toutes les 15s */
-@keyframes glowPulse {
-  0%,
-  100% {
+@keyframes mgc-glowPulse {
+  0%, 100% {
     opacity: 1;
     filter: drop-shadow(0 0 0 transparent);
   }
-
   50% {
     opacity: 0.85;
-    filter: drop-shadow(0 0 6px var(--primary));
+    filter: drop-shadow(0 0 6px var(--mgc-primary));
   }
 }
-
-.glow-text {
-  animation: glowPulse 15s infinite;
+.mgc-glow-text {
+  animation: mgc-glowPulse 15s infinite;
 }
 
 /* Icône avec pulsation douce */
-@keyframes pulse {
-  0%,
-  100% {
+@keyframes mgc-pulse {
+  0%, 100% {
     transform: scale(1);
   }
-
   50% {
     transform: scale(1.1);
   }
 }
-
-.pulsate {
-  animation: pulse 2.5s infinite ease-in-out;
+.mgc-pulsate {
+  animation: mgc-pulse 2.5s infinite ease-in-out;
 }
 
 /* Scintillement rapide à l'ouverture */
-.card-comp.scintillate::after {
+.mgc-card.mgc-scintillate::after {
   content: "";
   position: absolute;
   top: 0;
@@ -203,60 +215,22 @@ body {
   );
   opacity: 0.6;
   pointer-events: none;
-  animation: flashShine 0.6s ease-in-out;
-}
-
-@keyframes flashShine {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-
-  50% {
-    transform: translateX(50%);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-.card-comp.scintillate::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -50%;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(0, 200, 255, 0.1) 30%,
-    rgba(0, 200, 255, 0.25) 50%,
-    transparent 70%
-  );
-  filter: blur(6px);
-  animation: flashShine 0.7s ease-out;
-  pointer-events: none;
+  animation: mgc-flashShine 0.6s ease-in-out;
   z-index: 1;
   border-radius: 16px;
 }
 
-@keyframes flashShine {
+@keyframes mgc-flashShine {
   0% {
     transform: translateX(-100%) scale(1);
     opacity: 0.2;
     box-shadow: 0 0 0 transparent;
   }
-
   40% {
     transform: translateX(30%) scale(1.03);
     opacity: 0.6;
     box-shadow: 0 0 24px rgba(0, 200, 255, 0.2);
   }
-
   100% {
     transform: translateX(100%) scale(1);
     opacity: 0;
@@ -265,7 +239,7 @@ body {
 }
 
 /* Effet d’ombre temporairement amplifié */
-.card-comp.scintillate {
+.mgc-card.mgc-scintillate {
   filter: saturate(1.2);
   box-shadow:
     0 8px 16px rgba(0, 200, 255, 0.25),
@@ -274,7 +248,7 @@ body {
 }
 
 /* Apparition en gras avec effet rebond lumineux */
-strong.highlight-pop {
+strong.mgc-highlight-pop {
   font-weight: 700;
   opacity: 0;
   transform: scale(0.8);
@@ -283,70 +257,22 @@ strong.highlight-pop {
     transform 0.25s ease,
     opacity 0.25s ease,
     color 0.25s ease;
-  color: #00c8ff;
-  text-shadow: 0 0 2px rgba(0, 200, 255, 0.3);
+  color: #111 !important; /* Correction : noir profond */
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.05);
 }
-
-strong.highlight-pop.active {
+strong.mgc-highlight-pop.mgc-active {
   opacity: 1;
   transform: scale(0.91);
-  color: #0078a8;
-  text-shadow: 0 0 4px rgba(0, 200, 255, 0.4);
+  color: #222 !important; /* Correction : noir doux et visible */
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.10);
 }
 
-/* CONTENEUR DES CARTES */
-/* GRILLE EN DEUX COLONNES FIXES */
-.magic-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
-  padding: 32px;
-  max-width: 1280px;
-  margin: 0 auto;
-  box-sizing: border-box;
-  justify-items: stretch;
-  align-items: start;
-}
-
-/* CARTE MAGIQUE AVEC TRANSITION HAUTEUR */
-.card-comp {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 540px;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  box-sizing: border-box;
-  box-shadow:
-    0 8px 12px rgba(0, 0, 0, 0.05),
-    0 2px 4px rgba(0, 200, 255, 0.2);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.6s ease-in-out;
-  text-align: center;
-}
 
 /* Effet plastique visuel sur la carte voisine */
-.card-comp.opening-sibling {
+.mgc-card.mgc-opening-sibling {
   transform: scaleY(1.02) scaleX(0.985);
   filter: brightness(1.03) saturate(1.08);
   transition:
     transform 0.4s ease-in-out,
     filter 0.4s ease-in-out;
-}
-
-@media (max-width: 960px) {
-  .magic-grid {
-    grid-template-columns: 1fr; /* Une seule colonne */
-    grid-auto-rows: auto; /* Hauteur libre pour chaque carte */
-    gap: 24px;
-  }
-
-  .card-comp {
-    min-height: auto;
-  }
 }
