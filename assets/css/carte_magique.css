@@ -18,26 +18,79 @@ body {
 
 /* ======= Grille principale ======= */
 .mgc-parcours-grid {
-  width: 100%;
-  max-width: 800px;
-  padding: 24px;
+  min-height: 100vh;
+  /* Hauteur minimum du viewport (évite le scroll inutile, mais conserve la flexibilité si besoin) */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center;    /* Centre horizontalement */
+  align-items: center;        /* Centre verticalement */
+  padding: 0;
+  margin: 0;                 /* Plus de auto ici ! */
+  box-sizing: border-box;
+  background: transparent;
 }
+
 
 /* ======= Grille des cartes ======= */
 .mgc-magic-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
   gap: 32px;
-  padding: 32px;
-  max-width: 1280px;
+  width: 100%;
+  max-width: 1100px;
   margin: 0 auto;
+  padding: 32px 0;
   box-sizing: border-box;
   justify-items: stretch;
-  align-items: start;
+  align-items: stretch;
+  background: transparent;
 }
+@media (max-width: 900px) {
+  .mgc-magic-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    max-width: 540px;
+    padding: 18px 0;
+    gap: 24px;
+    justify-items: stretch;
+  }
+}
+
+
+/* ======= Carte magique ======= */
+.mgc-card {
+  /* PAS de width explicite ni de max-width */
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow:
+    0 8px 12px rgba(0, 0, 0, 0.05),
+    0 2px 4px rgba(0, 200, 255, 0.2);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease,
+    all 0.6s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;                /* Prend toute la cellule de la grille ! */
+  min-width: 0;                /* Évite l'overflow grid si contenu large */
+}
+@media (max-width: 900px) {
+  .mgc-magic-grid {
+    grid-template-columns: 1fr;          /* 1 carte par ligne */
+    grid-template-rows: none;            /* auto */
+    max-width: 540px;
+    min-height: auto;
+    padding: 18px 0;
+  }
+}
+
 
 /* ======= Carte magique ======= */
 .mgc-card {
