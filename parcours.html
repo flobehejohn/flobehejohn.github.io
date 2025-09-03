@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Analytics – Florian Behejohn</title>
+
+    <!-- SEO & Meta -->
+    <meta name="description" content="Visualisation des analytics anonymisés : interactions, comportements et score d’engagement, avec fond de particules." />
+    <link rel="canonical" href="https://flobehejohn.github.io/parcours.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta name="audio-policy" content="global" />
+
+    <!-- Polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <!-- CSS globaux du site (chemins absolus = fiable d’où qu’on vienne) -->
+    <link rel="preload" href="/assets/css/theme.min.css" as="style" onload="this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/css/theme.min.css"></noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/fixes.css">
+
+    <!-- CSS SCOPÉ inline -->
+    <style data-page-css>
+      :root{
+        --accent:#4da3ff;
+        --bg:#000;
+        --panel:#fff;
+        --muted:#9aa6b2;
+        --line:#e8edf5;
+        --nav-h: 72px;      /* par défaut → mis à jour au runtime */
+        --pane-w: 460px;    /* largeur du viewer */
+        --pane-gap: 16px;
+        --content-pad: 16px;
+      }
+      html, body { height:100%; margin:0; }
+      body{
+        background: var(--bg);
+        font-family: Inter, system-ui, "Source Sans Pro", Arial, sans-serif;
+      }
+
+      /* ===== Fond & nuage ===== */
+      #cloud-bg{
+        position:fixed; inset:0; width:100%; height:100%;
+        background:#000;
+        z-index:0; pointer-events:none;
+      }
+      #cloud-bg canvas{ position:absolute; inset:0; width:100%; height:100%; background:transparent!important; pointer-events:none!important; }
+
+      /* ===== Navbar toujours visible ===== */
+      #masthead{
+        position:sticky; top:0; z-index:1030;
+        backdrop-filter: saturate(120%) blur(4px);
+      }
+      .navbar .navbar-brand .brand-logo{ width:40px; height:40px; }
+
+      /* ===== Layout principal : playground + viewer ===== */
+      main[data-page="parcours"]{
+        position:relative; z-index:1; min-height:100%;
+        padding-top: calc(var(--nav-h) + 16px);
+        padding-bottom: 24px;
+      }
+      .playground{
+        margin-right: calc(var(--pane-w) + var(--pane-gap));
+        padding: var(--content-pad);
+      }
+      @media (max-width: 1024px){
+        .playground{ margin-right: 16px; }
+      }
+      .pg-grid{ display:grid; gap:12px; grid-template-columns: repeat(3, minmax(220px,1fr)); }
+      @media (max-width: 1200px){ .pg-grid{ grid-template-columns: repeat(2, minmax(220px,1fr)); } }
+      @media (max-width: 720px){  .pg-grid{ grid-template-columns: 1fr; } }
+      .pg-card{
+        background: rgba(255,255,255,.05);
+        border:1px solid rgba(255,255,255,.1);
+        color:#e7edf6; border-radius:12px; padding:12px;
+        box-shadow:0 10px 28px rgba(2,6,23,.35);
+      }
+      .pg-card h3{ font-size:16px; margin:0 0 8px 0; color:#fff; }
+      .pg-card p{ font-size:14px; color:#cbd5e1; margin:0 0 10px 0; }
+      .pg-card .btn{ margin-right:8px; margin-bottom:6px; }
+
+      .pg-scroll{
+        margin-top:14px; background: rgba(255,255,255,.04);
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:12px; color:#cfd8e3; padding:14px;
+        max-height:420px; overflow:auto;
+      }
+      .pg-scroll h4{ color:#fff; margin-top:0; }
+      .pg-scroll p{ margin:0 0 14px 0; }
+
+      /* ===== Viewer Analytics (ouvert par défaut) ===== */
+      #analyticsDashboard{
+        position:fixed;
+        right: 16px;
+        top: calc(var(--nav-h) + 12px);
+        bottom: 16px;
+        z-index:2000;
+        width: var(--pane-w);
+        max-width: calc(100% - 32px);
+        background:var(--panel);
+        border-radius:16px; overflow:hidden;
+        border:1px solid rgba(0,0,0,.06);
+        box-shadow:0 22px 80px rgba(2,6,23,.55);
+        display:block; /* ← OUVERT par défaut */
+      }
+      @media (max-width: 1024px){
+        #analyticsDashboard{ left: 16px; width:auto; }
+      }
+      #analyticsDashboard header{
+        display:flex; justify-content:space-between; align-items:center; gap:8px;
+        padding:12px 14px; background:linear-gradient(90deg,#0a2c3d,#0a4571); color:#fff;
+      }
+      #analyticsDashboard .body{
+        padding:12px;
+        height: calc(100% - 56px);
+        overflow:auto;
+        background: #fafcff;
+      }
+      #analyticsDashboard .btn{
+        border:1px solid #d9e1ec; background:#fff; color:#0a4571;
+        border-radius:8px; padding:6px 8px; cursor:pointer; font-weight:600; font-size:13px;
+      }
+
+      .statRow{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+      .statCard{ background:#0f1720; color:#fff; border-radius:12px; padding:10px 12px; box-shadow:0 8px 30px rgba(2,6,23,.45); display:flex; justify-content:space-between; align-items:center; }
+      .miniRow{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px; }
+      .mini{ background:#f7f8fb; border:1px solid #eef1f5; border-radius:10px; padding:8px; }
+      .mini strong{ display:block; font-size:12px; color:#475569; }
+      .mini .big{ font-size:18px; font-weight:800; color:#0a4571; }
+
+      .sparkWrap{ margin-top:10px; background:linear-gradient(180deg,#fff,#f8fafc); border-radius:8px; border:1px solid #eef1f5; padding:8px; }
+      .sparkWrap h6{ margin:0 0 6px 0; font-size:13px; color:#334155; }
+      .sparkline{ width:100%; height:90px; display:block; }
+
+      .topList{ margin-top:8px; }
+      .topList h6{ margin:0 0 6px 0; font-size:13px; color:#334155; }
+      .topList ul{ margin:0; padding-left:18px; }
+      .topList li{ font-size:14px; margin:3px 0; }
+
+      /* Table + toolbar */
+      .tableToolbar{ display:flex; gap:6px; align-items:center; margin-top:10px; flex-wrap:wrap; }
+      .tableToolbar input, .tableToolbar select{ border:1px solid #d9e1ec; border-radius:8px; padding:6px 8px; font-size:13px; outline:none; }
+      .tableToolbar button{ border:1px solid #0a4571; background:#0a4571; color:#fff; border-radius:8px; padding:6px 8px; cursor:pointer; font-weight:600; font-size:13px; }
+      .tableToolbar button.secondary{ background:#fff; color:#0a4571; }
+      table.data{ width:100%; border-collapse:separate; border-spacing:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-top:6px; }
+      table.data thead th{
+        position:sticky; top:0; background:#f2f6fb; color:#0f172a;
+        font-size:11px; letter-spacing:.02em; text-transform:uppercase; border-bottom:1px solid var(--line); padding:6px 8px; text-align:left;
+      }
+      table.data tbody td{ padding:6px 8px; border-bottom:1px solid #eff3f9; font-size:13px; }
+      table.data tbody tr:nth-child(even){ background:#fbfdff; }
+      table.data tbody tr:hover{ background:#eef6ff; }
+
+      /* Toggle flottant (au cas où) */
+      #analyticsToggle{
+        position:fixed; right:16px; bottom:16px; z-index:2001;
+        background: linear-gradient(180deg,#0b1220,#0a2433); color:#fff; border:1px solid rgba(255,255,255,.15);
+        border-radius:12px; padding:8px 10px; cursor:pointer; font-weight:700; box-shadow:0 12px 32px rgba(2,6,23,.6);
+      }
+
+      /* Consent RGPD */
+      #analyticsConsent{
+        position:fixed; left:16px; bottom:16px; z-index:2500; display:none;
+        background:#fff; border:1px solid #e7ecf4; border-radius:12px; padding:12px 14px; gap:10px; box-shadow:0 12px 44px rgba(2,6,23,.25);
+      }
+      #analyticsConsent p{ margin:0; font-size:13px; max-width:320px; color:#1f2937; }
+      #analyticsConsent .actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+      #analyticsConsent .actions .btn{ font-size:12px; padding:7px 10px; }
+      #analyticsConsent .actions .btn.primary{ background:#0a4571; color:#fff; border-color:#0a4571; }
+
+      /* Focus a11y visible + helper preload */
+      a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{ outline:3px solid rgba(77,163,255,.35); outline-offset:2px; }
+      .preload * { transition:none !important; }
+    </style>
+  </head>
+
+  <body class="preload">
+    <!-- Fond particules -->
+    <div id="cloud-bg" aria-hidden="true"></div>
+
+    <!-- NAVBAR -->
+    <nav id="masthead" class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation" aria-label="Navigation principale">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="/index.html" class="navbar-brand d-flex align-items-center" data-no-pjax>
+          <img src="/assets/images/log_zim.webp" alt="Logo" class="brand-logo me-2" width="40" height="40" />
+          <span class="site-title">FLORIAN-BEHEJOHN</span>
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Menu">
+          <span class="navbar-toggler-icon"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/index.html" data-no-pjax>Accueil</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="/parcours.html" data-no-pjax>parcours</a></li>
+            <li class="nav-item"><a class="nav-link" href="/portfolio_florian_b.html" data-no-pjax>Portfolio</a></li>
+            <li class="nav-item"><a class="nav-link" href="/contact.html" data-no-pjax>Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- CONTENU : zone d'interaction + panneau Analytics -->
+    <main data-pjax-root data-page="parcours" data-audio="global" aria-label="Zone d'interaction">
+      <section class="playground container-fluid">
+        <div class="pg-grid">
+          <div class="pg-card">
+            <h3>Actions rapides</h3>
+            <p>Ces boutons génèrent des événements <em>click</em> &amp; <em>inview</em>.</p>
+            <button class="btn btn-primary btn-sm" data-track="cta_like_profil" type="button">👍 J’aime ce profil</button>
+            <a href="/portfolio_florian_b.html" class="btn btn-outline-light btn-sm" data-no-pjax data-track="cta_see_portfolio">Voir le portfolio</a>
+            <a href="#" class="btn btn-secondary btn-sm" data-track="cta_download_cv" onclick="event.preventDefault()">Télécharger le CV</a>
+          </div>
+
+          <div class="pg-card">
+            <h3>Navigation fictive</h3>
+            <p>Clique pour simuler des approfondissements.</p>
+            <a href="#" class="btn btn-outline-info btn-sm" data-track="nav_competences" onclick="event.preventDefault()">Compétences</a>
+            <a href="#" class="btn btn-outline-info btn-sm" data-track="nav_projets" onclick="event.preventDefault()">Projets</a>
+            <a href="#" class="btn btn-outline-info btn-sm" data-track="nav_contact" onclick="event.preventDefault()">Prendre contact</a>
+          </div>
+
+          <div class="pg-card">
+            <h3>Audio (lecteur global)</h3>
+            <p>Ouvre le lecteur audio global et lance une lecture pour voir les events <em>audio_*</em>.</p>
+            <button class="btn btn-outline-warning btn-sm" type="button" id="openAudioPlayer">🎧 Ouvrir le lecteur</button>
+          </div>
+        </div>
+
+        <div class="pg-scroll" id="demoScroll">
+          <h4>Zone de scroll</h4>
+          <p>Fais défiler pour faire monter le <strong>max scroll</strong>. Les évènements <em>scroll</em> sont échantillonnés.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed suscipit ex. Suspendisse potenti. Donec vitae erat sit amet justo luctus aliquet.</p>
+          <p>Vivamus non viverra eros. Proin mattis, justo id aliquet lacinia, urna arcu bibendum orci, vel congue est risus vel tellus. Etiam et finibus justo.</p>
+          <p>Sed a nibh sed sapien bibendum hendrerit. Maecenas fermentum ligula et mauris pellentesque, et eleifend magna bibendum.</p>
+          <p>Praesent commodo, tortor eget tincidunt varius, tellus odio pulvinar odio, sit amet convallis sem risus in lacus.</p>
+          <p>Curabitur pretium augue quis nunc venenatis, vitae facilisis elit volutpat. Sed gravida justo id risus consequat, id auctor mi interdum.</p>
+          <p>Aliquam erat volutpat. Cras dignissim bibendum imperdiet. Integer ac libero dapibus, efficitur quam vitae, efficitur dui.</p>
+          <p style="height:800px;"></p>
+          <p>Fin de la zone de démo. 👋🏻</p>
+        </div>
+      </section>
+
+      <!-- Panneau Analytics -->
+      <aside id="analyticsDashboard" role="dialog" aria-modal="true" aria-label="Dashboard analytics (pane)">
+        <header>
+          <div class="title">
+            <strong>Analytics — Session</strong><br>
+            <small id="analyticsTime">—</small>
+          </div>
+          <div class="actions">
+            <button id="analyticsExportJson" class="btn" type="button">Export JSON</button>
+            <button id="analyticsExportCsv"  class="btn" type="button">CSV</button>
+            <button id="analyticsClose"      class="btn" type="button" title="Masquer le panneau">Masquer</button>
+          </div>
+        </header>
+        <div class="body">
+          <div class="panel">
+            <div id="analyticsSummary" class="statRow"><!-- KPI injectés --></div>
+            <div class="miniRow">
+              <div class="mini"><strong>Score</strong><div id="analyticsScore" class="big">—</div></div>
+              <div class="mini"><strong>Max scroll</strong><div id="analyticsScroll" class="big">—</div></div>
+              <div class="mini"><strong>Audio</strong><div id="analyticsAudio" class="big">—</div></div>
+            </div>
+            <div class="sparkWrap">
+              <h6>Timeline d’activité</h6>
+              <canvas id="analyticsTimeline" class="sparkline" width="400" height="90"></canvas>
+            </div>
+            <div class="topList">
+              <h6>Top interactions</h6>
+              <ul id="analyticsTop"></ul>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="tableToolbar">
+              <input id="fltSearch" type="search" placeholder="Filtrer (texte/type/href)">
+              <select id="fltType">
+                <option value="">Tous</option>
+                <option>page_view</option><option>click</option><option>scroll</option>
+                <option>inview</option><option>audio_play</option><option>audio_pause</option><option>audio_end</option>
+                <option>heartbeat</option><option>page_unload</option>
+              </select>
+              <button id="btnRefresh" class="secondary" type="button">Actualiser</button>
+              <button id="btnClear" class="secondary"   type="button" title="Vider le buffer local">Vider</button>
+            </div>
+
+            <div style="overflow:auto; max-height: 280px; border-radius:10px; margin-top:6px;">
+              <table class="data" aria-label="Table des événements Analytics">
+                <thead>
+                  <tr>
+                    <th style="width:140px">Horodatage</th>
+                    <th style="width:110px">Type</th>
+                    <th>Détails</th>
+                    <th style="width:60px">%</th>
+                  </tr>
+                </thead>
+                <tbody id="analyticsTableBody"><!-- rempli par le script --></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Bouton flottant (re-afficher vite si masqué) -->
+      <button id="analyticsToggle" title="Afficher / masquer Analytics">📊 Analytics</button>
+
+      <!-- Bandeau de consentement RGPD -->
+      <div id="analyticsConsent" role="region" aria-live="polite">
+        <div>
+          <p>Nous utilisons des analytics <strong>anonymisés</strong> pour améliorer l’expérience. Autoriser l’envoi vers un serveur (optionnel) ? Sans accord, tout reste local.</p>
+          <div class="actions">
+            <button id="consentReject" class="btn">Refuser</button>
+            <button id="consentAccept" class="btn primary">Autoriser</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Journalisation / garde-fous -->
+    <script>
+      (() => {
+        const TAG='%c[Boot]', OK='background:#0c2a1a;color:#77ffcc;padding:1px 6px;border-radius:3px;font-weight:700', BAD='background:#2b1d1d;color:#ffb3b3;padding:1px 6px;border-radius:3px;font-weight:700';
+        window.addEventListener('error', e => console.error(TAG, BAD, 'Erreur script :', e.message, `@ ${e.filename}:${e.lineno}:${e.colno}`));
+        window.addEventListener('unhandledrejection', e => console.error(TAG, BAD, 'Promise rejetée :', e.reason));
+      })();
+    </script>
+
+    <!-- Dépendances minimales -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- 💠 Module nuage + analytics (idempotent, PJAX-safe) -->
+    <script src="/assets/js/parcours-analytics-cloud.js" defer></script>
+
+    <!-- Helpers UI locaux : nav height, table, nuage-fix + ouverture forcée si nécessaire -->
+    <script>
+      (function(){
+        const TAG='[UI]';
+
+        // 0) Fix nuage (jamais d'écran uni)
+        const cloud = document.getElementById('cloud-bg');
+        if (cloud) {
+          const s = document.createElement('style');
+          s.textContent = '#cloud-bg>*{z-index:0!important;pointer-events:none!important}';
+          document.head.appendChild(s);
+          setTimeout(() => { if (!cloud.querySelector('canvas')) cloud.style.background = '#000'; }, 800);
+        }
+
+        // 1) Ajuste --nav-h depuis la vraie navbar
+        function setNavH(){
+          const nav = document.getElementById('masthead');
+          const h = nav ? Math.max(64, Math.round(nav.getBoundingClientRect().height)) : 72;
+          document.documentElement.style.setProperty('--nav-h', h + 'px');
+          console.info(TAG, 'nav height =', h);
+        }
+        window.addEventListener('resize', setNavH);
+        document.addEventListener('DOMContentLoaded', setNavH);
+
+        // 2) Panneau show/hide (fallback si besoin)
+        const dash = document.getElementById('analyticsDashboard');
+        const btnToggle = document.getElementById('analyticsToggle');
+        const btnClose  = document.getElementById('analyticsClose');
+        btnToggle?.addEventListener('click', () => {
+          const show = (dash.style.display === 'none');
+          dash.style.display = show ? 'block' : 'none';
+          console.log(TAG, 'analytics panel', show ? 'shown' : 'hidden');
+        });
+        btnClose?.addEventListener('click', () => { dash.style.display = 'none'; });
+
+        // 3) Table (buffer local)
+        const KEY_Q = 'site_analytics_queue_v1';
+        const body  = document.getElementById('analyticsTableBody');
+        const fltS  = document.getElementById('fltSearch');
+        const fltT  = document.getElementById('fltType');
+        const btnR  = document.getElementById('btnRefresh');
+        const btnC  = document.getElementById('btnClear');
+        function readQ(){ try{ return JSON.parse(localStorage.getItem(KEY_Q)||'[]'); }catch{ return []; } }
+        function renderTable(){
+          const q = readQ();
+          const t = (fltT.value||'').trim().toLowerCase();
+          const s = (fltS.value||'').trim().toLowerCase();
+          const rows = q.filter(ev=>{
+            const typeOk = !t || (ev.type||'').toLowerCase()===t;
+            if (!typeOk) return false;
+            if (!s) return true;
+            return JSON.stringify(ev).toLowerCase().includes(s);
+          });
+          body.innerHTML = '';
+          const frag = document.createDocumentFragment();
+          rows.slice(-400).forEach(ev => {
+            const tr = document.createElement('tr');
+
+            const tdTs = document.createElement('td');
+            tdTs.textContent = new Date(ev.ts).toLocaleString(); tr.appendChild(tdTs);
+
+            const tdTy = document.createElement('td');
+            tdTy.textContent = ev.type || ''; tr.appendChild(tdTy);
+
+            const tdDt = document.createElement('td');
+            const d = ev.data || {};
+            const txt = [
+              d.text ? `“${String(d.text).slice(0,100)}”` : '',
+              d.href ? `→ ${d.href}` : '',
+              d.id   ? `#${d.id}` : '',
+              d.tag  ? `<${String(d.tag).toLowerCase()}>` : '',
+              typeof d.ratio==='number' ? `ratio:${(d.ratio*100|0)}%` : ''
+            ].filter(Boolean).join(' · ');
+            tdDt.textContent = txt || '-'; tr.appendChild(tdDt);
+
+            const tdPc = document.createElement('td');
+            tdPc.textContent = typeof d.pct==='number' ? d.pct : ''; tr.appendChild(tdPc);
+
+            frag.appendChild(tr);
+          });
+          body.appendChild(frag);
+        }
+        fltS?.addEventListener('input', renderTable);
+        fltT?.addEventListener('change', renderTable);
+        btnR?.addEventListener('click', renderTable);
+        btnC?.addEventListener('click', () => { if (confirm('Vider le buffer local ?')) { localStorage.setItem(KEY_Q,'[]'); renderTable(); } });
+        setInterval(renderTable, 2500);
+        document.addEventListener('DOMContentLoaded', renderTable);
+
+        // 4) Confort
+        document.addEventListener('DOMContentLoaded', () => {
+          document.body.classList.remove('preload');
+          // Ouverture forcée au cas où (CSS + JS module s’en chargent déjà)
+          try { document.getElementById('analyticsDashboard').style.display = 'block'; } catch {}
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,346 @@
+/* ===========================================
+   MusiCam — Styles robustes (anti-0×0, WebGL-safe) + Responsive
+   =========================================== */
+
+   :root{
+    --bg:#0f1117; --panel:#151928; --ink:#e7e9ee; --muted:#9aa3b2;
+    --brand:#ffb347; --accent:#64ffda; --danger:#ff6868; --ring: rgba(255,255,255,.08);
+  
+    /* Typo fluide (mobile → desktop) */
+    --fs-body: clamp(14px, 1.7vw, 16px);
+    --fs-h1:   clamp(22px, 3.8vw, 32px);
+    --fs-h2:   clamp(18px, 2.8vw, 24px);
+  
+    --radius-lg: 16px;
+  }
+  
+  *{ box-sizing:border-box }
+  
+  html,body{
+    height:100%;
+    margin:0;
+    color:var(--ink);
+    background: radial-gradient(1200px 700px at 20% -10%, #1b2037 0%, #0f1117 70%);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+    font-size: var(--fs-body);
+    -webkit-text-size-adjust: 100%;
+    /* Safe-area iOS */
+    padding:
+      env(safe-area-inset-top, 0)
+      env(safe-area-inset-right, 0)
+      env(safe-area-inset-bottom, 0)
+      env(safe-area-inset-left, 0);
+  }
+  
+  /* Evite les warnings d’ancrage de défilement (logs Firefox) */
+  .main, body { overflow-anchor: none; }
+  
+  /* —————————————————————— */
+  /* Page & sections */
+  /* —————————————————————— */
+  
+  .site-header, .site-footer{ text-align:center; padding:20px 12px; }
+  .site-header h1{ margin:.2rem 0 .4rem; font-weight:900; letter-spacing:.2px; font-size: var(--fs-h1); }
+  .site-header p{ margin:0; color:var(--muted); font-size: var(--fs-h2); }
+  
+  .main{
+    display:flex; flex-direction:column; align-items:center; gap:22px;
+    padding:10px 12px 40px;
+    min-height: 100vh;
+    min-height: 100dvh; /* mobile: gère la barre d’adresse */
+  }
+  
+  .stage{
+    width:min(1100px, 96vw);
+    display:grid; gap:14px;
+    grid-template-columns: 1fr;               /* mobile par défaut */
+  }
+  
+  /* Breakpoints (option de colonnes latérales si tu veux plus tard) */
+  @media (min-width: 768px){
+    .stage{ grid-template-columns: 1fr; }
+  }
+  @media (min-width: 992px){
+    .stage{ grid-template-columns: 1fr; }
+  }
+  
+  /* —————————————————————— */
+  /* Vidéo + overlay  (robuste WebGL, 1:1 overlay) */
+  /* —————————————————————— */
+  
+  .video-wrap{
+    position:relative;               /* nécessaire pour overlay absolu */
+    background:#000;
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow: 0 20px 70px #0009, 0 0 0 1px var(--ring) inset;
+    aspect-ratio: 16 / 9;
+    min-width: 2px; min-height: 2px; /* garde-fous anti 0×0 */
+    width: 100%;
+  }
+  
+  /* Base : occuper le cadre (le JS choisit cover/contain via classe) */
+  .video-wrap video,
+  .video-wrap canvas{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    display:block;                   /* jamais display:none */
+    object-position: center center;
+  }
+  
+  /* Fit modes (bascule JS + auto) */
+  .video-wrap.cover  video,
+  .video-wrap.cover  canvas{ object-fit: cover; }
+  .video-wrap.contain video,
+  .video-wrap.contain canvas{ object-fit: contain; background: #000; }
+  
+  /* Miroir UNIQUEMENT si .mirror (front camera) — pas de miroir par défaut */
+  .video-wrap.mirror video,
+  .video-wrap.mirror canvas{
+    transform: scaleX(-1);
+    transform-origin: center;
+  }
+  
+  /* Garde-fous FORTS (IDs utilisés par l’app) */
+  #webcam, #overlay{
+    display:block !important;        /* neutralise [hidden] ou display:none */
+    min-width:2px !important;        /* empêche 0×0 même si width:0 */
+    min-height:2px !important;
+  }
+  #webcam[hidden], #overlay[hidden]{ display:block !important; } /* override d’attribut */
+  
+  /* Overlay au-dessus, non interactif */
+  #overlay{
+    pointer-events:none;
+    background: transparent !important;
+    z-index: 10;                     /* assure le calque au-dessus de la vidéo */
+  }
+  
+  /* —————————————————————— */
+  /* Panneaux/contrôles */
+  /* —————————————————————— */
+  
+  .panel{
+    background: linear-gradient(180deg, #141a2b, #121524);
+    border:1px solid var(--ring);
+    border-radius:var(--radius-lg);
+    padding:14px;
+    box-shadow: 0 20px 70px #0006;
+  }
+  
+  .row{ display:flex; align-items:center; gap:10px; }
+  .row.wrap{ flex-wrap:wrap }
+  .spacer{ flex:1 }
+  .muted{ color:var(--muted) }
+  
+  .badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:1rem;
+    padding:.45rem .68rem;
+    border-radius:999px;
+    background:#0f1424; border:1px solid var(--ring);
+    color:var(--accent);
+  }
+  #audioStatus{ transition: opacity .2s ease; }
+  #fpsBadge{ margin-left:6px; }
+  
+  .btn{
+    appearance:none; border:1px solid var(--ring); border-radius:12px;
+    background:#212842; color:#fff; font-weight:800;
+    padding:.75rem 1.1rem; cursor:pointer;
+    transition: transform .06s ease, background .15s ease, box-shadow .15s ease;
+    touch-action: manipulation;      /* meilleurs tap mobiles */
+  }
+  .btn:hover{ background:#273056 }
+  .btn:active{ transform: translateY(1px) scale(.997); }
+  .btn:disabled{ opacity:.5; cursor:not-allowed }
+  
+  .btn-primary{
+    background: var(--brand); color:#241c00; border-color:#a66f1e;
+    box-shadow: 0 8px 26px rgba(255,179,71,.35);
+  }
+  .btn-primary:hover{ background:#ff9f16 }
+  
+  /* Optionnelle (si utilisée dans ton HTML) */
+  .btn-accent{
+    background: #234; color:#e6f6ff; border-color:#2e4161;
+    box-shadow: 0 8px 26px rgba(100,255,218,.2);
+  }
+  .btn-accent:hover{ background:#2a3f66 }
+  
+  /* Summary des <details> stylé comme un bouton (Synthé avancé) */
+  details > summary.btn{
+    list-style: none; cursor: pointer; user-select: none;
+  }
+  details > summary::-webkit-details-marker{ display:none }
+  details > summary::marker{ content:'' }
+  
+  /* Contrôles */
+  .ctrl{
+    display:flex; flex-direction:column; gap:.35rem;
+    background:#0f1424; border:1px solid var(--ring);
+    padding:.7rem .8rem; border-radius:12px; min-width: 160px;
+  }
+  .ctrl>span{ font-size:.95rem; color:var(--muted) }
+  .ctrl>select, .ctrl>input[type="number"]{
+    background:#0c1120; color:#e6ebff; border:1px solid #26304e;
+    padding:.55rem .6rem; border-radius:10px; outline:none;
+  }
+  .ctrl>input[type="range"]{
+    width:100%; appearance:none; height:12px; border-radius:999px; background:#26304e; outline:none;
+  }
+  /* Chrome/Edge/Safari */
+  .ctrl>input[type="range"]::-webkit-slider-thumb{
+    appearance:none; width:22px; height:22px; border-radius:50%;
+    background: var(--brand); border:2px solid #fff; margin-top:-5px;
+    box-shadow: 0 4px 12px rgba(255,179,71,.4);
+  }
+  /* Firefox */
+  .ctrl>input[type="range"]::-moz-range-thumb{
+    width:22px; height:22px; border-radius:50%;
+    background: var(--brand); border:2px solid #fff;
+    box-shadow: 0 4px 12px rgba(255,179,71,.4);
+  }
+  .ctrl>input[type="range"]::-moz-range-track{
+    height:12px; border-radius:999px; background:#26304e;
+  }
+  
+  .w-300{ min-width:300px }
+  .w-220{ min-width:220px }
+  .w-100{ width:100% }
+  
+  /* Sur mobile : zones tactiles larges, mise en colonne */
+  @media (max-width: 480px){
+    .row{ gap:12px }
+    .ctrl{ min-width: 100%; }
+    .btn{ width: 100%; }
+  }
+  
+  /* —————————————————————— */
+  /* Energy meter (piloté par width du #energyBar) */
+  /* —————————————————————— */
+  
+  .energy{
+    display:flex; align-items:center; gap:10px;
+    background:#0f1424; border:1px solid var(--ring);
+    padding:8px 10px; border-radius:12px;
+    flex-wrap: wrap;
+  }
+  
+  /* Piste visuelle : le JS anime la largeur 0–100% */
+  #energyBar{
+    height:12px; border-radius:999px;
+    background: linear-gradient(90deg, #3af, #9cf);
+    width:0%;
+    transition-property: width;
+    transition-duration: .12s;
+    transition-timing-function: linear;
+    will-change: width;
+    flex: 1 1 160px; min-width: 120px;
+  }
+  #energyVal{
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    color:#9BE7FF; white-space: nowrap; padding-left: 6px;
+  }
+  
+  /* —————————————————————— */
+  /* Aide / collapsible */
+  /* —————————————————————— */
+  .help{
+    width:min(1100px, 96vw);
+    color:var(--muted);
+    font-size:1rem;
+  }
+  .help details{
+    background:#0f1424; border:1px solid var(--ring); border-radius:12px;
+    padding:10px 12px;
+  }
+  .help summary{ cursor:pointer; color:var(--ink); font-weight:700 }
+  
+  /* —————————————————————— */
+  /* Accessibilité / focus visibles */
+  /* —————————————————————— */
+  :where(button, [role="button"], select, input):focus-visible{
+    outline: 2px solid #7dd3fc; outline-offset: 2px; border-radius: 10px;
+  }
+  
+  /* Réduction des animations si l’utilisateur préfère moins de mouvement */
+  @media (prefers-reduced-motion: reduce){
+    #energyBar{ transition: none; }
+    #audioStatus{ transition: none; }
+  }
+  
+  /* —————————————————————— */
+  /* Astuce : pour “réduire” visuellement le bloc vidéo,
+     préfère un scale plutôt que width/height:0 (qui casse WebGL).
+     Exemple : .video-wrap { transform: scale(.9); transform-origin: 0 0; } */
+  /* —————————————————————— */
+  /* ================================
+   Synthé avancé — Grille responsive
+   ================================ */
+
+/* Le panneau parent devient un conteneur pour les requêtes de taille (CQ)
+   → si le navigateur ne supporte pas @container, la grille auto-fit suffit */
+.panel{ container-type: inline-size; }
+
+/* Summary mieux visible, sans inline-style */
+.adv-summary{
+  display:inline-block;
+  margin:.2rem 0 .8rem;
+  font-size:1.05rem;
+  font-weight:900;
+  box-shadow: 0 10px 28px rgba(255,179,71,.35);
+}
+
+/* Espace lors de l’ouverture (utile sur mobile) */
+.adv{ scroll-margin-top: 16px; }
+
+/* Grille adaptative :
+   - Fallback : auto-fit minmax(220px,1fr) → fonctionne partout
+   - CQ/Media : on affine le min selon l’espace disponible */
+.adv-grid{
+  display:grid;
+  gap:10px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* Quand le panneau a largement la place (container queries modernes) */
+@container (min-width: 720px){
+  .adv-grid{ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+}
+@container (min-width: 980px){
+  .adv-grid{ grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+}
+
+/* Media queries (fallback si CQ non supporté) */
+@media (min-width: 720px){
+  .adv-grid{ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+}
+@media (min-width: 980px){
+  .adv-grid{ grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+}
+
+/* Dans la grille, on autorise les contrôles à se réduire proprement */
+.adv-grid .ctrl{
+  min-width: 0;      /* IMPORTANT: permet au contenu de rapetisser */
+  width: 100%;
+}
+
+/* Petits écrans : colonnes fluides + boutons plus “tapables” */
+@media (max-width: 480px){
+  .adv-summary{ width:100%; text-align:center; }
+  .adv-grid{ grid-template-columns: 1fr; }
+}
+
+/* Affinage des entrées pour éviter les débordements en colonnes étroites */
+.adv-grid .ctrl > select,
+.adv-grid .ctrl > input[type="number"]{
+  width: 100%;
+  max-width: 100%;
+}
+.adv-grid .ctrl > input[type="range"]{ width: 100%; }
+
+/* Option UX : highlight subtil quand ouvert */
+.adv[open] .adv-summary{
+  box-shadow: 0 10px 32px rgba(255,179,71,.45);
+}

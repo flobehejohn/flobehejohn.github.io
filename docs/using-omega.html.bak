@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if (gt IE 8)]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+        <title>Omega HTML 1.2.1 | Using Omega</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="yes" name="apple-mobile-web-app-capable">
+        <link rel="icon" type="image/x-icon" href="assets/images/favicons/favicon.ico" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicons/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/favicons/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/images/favicons/apple-touch-icon-60x60-precomposed.png">
+        <link rel="stylesheet" href="assets/css/main.css">
+    </head>
+    <body class="bs-docs-home ">
+        <header class="navbar navbar-default navbar-fixed-top bs-docs-nav" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="index.html" class="navbar-brand">Omega HTML</a>
+                </div>
+                <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="getting-started.html">Getting Started</a>
+                        </li>
+                        <li>
+                            <a href="using-omega.html">Using Omega</a>
+                        </li>
+                        <li>
+                            <a href="changelog.html">Changelog</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <a href="http://www.themeforest.net/item/omegahtml&ref=oxygenna" target="_blank" class="btn btn-success"><i class="fa fa-shopping-cart"></i> Purchase</a>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="http://oxygenna.ticksy.com" target="_blank">Get Support</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="bs-header" id="content">
+            <div class="container">
+                <h1>Using Omega</h1>
+                <p>How to create and modify the theme&#x27;s content.</p>
+            </div>
+        </div>
+        <div id="online-docs-warning" class="alert alert-info text-center">
+            <div class="container">
+                <strong>Online Docs Available</strong>
+                Looks like you are looking at the offline docs. You can find possibly more up to date docs <a href="http://omegahtmldocs.oxygenna.com">online here</a>
+            </div>
+        </div>
+        <div class="container bs-docs-container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="bs-sidebar hidden-print affix-top" role="complementary">
+                        <ul class="nav bs-sidenav">
+                            <li><a href="#page-layout">Page Layout</a>
+                                <ul class="nav">
+                                    <li><a href="#top-bar">Top bar</a>
+                                    </li>
+                                    <li><a href="#menu-header">Menu Header</a>
+                                    </li>
+                                    <li><a href="#mega-menu">Mega Menu</a>
+                                    </li>
+                                    <li><a href="#page-content">Page Content</a>
+                                    </li>
+                                    <li><a href="#sections">Sections</a>
+                                    </li>
+                                    <li><a href="#headers">Headers</a>
+                                    </li>
+                                    <li><a href="#one-page-website">One Page website</a>
+                                    </li>
+                                    <li><a href="#sidebar">Sidebar</a>
+                                    </li>
+                                    <li><a href="#footer">Footer</a>
+                                    </li>
+                                    <li><a href="#common-classes">Common classes</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="#typography">Typography</a>
+                                <ul class="nav">
+                                    <li><a href="#text-size">Text Size</a>
+                                    </li>
+                                    <li><a href="#text-alignment">Text Alignment</a>
+                                    </li>
+                                    <li><a href="#text-alignment-for-mobiles">Text Alignment for Mobiles</a>
+                                    </li>
+                                    <li><a href="#text-weight">Text Weight</a>
+                                    </li>
+                                    <li><a href="#text-transformations">Text Transformations</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="#theme-components">Theme Components</a>
+                                <ul class="nav">
+                                    <li><a href="#color-swatches">Color Swatches</a>
+                                    </li>
+                                    <li><a href="#changing-the-default-colors">Changing the default colors</a>
+                                    </li>
+                                    <li><a href="#slideshow">Slideshow</a>
+                                    </li>
+                                    <li><a href="#map">Map</a>
+                                    </li>
+                                    <li><a href="#pricing-tables">Pricing tables</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="#services">Services</a>
+                            </li>
+                            <li><a href="#staff-member">Staff member</a>
+                            </li>
+                            <li><a href="#portolio-items">Portolio items</a>
+                                <ul class="nav">
+                                    <li><a href="#setting-up-the-filters">Setting up the filters</a>
+                                    </li>
+                                    <li><a href="#setting-up-the-portfolio-items">Setting up the portfolio items</a>
+                                    </li>
+                                    <li><a href="#portfolio-images-on-hover-options">Portfolio Images-On hover options</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="#features">Features</a>
+                                <ul class="nav">
+                                    <li><a href="#buttons">Buttons</a>
+                                    </li>
+                                    <li><a href="#shaped-images">Shaped Images</a>
+                                    </li>
+                                    <li><a href="#social-icons">Social Icons</a>
+                                    </li>
+                                    <li><a href="#features-lists">Features Lists</a>
+                                    </li>
+                                    <li><a href="#fancy-blockquotes">Fancy Blockquotes</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="#on-scroll-animations">On Scroll Animations</a>
+                            </li>
+                            <li><a href="#fade-out-effects">Fade out effects</a>
+                            </li>
+                            <li><a href="#bullet-navigation">Bullet Navigation</a>
+                            </li>
+                            <li><a href="#scroll-to-buttons">Scroll-to buttons</a>
+                            </li>
+                            <li><a href="#charts">Charts</a>
+                            </li>
+                            <li><a href="#revolution-slider">Revolution Slider</a>
+                            </li>
+                            <li><a href="#contact-form">Contact Form</a>
+                            </li>
+                            <li>
+                                <a href="#"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="bs-docs-section">
+                        <h1 id="page-layout">Page Layout</h1>
+                        <h2 id="top-bar">Top bar</h2>
+                        <p>Optionally you can add a top bar on each page, if you add this markup after the <code>&lt;body&gt;</code>.</p>
+                        <pre><code>&lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;top top-left&quot;&gt;
+        add content for the left side of the topbar
+    &lt;/div&gt;
+    &lt;div class=&quot;top top-right&quot;&gt;
+        add content for the right side of the topbar
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        <p>Feel free to add what you want inside the right and left <em>divs</em>.</p>
+                        <h2 id="menu-header">Menu Header</h2>
+                        <p>The header area <code>&lt;div id=&quot;masthead&quot;&gt;...&lt;/div&gt;</code>
+                            of the page contains the page Logo and the navigation list. The navigation follows bootstrap&#39;s responsive rules so in smaller screens it will collapse to a dropdown menu. You can read more about the markup of the navigation in bootstrap’ s
+                            <a
+                            href="http://getbootstrap.com/components/#navbar">website</a>.</p>
+                        <p>A sticky menu is a menu that scrolls along with the page. Setting a sticky menu is easy, try following these steps:</p>
+                        <ol>
+                            <li>
+                                <p>Add the <strong>navbar-sticky</strong> class to the <code>&lt;div&gt;</code> as in</p>
+                                <pre><code> &lt;div id=&quot;masthead&quot; class=&quot;navbar navbar-sticky swatch-white&quot; role=&quot;banner&quot;&gt;</code></pre>
+                            </li>
+                            <li>
+                                <p>Open <strong>theme.js</strong> in assets/js folder and locate this code</p>
+                                <pre><code>   var oxyThemeData = oxyThemeData || {
+       navbarHeight : 90,
+       navbarScrolled : 70,
+       navbarScrolledPoint : 200,
+       navbarScrolledSwatches: {
+           up: &#39;swatch-white&#39;,
+           down: &#39;swatch-white&#39;
+       },
+       scrollFinishedMessage : &#39;No more items to load.&#39;,
+       hoverMenu : {
+           hoverActive : false,
+           hoverDelay : 1,
+           hoverFadeDelay : 200
+       }
+   };</code></pre>
+                                <p>From the <strong>navbarScrolledSwatches</strong> attribute set a color swatch for the <strong>up</strong> and <strong>down</strong> properties. The <em>down</em> property will define the color swatch that the menu will have when
+                                    scrolling down and the <em>up</em> the color swatch when the user scrolls to the top.</p>
+                                <p><strong>Note</strong>: You can set the color swatches individually for each page by adding this script in the desired page</p>
+                                <pre><code> &lt;script type=&quot;text/javascript&quot;&gt;
+     var oxyThemeData = {
+         navbarHeight : 90,
+         navbarScrolled : 70,
+         navbarScrolledPoint : 200,
+         navbarScrolledSwatches: {
+             up: &#39;swatch-black&#39;,
+             down: &#39;swatch-white&#39;
+         },
+         scrollFinishedMessage : &#39;No more items to load.&#39;,
+         hoverMenu : {
+             hoverActive : false,
+             hoverDelay : 1,
+             hoverFadeDelay : 200
+         }
+     };
+ &lt;/script&gt;</code></pre>
+                                <p>You can now have a different menu color for each page.
+                                    <img src="assets/images/sticky-header.png" alt="sticky">
+                                </p>
+                            </li>
+                        </ol>
+                        <p>For a menu with a logo on the left, a navigation list and a search widget on the right side use the following markup</p>
+                        <pre><code>&lt;div id=&quot;masthead&quot; class=&quot;navbar navbar-sticky swatch-white&quot; role=&quot;banner&quot;&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;!-- setting a logo --&gt;
+        &lt;div class=&quot;navbar-header&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;navbar-toggle collapsed&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.main-navbar&quot;&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;a href=&quot;../index.html&quot; class=&quot;navbar-brand&quot;&gt;
+                &lt;img src=&quot;assets/images/omega.gif&quot; alt=&quot;One of the best themes ever&quot;&gt;Omega
+            &lt;/a&gt;
+        &lt;/div&gt;
+        &lt;!-- setting a logo end--&gt;
+        &lt;nav class=&quot;collapse navbar-collapse main-navbar&quot; role=&quot;navigation&quot;&gt;
+            &lt;!-- for a search widget --&gt;
+            &lt;div class=&quot;menu-sidebar pull-right&quot;&gt;
+                &lt;div id=&quot;search-4&quot; class=&quot;sidebar-widget  widget_search&quot;&gt;
+                    &lt;div class=&quot;top-search&quot;&gt;
+                      &lt;form role=&quot;search&quot; method=&quot;get&quot; id=&quot;searchform&quot; action=&quot;blog-classic.html&quot;&gt;
+                          &lt;div class=&quot;input-group&quot;&gt;
+                              &lt;input type=&quot;text&quot; value=&quot;&quot; name=&quot;s&quot; id=&quot;s&quot; class=&quot;form-control&quot; placeholder=&quot;Search&quot;&gt;
+                              &lt;span class=&quot;input-group-btn&quot;&gt;
+                                  &lt;button class=&quot;btn&quot; type=&quot;submit&quot; id=&quot;searchsubmit&quot; value=&quot;Search&quot;&gt;
+                                      &lt;i class=&quot;fa fa-search&quot;&gt;&lt;/i&gt;
+                                  &lt;/button&gt;
+                              &lt;/span&gt;
+                          &lt;/div&gt;
+                      &lt;/form&gt;
+                      &lt;i class=&quot;fa fa-search search-trigger navbar-text&quot;&gt;&lt;/i&gt;
+                      &lt;svg class=&quot;search-close&quot; preserveAspectRatio=&quot;none&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 100 100&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;path d=&quot;M25 25 L75 75&quot; stroke-width=&quot;2&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M25 75 L75 25&quot; stroke-width=&quot;2&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;!-- for a search widget end--&gt;
+            &lt;ul class=&quot;nav navbar-nav navbar-right&quot;&gt;
+                &lt;li class=&quot;dropdown&quot;&gt;
+                    &lt;a href=&quot;#&quot; class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;Home&lt;/a&gt;
+                    &lt;ul class=&quot;dropdown-menu&quot;&gt;
+                        &lt;li&gt;&lt;a href=&quot;index.html&quot;&gt;v1. Home-Classic&lt;/a&gt;&lt;/li&gt;
+                        &lt;li&gt;&lt;a href=&quot;business.html&quot;&gt;v2. Home-Business&lt;/a&gt;&lt;/li&gt;
+                        ...
+                    &lt;/ul&gt;
+                &lt;/li&gt;
+                ...
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        <h3 id="header-options">Header options</h3>
+                        <p>In the <strong>theme.js</strong> located in the <strong>assets/js</strong> folder you can locate this script at the top of the file</p>
+                        <pre><code>var oxyThemeData = oxyThemeData || {
+    navbarHeight : 90,
+    navbarScrolled : 70,
+    navbarScrolledPoint : 200,
+    navbarScrolledSwatches: {
+        up: &#39;swatch-white&#39;,
+        down: &#39;swatch-white&#39;
+    },
+    scrollFinishedMessage : &#39;No more items to load.&#39;,
+    hoverMenu : {
+        hoverActive : false,
+        hoverDelay : 1,
+        hoverFadeDelay : 200
+    }
+};</code></pre>
+                        <ul>
+                            <li><strong>navbarHeight:</strong> Sets the height of the header.</li>
+                            <li><strong>navbarScrolled:</strong> Sets the height of the header after scrolling as many pixels as set in the <strong>navbarScrolledPoint</strong> option.</li>
+                            <li><strong>navbarScrolledPoint:</strong> Sets the pixels that need to be scrolled for the menu to change height.</li>
+                            <li><strong>navbarScrolledSwatches:</strong> defines the color swatches of the header when scrolling from top to bottom.</li>
+                            <li><strong>hoverActive:</strong> When <em>true</em> the menu opens on hover, when <em>false</em> the menu opens on click.</li>
+                            <li><strong>navbarHeight:</strong> Delay in seconds before the hover menu closes after moving mouse off the menu.</li>
+                            <li><strong>hoverFadeDelay:</strong> Delay of the Fade In/Fade Out animation.</li>
+                        </ul>
+                        <h3 id="transparent-header">Transparent header</h3>
+                        <p>Another amazing feature that you can enable in <strong>Omega</strong> is the <strong>transparent header</strong>. In order to have a transparent header you need to add the <strong>transparent-header</strong> class to the <code>&lt;body&gt;</code> as
+                            in</p>
+                        <pre><code>&lt;body class=&quot;transparent-header&quot;&gt;  ...  &lt;/body&gt;</code></pre>
+                        <div class="alert alert-danger">
+                            Be careful <strong>not</strong> to use a transparent header combined with a top bar.
+                        </div>
+                        <p>Keep in mind that the transparent header needs to have an appropriate color swatch. For example, when the transparent header overlaps with a background image that is of a dark color, it needs to have a color swatch with white color
+                            for the text e.g swatch-black.
+                            <img src="assets/images/transparent.png" alt="header">
+                        </p>
+                        <h3 id="special-menu-items">Special menu items</h3>
+                        <ol>
+                            <li>
+                                <p>A menu item can have the look of a button if you add the <strong>nav-highlight</strong> class to the <code>&lt;li&gt;&lt;/li&gt;</code> that holds the item e.g.</p>
+                                <pre><code> &lt;li class=&quot;nav-highlight&quot;&gt;&lt;a href=&quot;your_link&quot;&gt;back to normal omega&lt;/a&gt;&lt;/li&gt;</code></pre>
+                                <p>
+                                    <img src="assets/images/highlight-button.png" alt="special">
+                                </p>
+                            </li>
+                            <li>Use the same markup but add the <strong>nav-highlight-ghost</strong> class for a <strong>bordered menu button</strong>.
+                                <img src="assets/images/highlight-ghost-button.png" alt="special">
+                            </li>
+                            <li>You can add a divider by using the following markup<pre><code> &lt;li role=&quot;presentation&quot; class=&quot;divider&quot;&gt;&lt;/li&gt;</code></pre>
+                                <img src="assets/images/divider.png" alt="special">
+                            </li>
+                            <li>
+                                <p>A menu can have icons next to the each menu item. You can use the font-awesome icons and the following markup to achieve that e.g</p>
+                                <pre><code> &lt;i class=&quot;menu-icon fa fa-photo&quot;&gt;&lt;/i&gt;</code></pre>
+                                <p>
+                                    <img src="assets/images/menu-icon.png" alt="special">
+                                </p>
+                            </li>
+                        </ol>
+                        <h3 id="search-widget">Search widget</h3>
+                        <p>The menu comes with a <strong>search</strong> widget, which has the following markup</p>
+                        <pre><code>&lt;div id=&quot;search-4&quot; class=&quot;sidebar-widget  widget_search&quot;&gt;
+    &lt;form role=&quot;search&quot; method=&quot;get&quot; id=&quot;searchform&quot; action=&quot;blog-classic.html&quot;&gt;
+        &lt;div class=&quot;input-group&quot;&gt;
+            &lt;input type=&quot;text&quot; value=&quot;&quot; name=&quot;s&quot; id=&quot;s&quot; class=&quot;form-control&quot; placeholder=&quot;Search&quot;&gt;
+            &lt;span class=&quot;input-group-btn&quot;&gt;
+                &lt;button class=&quot;btn&quot; type=&quot;submit&quot; id=&quot;searchsubmit&quot; value=&quot;Search&quot;&gt;
+                    &lt;i class=&quot;fa fa-search&quot;&gt;&lt;/i&gt;
+                &lt;/button&gt;
+            &lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+                        <div class="alert alert-info">
+                            You will have to implement the functionality of the search widget as this is not built in.
+                        </div>
+                        <hr>
+                        <h2 id="mega-menu">Mega Menu</h2>
+                        <p>Omega offers a Mega Menu, if you use the following markup</p>
+                        <pre><code>&lt;ul class=&quot;nav navbar-nav navbar-right&quot;&gt;
+    &lt;li class=&quot;dropdown menu-item-object-oxy_mega_menu &quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;Parent Menu Item Name&lt;/a&gt;
+        &lt;ul class=&quot;dropdown-menu row&quot;&gt;
+            &lt;li class=&quot;dropdown col-md-4 menu-item-object-oxy_mega_columns&quot;&gt;
+                &lt;strong&gt;Column Title&lt;/strong&gt;
+                &lt;ul role=&quot;menu&quot;&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;menu_item_link&quot;&gt;Name of the menu link&lt;/a&gt;
+                    &lt;/li&gt;
+                    ... repeat this for each menu item
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            ... repeat this for each column(3 columns for col-md-4)
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+                        <p>
+                            <img src="assets/images/mega-menu.png" alt="mega-menu">
+                        </p>
+                        <hr>
+                        <h2 id="page-content">Page Content</h2>
+                        <p>The content <code>&lt;div id=&quot;content&quot; role=&quot;main&quot;&gt; ...&lt;/div&gt;</code> area hosts the main content of the theme. It is divided in sections to visually and semantically separate the content.</p>
+                        <hr>
+                        <h2 id="sections">Sections</h2>
+                        <p>Sections are defined using the following HTML5 markup</p>
+                        <pre><code>&lt;section class=&quot;section&quot;&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        Content goes here…
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+                        <p>Additional classes can be applied to the section to style the content.</p>
+                        <h3 id="fullheight-sections">Fullheight sections</h3>
+                        <p>A section can be <strong>fullheight</strong> (have a height at minimum as the screen size) by assigning a class to the section: <strong>section-fullheight</strong> as in</p>
+                        <pre><code>&lt;section class=&quot;section section-fullheight&quot;&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        Content goes here…
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+                        <h3 id="section-options">Section options</h3>
+                        <p>The following options can be used to setup your section</p>
+                        <ol>
+                            <li>Section color swatches add the colors of the section. Possible options are <strong>swatch-white-red</strong>, <strong>swatch-white-green</strong>, <strong>swatch-white-black</strong>, <strong>swatch-black</strong>, <strong>swatch-gray</strong>, <strong>swatch-blue</strong>, <strong>swatch-white</strong>.
+                                <img src="assets/images/sections.png" alt="sections">
+                            </li>
+                            <li><strong>section-text-shadow</strong> adds a text shadow to all the text in this section.</li>
+                            <li><strong>section-inner-shadow</strong> adds an inner shadow to the inside of this section.</li>
+                            <li><strong>container-fullwidth</strong> added instead of <strong>container</strong> in the <code>&lt;div&gt;</code> inside the section will make it fullwidth.</li>
+                            <li>
+                                <p>Using the following markup will add a background overlay (see image above)</p>
+                                <pre><code> &lt;div class=&quot;background-overlay grid-overlay-20&quot; style=&quot;background-color: rgba(0,0,0,0.2);&quot;&gt;&lt;/div&gt;</code></pre>
+                                <p>Changing the <strong>grid-overlay</strong> class from <strong>grid-overlay-0</strong> to <strong>grid-overlay-90</strong> will set the overlay pattern image. Setting the <strong>rgba(0,0,0,0.2)</strong> sets the color overlay,
+                                    with the last attribute(0.2) representing the <strong>opacity</strong> ranging from 0(transparent) to 1.</p>
+                            </li>
+                            <li>
+                                <p>If a user wants to add a background image with background overlay, it is advised to use this markup</p>
+                                <pre><code> &lt;section class=&quot;section swatch-black section-text-shadow section-inner-shadow&quot;&gt;
+     &lt;div class=&quot;background-media&quot; style=&quot;background-image:url(&#39;yourUrl&#39;);background-repeat:no-repeat;background-size:cover;background-attachment:fixed;background-position:center 0%;&quot;&gt;&lt;/div&gt;
+     &lt;div class=&quot;background-overlay grid-overlay-20 &quot; style=&quot;background-color: rgba(0,0,0,0.2);&quot;&gt;&lt;/div&gt;
+     &lt;div class=&quot;container-fullwidth&quot;&gt;
+         Content goes here…
+     &lt;/div&gt;
+ &lt;/section&gt;</code></pre>
+                                <p>This will add a background image fixed, aligned in the center.
+                                    <img src="assets/images/section_background.png" alt="sections">
+                                </p>
+                            </li>
+                            <li>
+                                <p>If a user wants to create a section with a video as background, this markup should be used</p>
+                                <pre><code> &lt;div class=&quot;background-media&quot;&gt;
+     &lt;video poster=&quot;your_poster&quot; style=&quot;width: 100%; height: 100%;&quot; loop autoplay class=&quot;section-background-video&quot;&gt;
+         &lt;source type=&quot;video/mp4&quot; src=&quot;your_audio.mp4&quot;&gt;
+         &lt;source type=&quot;video/webm&quot; src=&quot;your_audio.webm&quot;&gt;
+         &lt;source type=&quot;video/ogg&quot; src=&quot;your_audio.ogg&quot;&gt;
+     &lt;/video&gt;
+ &lt;/div&gt;</code></pre>
+                            </li>
+                            <li>
+                                <p>A section with a background image can utilize the <strong>parallax effect</strong>, which will add a great sense of interactivity between the user and the website. Parallax scrolling is a special scrolling technique in computer
+                                    graphics, wherein background images move slower than foreground images, creating an illusion of depth and adding to the immersion. For the parallax effect to take place, two <strong>data attributes</strong> must be added
+                                    in the <code>&lt;div&gt;</code> of the background media, e.g</p>
+                                <pre><code> &lt;div class=&quot;background-media&quot; style=&quot;background-image: url(background_img);&quot; data-start=&quot;background-position: 50% 0px&quot; data-70-top-bottom=&quot;background-position: 50% -90px&quot;&gt;
+ &lt;/div&gt;</code></pre>
+                                <p>The <strong>background-position</strong> element of the <strong>data-start</strong> attribute has two parameters. The first parameter defines the alignment of the image along the horizontal axis(50% = center). The second parameter
+                                    defines the movement along the axis as the user scrolls down(0 = no movement). The <strong>data-top-bottom</strong> attribute works the same way for the vertical axis.
+                                    <br>
+                                </p>
+                                <div class="alert alert-info">
+                                    <a href="https://github.com/Prinzhorn/skrollr">Click here</a> to visit the <strong>skrollr</strong> plugin&#39;s page on Github for a more detailed description.
+                                </div>
+                            </li>
+                            <li>A section can also have a background of multiple colors(color bundle), each changing smoothly with a fading effect. The colors, background color animation speed and the duration of the animation can be set via data attributes:</li>
+                        </ol>
+                        <ul>
+                            <li><strong>data-color-set:</strong> Set the colors to be used separated with commas e.g #d64541,#1ba39c,#d35400,#7b569f.</li>
+                            <li><strong>data-color-speed:</strong> Set the speed that the colors will change, in milliseconds.</li>
+                            <li>
+                                <p><strong>data-color-duration:</strong> Set the length of time each color will stay active between changes, in milliseconds.
+                                    <br>For example, a section with a color bundle would have this markup</p>
+                                <pre><code>  &lt;section class=&quot;section swatch-black section-inner-shadow&quot; style=&quot;background-color: rgb(211, 84, 0);&quot; data-color-set=&quot;#d64541,#1ba39c,#d35400,#7b569f&quot; data-color-speed=&quot;2000&quot; data-color-duration=&quot;4000&quot;&gt;
+      &lt;div class=&quot;container&quot;&gt;
+          Content goes here…
+      &lt;/div&gt;
+  &lt;/section&gt;</code></pre>
+                            </li>
+                        </ul>
+                        <h3 id="content-vertical-alignment">Content Vertical Alignment</h3>
+                        <p>A new option of Omega that makes content building easier is the <strong>Section Content Vertical Alignment</strong> option. You can enable that by adding to the <code>&lt;row&gt;</code>the class <strong>vertical-middle</strong> for
+                            the content to be aligned with the middle of the section, <strong>vertical-bottom</strong> for it to be aligned with the bottom or no class to be aligned with the top of the section. That way you no longer have to worry about
+                            realigning your content every time you add or remove an element, this will automatically be taken care of by this option. E.g.</p>
+                        <pre><code>&lt;section class=&quot;section swatch-white&quot;&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;row vertical-middle&quot;&gt;
+            &lt;div class=&quot;col-md-6&quot;&gt;
+                &lt;img alt=&quot;&quot; src=&quot;some_img&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-md-6&quot;&gt;
+                &lt;p&gt;I am text block.&lt;/p&gt;
+            &lt;/div&gt; 
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+                        <div class="alert alert-info">
+                            Keep in mind that the alignment will be applied to <strong>all</strong> the elements of that section.
+                        </div>
+                        <p>
+                            <img src="assets/images/section-align.png" alt="section">
+                        </p>
+                        <hr>
+                        <h2 id="headers">Headers</h2>
+                        <p>Headers are most commonly used in the beginning of a section to create an impressive title. Feel free though to use them wherever you like inside your sections. The following markup should be used</p>
+                        <pre><code>&lt;header class=&quot;condensed&quot;&gt;
+    &lt;h1 class=&quot;hyper hairline bordered bordered-normal&quot;&gt;
+      we are a digital &lt;strong&gt;design&lt;/strong&gt; agency with a twist
+    &lt;/h1&gt;
+    &lt;p class=&quot;lead&quot;&gt;subtitle&lt;/p&gt;
+&lt;/header&gt;</code></pre>
+                        <p>The following options can be used to setup the header:</p>
+                        <ol>
+                            <li><strong>bordered</strong> class, which will underline the <code>&lt;h1&gt;</code>.</li>
+                            <li><strong>bordered-normal</strong> can be used for 72pxs of underline or <strong>bordered-small</strong> for 48pxs.</li>
+                            <li>For the size of the header&#39;s font, we are assigning the <strong>big</strong> class (36px), the <strong>bigger</strong> class (48px), the <strong>super</strong> class (60px), or the <strong>hyper</strong> (96px) class.</li>
+                            <li><strong>hairline</strong> sets the font weight of the section. Alternatively, you can set it to be <strong>regular</strong>, <strong>black</strong>, <strong>bold</strong> or <strong>light</strong>.</li>
+                            <li><code>&lt;p&gt;&lt;/p&gt;</code> will be used as subtitle. Adding the <strong>lead</strong> class will increase the font size.</li>
+                            <li><code>&lt;header&gt;</code> can have the <strong>condensed</strong> class which adds padding to the sides of the heading creating a more condensed effect.</li>
+                            <li>See the <a href="using-omega.html#fade-out-effects">fade out effect</a> section to learn how to add the fade out effect on your headers.
+                                <img src="assets/images/header.png" alt="header">
+                            </li>
+                        </ol>
+                        <h2 id="one-page-website">One Page website</h2>
+                        <p>Omega is easy to build as an <strong>one-page</strong> website. In order to achieve that you need to make sure of two things. Firstly, you need to assign to the sections that you want to scroll to a specific unique <strong>id</strong> as
+                            in</p>
+                        <pre><code>&lt;section class=&quot;section&quot; id=&quot;home&quot;&gt;
+...
+&lt;/section&gt;</code></pre>
+                        <p>Secondly, you need to make sure that each menu item links to the desired section, by assigning to the <em>href</em> attribute the <strong>#</strong> symbol followed by the <strong>id</strong> of the section as in</p>
+                        <pre><code>&lt;a class=&quot;dropdown-toggle&quot; title=&quot;Home&quot; href=&quot;#home&quot; data-toggle=&quot;dropdown&quot;&gt;Home&lt;/a&gt;</code></pre>
+                        <p>As a result, when you click on the <strong>Home</strong> menu item, you will be scrolled to the home section of the page. For example, if we had a page with three sections, it would look like this</p>
+                        <pre><code>&lt;body&gt;
+    &lt;div id=&quot;content&quot;&gt;
+        &lt;article&gt;
+            Add your menu here
+            &lt;section class=&quot;section&quot; id=&quot;home&quot;&gt;
+            ...
+            &lt;/section&gt;
+            &lt;section class=&quot;section&quot; id=&quot;services&quot;&gt;
+            ...
+            &lt;/section&gt;
+            &lt;section class=&quot;section&quot; id=&quot;portfolio&quot;&gt;
+            ...
+            &lt;/section&gt;
+        &lt;/article&gt;
+    &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+                        <p>Now you have to connect your menu item links to your sections, so you will make the <em>href</em> attribute of each <code>&lt;a&gt;</code> point to your sections. You should build your menu according to the <a href="using-omega.html#menu-header">Menu Header</a> section.
+                            For the above example, replace this chunk of code</p>
+                        <pre><code>&lt;ul class=&quot;nav navbar-nav navbar-right&quot;&gt;
+    &lt;li class=&quot;dropdown&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;Home&lt;/a&gt;
+        &lt;ul class=&quot;dropdown-menu&quot;&gt;
+            &lt;li&gt;&lt;a href=&quot;index.html&quot;&gt;v1. Home-Classic&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;business.html&quot;&gt;v2. Home-Business&lt;/a&gt;&lt;/li&gt;
+            ...
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    ...
+&lt;/ul&gt;</code></pre>
+                        <p>with this</p>
+                        <pre><code>&lt;ul class=&quot;nav navbar-nav navbar-right&quot;&gt;
+    &lt;li class=&quot;active current-menu-item&quot;&gt;&lt;a href=&quot;#home&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;&quot;&gt;&lt;a href=&quot;#services&quot;&gt;Services&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;&quot;&gt;&lt;a href=&quot;#portfolio&quot;&gt;Portfolio&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+                        <p>Now you have menu items that link to your sections and the user will scroll to each section when clicking on the respective link.</p>
+                        <div class="alert alert-info">
+                            <i class="fa fa-gittip"></i> Any link can use the <strong>smooth scroll</strong> feature, as long as it references the id of the section that needs to be scrolled to. Also, the <strong>scroll-to</strong> and <strong>scroll-to-id</strong> classes
+                            need to be assigned to the element. e.g
+                            <br>
+                        </div>
+                        <pre><code>&lt;a href=&quot;#home&quot; class=&quot;scroll-to scroll-to-id&quot;&gt;
+    Click me to scroll to home section
+&lt;/a&gt;</code></pre>
+                        <hr>
+                        <h2 id="sidebar">Sidebar</h2>
+                        <p>To create a page with a sidebar use the following markup</p>
+                        <pre><code>&lt;section class=&quot;section&quot;&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+      &lt;div class=&quot;col-md-9&quot;&gt;
+        Main content
+      &lt;/div&gt;
+      &lt;div class=&quot;col-md-3 sidebar&quot;&gt;
+        &lt;div class=”sidebar-widget”&gt;
+          &lt;h3 class=”sibebar-header”&gt;
+            widget content
+          &lt;/h3&gt;
+        &lt;/div&gt;
+        &lt;div class=”sidebar-widget”&gt;
+          &lt;h3 class=”sibebar-header”&gt;
+            widget content
+          &lt;/h3&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+                        <p>Omega supports search, categories, tag cloud, recent posts, archive, text and twitter widgets (by using the classes widget_search, widget_categories, widget_tag_cloud, widget_recent_entries, widget_archive, widget_text and widget_oxy_twitter
+                            classes), but you can use any type of content on your sidebar.</p>
+                        <div class="alert alert-success">
+                            <i class="fa fa-gittip"></i> To change to left sidebar just reverse the order of the .col-md-9 <em>div</em> and the .col-md-3 <em>div</em> element in the above markup.
+                        </div>
+                        <p>
+                            <img src="assets/images/sidebar-right.png" alt="sidebar">
+                        </p>
+                        <hr>
+                        <h2 id="footer">Footer</h2>
+                        <p>The footer area <code>&lt;footer id=&quot;footer&quot;&gt; ...</code> of the page contains the page&#39;s footer and requires the following markup</p>
+                        <pre><code>&lt;footer id=&quot;footer&quot; role=&quot;contentinfo&quot;&gt;
+  &lt;section class=&quot;section swatch-black&quot;&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      footer content here
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;footer&gt;</code></pre>
+                        <p>
+                            <img src="assets/images/footer.png" alt="footer">
+                        </p>
+                        <p>Use a different swatch instead of the <strong>swatch-black</strong> if you want to change the colors of the footer. If you want to setup your footer&#39;s columns use the following markup</p>
+                        <pre><code>&lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;col-md-3&quot;&gt;
+        add content here
+    &lt;/div&gt;
+    &lt;div class=&quot;col-md-3&quot;&gt;
+        add content here
+    &lt;/div&gt;
+    &lt;div class=&quot;col-md-3&quot;&gt;
+        add content here
+    &lt;/div&gt;
+    &lt;div class=&quot;col-md-3&quot;&gt;
+        add content here
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        <p>This will create a 4-column footer. Use a 3 column footer by adding 3 divs with a <strong>col-md-4</strong> class.</p>
+                        <hr>
+                        <h2 id="common-classes">Common classes</h2>
+                        <p>If you want to set margins between elements, you can use the following classes anywhere that you want: <strong>element-normal-top</strong>, <strong>element-normal-bottom</strong>, which add 72pxs of padding to the top/bottom respectively.
+                            In addition, these classes can be used : <strong>element-no-top</strong>(0px), <strong>element-no-bottom</strong>(0px), <strong>element-short-top</strong>(24px), <strong>element-short-bottom</strong>(24px), <strong>element-medium-top</strong>(48px), <strong>element-medium-bottom</strong>(48px), <strong>element-tall-top</strong>(96px), <strong>element-tall-bottom</strong>(96px).
+                            <br>Some more classes you can use are:</p>
+                        <ul>
+                            <li><strong>section-text-shadow:</strong> Adds a text shadow to all the text in this row.</li>
+                            <li><strong>section-inner-shadow:</strong> Adds an inner shadow to the inside of this row.</li>
+                            <li><strong>container-fullwidth:</strong> Makes the section fullwidth(used instead of the <em>container</em> class).</li>
+                            <li><strong>section-fullheight:</strong> Section will vertically cover the entire viewport.</li>
+                            <li><strong>section-transparent:</strong> Section will be transparent.</li>
+                        </ul>
+                        <p>Some more classes that can be used to underline a header are:</p>
+                        <ul>
+                            <li><strong>bordered bordered-small:</strong> Adds an underline effect below the header, with a size of 48pxs.</li>
+                            <li><strong>bordered bordered-normal:</strong> Adds an underline effect below the header, with a size of 72pxs.</li>
+                        </ul>
+                        <hr>
+                        <h1 id="typography">Typography</h1>
+                        <h2 id="text-size">Text Size</h2>
+                        <p>Omega offers a variety of classes that will make your typography stand out. In order to set the <strong>font size</strong>, we can use the <strong>big</strong> class (36px), <strong>bigger</strong> class (48px), the <strong>super</strong> class
+                            (60px), or the <strong>hyper</strong> (96px) class. E.g</p>
+                        <pre><code>&lt;h1 class=&quot;text-center normal&quot;&gt;This is a normal sized title&lt;/h1&gt;</code></pre>
+                        <p>In case we want to underline the text we can use the <strong>bordered</strong> class.</p>
+                        <h2 id="text-alignment">Text Alignment</h2>
+                        <p>Omega offers three classes to align your text left, right or in the center. They are <strong>text-left</strong>, <strong>text-right</strong> and <strong>text-center</strong> respectively.</p>
+                        <h2 id="text-alignment-for-mobiles">Text Alignment for Mobiles</h2>
+                        <p>Omega offers three classes to align your text left, right or in the center for mobile devices. They are <strong>small-screen-left</strong>, <strong>small-screen-right</strong> and <strong>small-screen-center</strong> respectively.</p>
+                        <h2 id="text-weight">Text Weight</h2>
+                        <p>Make your text stand out by assigning different weights through these classes: <strong>black</strong>, <strong>bold</strong>, <strong>regular</strong>, <strong>light</strong>, <strong>hairline</strong>.</p>
+                        <h2 id="text-transformations">Text Transformations</h2>
+                        <p>Assigning the following classes to a text will make them uppercase, lowercase and italic respectively: <strong>text-caps</strong>, <strong>text-lowercase</strong>, and <strong>text-italic</strong>. In addition, assigning the <strong>text-none</strong> class
+                            removes all the transformations that might have been inherited from parent elements.e.g</p>
+                        <pre><code>&lt;h1 class=&quot;text-center normal text-caps&quot;&gt;This is a normal sized title
+    &lt;p class=&quot;text-none&quot;&gt;this is a subtitle with no transformations&lt;/p&gt;
+&lt;/h1&gt;</code></pre>
+                        <hr>
+                        <h1 id="theme-components">Theme Components</h1>
+                        <p>Omega comes with a set of theme related components that you can use along with the bootstrap components.</p>
+                        <hr>
+                        <h2 id="color-swatches">Color Swatches</h2>
+                        <p>Color Swatches are what give Omega its nice colorful look. Each color swatch is consisted of different combinations of colors for most of the theme&#39;s components, offering the user the ability to fully customize Omega to his
+                            own needs. Different color swatches can be assigned to sections to achieve different styling throughout the pages. For example, if we would like to have a white background with red elements, we would assign the <strong>swatch-white-red</strong> class
+                            to the section like this</p>
+                        <pre><code>&lt;section class=&quot;section swatch-white-red&quot;&gt;
+    &lt;div class=&quot;container-fullwidth&quot;&gt;
+        Content goes here…
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+                        <p>More color swatches that you can use with Omega are <strong>swatch-white-black</strong>, <strong>swatch-white-green</strong>, <strong>swatch-black</strong>, <strong>swatch-gray</strong>, <strong>swatch-blue</strong>, <strong>swatch-white</strong>.</p>
+                        <h3 id="create-a-new-custom-color-swatch">Create a new custom color swatch</h3>
+                        <p>In order to create a new color swatch, a new set of <em>CSS</em> rules needs to be created and added to a new file that you will create. Move the new file into the <strong>/assets/css</strong> folder and include it in the header.</p>
+                        <ol>
+                            <li>Visit <a href="http://sassmeister.com/gist/038cc2662a50269afc0d">sassmeister</a>.</li>
+                            <li>On the left side of the screen is the code that you will modify. Change the <strong>$swatch-name</strong> variable to the name of the color swatch that you wish. If you name the color swatch <em>green</em> for e.g., the swatch&#39;s
+                                name will be <em>swatch-green</em>.</li>
+                            <li>From <strong>line 20</strong> to <strong>line 41</strong>, you can set the color that you want each element to have for this color swatch.</li>
+                            <li>After the scss is compiled, grab the whole content from the right half of the page(Ctrl+a),copy it, and paste it to the new file that you have created.</li>
+                            <li>Make sure that file is included in the header of your website.</li>
+                            <li>You can now assign the new color swatch to your sections, adding your personal touch to the design.</li>
+                        </ol>
+                        <hr>
+                        <h2 id="changing-the-default-colors">Changing the default colors</h2>
+                        <p>If you want to change the default colors of Omega, you need to replace the contents of the <strong>color-defaults.css</strong> file in the <strong>/assets/css</strong> folder. The pocedure is similar to creating a new color swatch.
+                            To do so, follow these simple steps</p>
+                        <ol>
+                            <li>Visit <a href="http://sassmeister.com/gist/7d25855a329472942a38">sassmeister</a>.</li>
+                            <li>On the left side of the screen is the code that you will modify. From <strong>line 10</strong> to <strong>line 48</strong>, you can set the color that you want each element to have.</li>
+                            <li>After the scss is compiled, grab the whole content of the right half of the page(Ctrl+a),copy it, and replace the content of the <strong>color-defaults.css</strong> file with it.</li>
+                        </ol>
+                        <hr>
+                        <h2 id="slideshow">Slideshow</h2>
+                        <p>Omega uses flexslider to create impressive and responsive slideshows that respond even to touch events. The general markup used to create a slideshow is the following</p>
+                        <pre><code>&lt;div class=&quot;flexslider&quot; id=&quot;someID&quot;&gt;
+  &lt;ul class=&quot;slides&quot;&gt;
+    &lt;li&gt;
+      A slide (any content)
+    &lt;/li&gt;
+    &lt;li&gt;
+        Another  slide (any content)
+    &lt;/li&gt;
+    …
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+                        <p>You can control the behaviour of the slideshow by passing data attributes to the <em>.flexslider</em> div. The data attributes used are:</p>
+                        <ul>
+                            <li><strong>data-slideshow</strong>: defines if the slider will start automatically (“true”) or not (“false”), default value “true”.</li>
+                            <li><strong>data-flex-animation</strong>: defines the animation type, “slide” (default) or” fade”.</li>
+                            <li><strong>data-flex-speed</strong>: defines the slideshow animation speed, 7000 (default) or any number.</li>
+                            <li><strong>data-flex-directions</strong>: defines the visibility of the navigation arrows, “hide” or “show” (default).</li>
+                            <li><strong>data-flex-directions-type</strong>: defines the type of the direction arrows, “fancy” (with background like the “our clients” slideshow ) or “simple”.</li>
+                            <li><strong>data-flex-directions-position</strong>: defines the positioning of the direction arrows, “inside” (inside the slider, default) or” outside” the slider.</li>
+                            <li><strong>data-flex-controls</strong>: defines the visibility of the navigation controls, “hide” (default) or “show”.</li>
+                            <li><strong>data-flex-controlsposition</strong>: defines the positioning of the controls, “inside” (default), or “outside”.</li>
+                            <li><strong>data-flex-controlsalign</strong>: defines the alignment of the controls, “center” (default) “left” or “right”.</li>
+                            <li><strong>data-flex-itemwidth</strong>: the width of each item in case of a multi item carousel, 0 (default for 100%) or a number representing pixels (you can read more on flexsliders website ).</li>
+                        </ul>
+                        <p>For example, to create a slideshow with navigation arrows and navigation controls outside the slideshow aligned to the left, that uses the effect “fade” and changes every 5 seconds you should use the following markup.</p>
+                        <pre><code>&lt;div class=&quot;flexslider&quot; data-flex-directions=”show”  data-flex-directions-type=”simple” data-flex-controls=”show”  data-flex-controlsalign=”left”  data-flex-speed=5000  id=&quot;someID&quot;&gt;</code></pre>
+                        <div class="alert alert-success">
+                            <i class="fa fa-gittip"></i> Default values can be omitted. For more info on Flexslider please visit the owner&#39;s website <a href="http://www.woothemes.com/flexslider/">here</a>
+                        </div>
+                        <div class="alert alert-danger">
+                            <i class="fa fa-gittip"></i> Each slideshow should have an id.
+                        </div>
+                        <hr>
+                        <h2 id="map">Map</h2>
+                        <p>Adding a map in Omega is pretty easy. What you need to do is add this markup wherever you want in your markup</p>
+                        <pre><code>&lt;div class=&quot;google-map&quot; id=&quot;map&quot; style=&quot;height:354px;&quot; &gt;&lt;/div&gt;</code></pre>
+                        <p>You can adjust the height to your needs.</p>
+                        <p>The map&#39;s settings can be easily modified from <strong>map-data.js</strong>, located in <strong>assets/js/</strong>.</p>
+                        <pre><code>mapType: &#39;ROADMAP&#39;,
+mapZoom: 13,
+mapStyle: &#39;blackwhite&#39;,
+mapScroll: &#39;on&#39;,
+marker: &#39;show&#39;,
+label: &#39;Hi there welcome to our &lt;strong&gt;headquarters&lt;/strong&gt;. If you are around come in for a coffee.&#39;,
+lat: &#39;51.5171&#39;,
+lng: &#39;0.1062&#39;,
+markerURL: &#39;assets/images/marker.png&#39;</code></pre>
+                        <ol>
+                            <li><strong>mapType</strong> : <strong>ROADMAP</strong>, <strong>SATELLITE</strong>, <strong>TERRAIN</strong> or <strong>HYBRID</strong>.</li>
+                            <li><strong>mapZoom</strong> : the amount of zoom that you wish to have (1-20)</li>
+                            <li><strong>mapStyle</strong> : <strong>blackwhite</strong> or <strong>regular</strong>
+                            </li>
+                            <li><strong>mapScroll</strong> : <strong>on</strong> or <strong>off</strong> for the map to be scrollable.</li>
+                            <li><strong>marker</strong> : <strong>show</strong> or <strong>hide</strong>.</li>
+                            <li><strong>label</strong> : Set the text that will show as the markers label.</li>
+                            <li><strong>lat</strong> : Set the latitude of the map&#39;s location.</li>
+                            <li><strong>lng</strong> : Set the longitude of the map&#39;s location.</li>
+                            <li><strong>markerURL</strong> : Set the URL of the marker&#39;s icon.</li>
+                        </ol>
+                        <div class="alert alert-success">
+                            <i class="fa fa-gittip"></i> Keep in mind that you need to include the
+                            <code>&lt;script src=&quot;https://maps.googleapis.com/maps/api/js?sensor=false&quot;&gt;&lt;/script&gt;</code> and <code>&lt;script src=&quot;assets/js/map.min.js&quot;&gt;&lt;/script&gt;</code> at the and of the <code>&lt;body&gt;</code>.
+                        </div>
+                        <p>
+                            <img src="assets/images/contact-form.png" alt="contact-form">
+                        </p>
+                        <hr>
+                        <h2 id="pricing-tables">Pricing tables</h2>
+                        <p>You can create a pricing table by using the following markup.</p>
+                        <pre><code>&lt;div class=&quot;pricing-col
+        pricing-featured
+    &quot;&gt;
+    &lt;h2 class=&quot;pricing-head&quot;&gt;Basic&lt;/h2&gt;
+    &lt;div class=&quot;pricing-body&quot;&gt;
+        &lt;div class=&quot;pricing-price&quot;&gt;
+            &lt;div class=&quot;overlay&quot;&gt;
+                &lt;h4&gt;
+                    &lt;small&gt;$&lt;/small&gt;
+                    9.99
+                    &lt;small&gt;month&lt;/small&gt;
+                &lt;/h4&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;ul class=&quot;pricing-list&quot;&gt;
+                &lt;li&gt;1 user&lt;/li&gt;
+                &lt;li&gt;2 hours&lt;/li&gt;
+                &lt;li&gt;10 Megabytes&lt;/li&gt;
+                &lt;li&gt;100 SMS&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;a href=&quot;some&quot; class=&quot;btn btn-lg btn-primary&quot;&gt;get it&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        <p>By using the <strong>pricing-featured</strong> class the pricing column stands out more by adding some extra padding.
+                            <img src="assets/images/pricing.png" alt="pricing">
+                        </p>
+                        <hr>
+                        <h1 id="services">Services</h1>
+                        <p>If you want to create services you need to use the following markup</p>
+                        <pre><code>&lt;div class=&quot;row&quot;&gt;
+  &lt;li class=&quot;col-md-3&quot;&gt;
+    &lt;div class=&quot;box box-round box-normal&quot;&gt;
+      &lt;div class=&quot;box-dummy&quot;&gt;&lt;/div&gt;
+      &lt;a class=&quot;box-inner grid-overlay-10&quot; href=&quot;some_link&quot; target=&quot;_self&quot; style=&quot;background-color:#e9e9e9;&quot;&gt;
+        &lt;img src=&quot;image_source&quot;&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  .
+  .
+  .
+&lt;/div&gt;</code></pre>
+                        <p>This will create a list of images. In order to read more on how to add a boxed image, go to <a href="/using-omega.html#shaped-images">shaped images</a>.</p>
+                        <p>Before closing the <code>&lt;li&gt;</code> you can set a header as in</p>
+                        <pre><code>&lt;h3 class=&quot;text-center normal bold bordered bordered-small&quot;&gt;
+    &lt;a href=&quot;some_link&quot; target=&quot;_self&quot;&gt;
+    Some header&lt;/a&gt;
+&lt;/h3&gt;</code></pre>
+                        <p>Add then any text that you want</p>
+                        <pre><code>&lt;p class=&quot;text-center&quot;&gt;
+    We have designed this site mobile first so it looks great on mobile devices of all shapes and sizes.
+&lt;/p&gt;</code></pre>
+                        <hr>
+                        <h1 id="staff-member">Staff member</h1>
+                        <p>If you want to create a list of staff members you need to use the following markup</p>
+                        <pre><code>&lt;div class=&quot;row staff-list-container list-container&quot;&gt;
+  add the single staff member markup    
+&lt;/div&gt;</code></pre>
+                        <p>This markup for the staff member should be like that</p>
+                        <pre><code>&lt;div class=&quot;figure fade-in&quot;&gt;
+  &lt;a href=&quot;some link&quot; class=&quot;figure-image&quot; target=&quot;_self&quot;&gt;
+      &lt;img src=&quot;image_url&quot; alt=&quot;alt image&quot; class=&quot;normalwidth&quot;&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+                        <p>In addition, you can add an overlay effect like this</p>
+                        <pre><code>&lt;div class=&quot;figure fade-in&quot;&gt;
+  &lt;a href=&quot;some link&quot; class=&quot;figure-image&quot; target=&quot;_self&quot;&gt;
+    &lt;img src=&quot;image_url&quot; alt=&quot;alt image&quot; class=&quot;normalwidth&quot;&gt;
+    &lt;div class=&quot;figure-overlay grid-overlay-20&quot;&gt;
+      &lt;div class=&quot;figure-overlay-container&quot;&gt;
+        &lt;span class=&quot;figure-icon&quot;&gt;
+          &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;g fill=&quot;none&quot;&gt;&lt;path d=&quot;M50.941 34.953v30.094M65.988 50h-30.093&quot;&gt;&lt;/path&gt;&lt;/g&gt;&lt;/svg&gt;                
+        &lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+                        <p>you can use an image instead of an svg too.</p>
+                        <p>Also you can add captions to the bottom of the figure e.g.</p>
+                        <pre><code>&lt;div class=&quot;figure-caption text-center&quot;&gt;
+  &lt;h3 class=&quot;figure-caption-title bordered bordered-small &quot;&gt;
+      &lt;strong&gt;Jane Doe&lt;/strong&gt; 
+      &lt;span&gt;Designer&lt;/span&gt;                    
+  &lt;/h3&gt;
+  &lt;p class=&quot;figure-caption-description&quot;&gt;In the center of the roof was a great light, as bright as the sun, which made the emeralds sparkle in a wonderful manner.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                        <p>Moreover, social items can be an option</p>
+                        <pre><code>&lt;ul class=&quot;social-icons element-short-top element-short-bottom text-center&quot;&gt;
+    &lt;li&gt;
+        &lt;a href=&quot;your_link&quot; target=&quot;_self&quot; data-iconcolor=&quot;#3b5998&quot;&gt;
+            &lt;i class=&quot;fa fa-linkedin&quot;&gt;&lt;/i&gt;
+        &lt;/a&gt;
+    &lt;/li&gt;    
+    &lt;li&gt;
+        &lt;a href=&quot;your_link&quot; target=&quot;_self&quot; data-iconcolor=&quot;#00acee&quot;&gt;
+            &lt;i class=&quot;fa fa-twitter&quot;&gt;&lt;/i&gt;
+        &lt;/a&gt;
+    &lt;/li&gt;    
+&lt;/ul&gt;</code></pre>
+                        <p>
+                            <img src="assets/images/team.png" alt="stafflist">For more options on how to setup you staff images and on hover options take a look at the <a href="/using-omega.html#portfolio-images-on-hover-options">portfolio images</a>
+                        </p>
+                        <hr>
+                        <h1 id="portolio-items">Portolio items</h1>
+                        <p>Omega&#39;s portfolio items offer you a wide variety of options to create a unique style of your work presentation. Read below for a detailed description of what you can achieve. You can create three different Portfolio items. <strong>Standard</strong>, <strong>Gallery</strong> and <strong>Video</strong>.
+                            Lets create a page with many portfolio items of each type, along with filters, using <a href="isotope.metafizzy.co/">Isotope</a>.</p>
+                        <h2 id="setting-up-the-filters">Setting up the filters</h2>
+                        <p>Setting filters is optional, but if you want to use them you can use the following markup</p>
+                        <pre><code>&lt;div class=&quot;col-md-12&quot;&gt;
+    &lt;div class=&quot;portfolio-header clearfix&quot;&gt;
+        &lt;h3 class=&quot;portfolio-title pull-left&quot;&gt;
+            &lt;strong&gt;View /&lt;/strong&gt; &lt;span&gt;All&lt;/span&gt;
+        &lt;/h3&gt;
+        &lt;div class=&quot;portfolio-filters pull-right&quot;&gt;
+            &lt;div class=&quot;btn-group&quot;&gt;
+                &lt;button type=&quot;button&quot; class=&quot;btn btn-primary dropdown-toggle btn-icon-right btn-sm&quot; data-toggle=&quot;dropdown&quot;&gt;&lt;b&gt;Sort&lt;/b&gt;
+                    &lt;span&gt;
+                        &lt;i class=&quot;fa fa-angle-down&quot;&gt;&lt;/i&gt;
+                    &lt;/span&gt;
+                &lt;/button&gt;
+                &lt;ul class=&quot;dropdown-menu pull-right&quot; role=&quot;menu&quot;&gt;
+                    &lt;li&gt;&lt;a class=&quot;portfolio-sort&quot; data-sort=&quot;default&quot;&gt;Default&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a class=&quot;portfolio-sort&quot; data-sort=&quot;title&quot;&gt;Title&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a class=&quot;portfolio-sort&quot; data-sort=&quot;date&quot;&gt;Date&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a class=&quot;portfolio-sort&quot; data-sort=&quot;comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;btn-group&quot;&gt;
+                &lt;button type=&quot;button&quot; class=&quot;btn btn-primary dropdown-toggle btn-icon-right btn-sm&quot; data-toggle=&quot;dropdown&quot;&gt;&lt;b&gt;Order&lt;/b&gt;
+                    &lt;span&gt;
+                        &lt;i class=&quot;fa fa-angle-down&quot;&gt;&lt;/i&gt;
+                    &lt;/span&gt;
+                &lt;/button&gt;
+                &lt;ul class=&quot;dropdown-menu pull-right&quot; role=&quot;menu&quot;&gt;
+                    &lt;li&gt;&lt;a class=&quot;portfolio-order&quot; data-value=&quot;true&quot;&gt;Ascending&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a class=&quot;portfolio-order&quot; data-value=&quot;false&quot;&gt;Descending&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;btn-group&quot;&gt;
+                &lt;button type=&quot;button&quot; class=&quot;btn btn-primary dropdown-toggle btn-icon-right btn-sm&quot; data-toggle=&quot;dropdown&quot;&gt;&lt;b&gt;Category&lt;/b&gt;
+                    &lt;span&gt;
+                        &lt;i class=&quot;fa fa-angle-down&quot;&gt;&lt;/i&gt;
+                    &lt;/span&gt;
+                &lt;/button&gt;
+                &lt;ul class=&quot;dropdown-menu pull-right&quot; role=&quot;menu&quot;&gt;
+                    &lt;li&gt;&lt;a class=&quot;portfolio-filter&quot; data-filter=&quot;*&quot;&gt;All&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a class=&quot;portfolio-filter&quot; data-filter=&quot;.filter-nature&quot;&gt;Nature
+                    journal&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a class=&quot;portfolio-filter&quot; data-filter=&quot;.filter-people&quot;&gt;People and
+                    more&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a class=&quot;portfolio-filter&quot; data-filter=&quot;.filter-things&quot;&gt;Things&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        <p>
+                            <img src="assets/images/portfolio-filters.png" alt="portfolio">If you want to set up category filters, you need to set up the <strong>data-filter</strong> attribute as in</p>
+                        <pre><code>&lt;li&gt;&lt;a class=&quot;portfolio-filter&quot; data-filter=&quot;.filter-nature&quot;&gt;Nature
+journal&lt;/a&gt;&lt;/li&gt;</code></pre>
+                        <p>Later on, when creating the portfolio item, you will assign to it that filter as class and it will show up when choosing the <em>Nature journal</em> category.</p>
+                        <hr>
+                        <h2 id="setting-up-the-portfolio-items">Setting up the portfolio items</h2>
+                        <p>Firstly, we wrap all the portfolio items inside this <em>div</em>
+                        </p>
+                        <pre><code>&lt;div class=&quot;portfolio-container&quot;&gt;
+    &lt;div class=&quot;portfolio masonry isotope&quot; data-padding=&quot;15&quot; data-col-xs=&quot;2&quot; data-col-sm=&quot;2&quot; data-col-md=&quot;3&quot; data-col-lg=&quot;3&quot; data-layout=&quot;fitRows&quot;&gt;
+    put the items here....
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        <ul>
+                            <li><strong>data-padding</strong> adds the pixels that you set as padding between the portfolio items.</li>
+                            <li><strong>data-col-...</strong> sets the columns for each screen size, extra small, small, medium and large.</li>
+                            <li><strong>data-layout</strong> is either <strong>fitRows</strong> or <strong>masonry</strong>, defines the layout of the portfolio items.</li>
+                        </ul>
+                        <p>The following markup is used to create a standard portfolio item, added inside the previous <em>divs</em>
+                        </p>
+                        <pre><code>&lt;div class=&quot;masonry-item portfolio-item isotope-item&quot; data-menu-order=&quot;1&quot; data-title=&quot;Coffee and Biscuits&quot;&gt;
+    Add a portfolio image
+&lt;/div&gt;</code></pre>
+                        <h2 id="portfolio-images-on-hover-options">Portfolio Images-On hover options</h2>
+                        <p>The portfolio image that you can use for the portfolio items should follow this markup</p>
+                        <pre><code>   &lt;div class=&quot;figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-sepia fade-in image-filter-onhover&quot; data-os-animation=&quot;fadeIn&quot; data-os-animation-delay=&quot;0s&quot;&gt;
+        &lt;a href=&quot;assets/images/uploads/image-03-normal.jpg&quot; class=&quot;figure-image magnific&quot; data-links=&quot;&quot; target=&quot;_self&quot;&gt;
+            &lt;img src=&quot;image_src&quot; alt=&quot;Coffee and Biscuits&quot; class=&quot;normalwidth&quot;&gt;
+            &lt;div class=&quot;figure-overlay grid-overlay-30&quot;&gt;
+                &lt;div class=&quot;figure-overlay-container&quot;&gt;
+                    &lt;span class=&quot;figure-icon&quot;&gt;
+                        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;g fill=&quot;none&quot;&gt;&lt;path d=&quot;M50.941 34.953v30.094M65.988 50h-30.093&quot;&gt;&lt;/path&gt;&lt;/g&gt;&lt;/svg&gt;                
+                    &lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/a&gt;
+    &lt;/div&gt;</code></pre>
+                        <p>The options that you can set for a portfolio item are the following:</p>
+                        <ol>
+                            <li><strong>data-menu-order</strong> defines the order that the item will appear on the page.</li>
+                            <li><strong>Image hover effects filters</strong> which apply to the image on hover, which are <strong>Sepia</strong>, <strong>Grayscale</strong> and <strong>Blur</strong>. The corresponding classes are <strong>image-filter-sepia</strong>, <strong>image-filter-grayscale</strong> and <strong>image-filter-blur</strong> respectively.</li>
+                            <li><strong>Hover effects filter behaviour</strong> defines when to apply the hover effects filter. If the <em>image-filter-onhover</em> class is used, the filter is applied on hover. If the <em>image-filter-invert</em> class is used,
+                                the filter is applied on hover out.</li>
+                            <li><strong>Item overlay hover animation</strong> which is what animation will be used to reveal the image hover overlay. The effects with their related classes are:
+                                <ul>
+                                    <li><strong>Fade in</strong>: <em>fade-in</em>
+                                    </li>
+                                    <li><strong>Fade From Top</strong>: <em>fade-in from-top</em>
+                                    </li>
+                                    <li><strong>Fade From Bottom</strong>: <em>fade-in from-bottom</em>
+                                    </li>
+                                    <li><strong>Fade From Left</strong>: <em>fade-in from-left</em>
+                                    </li>
+                                    <li><strong>Fade From Right</strong>: <em>fade-in from-right</em>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><strong>Hover overlay link type</strong> is defined by the <em>magnific</em> class(in the <code>&lt;a&gt;&lt;/a&gt;</code>) for a standard portfolio, the <em>magnific-vimeo</em> for video portfolio item or <em>magnific-gallery</em> for
+                                the gallery portfolio item.</li>
+                            <li><strong>Item overlay grid</strong> is set with the <em>grid-overlay-...</em> class ranging from <em>grid-overlay-0</em> to <em>grid-overlay-100</em> with 10 steps in the middle. This class is put inside the div with the <em>figure-overlay</em> class.</li>
+                            <li><strong>Item overlay icon</strong> is used to show on the hover overlay. It can be an <strong>svg</strong> as in this example, or an <code>&lt;img&gt;</code>.</li>
+                        </ol>
+                        <p>
+                            <img src="assets/images/portfolio-classic.png" alt="portfolio">
+                        </p>
+                        <h3 id="adding-captions">Adding captions</h3>
+                        <p>It is easy to add captions below the figure of the portfolio item if you add this markup after the <code>&lt;a&gt;&lt;/a&gt;</code> in the previous example</p>
+                        <pre><code>&lt;h3 class=&quot;figure-caption-title bordered bordered-small bordered-link&quot;&gt;
+    &lt;a href=&quot;your_link&quot; target=&quot;_self&quot;&gt;
+        your title
+    &lt;/a&gt;
+&lt;/h3&gt;</code></pre>
+                        <p>You can add a description text as well using this markup</p>
+                        <pre><code>&lt;p class=&quot;figure-caption-description&quot;&gt;
+    your description text
+&lt;/p&gt;</code></pre>
+                        <p>
+                            <img src="assets/images/portfolio-captions.png" alt="portfolio">
+                        </p>
+                        <h3 id="showing-title-buttons-on-hover-overlay">Showing title &amp; buttons on hover overlay</h3>
+                        <p>On hover overlay you can show a title and buttons instead of just an icon by using this markup</p>
+                        <pre><code>&lt;div class=&quot;masonry-item portfolio-item isotope-item&quot; data-menu-order=&quot;1&quot; data-title=&quot;Coffee and Biscuits&quot;&gt;
+    &lt;div class=&quot;figure portfolio-os-animation element-no-top element-no-bottom text-center figcaption-middle normalwidth image-filter-sepia fade-in image-filter-onhover&quot; data-os-animation=&quot;fadeIn&quot; data-os-animation-delay=&quot;0s&quot;&gt;
+        &lt;span class=&quot;figure-image&quot; target=&quot;_self&quot;&gt;
+            &lt;img src=&quot;image_src&quot; alt=&quot;Coffee and Biscuits&quot; class=&quot;normalwidth&quot;&gt;
+            &lt;div class=&quot;figure-overlay grid-overlay-30&quot;&gt;
+                &lt;div class=&quot;figure-overlay-container&quot;&gt;
+                    &lt;div class=&quot;figure-caption&quot;&gt;
+                        &lt;h4 class=&quot;figure-caption-title element-small-bottom bordered bordered-small&quot;&gt;
+                            your title    
+                        &lt;/h4&gt;
+                        &lt;p class=&quot;figure-caption-description&quot;&gt;
+                            &lt;a href=&quot;image_src&quot; class=&quot;btn btn-primary btn-sm magnific&quot; target=&quot;_self&quot;&gt;
+                                View Larger
+                            &lt;/a&gt;
+                            &lt;a href=&quot;portfolio-slideshow.html&quot; class=&quot;btn btn-primary btn-sm&quot; target=&quot;_self&quot;&gt;More Details&lt;/a&gt;
+                        &lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        <p>Feel free to remove the <code>&lt;h4&gt;&lt;/h4&gt;</code> if you need just the buttons.</p>
+                        <p>
+                            <img src="assets/images/portfolio-buttons.png" alt="portfolio">
+                        </p>
+                        <h3 id="masonry">Masonry</h3>
+                        <p>The masonry portfolio is a very cool option and is really easy to set up. All you need to do is add the <strong>use-masonry</strong> class and the <strong>data-layout=&quot;masonry&quot;</strong> in the wrapping <em>div</em> to enable
+                            it, e.g.</p>
+                        <pre><code> &lt;div class=&quot;portfolio-container&quot;&gt;
+    &lt;div class=&quot;portfolio masonry isotope use-masonry&quot; data-padding=&quot;15&quot; data-col-xs=&quot;2&quot; data-col-sm=&quot;2&quot; data-col-md=&quot;3&quot; data-col-lg=&quot;3&quot; data-layout=&quot;masonry&quot;&gt;
+    put the items here....
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        <p>When adding the portfolio items, you need to add an extra class to the <code>&lt;div class=&quot;masonry-item portfolio-item isotope-item&quot;&gt;...&lt;/div&gt;</code> called <strong>masonry-normal</strong> or <strong>masonry-wide</strong> as
+                            in <code>&lt;div class=&quot;masonry-item portfolio-item isotope-item masonry-wide&quot;&gt;...&lt;/div&gt;</code> 
+                        </p>
+                        <p>
+                            <img src="assets/images/masonry.png" alt="portfolio">
+                        </p>
+                        <div class="alert alert-info">
+                            <i class="fa fa-gittip"></i>  <strong>masonry-wide</strong> doubles the width of the image.
+                        </div>
+                        <div class="alert alert-danger">
+                            <i class="fa fa-gittip"></i> It is <strong>highly</strong> recommended to use the following image sizes, or keep the same aspect ratio: <strong>1200x800</strong>, <strong>600x800</strong>, <strong>1200x400</strong>
+                        </div>
+                        <hr>
+                        <h1 id="features">Features</h1>
+                        <h2 id="buttons">Buttons</h2>
+                        <p>Buttons in Omega follow the bootstrap markup as described on <a href="http://getbootstrap.com/css/#buttons">Bootstrap website</a>. What is new in Omega is the extra icons that we can add on the left or right side of the buttons.</p>
+                        <p>To add a simple icon you can use this markup</p>
+                        <pre><code>&lt;a class=&quot;btn btn-primary&quot; href=&quot;#&quot;&gt;
+    &lt;i class=&quot;fa fa-comment&quot;&gt;&lt;/i&gt;
+    &amp;nbsp; Comment
+&lt;/a&gt;</code></pre>
+                        <p>To add a fancy button you can use this markup</p>
+                        <pre><code>&lt;a class=&quot;btn btn-lg btn-primary btn-icon-left&quot; href=&quot;#&quot;&gt;
+    Buy it
+    &lt;span&gt;
+      &lt;i class=&quot;fa fa-shopping-cart&quot;&gt;&lt;/i&gt;
+    &lt;/span&gt;
+&lt;/a&gt;</code></pre>
+                        <p>The icon can be put to the right if you change the <strong>btn-icon-left</strong> to <strong>btn-icon-right</strong>.</p>
+                        <hr>
+                        <h2 id="shaped-images">Shaped Images</h2>
+                        <p>Omega offers a great element that you can shape as you want and choose the exact size that fits to your needs. <strong>Boxes</strong> can be either <strong>round</strong>, <strong>square</strong> or <strong>rectangle</strong>. This is
+                            the markup to be used for a round box</p>
+                        <pre><code>&lt;div class=&quot;box-round box-big&quot;&gt;
+  &lt;div class=&quot;box-dummy&quot;&gt;&lt;/div&gt;
+  &lt;span class=&quot;box-inner&quot;&gt;
+    &lt;img alt=&quot;&quot; data-animation=&quot;swing&quot; src=&quot;img_src&quot;&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+                        <p>To achieve the shape that you wish, you need to replace <strong>box-round</strong> with <strong>box-square</strong> or <strong>box-rect</strong>. In order to change the size of the box, change <strong>box-big</strong>(200x200) to <strong>box-mini</strong>(48x48), <strong>box-small</strong>(78x78), <strong>box-medium</strong>(100x100)
+                            or <strong>box-huge</strong>(250x250). Also, you can set the <strong>background-color</strong> of each image by adding some inline styling in the <em>.box-inner</em>  <code>&lt;div&gt;</code>.</p>
+                        <p>Instead of an icon you can use an image</p>
+                        <pre><code>&lt;div class=&quot;box-round box-big&quot;&gt;
+  &lt;div class=&quot;box-dummy&quot;&gt;&lt;/div&gt;
+  &lt;span class=&quot;box-inner&quot; style=&quot;background-color:#353b42;&quot;&gt;
+    &lt;img alt=&quot;&quot; data-animation=&quot;swing&quot; src=&quot;img_src&quot;&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+                        <p>
+                            <img src="assets/images/round-box.png" alt="boxes">
+                        </p>
+                        <p>To add an animation effect to the shaped images you can add a wrapping <em>div</em> to the icon/image with the <strong>box-animate</strong> class and a data attribute <strong>data-animation</strong> that sets the type of animation that
+                            you want e.g.</p>
+                        <pre><code>&lt;div class=&quot;box-round box-big&quot;&gt;
+  &lt;div class=&quot;box-dummy&quot;&gt;&lt;/div&gt;
+  &lt;span class=&quot;box-inner&quot; style=&quot;background-color:#353b42;&quot;&gt;
+    &lt;div class=&quot;box-animate&quot; data-animation=&quot;swing&quot;&gt;
+      &lt;img alt=&quot;&quot; data-animation=&quot;swing&quot; src=&quot;img_src&quot;&gt;
+    &lt;/div&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+                        <div class="alert alert-success">
+                            <i class="fa fa-gittip"></i> For a quick look at the available animations you can go to <a href="http://daneden.github.io/animate.css/">Animations</a>.
+                        </div>
+                        <hr>
+                        <h2 id="social-icons">Social Icons</h2>
+                        <p>You can add social icons using the following markup</p>
+                        <pre><code>  &lt;ul class=&quot;social-icons social-simple&quot;&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;#&quot;&gt;
+        &lt;i class=&quot;fa fa-twitter&quot;&gt;&lt;/i&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;#&quot;&gt;
+        &lt;i class=&quot;fa fa-facebook&quot;&gt;&lt;/i&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;#&quot;&gt;
+        &lt;i class=&quot;fa fa-pinterest&quot;&gt;&lt;/i&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;</code></pre>
+                        <p>This will add a list of three social icons of a small size. You can change the class <strong>social-simple</strong> to <strong>social-big</strong> if you want them to be bigger.</p>
+                        <hr>
+                        <h2 id="features-lists">Features Lists</h2>
+                        <p>The best way to present a list of important features is with a <strong>features list</strong>. Use the following markup</p>
+                        <pre><code>&lt;ul class=&quot;features-list features-white&quot;&gt;
+  &lt;li&gt;
+    &lt;div class=&quot;features-list-icon&quot;&gt;
+        &lt;img src=&quot;image_src&quot; alt=&quot;some text&quot;&gt;
+    &lt;/div&gt;
+    &lt;h3&gt;Use lines&lt;/h3&gt;
+    &lt;p&gt;
+        Omega is designed with the latest technologies so that your website will look sharp and stunning even on high resolution retina displays.
+    &lt;/p&gt;
+  &lt;/li&gt;
+  .
+  .
+  .
+&lt;/ul&gt;</code></pre>
+                        <p>To change the background color of the featured list&#39;s items you can use the following classes: <strong>features-white</strong>, <strong>features-dark</strong>, <strong>features-blue</strong>, <strong>features-green</strong>, and <strong>features-gray</strong>.</p>
+                        <p>Using the <strong>features-connected</strong> class inside th <code>&lt;ul&gt;</code> draws a line that connects the items, with the color of the <strong>data-linecolor</strong> attribute e.g.</p>
+                        <pre><code>&lt;ul class=&quot;features-list features-white features-connected&quot; data-linecolor=&quot;#82c9ed&quot;&gt;</code></pre>
+                        <hr>
+                        <h2 id="fancy-blockquotes">Fancy Blockquotes</h2>
+                        <p>You can create a blockquote by using the markup provided by bootstrap&#39;s <a href="http://getbootstrap.com/css/#type-blockquotes">official website</a>.</p>
+                        <p>However, you can have a <strong>fancy-blockquote</strong> with a shaped image at the bottom if you use the following markup</p>
+                        <pre><code>&lt;blockquote&gt;
+  &lt;p&gt;
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  &lt;/p&gt;
+  &lt;div class=&quot;box box-round box-small&quot;&gt;
+      &lt;div class=&quot;box-dummy&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;box-inner&quot;&gt;
+          &lt;img width=&quot;150&quot; height=&quot;150&quot; src=&quot;your_image&quot;&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;footer&gt;
+      Jimmy Doe
+  &lt;/footer&gt;
+&lt;/blockquote&gt;</code></pre>
+                        <hr>
+                        <h1 id="on-scroll-animations">On Scroll Animations</h1>
+                        <p>All the elements in Omega can be animated. You can do that by adding the <strong>data-os-animation</strong> attribute that defines the type of animation to execute and the <strong>data-os-animation</strong> attribute that defines when
+                            the animation effect should take place. Also, the <strong>os-animation</strong> class should be added.e.g</p>
+                        <pre><code>&lt;div class=&quot;figure text-center os-animation&quot; data-os-animation=&quot;fadeIn&quot; data-os-animation-delay=&quot;.2s&quot;&gt;
+...
+&lt;/div&gt;</code></pre>
+                        <p>This element will now animate 0.2 seconds after the user scrolls to it with the <em>fadeIn</em> effect.</p>
+                        <div class="alert alert-success">
+                            <i class="fa fa-gittip"></i> For a quick look at the available animations you can go to <a href="http://daneden.github.io/animate.css/">Animations</a>.
+                        </div>
+                        <div class="alert alert-warning">
+                            <i class="fa fa-gittip"></i> Make sure that you are not using <strong>fade out effects</strong> along with the on scroll animations.
+                        </div>
+                        <hr>
+                        <h1 id="fade-out-effects">Fade out effects</h1>
+                        <p>When an element leaves a page while the user scrolls along the page, you can add a fade out effect, using the following data attributes:</p>
+                        <ul>
+                            <li><strong>data-start=&quot;opacity:1&quot;</strong>
+                            </li>
+                            <li><strong>data-70-top-bottom=&quot;opacity:0&quot;</strong>
+                            </li>
+                            <li><strong>data-center=&quot;opacity:1&quot;</strong>
+                            </li>
+                        </ul>
+                        <p>You can use it for a header as in the following example:</p>
+                        <pre><code>&lt;header class=&quot;text-left not-condensed&quot; data-start=&quot;opacity:1&quot; data-center=&quot;opacity:1&quot; data-70-top-bottom=&quot;opacity:0&quot;&gt;
+    &lt;h1 class=&quot;big hairline bordered-normal&quot;&gt;
+         a multi purpose and powerful HTML theme
+    &lt;/h1&gt;
+&lt;/header&gt;</code></pre>
+                        <div class="alert alert-warning">
+                            <i class="fa fa-gittip"></i> Make sure that you are not using <strong>on scroll animations</strong> along with the fade out effects.
+                        </div>
+                        <hr>
+                        <h1 id="bullet-navigation">Bullet Navigation</h1>
+                        <p>You can add bullet navigation to your page, making it easier for users to navigate to your sections by clicking to the respective bullet wherever they are on your page.
+                            <img src="assets/images/bullet-nav.png" alt="bullet-nav">
+                        </p>
+                        <p>What you need to do to setup a bullet navigation is really simple. Add an <em>id</em> to any section that you want to have a bullet leading to it. Then you need to add this code to the bottom of the page</p>
+                        <pre><code>&lt;div class=&quot;bullet-nav&quot;&gt;
+    &lt;ul&gt;&lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+                        <p>Now there should be a bullet related to every section that has an id.</p>
+                        <hr>
+                        <h1 id="scroll-to-buttons">Scroll-to buttons</h1>
+                        <p>You can scroll to a section using a link, if you make the <em>href</em> attribute of the link point to the section. You also need to assign the <strong>scroll-to</strong> and <strong>scroll-to-id</strong> classes. For example, if the
+                            section&#39;s id is <em>services</em>, the link would be something like</p>
+                        <pre><code>&lt;a href=&quot;#services&quot; class=&quot;scroll-to scroll-to-id&quot;&gt;
+    &lt;img src=&quot;your_image&quot;&gt;
+&lt;/a&gt;</code></pre>
+                        <p>If you want to use the svg shown in the image below use the following markup</p>
+                        <pre><code>&lt;a href=&quot;#services&quot; class=&quot;scroll-to scroll-to-id place-bottom&quot;&gt;
+    &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;&gt;&lt;path fill=&quot;none&quot; d=&quot;M65.473 42.382l-14.532 15.235-14.531-15.235&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+&lt;/a&gt;</code></pre>
+                        <p>Use the class <strong>place-bottom</strong> to place the svg to the bottom of the section.</p>
+                        <p>
+                            <img src="assets/images/scroll-to.png" alt="scroll-to-button">
+                        </p>
+                        <hr>
+                        <h1 id="charts">Charts</h1>
+                        <p>The charts in Omega are created with the <strong>Chartjs</strong> library. Please visit the <a href="http://www.chartjs.org/">official website</a> for more info. Also, checkout the <a href="http://omegahtml.oxygenna.com/index-corporate.html">Corporate homepage</a> of
+                            Omega.</p>
+                        <hr>
+                        <h1 id="revolution-slider">Revolution Slider</h1>
+                        <p>Omega comes bundled with the <strong>Revolution Slider</strong> plugin. In order to be able to use it in your pages you need to make sure that :</p>
+                        <ul>
+                            <li>
+                                <p>You add the following lines to your HTML <code>&lt;head&gt;</code>
+                                </p>
+                                <pre><code>  &lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js&gt;
+  &lt;script src=&quot;assets/js/tools.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;assets/js/revolution.min.js&quot;&gt;&lt;/script&gt;
+  &lt;link href=&quot;assets/css/revolution.css&quot; media=&quot;screen&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</code></pre>
+                            </li>
+                        </ul>
+                        <div class="alert alert-info">
+                            <i class="fa fa-gittip"></i> For more info on how to use <strong>Revolution Slider</strong> in your website read the instructions <a href="http://catapultthemes.com/documentation/documentation.html">here</a>
+                        </div>
+                        <hr>
+                        <h1 id="contact-form">Contact Form</h1>
+                        <p>The contact form now uses the <strong>PHPMailer</strong>, which is a full-featured email creation and transfer class for PHP. For more about PHPMailer please visit the official website
+                            <a href="http://phpmailer.worxware.com/"><a href="http://phpmailer.worxware.com/">http://phpmailer.worxware.com/</a></a>.
+                            <br>To setup your contact form you will need to edit the <strong>contact_mailer.php</strong> file in the main theme folder. The first <strong>62 lines</strong> can be modified to customise your contact form.</p>
+                        <ol>
+                            <li>Set the main host. It is by default set to <code>smtp.gmail.com</code> if you are using a <strong>GMail</strong> account. Other options are
+                                <ul>
+                                    <li>Hotmail =&gt; <code>smtp.live.com</code>
+                                    </li>
+                                    <li>Yahoo =&gt; <code>smtp.mail.yahoo.com</code>
+                                    </li>
+                                    <li>Lycos =&gt; <code>smtp.mail.lycos.com</code>
+                                    </li>
+                                    <li>AOL =&gt; <code>smtp.aol.com</code>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Set the SMTP username and password. This is the email account that PHPMailer will use to send the email. Change <code>some_email@email.com</code> to the email that you want to use and <code>secret</code> to the password of that
+                                email, from <strong>lines 16, 17</strong>.</li>
+                            <li>Set the address that the email of the form will be delivered to. Change the <code>receiver@mail.com</code> from <strong>line 21</strong> to the address that you want.</li>
+                            <li>Set the company name - When a message arrives in your inbox it will have a subject with your company name inside. To change this edit <strong>line 26</strong> and change the <em>your_company</em> to your company name.</li>
+                            <li>
+                                <p>Set which fields are required - to change which fields are required in your form you can edit the following</p>
+                                <pre><code> $field_rules = array(
+  &#39;name&#39; =&gt; &#39;required&#39;,
+  &#39;email&#39; =&gt; &#39;required|valid_email&#39;,
+  &#39;message&#39; =&gt; &#39;required&#39;
+ );</code></pre>
+                                <p>Remove the lines of the fields you do not want to be required.</p>
+                            </li>
+                            <li>
+                                <p>Change error validation messages - to change the error messages that popup on the forms change the following section</p>
+                                <pre><code> $error_messages = array(
+  &#39;required&#39; =&gt; &#39;This field is required&#39;,
+  &#39;valid_email&#39; =&gt; &#39;Please enter a valid email address&#39;
+ );
+ // select where each inputs error messages will be shown
+ $error_placements = array(
+  &#39;name&#39; =&gt; &#39;top&#39;,
+  &#39;email&#39; =&gt; &#39;top&#39;,
+  &#39;subject&#39; =&gt; &#39;right&#39;,
+  &#39;message&#39; =&gt; &#39;right&#39;,
+  &#39;submitButton&#39; =&gt; &#39;right&#39;
+ );</code></pre>
+                            </li>
+                        </ol>
+                        <p><strong>$error_messages</strong> - defines the messages shown in the popups.</p>
+                        <p><strong>$error_placements</strong> - defines where the popups will appear on (top|bottom|left|right).</p>
+                        <div class="alert alert-success">
+                            <i class="fa fa-gittip"></i> Keep in mind that you need to include the
+                            <code>&lt;script src=&quot;assets/js/contact.min.js&quot;&gt;&lt;/script&gt;</code> at the and of the <code>&lt;body&gt;</code>.
+                        </div>
+                        <p>
+                            <img src="assets/images/contact-form.png" alt="contact-form">
+                        </p>
+                        <h1 id="-"> </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="docs-footer" role="contentinfo">
+            <div class="container">
+                <ul class="bs-masthead-links pull-left">
+                    <li class="current-version">
+                        Currently v1.2.1
+                    </li>
+                    <li>
+                        <a href="changelog.html">Changelog</a>
+                    </li>
+                    <li>
+                        <a href="http://themeforest.net/user/oxygenna/portfolio" target="_blank">Our Portfolio</a>
+                    </li>
+                    <li>
+                        <a href="http://www.oxygenna.com/contact" target="_blank">Contact Us</a>
+                    </li>
+                </ul>
+                <ul class="bs-masthead-links pull-right">
+                    <li>
+                        Made with <i class="fa fa-heart"></i> in Sitia, Greece
+                    </li>
+                </ul>
+                </li>
+        </footer>
+    </body>
+    <script src="assets/js/main.js"></script>
+</html>
