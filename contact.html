@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Contact – Florian Behejohn</title>
+
+    <!-- SEO & Meta -->
+    <meta name="description" content="Contacter Florian Behejohn – développement, audio, audiovisuel, UX/UI et projets interactifs." />
+    <link rel="canonical" href="https://flobehejohn.github.io/contact.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta name="audio-policy" content="global" />
+
+    <!-- 🚩 Clé Google Maps (restreinte au domaine GitHub Pages/Cloudflare) -->
+    <meta name="gmaps-key" content="AIzaSyAOqVrYNXr3Y6wHu-E7CckgMoVjXXBUU0c" />
+
+    <!-- Polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
+    <!-- CSS globaux -->
+    <link rel="preload" href="/assets/css/theme.min.css" as="style" onload="this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/css/theme.min.css"></noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/swatch.bundle.css">
+    <link rel="stylesheet" href="/assets/css/style_audio_player.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/carte_magique.css">
+    <link rel="stylesheet" href="/assets/css/fixes.css">
+
+    <!-- CSS SCOPÉ (Contact) : cartes blanches “habillées” -->
+    <style data-page-css>
+      /* Scope page Contact uniquement */
+      main[data-page="contact"] {
+        --card-bg: #fff;
+        --card-radius: 16px;
+        --card-shadow: 0 10px 28px rgba(0,0,0,.08);
+        --card-border: 1px solid rgba(0,0,0,.06);
+        --section-gap: clamp(24px, 3vw, 40px);
+      }
+      main[data-page="contact"] .contact-card {
+        background: var(--card-bg);
+        border-radius: var(--card-radius);
+        box-shadow: var(--card-shadow);
+        border: var(--card-border);
+        padding: clamp(18px, 2.2vw, 28px);
+      }
+      main[data-page="contact"] .contact-card h2,
+      main[data-page="contact"] .contact-card .h4 {
+        margin-top: 0;
+      }
+      main[data-page="contact"] .hero-section { margin-bottom: var(--section-gap); }
+      main[data-page="contact"] .ratio > #gmap { min-height: 420px; }
+      main[data-page="contact"] .fa-ul { margin-left: 1.4em; }
+      main[data-page="contact"] .fa-li { top: .25em; }
+      /* Petites retouches formulaires */
+      main[data-page="contact"] .form-control::placeholder { opacity: .7; }
+      main[data-page="contact"] .btn .spinner-border { vertical-align: -2px; }
+      /* Accessibilité focus visible */
+      main[data-page="contact"] a:focus-visible,
+      main[data-page="contact"] button:focus-visible,
+      main[data-page="contact"] input:focus-visible,
+      main[data-page="contact"] textarea:focus-visible {
+        outline: 2px solid #4da3ff;
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+
+  <body class="normal-header preload">
+    <div id="cloud-bg"></div>
+
+    <!-- ====== NAVBAR (identique au portfolio) ====== -->
+    <nav id="masthead" class="navbar navbar-expand-lg navbar-sticky swatch-custom" role="navigation" aria-label="Navigation principale">
+      <div class="container d-flex justify-content-between align-items-center">
+        <!-- BRAND -->
+        <a href="/index.html" class="navbar-brand d-flex align-items-center">
+          <img src="/assets/images/log_zim.webp" alt="Logo" class="brand-logo" />
+          <span class="site-title">FLORIAN-BEHEJOHN</span>
+        </a>
+
+        <!-- Groupe audio + hamburger -->
+        <div class="d-flex align-items-center" id="navRightGroup">
+          <button id="openAudioPlayer" class="audio-player-nav-btn" title="Lecteur Audio" type="button" tabindex="0" aria-label="Ouvrir le lecteur audio">
+            <i class="fas fa-headphones-alt" aria-hidden="true"></i>
+          </button>
+          <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Menu">
+            <span class="navbar-toggler-icon">
+              <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            </span>
+          </button>
+        </div>
+
+        <!-- MENU -->
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/index.html" data-no-pjax>Accueil</a></li>
+            <li class="nav-item"><a class="nav-link" href="/portfolio_florian_b.html" data-no-pjax>Portfolio</a></li>
+            <li class="nav-item"><a class="nav-link" href="/parcours.html" data-no-pjax>Parcours</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="/contact.html" data-no-pjax>Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ====== LECTEUR AUDIO MODALE (persistant) ====== -->
+    <div id="responsiveWrapper">
+      <div class="audio-player-modal" id="audioPlayerModal" role="dialog" aria-modal="true" aria-label="Lecteur audio">
+        <div class="modal-content-player">
+          <button class="close-button" id="closePlayerModal" aria-label="Fermer le lecteur">&times;</button>
+          <div class="drag-bar" id="dragBar" title="Déplacer la fenêtre"></div>
+
+          <div class="radio">
+            <div class="info-panel" id="infoPanel"><h2 id="trackTitle">Chargement...</h2></div>
+            <div class="cover" id="cover">
+              <picture>
+                <source srcset="/assets/images/log_zim.webp" type="image/webp" />
+                <source srcset="/assets/images/log_zim.jpg" type="image/jpeg" />
+                <img id="coverArt" src="/assets/images/log_zim.jpg" alt="Logo de Florian Behejohn" loading="lazy" width="480" height="480" decoding="async" style="max-width:100%;height:auto;display:block;margin:auto;border-radius:50%;box-shadow:0 4px 32px #2223;background:#fff;">
+              </picture>
+            </div>
+
+            <div class="controls">
+              <div class="buttons">
+                <button class="button" id="prevBtn" title="Précédent"><div class="icon prev"></div></button>
+                <button class="button" id="toggleBtn" title="Lecture / Pause"><div class="icon play"></div><div class="icon pause"><span></span><span></span></div></button>
+                <button class="button" id="stopBtn" title="Stop"><div class="icon stop"></div></button>
+                <button class="button" id="nextBtn" title="Suivant"><div class="icon next"></div></button>
+                <button class="button" id="sfxBtn" title="SFX On/Off">🔊</button>
+              </div>
+
+              <div class="sliders">
+                <span class="time" id="timeDisplay">0:00</span>
+                <input type="range" class="progress" id="progress" value="0" max="100" />
+                <div class="volume-container">
+                  <i class="fas fa-volume-up volume-icon" aria-hidden="true"></i>
+                  <input type="range" class="volume" id="volume" value="100" max="100" title="Volume" />
+                </div>
+              </div>
+            </div>
+
+            <audio id="audioPlayer" preload="auto"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== CONTENU ====== -->
+    <main data-pjax-root data-page="contact" data-audio="global" data-map-auto="1">
+      <div id="content">
+        <article>
+          <!-- Intro -->
+          <section class="section swatch-custom text-center">
+            <div class="container">
+              <header class="hero-section animated-text">
+                <h1 class="super hairline bordered-normal anim-texte">Contact</h1>
+                <p class="lead anim-texte">Parlons de vos besoins — dev, audio, UX/UI, R&D… Je réponds vite et clairement.</p>
+              </header>
+            </div>
+          </section>
+
+          <!-- Carte + Coordonnées dans cartes blanches -->
+          <section class="section swatch-white">
+            <div class="container">
+              <div class="row g-4">
+                <div class="col-lg-6">
+                  <div class="contact-card">
+                    <h2 class="h4 mb-3">Où me trouver</h2>
+                    <div class="ratio ratio-16x9 rounded overflow-hidden">
+                      <div id="gmap"></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                      <button id="mapRecenter" class="btn btn-outline-primary btn-sm" type="button">Recentrer</button>
+                      <a id="mapDirections" class="btn btn-outline-secondary btn-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=48.8636,2.4432">Itinéraire</a>
+                    </div>
+                    <div id="mapStatus" class="mt-2 small text-muted" aria-live="polite" aria-atomic="true"></div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="contact-card">
+                    <h2 class="h4 mb-3">Coordonnées</h2>
+                    <ul class="fa-ul lead mb-4">
+                      <li><span class="fa-li"><i class="fa fa-home" style="color:#82c9ed"></i></span>Paris — France</li>
+                      <li><span class="fa-li"><i class="fa fa-phone" style="color:#82c9eb"></i></span><a href="tel:+33630389411">+33&nbsp;6&nbsp;30&nbsp;38&nbsp;94&nbsp;11</a></li>
+                      <li><span class="fa-li"><i class="fa fa-envelope" style="color:#82c9eb"></i></span><span id="emailSafe" data-user="florian.behejohn" data-domain="hotmail.fr">[email protégé]</span></li>
+                      <li><span class="fa-li"><i class="fa fa-globe" style="color:#82c9eb"></i></span><a href="https://flobehejohn.github.io">flobehejohn.github.io</a></li>
+                    </ul>
+
+                    <h2 class="h4 mb-3">Écrivez-moi</h2>
+                    <form id="contactForm" class="contact-form" novalidate>
+                      <div class="mb-3">
+                        <label for="name" class="form-label">Votre nom *</label>
+                        <input id="name" name="name" type="text" class="form-control" placeholder="Votre nom" autocomplete="name" required />
+                        <div class="invalid-feedback">Merci d’indiquer votre nom.</div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="email" class="form-label">Votre e-mail *</label>
+                        <input id="email" name="email" type="email" class="form-control" placeholder="vous@example.com" autocomplete="email" required />
+                        <div class="invalid-feedback">Adresse e-mail invalide.</div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="message" class="form-label">Votre message *</label>
+                        <textarea id="message" name="message" rows="6" class="form-control" placeholder="Votre message…" required></textarea>
+                        <div class="invalid-feedback">Le message est requis.</div>
+                      </div>
+                      <div class="d-flex align-items-center gap-3">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                          <span class="btn-label">Envoyer</span>
+                          <span class="spinner-border spinner-border-sm ms-2 d-none" id="submitSpinner" role="status" aria-hidden="true"></span>
+                        </button>
+                        <span class="text-muted small">Envoi via votre logiciel e-mail.</span>
+                      </div>
+                      <div id="messages" class="mt-3" aria-live="polite" aria-atomic="true"></div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CTA -->
+          <section class="section swatch-custom section-text-shadow text-center">
+            <div class="container">
+              <header class="hero-section animated-text">
+                <h2 class="bigger hairline bordered">Envie d’en savoir plus ?</h2>
+                <p class="lead">Explore mon portfolio interactif.</p>
+                <div style="height: 24px;"></div>
+                <a href="/portfolio_florian_b.html" class="btn btn-primary btn-lg btn-action">Voir le portfolio</a>
+              </header>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="swatch-custom text-center">
+      <div class="container"><p>© 2025 Florian Behejohn - Tous droits réservés.</p></div>
+    </footer>
+
+    <!-- =========================================================
+     SCRIPTS GLOBAUX — ordre maîtrisé (defer) + logs Firefox
+     À placer tout en bas du <body> (après la navbar + lecteur)
+     ========================================================= -->
+
+<!-- 0) Mini logger + garde-fous erreurs JS (capte tôt) -->
+<script>
+  (() => {
+    const TAG = '%c[Boot]';
+    const CSS = 'background:#111;color:#0ff;padding:1px 6px;border-radius:3px;font-weight:700';
+    const OK  = 'background:#0c2a1a;color:#77ffcc;padding:1px 6px;border-radius:3px;font-weight:700';
+    const BAD = 'background:#2b1d1d;color:#ffb3b3;padding:1px 6px;border-radius:3px;font-weight:700';
+  
+    // Console errors (Firefox/Chromium)
+    window.addEventListener('error', (e) => {
+      console.error(TAG, BAD, 'Erreur script :', e.message, `@ ${e.filename}:${e.lineno}:${e.colno}`);
+    });
+    window.addEventListener('unhandledrejection', (e) => {
+      console.error(TAG, BAD, 'Promise rejetée :', e.reason);
+    });
+  
+    // Expose small probe helper for later checks
+    window.__BOOT_PROBE__ = function(label, testFn){
+      try {
+        const ok = !!testFn();
+        console[ok ? 'info' : 'warn'](TAG, ok ? OK : BAD, label, ok ? 'OK' : 'KO');
+        return ok;
+      } catch (err) {
+        console.error(TAG, BAD, label, 'ERR', err);
+        return false;
+      }
+    };
+  })();
+  </script>
+  
+  <!-- 1) Bootstrap (bundle = +Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+  
+  <!-- 2) jQuery (certains plugins/patchs l’exigent) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+  
+  <!-- 3) Polyfills / patchs DOM utiles -->
+  <script src="/assets/js/jquery-placeholder-polyfill.js" defer></script>
+  <script src="/assets/js/smartresize-patch.js" defer></script>
+  
+  <!-- 4) Navbar (collapses, focus, liens actifs) -->
+  <script src="/assets/js/navbar.js" defer></script>
+  
+  <!-- 5) Noyau navigation + audio persistant -->
+  <script src="/assets/js/pjax-router.js" defer></script>
+  <script src="/assets/js/player-singleton.js" defer></script>
+  <script src="/assets/js/page-hub.js" defer></script>
+  
+  <!-- 6) Plugins jQuery globaux -->
+  <script src="/assets/js/packages.min.js" defer></script>
+  
+  <!-- 6.5) Binder ESM : gardien de modales (compatible PJAX) -->
+  <script type="module">
+    import { closeAllModals } from '/assets/js/modal-guard.js';
+    window.closeAllModals = closeAllModals;
+  </script>
+  
+  <!-- 7) Thème / animations génériques -->
+  <script src="/assets/js/theme.min.js" defer></script>
+  <script src="/assets/js/animated-text.js" defer></script>
+  <script src="/assets/js/script.js" defer></script>
+  
+  <!-- 8) UI du lecteur (toggle flottant, scale responsive, drag) -->
+  <script src="/assets/js/floating-audio-toggle.js" defer></script>
+  <script src="/assets/js/responsive-audio-player-scaler.js" defer></script>
+  <script src="/assets/js/draggable-audio-player.js" defer></script>
+  
+  <!-- 9) Module de page (idempotent init/destroy, PJAX-ready)
+       ⚠️ Pour la page mac_val.html : -->
+  <script src="/assets/js/pages/mac_val.js" defer></script>
+  <!-- (Si tu préfères l’auto-load par page-hub, tu peux retirer la ligne ci-dessus :
+       ton module mac_val.js doit rester idempotent pour éviter les doubles inits.) -->
+  
+  <!-- 10) Retrait du preload + diagnostics PJAX/Audio (Firefox-friendly) -->
+  <script>
+  (() => {
+    const probe = window.__BOOT_PROBE__ || ((label)=>console.log('[probe]',label));
+  
+    function dropPreload() {
+      document.body.classList.remove('preload');
+    }
+  
+    // DOM prêt : première passe de vérifications
+    document.addEventListener('DOMContentLoaded', () => {
+      console.groupCollapsed('%c[Boot] DOMContentLoaded', 'background:#0b1f2a;color:#8bf0ff;padding:1px 6px;border-radius:3px;font-weight:700');
+      probe('Meta audio-policy = global', () => {
+        const m = document.querySelector('meta[name="audio-policy"]');
+        return m && /global/i.test(m.content || '');
+      });
+      probe('PJAX router chargé', () => !!window.__PJAX__ || !!window.PJAXRouter);
+      probe('PageHub présent',   () => !!window.__PAGE_HUB__);
+      probe('Player singleton',  () => !!window.__PLAYER__);
+      probe('#audioPlayer présent',        () => !!document.getElementById('audioPlayer'));
+      probe('#audioPlayerModal présent',   () => !!document.getElementById('audioPlayerModal'));
+      probe('#openAudioPlayer présent',    () => !!document.getElementById('openAudioPlayer'));
+      console.groupEnd();
+  
+      dropPreload();
+    });
+  
+    // Après swap PJAX : on vérifie la continuité audio et l’UI
+    document.addEventListener('pjax:ready', () => {
+      console.groupCollapsed('%c[Boot] PJAX Ready', 'background:#0c2a1a;color:#77ffcc;padding:1px 6px;border-radius:3px;font-weight:700');
+      probe('Audio global non stoppé (policy)', () => {
+        // Si ton player expose une méthode d’état
+        try { return !!(window.__PLAYER__ && window.__PLAYER__.isGlobalAlive?.()); }
+        catch { return true; } // fallback : pas d’erreur = OK
+      });
+      probe('Navbar OK après swap', () => !!document.querySelector('.navbar'));
+      console.groupEnd();
+  
+      dropPreload();
+    });
+  })();
+  </script>
+  
+  </body>
+</html>

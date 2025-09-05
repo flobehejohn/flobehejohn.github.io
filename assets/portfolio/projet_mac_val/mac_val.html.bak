@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>MAC VAL – Audioguide & Campagne radio | Florian Behejohn</title>
+
+    <!-- SEO & Meta -->
+    <meta name="description"
+          content="Au printemps 2012, enregistrements et habillage sonore des audioguides de l’exposition permanente du MAC VAL (Val-de-Marne), puis production du spot publicitaire de l’exposition. Écoutez les entretiens et la campagne radio (jingle, voix-off, montage)."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link rel="canonical" href="https://flobehejohn.github.io/assets/portfolio/projet_mac_val/mac_val.html" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="MAC VAL – Audioguide & Campagne radio | Florian Behejohn" />
+    <meta property="og:description" content="Création maison : captations, design sonore, jingle et montage. Découvrez les entretiens de l’audioguide (version complète) et la campagne radio du MAC VAL." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://flobehejohn.github.io/assets/portfolio/projet_mac_val/mac_val.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- CSS vendor -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS site -->
+    <link rel="stylesheet" href="../../css/theme.min.css">
+    <link rel="stylesheet" href="../../css/swatch.bundle.css">
+    <link rel="stylesheet" href="../../css/carte_magique.css">
+    <link rel="stylesheet" href="../../fonts/fontawesome/css/all.min.css">
+
+    <!-- Perf R2 (préconnexion) -->
+    <link rel="preconnect" href="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev" crossorigin>
+
+    <!-- Styles locaux & correctifs -->
+    <style>
+      :root{
+        --accent: #000000;          /* Noir pour les contrôles */
+        --accent-2:#1f2937;         /* Gris très foncé */
+        --ink: #0f172a;             /* Texte */
+        --panel: #ffffff;           /* Cartes */
+        --panel-2: #f3f4f6;         /* Fond léger */
+        --ring: rgba(0,0,0,.12);    /* Halo focus */
+        --bar: #2e2e2e;             /* Barre de progression */
+        --bar-bg:#c7c7c7;           /* Fond de barre */
+      }
+
+      .navbar-sticky { position: sticky; top: 0; z-index: 1050; }
+      .navbar-collapse { background: inherit; }
+      @media (max-width: 991px) {
+        .navbar-collapse {
+          position: absolute; top: 100%; left: 0; right: 0; width: 100%;
+          padding: 1rem; background-color: var(--bs-body-bg, #fff);
+          box-shadow: 0 4px 10px rgba(0,0,0,.2);
+        }
+      }
+
+      /* Cartes audio visibles */
+      .audio-card {
+        display: grid; grid-template-columns: 1fr;
+        gap: 0; border-radius: 18px; overflow: hidden;
+        background: var(--panel);
+        border: 2px solid var(--accent);
+        box-shadow: 0 14px 40px rgba(0,0,0,.12), 0 0 0 6px var(--ring);
+      }
+      .audio-header{
+        display:flex; align-items:center; gap:.9rem;
+        padding:1rem 1.15rem;
+        background: linear-gradient(135deg, var(--panel-2), #ffffff);
+        border-bottom: 1px solid rgba(0,0,0,.06);
+      }
+      .audio-header .badge-audio{
+        display:inline-flex; align-items:center; justify-content:center;
+        width:48px; height:48px; border-radius:999px;
+        background: var(--accent); color:#fff; font-size:1.2rem;
+        box-shadow: 0 8px 18px rgba(0,0,0,.35);
+      }
+      .audio-header .title{ margin:0; font-weight:800; color:var(--ink); }
+
+      .audio-shell { padding: 1.15rem 1.25rem .25rem; background:#fff; }
+
+      /* Grille en 2 lignes : 1) play+timeline  2) volume */
+      .audio-player{
+        display:grid;
+        grid-template-columns:auto 1fr;
+        grid-template-areas:
+          "play timeline"
+          "vol  vol";
+        column-gap: 1rem;
+        row-gap: .85rem;
+        align-items:center;
+      }
+      .play-btn{ grid-area: play; }
+      .timeline{ grid-area: timeline; }
+      .controls-right{ grid-area: vol; justify-self: start; }
+
+      .play-btn{
+        width:64px; height:64px; min-width:64px;
+        border-radius:999px; border:0; outline:0;
+        background: var(--accent); color:#fff;
+        display:inline-flex; align-items:center; justify-content:center;
+        cursor:pointer;
+        box-shadow: 0 10px 22px rgba(0,0,0,.35);
+        transition: transform .1s ease, box-shadow .2s ease, background .2s ease;
+      }
+      .play-btn:hover{ transform: translateY(-1px); background: var(--accent-2); }
+      .play-btn:active{ transform: translateY(0); }
+      .play-btn:focus-visible{ box-shadow: 0 0 0 4px var(--ring); }
+
+      .icon{ width:28px; height:28px; fill:#fff; }
+
+      .timeline{ display:grid; grid-template-columns: 1fr; gap:.5rem; width:100%; }
+      .time-row{
+        display:flex; align-items:center; justify-content:space-between;
+        font-weight:800; letter-spacing:.2px; color:var(--ink);
+      }
+      .time{ font-variant-numeric: tabular-nums; font-size:1.05rem; }
+
+      /* Barre de progression (range) — épaisse, gris/noir */
+      .progress{
+        -webkit-appearance:none; appearance:none; width:100%; height:14px;
+        background: var(--bar-bg); border-radius:999px; outline:none;
+        cursor:pointer; border: 2px solid var(--bar);
+      }
+      .progress:focus-visible{ box-shadow: 0 0 0 4px var(--ring); }
+      .progress::-webkit-slider-thumb{
+        -webkit-appearance:none; width:20px; height:20px; border-radius:50%;
+        background: var(--accent); border:2px solid #fff;
+        box-shadow: 0 6px 14px rgba(0,0,0,.25); margin-top:-4px;
+      }
+      .progress::-webkit-slider-runnable-track{
+        height:10px; border-radius:999px; background: linear-gradient(90deg, var(--bar) var(--_val,0%), var(--bar-bg) 0%);
+      }
+      .progress::-moz-range-thumb{
+        width:20px; height:20px; border-radius:50%;
+        background: var(--accent); border:2px solid #fff;
+      }
+      .progress::-moz-range-track{ height:10px; border-radius:999px; background: var(--bar-bg); }
+      .progress::-moz-range-progress{ height:10px; border-radius:999px; background: var(--bar); }
+
+      .controls-right{ display:flex; align-items:center; gap:.75rem; }
+      .mute-btn{
+        width:44px; height:44px; min-width:44px;
+        border-radius:999px; border:2px solid var(--accent);
+        background:#fff; color:var(--accent);
+        display:inline-flex; align-items:center; justify-content:center;
+        cursor:pointer; transition: background .2s ease, color .2s ease, transform .1s ease;
+      }
+      .mute-btn:hover{ background: var(--accent); color:#fff; transform: translateY(-1px); }
+      .mute-btn:focus-visible{ box-shadow: 0 0 0 4px var(--ring); }
+
+      .vol{
+        width:200px; height:10px; cursor:pointer;
+        -webkit-appearance:none; appearance:none;
+        background: var(--bar-bg); border-radius:999px; border: 2px solid var(--bar);
+      }
+      .vol::-webkit-slider-thumb{
+        -webkit-appearance:none; width:16px; height:16px; border-radius:50%;
+        background: var(--accent); border:2px solid #fff; margin-top:-4px;
+      }
+      .vol::-webkit-slider-runnable-track{ height:8px; border-radius:999px; background: linear-gradient(90deg, var(--bar) var(--_val,100%), var(--bar-bg) 0%); }
+      .vol::-moz-range-thumb{ width:16px; height:16px; border-radius:50%; background: var(--accent); border:2px solid #fff; }
+      .vol::-moz-range-track{ height:8px; border-radius:999px; background: var(--bar-bg); }
+      .vol::-moz-range-progress{ height:8px; border-radius:999px; background: var(--bar); }
+
+      .audio-card-body { padding: .25rem 1.25rem 1.25rem; }
+      .audio-card-body p { margin: 0; color: #333; }
+      .audio-card-body ul { color:#4b5563; }
+
+      .btn-outline-secondary.btn-sm{ border-color: var(--accent); color: var(--accent); }
+      .btn-outline-secondary.btn-sm:hover{ background: var(--accent); color:#fff; border-color:var(--accent); }
+
+      .section-space { height: 28px; }
+      .section-space-short { height: 16px; }
+
+      .key-cards { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+      @media (min-width: 768px){ .key-cards { grid-template-columns: repeat(3,1fr);} }
+      .key-card { border-radius: 16px; background: #fff; padding: 1rem 1.25rem; box-shadow: 0 6px 24px rgba(0,0,0,.06); }
+      .key-card h4 { font-size: 1.05rem; margin-bottom: .5rem; }
+
+      .mini-meta { font-size: .9rem; color: #666; }
+      .tag { display: inline-block; padding: .15rem .5rem; border-radius: 999px; background: #eef2ff; color: #3949ab; font-size: .8rem; margin-right: .35rem; }
+
+      /* Neutralisation visuelle d’éventuels contrôles MEJS restants dans nos cartes */
+      .audio-player .mejs-container,
+      .audio-player .mejs-controls{ display:none !important; }
+    </style>
+  </head>
+
+  <body class="normal-header preload">
+    <!-- Nuage de points / fond -->
+    <div id="cloud-bg"></div>
+
+    <!-- NAVBAR -->
+    <nav id="masthead" class="navbar navbar-expand-lg navbar-sticky swatch-custom">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="../../../../index.html" class="navbar-brand d-flex align-items-center">
+          <img src="../../images/log_zim.webp" alt="Logo" class="brand-logo" />
+          <span class="site-title">FLORIAN-BEHEJOHN</span>
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Menu">
+          <span class="navbar-toggler-icon"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="../../../../index.html">Accueil</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../../portfolio_florian_b.html">Portfolio</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../../parcours.html">Parcours</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../../contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- CONTENU -->
+    <div id="content">
+      <article>
+        <!-- HERO -->
+        <section class="section swatch-custom pb-0">
+          <div class="container">
+            <header class="hero-section animated-text pt-4 text-center">
+              <h1 class="hyper hairline bordered bordered-normal">MAC VAL – Audioguide & Campagne radio</h1>
+              <p class="lead">
+                Au printemps 2012, j’ai réalisé les enregistrements et l’habillage sonore des audioguides de l’exposition permanente
+                du Musée d’Art Contemporain du Val-de-Marne (MAC VAL). J’ai ensuite produit le <strong>spot publicitaire radio</strong> :
+                jingle original, bande-son et enregistrement voix-off.
+              </p>
+            </header>
+          </div>
+        </section>
+
+        <div class="section-space"></div>
+
+        <!-- AUDIO 1 : Audioguide (concat) -->
+        <div class="container">
+          <div class="audio-card shadow">
+            <div class="audio-header">
+              <span class="badge-audio" aria-hidden="true"><i class="fas fa-headphones"></i></span>
+              <h2 class="title h5 mb-0">Audioguide – Entretiens (version complète)</h2>
+            </div>
+            <div class="audio-shell">
+              <!-- data-src pour recréer l'audio si MEJS l’a remplacé -->
+              <div class="audio-player" data-audio="guide" data-src="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/La_totale.mp3" tabindex="0">
+                <button class="play-btn" aria-label="Lecture/Pause" data-role="toggle">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+                </button>
+
+                <div class="timeline">
+                  <input class="progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Position de lecture">
+                  <div class="time-row">
+                    <span class="time" data-role="current">00:00</span>
+                    <span class="time" data-role="duration">00:00</span>
+                  </div>
+                </div>
+
+                <!-- Bloc volume SOUS le play + timeline -->
+                <div class="controls-right">
+                  <button class="mute-btn" aria-label="Muet" data-role="mute"><i class="fas fa-volume-up" aria-hidden="true"></i></button>
+                  <input class="vol" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+                </div>
+
+                <!-- Audio natif (optionnel : si MEJS ne l’a pas remplacé, on le garde) -->
+                <audio preload="metadata" crossorigin="anonymous" id="audio-guide" data-mejs-disabled="true">
+                  <source src="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/La_totale.mp3" type="audio/mpeg">
+                </audio>
+              </div>
+            </div>
+            <div class="audio-card-body">
+              <p>
+                Concaténation des entretiens principaux de l’audioguide, captés sur site et restitués avec un
+                <em>habillage discret</em> pour préserver l’intelligibilité des propos des artistes et de l’équipe.
+              </p>
+              <ul class="mt-2 mb-2">
+                <li>Captations sur place (artistes & médiation) et nettoyage doux (réduction de bruit, égalisation légère).</li>
+                <li>Habillage sonore minimaliste : intention d’écoute, respiration, respect du silence.</li>
+                <li>Montage & normalisation pour écoute confortable sur casques et diffuseurs de salle.</li>
+              </ul>
+              <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-outline-secondary btn-sm" href="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/La_totale.mp3" download="MAC_VAL_Audioguide_Entretiens.mp3" rel="noopener">
+                  <i class="fas fa-download me-2"></i>Télécharger (MP3)
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-space"></div>
+
+        <!-- AUDIO 2 : Campagne radio -->
+        <div class="container">
+          <div class="audio-card shadow">
+            <div class="audio-header">
+              <span class="badge-audio" aria-hidden="true"><i class="fas fa-bullhorn"></i></span>
+              <h2 class="title h5 mb-0">Campagne radio – Spot publicitaire</h2>
+            </div>
+            <div class="audio-shell">
+              <div class="audio-player" data-audio="spot" data-src="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/campagne_audio.wav" tabindex="0">
+                <button class="play-btn" aria-label="Lecture/Pause" data-role="toggle">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+                </button>
+
+                <div class="timeline">
+                  <input class="progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Position de lecture">
+                  <div class="time-row">
+                    <span class="time" data-role="current">00:00</span>
+                    <span class="time" data-role="duration">00:00</span>
+                  </div>
+                </div>
+
+                <div class="controls-right">
+                  <button class="mute-btn" aria-label="Muet" data-role="mute"><i class="fas fa-volume-up" aria-hidden="true"></i></button>
+                  <input class="vol" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+                </div>
+
+                <audio preload="metadata" crossorigin="anonymous" id="audio-spot" data-mejs-disabled="true">
+                  <source src="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/campagne_audio.wav" type="audio/wav">
+                </audio>
+              </div>
+            </div>
+            <div class="audio-card-body">
+              <p>
+                Production complète du spot : <strong>jingle original</strong>, <strong>montage</strong> et
+                <strong>voix-off</strong>, dans le respect des contraintes de diffusion (LUFS, intelligibilité, dynamique).
+              </p>
+              <ul class="mt-2 mb-2">
+                <li>Écriture sonore courte & impactante (signature mémorisable, call‑to‑action clair).</li>
+                <li>Montage voix‑off, mixage musique/ambiances, vérification mono‑compatibilité.</li>
+                <li>Mastering radio pour diffusion multi‑plateformes.</li>
+              </ul>
+              <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-outline-secondary btn-sm" href="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/campagne_audio.wav" download="MAC_VAL_Campagne_Radio.wav" rel="noopener">
+                  <i class="fas fa-download me-2"></i>Télécharger (WAV)
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-space"></div>
+
+        <!-- Approche créative -->
+        <div class="container mb-4">
+          <header class="animated-text text-center">
+            <h2 class="hyper hairline bordered bordered-normal">Approche & matière sonore</h2>
+          </header>
+          <div class="row g-3 mt-1">
+            <div class="col-md-6">
+              <div class="key-card">
+                <h4><i class="fas fa-lightbulb me-2"></i>Intentions</h4>
+                <p>
+                  Le design sonore s’est construit sous la direction artistique de la commissaire d’exposition, afin
+                  de soutenir la compréhension des œuvres et de guider l’attention sans la saturer. La narration sonore
+                  respecte la temporalité des espaces et le rythme de visite.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="key-card">
+                <h4><i class="fas fa-microphone me-2"></i>Matières & procédés</h4>
+                <p>
+                  Pastilles audio réalisées à partir de <strong>sons concrets</strong> que j’ai moi‑même enregistrés
+                  (balle de ping‑pong, tintement de verre, eau) et produites sous la direction artistique de la
+                  commissaire d’exposition, pour des marqueurs doux, identifiables et non intrusifs.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Résumés clés -->
+        <div class="container">
+          <div class="key-cards">
+            <div class="key-card">
+              <h4><i class="fas fa-bullseye me-2"></i>Objectif</h4>
+              <p>Faciliter l’accès aux contenus du musée et soutenir la mémorisation par un langage sonore clair et empathique.</p>
+            </div>
+            <div class="key-card">
+              <h4><i class="fas fa-user-tie me-2"></i>Rôle</h4>
+              <p>Prise de son, montage, habillage & design sonore, jingle et voix‑off pour le spot radio.</p>
+            </div>
+            <div class="key-card">
+              <h4><i class="fas fa-toolbox me-2"></i>Livrables</h4>
+              <p>Entretiens audioguide (version concaténée), spot radio (WAV), masters optimisés pour diffusion.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-space"></div>
+
+        <!-- CTA -->
+        <section class="hero-section text-center animated-text">
+          <div class="container">
+            <header class="os-animation" data-os-animation="fadeIn">
+              <h2 class="bigger hairline bordered">Découvrir d’autres projets</h2>
+            </header>
+            <div class="section-space-short"></div>
+            <div class="text-center">
+              <a href="../../../../portfolio_florian_b.html" class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight" data-os-animation="fadeInRight">
+                Explorer le Portfolio
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section swatch-custom section-text-shadow text-center">
+          <div class="container">
+            <header class="hero-section animated-text">
+              <h2 class="bigger hairline bordered">Envie d’échanger&nbsp;?</h2>
+              <p class="lead">Parlons intention narrative et formats de diffusion.</p>
+              <div style="height: 24px;"></div>
+              <a href="../../../../contact.html" class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight" data-os-animation="fadeInRight">Contact</a>
+            </header>
+          </div>
+        </section>
+      </article>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="swatch-custom text-center">
+      <div class="container">
+        <p>© 2025 Florian Behejohn - Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    <!-- JS : ordre sûr -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/packages.min.js"></script>
+    <script src="../../js/smartresize-patch.js"></script>
+    <script src="../../js/navbar.js"></script>
+    <script src="../../js/animated-text.js"></script>
+    <script src="../../js/theme.min.js"></script>
+    <script src="../../js/script.js"></script>
+
+    <!-- Nuage de points -->
+    <script type="module" src="../../js/nuage_magique/test.js"></script>
+
+    <!-- Post-DOM : init players + récupération audio si MEJS a encapsulé + un seul audio à la fois -->
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('preload');
+
+        const players = document.querySelectorAll('.audio-player');
+        const audios  = [];
+
+        // Récupère l'audio si MediaElement.js l'a encapsulé ; sinon recrée-le depuis data-src
+        function ensureAudio(player){
+          // 1) Si un conteneur MEJS existe, on tente d'en extraire l'audio
+          const mejsContainer = player.querySelector('.mejs-container');
+          if(mejsContainer){
+            const innerAudio = mejsContainer.querySelector('audio');
+            if(innerAudio){
+              player.appendChild(innerAudio);   // remet l'audio dans le player
+            }
+            mejsContainer.remove();              // supprime le conteneur MEJS
+          }
+
+          // 2) Cherche un audio direct
+          let audio = player.querySelector('audio');
+          if(!audio){
+            // 3) Recréation si absent (cas MEJS a remplacé complètement)
+            const src = player.getAttribute('data-src');
+            if(src){
+              audio = document.createElement('audio');
+              audio.preload = 'metadata';
+              audio.crossOrigin = 'anonymous';
+              audio.setAttribute('data-mejs-disabled','true');
+              const source = document.createElement('source');
+              source.src = src;
+              // type approximatif (mp3/wav) pour l'UX ; pas bloquant
+              source.type = src.endsWith('.mp3') ? 'audio/mpeg' : (src.endsWith('.wav') ? 'audio/wav' : '');
+              audio.appendChild(source);
+              player.appendChild(audio);
+            }
+          }
+          return audio;
+        }
+
+        function fmt(t){
+          if(!isFinite(t) || t < 0) t = 0;
+          const m = Math.floor(t/60);
+          const s = Math.floor(t%60);
+          return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+        }
+
+        players.forEach(player => {
+          const btn   = player.querySelector('[data-role="toggle"]');
+          const mute  = player.querySelector('[data-role="mute"]');
+          const vol   = player.querySelector('.vol');
+          const bar   = player.querySelector('.progress');
+          const cur   = player.querySelector('[data-role="current"]');
+          const dur   = player.querySelector('[data-role="duration"]');
+
+          // Assure la présence d'un <audio>
+          let audio = ensureAudio(player);
+          if(!audio){
+            console.warn('Audio introuvable et aucune source data-src fournie pour', player);
+            return; // évite l'erreur "audio is null"
+          }
+
+          audios.push(audio);
+
+          function updateVolFill(){
+            const pct = (vol.value*100).toFixed(0) + '%';
+            vol.style.setProperty('--_val', pct);
+          }
+          updateVolFill();
+
+          function setIcon(isPlaying){
+            btn.innerHTML = isPlaying
+              ? '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"></path></svg>'
+              : '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>';
+          }
+          setIcon(false);
+
+          audio.addEventListener('loadedmetadata', () => { dur.textContent = fmt(audio.duration); });
+
+          btn.addEventListener('click', () => { if(audio.paused){ audio.play(); } else { audio.pause(); } });
+          audio.addEventListener('play',  () => setIcon(true));
+          audio.addEventListener('pause', () => setIcon(false));
+
+          let rafId = null;
+          function step(){
+            if(!audio.paused){
+              const pct = (audio.currentTime / (audio.duration || 1)) * 100;
+              bar.value = pct;
+              bar.style.setProperty('--_val', pct.toFixed(2) + '%');
+              cur.textContent = fmt(audio.currentTime);
+              rafId = requestAnimationFrame(step);
+            }
+          }
+          audio.addEventListener('play',  () => { cancelAnimationFrame(rafId); step(); });
+          audio.addEventListener('pause', () => { cancelAnimationFrame(rafId); });
+          audio.addEventListener('ended', () => { cancelAnimationFrame(rafId); setIcon(false); });
+
+          bar.addEventListener('input', () => {
+            const t = (bar.value/100) * (audio.duration || 0);
+            audio.currentTime = t;
+            cur.textContent = fmt(audio.currentTime);
+            bar.style.setProperty('--_val', bar.value + '%');
+          });
+
+          vol.addEventListener('input', () => {
+            audio.volume = parseFloat(vol.value);
+            if(audio.volume === 0){ audio.muted = true; }
+            else { audio.muted = false; }
+            mute.innerHTML = audio.muted
+              ? '<i class="fas fa-volume-mute" aria-hidden="true"></i>'
+              : '<i class="fas fa-volume-up" aria-hidden="true"></i>';
+            updateVolFill();
+          });
+          mute.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            if(!audio.muted && audio.volume === 0){ audio.volume = 0.5; vol.value = 0.5; updateVolFill(); }
+            mute.innerHTML = audio.muted
+              ? '<i class="fas fa-volume-mute" aria-hidden="true"></i>'
+              : '<i class="fas fa-volume-up" aria-hidden="true"></i>';
+          });
+
+          // Accessibilité clavier
+          player.addEventListener('keydown', (e) => {
+            if(e.key === ' ' || e.key === 'Enter'){
+              e.preventDefault(); btn.click();
+            } else if(e.key === 'ArrowRight'){
+              audio.currentTime = Math.min((audio.currentTime||0) + 5, audio.duration||0);
+            } else if(e.key === 'ArrowLeft'){
+              audio.currentTime = Math.max((audio.currentTime||0) - 5, 0);
+            }
+          });
+        });
+
+        // Un seul audio à la fois
+        audios.forEach(a => {
+          a.addEventListener('play', () => {
+            audios.forEach(b => { if(b !== a && !b.paused) b.pause(); });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

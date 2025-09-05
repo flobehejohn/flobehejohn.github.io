@@ -1,0 +1,414 @@
+﻿<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Démo Application .NET – Portfolio Florian Behejohn</title>
+
+    <!-- SEO & Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description"
+          content="Démo interactive : frontend Vue.js (GitHub Pages) connecté à un backend .NET (Azure Container Apps)." />
+    <link rel="canonical" href="https://flobehejohn.github.io/assets/portfolio/Projet_dotnet/app_dotnet.html" />
+
+    <!-- CSS vendor -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS site -->
+    <link rel="stylesheet" href="../../css/theme.min.css">
+    <link rel="stylesheet" href="../../css/swatch.bundle.css">
+    <link rel="stylesheet" href="../../css/carte_magique.css">
+    <link rel="stylesheet" href="../../fonts/fontawesome/css/all.min.css">
+
+    <!-- CSS spécifique .NET (tables responsive + modale) -->
+    <link rel="stylesheet" href="../../css/dotnet.css">
+
+    <!-- Styles locaux (identiques à ta version précédente) -->
+    <style>
+      :root {
+        --modal-max-w: 1100px;
+        --modal-min-w: 320px;
+        --modal-pad-x: 1rem;
+        --modal-pad-y: .75rem;
+        --modal-radius: 16px;
+        --shadow-elev: 0 20px 60px rgba(0,0,0,.25);
+      }
+      .navbar-sticky { position: sticky; top: 0; z-index: 1050; }
+      .navbar-collapse { background: inherit; }
+      @media (max-width: 991px) {
+        .navbar-collapse {
+          position: absolute; top: 100%; left: 0; right: 0; width: 100%;
+          padding: 1rem; background-color: var(--bs-body-bg, #fff);
+          box-shadow: 0 4px 10px rgba(0,0,0,.2);
+        }
+      }
+      .carte-app { display: grid; grid-template-columns: 1fr; gap: 1rem; border-radius: 16px; overflow: hidden; background: #fff; }
+      .carte-app-body { padding: 1rem 1.25rem 1.25rem; }
+      .carte-app h3 { margin: 0 0 .25rem 0; }
+      .carte-app p { margin: 0; color: #555; }
+      .modal-overlay { position: fixed; inset: 0; display: none; place-items: center; background: rgba(0,0,0,.55); z-index: 2000; }
+      .modal-overlay.show { display: grid; }
+      .modal-shell {
+        width: min(var(--modal-max-w), 92vw);
+        min-width: var(--modal-min-w);
+        max-height: 90vh;
+        background: #fff; border-radius: var(--modal-radius);
+        box-shadow: var(--shadow-elev); overflow: hidden;
+        display: grid; grid-template-rows: auto 1fr auto;
+      }
+      @media (max-width: 767.98px) {
+        .modal-shell { width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; }
+      }
+      .modal-header, .modal-footer {
+        padding: var(--modal-pad-y) var(--modal-pad-x);
+        border-bottom: 1px solid rgba(0,0,0,.08);
+      }
+      .modal-footer { border-top: 1px solid rgba(0,0,0,.08); border-bottom: none; display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; }
+      .modal-title { margin: 0; font-size: 1.05rem; font-weight: 600; }
+      .close-btn {
+        margin-left: auto; border: 0; background: transparent; cursor: pointer;
+        font-size: 1.5rem; line-height: 1; padding: .25rem .5rem;
+      }
+      .close-btn:focus { outline: 2px solid #2684ff; outline-offset: 2px; border-radius: .5rem; }
+      .modal-body { padding: 0; overflow: auto; -webkit-overflow-scrolling: touch; background: #fafafa; }
+      .app-host { display: block; width: 100%; height: auto; min-height: 60vh; padding: 1rem; }
+      @media (max-width: 767.98px) { .app-host { min-height: calc(100vh - 120px); padding: .75rem; } }
+      .hero-section, .hero-section *:not(.btn) { text-align: center !important; }
+      .hero-section .btn, .hero-section .btn-lg, .hero-section .btn-action {
+        display: inline-flex !important; margin-left: auto !important; margin-right: auto !important; justify-content: center; align-items: center;
+      }
+      section.hero-section .container, section.section.swatch-custom.section-text-shadow .container { text-align: center !important; }
+      #footer .container { display: flex; justify-content: center; align-items: center; text-align: center; }
+      #footer p { margin: 0 auto; text-align: center !important; }
+      @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+    </style>
+  </head>
+
+  <body class="normal-header preload">
+    <div id="cloud-bg"></div>
+
+    <nav id="masthead" class="navbar navbar-expand-lg navbar-sticky swatch-custom">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="../../../../index.html" class="navbar-brand d-flex align-items-center">
+          <img src="../../images/log_zim.webp" alt="Logo" class="brand-logo" />
+          <span class="site-title">FLORIAN-BEHEJOHN</span>
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Menu">
+          <span class="navbar-toggler-icon"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="../../../../index.html">Accueil</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../../portfolio_florian_b.html">Portfolio</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../../parcours.html">Parcours</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../../contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main id="app" data-pjax-root><!-- début de -pjax-root> dont l'objet est le ctrl du flux audio dans plusieurs pages -->
+    <div id="content">
+      <article>
+        <section class="section swatch-custom pb-0">
+          <div class="container">
+            <header class="hero-section animated-text pt-4 text-center">
+              <h1 class="hyper hairline bordered bordered-normal">
+                Développeur .NET : Démo live
+              </h1>
+              <p class="lead">
+                Front <strong>Vue.js</strong> (CDN <strong>Cloudflare</strong>) • API <strong>.NET</strong> containerisée <strong>Docker</strong> sur <strong>Azure</strong>.<br>
+                Standards d’entreprise (CI/CD, CORS, logging, durcissement images) pour des mises en production sereines.
+              </p>
+            </header>
+            
+          </div>
+        </section>
+
+        <div class="section-space"></div>
+
+        <div class="container">
+          <div class="carte-app shadow">
+            <div class="carte-app-body">
+              
+        
+              <!-- 🔹 Ligne de preuves dynamique -->
+              <div class="proof-strip" aria-live="polite">
+                <div class="kpi">
+                  <span class="kpi-label">Latence API</span>
+                  <span class="kpi-number" id="kpi-latency" data-unit="ms">—</span>
+                </div>
+                <div class="kpi">
+                  <span class="kpi-label">Tests OK</span>
+                  <span class="kpi-number" id="kpi-tests" data-target="98.7" data-unit="%">98.7%</span>
+                </div>
+                <div class="kpi">
+                  <span class="kpi-label">Uptime 30j</span>
+                  <span class="kpi-number" id="kpi-uptime" data-target="99.95" data-unit="%">99.95%</span>
+                </div>
+                <div class="kpi kpi-hide-sm">
+                  <span class="kpi-label">Docker</span>
+                  <span class="kpi-number" id="kpi-docker">image:latest</span>
+                </div>
+              </div>
+        
+              <div class="mt-3 d-flex flex-wrap gap-3 justify-content-center">
+                <button id="open-app-modal" class="btn btn-primary btn-lg">
+                  <i class="fas fa-flask me-2"></i>Lancer la démo
+                </button>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="section-space"></div>
+
+        <section class="hero-section text-center animated-text">
+          <div class="container">
+            <header class="os-animation" data-os-animation="fadeIn">
+              <h2 class="bigger hairline bordered">Découvrir d’autres projets</h2>
+            </header>
+            <div class="section-space-short"></div>
+            <div class="text-center">
+              <a href="../../../../portfolio_florian_b.html" class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight" data-os-animation="fadeInRight">
+                Explorer le Portfolio
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section swatch-custom section-text-shadow hero-section">
+          <div class="container text-center">
+            <header class="hero-section animated-text d-flex flex-column align-items-center justify-content-center">
+              <h2 class="bigger hairline bordered mb-3">Envie d’en savoir plus&nbsp;?</h2>
+              <p class="lead mb-4">Parlons intégration, sécurité et performance.</p>
+              <a href="../../../../contact.html"
+                 class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight"
+                 data-os-animation="fadeInRight">
+                Contact
+              </a>
+            </header>
+          </div>
+        </section>
+        
+      </article>
+    </div>
+  </main><!-- fin de <main id="app" data-pjax-root> -->
+    <footer id="footer" class="swatch-custom">
+      <div class="container">
+        <p>© 2025 Florian Behejohn - Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    <!-- ==== MODALE APP ==== -->
+    <div id="app-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="app-modal-title" aria-hidden="true">
+      <div class="modal-shell">
+        <div class="modal-header d-flex align-items-center">
+          <h3 id="app-modal-title" class="modal-title mb-0" tabindex="-1">Démo .NET – Interface</h3>
+          <button type="button" id="close-app-modal" class="close-btn" aria-label="Fermer la fenêtre">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div id="app" class="app-host" aria-live="polite"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close-app-modal-footer" class="btn btn-outline-secondary">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JS vendors + site -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/packages.min.js"></script>
+    <script src="../../js/smartresize-patch.js"></script>
+    <script src="../../js/navbar.js"></script>
+    <script src="../../js/animated-text.js"></script>
+    <script src="../../js/theme.min.js"></script>
+    <script src="../../js/script.js"></script>
+    <script type="module" src="../../js/nuage_magique/test.js"></script>
+
+    <script>window.addEventListener('DOMContentLoaded',()=>document.body.classList.remove('preload'));</script>
+
+    <!-- App .NET : Config & utilitaires -->
+    <script src="config.js" charset="utf-8"></script>
+    <script src="normalize-requests.js" charset="utf-8"></script>
+
+    <!-- Bundle Vite -->
+    <link rel="stylesheet" href="dist/assets/index-C7ORl4QR.css" />
+    <script type="module" src="dist/assets/index-Bpjn-eMl.js" defer></script>
+
+    <!-- Contrôleur modale -->
+    <script>
+      (function () {
+        const overlay = document.getElementById('app-modal');
+        const openBtn = document.getElementById('open-app-modal');
+        const closeBtn = document.getElementById('close-app-modal');
+        const closeBtnFooter = document.getElementById('close-app-modal-footer');
+        const focusablesSelector = [
+          'a[href]','area[href]','input:not([disabled])','select:not([disabled])',
+          'textarea:not([disabled])','button:not([disabled])','iframe','object','embed',
+          '[contenteditable]','[tabindex]:not([tabindex="-1"])'
+        ].join(',');
+
+        let lastFocused = null;
+
+        function openModal() {
+          lastFocused = document.activeElement;
+          overlay.classList.add('show');
+          overlay.setAttribute('aria-hidden','false');
+          document.body.style.overflow = 'hidden';
+          const title = document.getElementById('app-modal-title');
+          title && title.focus && title.focus();
+          trapFocus();
+          const body = overlay.querySelector('.modal-body');
+          if (body) body.scrollTop = 0;
+        }
+        function closeModal() {
+          overlay.classList.remove('show');
+          overlay.setAttribute('aria-hidden','true');
+          document.body.style.overflow = '';
+          if (lastFocused && lastFocused.focus) lastFocused.focus();
+        }
+        function onKeydown(e){
+          if (e.key === 'Escape' && overlay.classList.contains('show')) { e.preventDefault(); closeModal(); }
+          if (e.key === 'Tab' && overlay.classList.contains('show')) {
+            const arr = Array.from(overlay.querySelectorAll(focusablesSelector));
+            if (!arr.length) return;
+            const first = arr[0], last = arr[arr.length-1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+        }
+        function trapFocus(){
+          const arr = Array.from(overlay.querySelectorAll(focusablesSelector));
+          if (arr.length) arr[0].focus();
+        }
+        openBtn && openBtn.addEventListener('click', openModal);
+        closeBtn && closeBtn.addEventListener('click', closeModal);
+        closeBtnFooter && closeBtnFooter.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
+        document.addEventListener('keydown', onKeydown);
+
+        if (location.hash === '#demo' || /[?&]app=1\b/.test(location.search)) setTimeout(openModal, 0);
+      })();
+    </script>
+
+    <!-- ✅ Toujours tableau : wrap auto + sticky col -->
+    <script>
+      (function () {
+        const root = document.getElementById('app');
+
+        function enhanceTables(ctx) {
+          const tables = ctx.querySelectorAll('table:not([data-enhanced])');
+          tables.forEach(t => {
+            // Wrap scroll horizontal si pas déjà fait
+            if (!t.parentElement.classList.contains('table-wrap')) {
+              const wrap = document.createElement('div');
+              wrap.className = 'table-wrap';
+              t.parentNode.insertBefore(wrap, t);
+              wrap.appendChild(t);
+            }
+            // Option : première colonne sticky (retire cette ligne si tu n’en veux pas)
+            t.classList.add('sticky-first-col');
+
+            t.setAttribute('data-enhanced','1');
+          });
+        }
+
+        // 1) Passage initial (si le DOM est déjà peuplé)
+        document.addEventListener('DOMContentLoaded', () => enhanceTables(root));
+
+        // 2) Mutations (quand Vue remonte les résultats)
+        const mo = new MutationObserver(muts => {
+          for (const m of muts) {
+            if (m.addedNodes && m.addedNodes.length) enhanceTables(root);
+          }
+        });
+        mo.observe(root, { childList: true, subtree: true });
+      })();
+    </script>
+    <script>
+      (function () {
+        // 🔧 Attends que config.js ait défini window.API_BASE (ex: "https://...azurecontainerapps.io")
+        const API = (typeof window.API_BASE === 'string' && window.API_BASE.trim()) ? window.API_BASE.replace(/\/+$/,'') : null;
+    
+        // Optionnel : place ceci dans config.js pour l’alimenter depuis ta CI
+        // window.DOTNET_PROOFS = { dockerTag: "gestioncmd:1.4.2", tests: 98.7, uptime30d: 99.95 };
+    
+        // Brancher le lien Swagger si possible
+        const swaggerA = document.getElementById('swagger-link');
+        if (swaggerA) {
+          swaggerA.href = API ? (API + '/swagger') : '#';
+          swaggerA.classList.toggle('disabled', !API);
+          swaggerA.setAttribute('aria-disabled', API ? 'false' : 'true');
+        }
+    
+        // Renseigner le tag Docker si fourni
+        const dockerEl = document.getElementById('kpi-docker');
+        if (dockerEl && window.DOTNET_PROOFS && window.DOTNET_PROOFS.dockerTag) {
+          dockerEl.textContent = window.DOTNET_PROOFS.dockerTag;
+        }
+    
+        // Petite animation compteur
+        function animateNumber(el, target, suffix, duration = 800) {
+          const start = Number(el.textContent.replace(/[^\d.]/g,'')) || 0;
+          const startTs = performance.now();
+          function frame(ts){
+            const t = Math.min(1, (ts - startTs) / duration);
+            const val = start + (target - start) * (0.5 - Math.cos(Math.PI * t)/2); // easeInOut
+            el.textContent = (Math.round(val * 100) / 100).toString() + (suffix || '');
+            if (t < 1) requestAnimationFrame(frame); else el.classList.add('kpi-pulse');
+            setTimeout(()=>el.classList.remove('kpi-pulse'), 450);
+          }
+          requestAnimationFrame(frame);
+        }
+    
+        // Initialise Tests & Uptime à partir de data-target ou DOTNET_PROOFS
+        const testsEl  = document.getElementById('kpi-tests');
+        const upEl     = document.getElementById('kpi-uptime');
+        const testsTgt = (window.DOTNET_PROOFS && window.DOTNET_PROOFS.tests) || Number(testsEl?.dataset.target || 98.7);
+        const upTgt    = (window.DOTNET_PROOFS && window.DOTNET_PROOFS.uptime30d) || Number(upEl?.dataset.target || 99.95);
+        if (testsEl) animateNumber(testsEl, testsTgt, testsEl.dataset.unit || '%', 700);
+        if (upEl)    animateNumber(upEl, upTgt,    upEl.dataset.unit    || '%', 900);
+    
+        // Mesure de latence (HEAD sur /, fallback GET /swagger)
+        async function measureLatency() {
+          const el = document.getElementById('kpi-latency');
+          if (!el) return;
+          if (!API) { el.textContent = '—'; return; }
+          const urls = [ API + '/', API + '/swagger' ];
+          for (const url of urls) {
+            try {
+              const t0 = performance.now();
+              const res = await fetch(url, { method: 'HEAD', mode: 'cors', cache: 'no-store' });
+              const t1 = performance.now();
+              if (res.ok || res.status) {
+                const ms = Math.max(0, Math.round(t1 - t0));
+                el.textContent = ms + (el.dataset.unit || 'ms');
+                el.classList.add('kpi-pulse');
+                setTimeout(()=>el.classList.remove('kpi-pulse'), 450);
+                return;
+              }
+            } catch(e) {/* try next */}
+          }
+          // Fallback : requête GET légère (souvent autorisée sur Swagger)
+          try {
+            const t0 = performance.now();
+            await fetch(API + '/swagger', { method: 'GET', mode: 'cors', cache: 'no-store' });
+            const t1 = performance.now();
+            const ms = Math.max(0, Math.round(t1 - t0));
+            el.textContent = ms + (el.dataset.unit || 'ms');
+          } catch(e) {
+            el.textContent = '—';
+          }
+        }
+    
+        // 1ère mesure, puis rafraîchit toutes les 20s
+        measureLatency();
+        setInterval(measureLatency, 20000);
+      })();
+    </script>
+    
+  </body>
+</html>

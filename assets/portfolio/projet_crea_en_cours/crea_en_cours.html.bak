@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Création en cours – Résidence interactive | Florian Behejohn</title>
+    <meta name="description" content="Création en cours : concert interactif, résidence artistique, ateliers et dispositif audio-numérique autour de la musique contemporaine en temps réel.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link rel="canonical" href="https://flobehejohn.github.io/assets/portfolio/projet_crea_en_cours/crea_en_cours.html" />
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- Polices Google -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Styles du site -->
+    <link rel="stylesheet" href="../../css/theme.min.css">
+    <link rel="stylesheet" href="../../css/swatch.bundle.css">
+    <link rel="stylesheet" href="../../css/carte_magique.css">
+    <link rel="stylesheet" href="../../fonts/fontawesome/css/all.min.css">
+
+    <!-- Correctif responsive navbar -->
+    <style>
+      .navbar-sticky { position: sticky; top: 0; z-index: 1050; }
+      .navbar-collapse { background-color: inherit; }
+      @media (max-width: 991px) {
+        .navbar-collapse {
+          position: absolute; top: 100%; left: 0; right: 0; width: 100%;
+          padding: 1rem; background-color: var(--bs-body-bg, #fff);
+          box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+      }
+    </style>
+  </head>
+
+  <body class="normal-header preload">
+    <div id="cloud-bg"></div>
+
+    <!-- NAVBAR -->
+    <nav id="masthead" class="navbar navbar-expand-lg navbar-sticky swatch-custom">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="../../../../index.html" class="navbar-brand d-flex align-items-center">
+          <img src="../../images/log_zim.webp" alt="Logo" class="brand-logo" />
+          <span class="site-title">FLORIAN-BEHEJOHN</span>
+        </a>
+        <div class="d-flex align-items-center" id="navRightGroup">
+          <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Menu">
+            <span class="navbar-toggler-icon">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="../../../../index.html">Accueil</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../../portfolio_florian_b.html">Portfolio</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../../parcours.html">Parcours</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../../contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    <main id="app" data-pjax-root>
+    <main id="content">
+      <article>
+        <!-- Préambule -->
+        <section class="section swatch-custom pb-0">
+          <div class="container">
+            <header class="hero-section animated-text pt-4">
+              <h2 class="hyper hairline bordered bordered-normal text-center">Résidence artistique : Création en cours</h2>
+              <p class="lead text-justify">
+                « Concert interactif, résidence artistique et ateliers autour de la musique contemporaine, l’électronique en temps réel et l’éducation sonore. »
+              </p>
+            </header>
+          </div>
+        </section>
+        <div class="section-space"></div>
+
+        <!-- Galerie principale -->
+        <div class="container">
+          <div class="galerie-simple galerie-1">
+            <img src="ecole.jpg" alt="Création en cours – photo principale" />
+          </div>
+        </div>
+
+        <!-- Préambule détaillé -->
+        <section class="section swatch-custom pb-0">
+          <div class="container">
+            <header class="hero-section animated-text pt-4">
+              <h2 class="hyper hairline bordered bordered-normal text-center">Préambule</h2>
+              <p class="lead text-justify">
+                Ce projet propose un concert de musique avec électronique en temps réel, mettant en scène un violoncelliste et un groupe d’élèves, pilotés par un dispositif interactif (contrôleurs tactiles/gestuels) permettant de traiter et de spatialiser le son en direct sur un système multi-enceintes. Ce dispositif s’accompagne d’ateliers pédagogiques et de conférences de sensibilisation pour ouvrir la pratique et la compréhension de la musique contemporaine à tous les publics.
+              </p>
+            </header>
+          </div>
+        </section>
+        <div class="section-space"></div>
+
+        <!-- Galerie ateliers -->
+        <div class="container">
+          <div class="galerie-simple galerie-4">
+            <img src="atelier.png"   alt="Atelier 1 – Création en cours" />
+            <img src="atelier_2.png" alt="Atelier 2 – Création en cours" />
+            <img src="atelier_3.png" alt="Atelier 3 – Création en cours" />
+            <img src="atelier_4.png" alt="Atelier 4 – Création en cours" />
+          </div>
+        </div>
+
+        <!-- Vidéo d'intro -->
+        <div class="container">
+          <div class="carte-lecteur-video shadow">
+            <div class="carte-lecteur-video-media">
+              <video controls poster="créa_en_cours_800_600.jpg" style="border-radius:12px;">
+                <source src="affiche_crea_en_cours.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la vidéo HTML5.
+              </video>
+            </div>
+            <div class="carte-lecteur-video-body">
+              <h3 class="carte-lecteur-video-titre">Présentation audiovisuelle de la résidence</h3>
+              <p class="carte-lecteur-video-desc">
+                Extrait vidéo de la performance interactive « Création en cours » – musique contemporaine, électronique live, jeunes musiciens.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paragraphe complémentaire -->
+        <section class="section swatch-custom pb-0">
+          <div class="container">
+            <header class="hero-section animated-text pt-4">
+              <p class="lead text-justify">
+                Cette résidence vise à offrir une expérience musicale immersive où chaque participant – musicien ou non – devient acteur de la création sonore. Par la collecte collaborative de sons et d’images lors des ateliers, tous contribuent à l’œuvre finale. L’espace sonore est spatialisé, évolutif, et l’aspect interactif invite chacun à explorer la musique d’aujourd’hui sous une forme vivante et accessible.
+              </p>
+            </header>
+          </div>
+        </section>
+        <div class="section-space"></div>
+
+        <!-- Galerie complémentaire -->
+        <div class="container">
+          <div class="galerie-simple galerie-3">
+            <img src="atelier_5.png" alt="Atelier 5 – Création en cours" />
+            <img src="atelier_6.png" alt="Atelier 6 – Création en cours" />
+            <img src="atelier_7.png" alt="Atelier 7 – Création en cours" />
+          </div>
+        </div>
+        <div class="section-space"></div>
+
+        <!-- CTA ÉCOUTE SOUNDCLOUD -->
+<section class="hero-section text-center animated-text">
+  <div class="container">
+    <header class="os-animation" data-os-animation="fadeIn">
+      <h2 class="bigger hairline bordered">Écouter des extraits sonores</h2>
+    </header>
+    <div class="section-space-short"></div>
+    <div class="text-center filters os-animation" data-os-animation="fadeInRight" data-os-animation-delay="0.1s">
+      <a
+        href="https://soundcloud.com/user-654051269/sets/creation-en-cours"
+        target="_blank"
+        rel="noopener"
+        class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight"
+        data-os-animation="fadeInRight"
+        aria-label="Ouvrir la playlist SoundCloud dans un nouvel onglet"
+      >
+        <i class="fab fa-soundcloud me-2"></i>Ouvrir la playlist sur SoundCloud
+      </a>
+    </div>
+  </div>
+</section>
+
+      </article>
+    </main>
+
+    <!-- Call-to-action final -->
+    <section class="hero-section text-center animated-text">
+      <div class="container">
+        <header class="os-animation" data-os-animation="fadeIn">
+          <h2 class="bigger hairline bordered">Découvrez Mes Réalisations</h2>
+        </header>
+        <p class="lead os-animation" data-os-animation="fadeInUp">
+          <i class="fas fa-headphones"></i> <strong>Productions sonores immersives</strong><br />
+          <i class="fas fa-film"></i> <strong>Créations audiovisuelles uniques</strong><br />
+          <i class="fas fa-lightbulb"></i> <strong>Innovation multimédia constante</strong>
+        </p>
+        <div class="section-space-short"></div>
+        <div class="text-center filters os-animation" data-os-animation="fadeInUp" data-os-animation-delay="0.2s">
+          <a href="../../../../portfolio_florian_b.html" class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight" data-os-animation="fadeInRight">
+            Explorer mon Portfolio
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section swatch-custom section-text-shadow text-center">
+      <div class="container">
+        <header class="hero-section animated-text">
+          <h2 class="bigger hairline bordered">Envie d’en savoir plus ?</h2>
+          <p class="lead">Contacte-moi pour discuter, collaborer ou obtenir des détails sur ce projet !</p>
+          <div style="height: 24px;"></div>
+          <a href="../../../../contact.html" class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight" data-os-animation="fadeInRight">Contact</a>
+        </header>
+      </div>
+    </section>
+  </main><!-- fin de <main id="app" data-pjax-root> -->
+    <!-- FOOTER -->
+    <footer id="footer" class="swatch-custom text-center">
+      <div class="container">
+        <p>© 2025 Florian Behejohn - Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/pjax-router.js" defer></script>
+    <script src="assets/js/player-singleton.js" defer></script>
+    <script src="../../js/smartresize-patch.js"></script>
+    <script src="../../js/navbar.js"></script>
+    <script src="../../js/packages.min.js"></script>
+    <script src="../../js/animated-text.js"></script>
+    <script src="../../js/theme.min.js"></script>
+    <script src="../../js/script.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="../../js/isotope-skill-grid.js"></script>
+    
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+    <script type="module" src="../../js/nuage_magique/test.js"></script>
+
+    <!-- Retire le preload -->
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('preload');
+      });
+    </script>
+
+    <!-- Vignette vidéo : placer une frame stable au chargement -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.carte-lecteur-video video').forEach(video => {
+          const frameTime = 0.125;
+          function seekToFrame() {
+            try { if (Math.abs(video.currentTime - frameTime) > 0.01) video.currentTime = frameTime; } catch(e){}
+          }
+          video.addEventListener('loadedmetadata', seekToFrame, { once: true });
+          setTimeout(seekToFrame, 150);
+        });
+      });
+    </script>
+  </body>
+</html>

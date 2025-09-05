@@ -1,0 +1,263 @@
+﻿<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Démo Application .NET – Portfolio Florian Behejohn</title>
+
+    <!-- SEO & Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description"
+          content="Démo interactive : frontend Vue.js (GitHub Pages) connecté à un backend .NET (Azure Container Apps)." />
+    <link rel="canonical" href="https://flobehejohn.github.io/assets/portfolio/Projet_dotnet/app_dotnet.html" />
+    <link rel="icon" href="/assets/images/favicon.ico">
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS site (root-absolu pour fiabilité depuis n'importe quel sous-dossier) -->
+    <link rel="stylesheet" href="/assets/css/theme.min.css">
+    <link rel="stylesheet" href="/assets/css/swatch.bundle.css">
+    <link rel="stylesheet" href="/assets/css/carte_magique.css">
+    <link rel="stylesheet" href="/assets/css/fixes.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome/css/all.min.css">
+
+    <!-- CSS spécifique .NET (tables responsive + modale) -->
+    <link rel="stylesheet" href="/assets/css/dotnet.css">
+
+    <style data-page-css>
+      :root {
+        --modal-max-w: 1100px;
+        --modal-min-w: 320px;
+        --modal-pad-x: 1rem;
+        --modal-pad-y: .75rem;
+        --modal-radius: 16px;
+        --shadow-elev: 0 20px 60px rgba(0,0,0,.25);
+      }
+      .navbar-sticky { position: sticky; top: 0; z-index: 1050; }
+      .navbar-collapse { background: inherit; }
+      @media (max-width: 991px) {
+        .navbar-collapse {
+          position: absolute; top: 100%; left: 0; right: 0; width: 100%;
+          padding: 1rem; background-color: var(--bs-body-bg, #fff);
+          box-shadow: 0 4px 10px rgba(0,0,0,.2);
+        }
+      }
+      .carte-app { display: grid; grid-template-columns: 1fr; gap: 1rem; border-radius: 16px; overflow: hidden; background: #fff; }
+      .carte-app-body { padding: 1rem 1.25rem 1.25rem; }
+      .carte-app h3 { margin: 0 0 .25rem 0; }
+      .carte-app p { margin: 0; color: #555; }
+
+      /* Modale */
+      .modal-overlay { position: fixed; inset: 0; display: none; place-items: center; background: rgba(0,0,0,.55); z-index: 2000; }
+      .modal-overlay.show { display: grid; }
+      .modal-shell {
+        width: min(var(--modal-max-w), 92vw);
+        min-width: var(--modal-min-w);
+        max-height: 90vh;
+        background: #fff; border-radius: var(--modal-radius);
+        box-shadow: var(--shadow-elev); overflow: hidden;
+        display: grid; grid-template-rows: auto 1fr auto;
+      }
+      @media (max-width: 767.98px) {
+        .modal-shell { width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; }
+      }
+      .modal-header, .modal-footer {
+        padding: var(--modal-pad-y) var(--modal-pad-x);
+        border-bottom: 1px solid rgba(0,0,0,.08);
+      }
+      .modal-footer { border-top: 1px solid rgba(0,0,0,.08); border-bottom: none; display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; }
+      .modal-title { margin: 0; font-size: 1.05rem; font-weight: 600; }
+      .close-btn {
+        margin-left: auto; border: 0; background: transparent; cursor: pointer;
+        font-size: 1.5rem; line-height: 1; padding: .25rem .5rem;
+      }
+      .close-btn:focus { outline: 2px solid #2684ff; outline-offset: 2px; border-radius: .5rem; }
+      .modal-body { padding: 0; overflow: auto; -webkit-overflow-scrolling: touch; background: #fafafa; }
+      .app-host { display: block; width: 100%; height: auto; min-height: 60vh; padding: 1rem; }
+      @media (max-width: 767.98px) { .app-host { min-height: calc(100vh - 120px); padding: .75rem; } }
+
+      /* KPIs */
+      .proof-strip { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: .5rem; }
+      .proof-strip .kpi { background: #f7fafc; border: 1px solid #e6eef6; border-radius: 10px; padding: .75rem; text-align: center; }
+      .kpi-label { display:block; font-size:.8rem; color:#667; }
+      .kpi-number { font-weight:700; font-size:1.1rem; }
+      .kpi-pulse { animation: kpiP .45s ease-out; }
+      @keyframes kpiP { from{transform:scale(.96);} to{transform:scale(1);} }
+
+      .hero-section, .hero-section *:not(.btn) { text-align: center !important; }
+      .hero-section .btn, .hero-section .btn-lg, .hero-section .btn-action { display: inline-flex !important; margin-inline: auto !important; align-items:center; justify-content:center; }
+
+      @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+    </style>
+  </head>
+
+  <body class="normal-header preload">
+    <div id="cloud-bg"></div>
+
+    <!-- NAVBAR -->
+    <nav id="masthead" class="navbar navbar-expand-lg navbar-sticky swatch-custom" role="navigation" aria-label="Navigation principale">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="/index.html" class="navbar-brand d-flex align-items-center">
+          <img src="/assets/images/log_zim.webp" alt="Logo" class="brand-logo" />
+          <span class="site-title">FLORIAN-BEHEJOHN</span>
+        </a>
+        <div class="d-flex align-items-center" id="navRightGroup">
+          <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Menu">
+            <span class="navbar-toggler-icon"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/index.html">Accueil</a></li>
+            <li class="nav-item"><a class="nav-link" href="/portfolio_florian_b.html">Portfolio</a></li>
+            <li class="nav-item"><a class="nav-link" href="/parcours.html">Parcours</a></li>
+            <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ROOT (data-page = dotnet_demo pour scoping & logs) -->
+    <main id="app" data-pjax-root data-page="dotnet_demo" role="main">
+      <div id="content">
+        <article>
+          <section class="section swatch-custom pb-0">
+            <div class="container">
+              <header class="hero-section animated-text pt-4 text-center">
+                <h1 class="hyper hairline bordered bordered-normal">
+                  Développeur .NET : Démo live
+                </h1>
+                <p class="lead">
+                  Front <strong>Vue.js</strong> (CDN <strong>Cloudflare</strong>) • API <strong>.NET</strong> containerisée <strong>Docker</strong> sur <strong>Azure</strong>.<br>
+                  Standards d’entreprise (CI/CD, CORS, logging, durcissement images) pour des mises en production sereines.
+                </p>
+              </header>
+            </div>
+          </section>
+
+          <div class="section-space"></div>
+
+          <div class="container">
+            <div class="carte-app shadow">
+              <div class="carte-app-body">
+                <div class="proof-strip" aria-live="polite">
+                  <div class="kpi">
+                    <span class="kpi-label">Latence API</span>
+                    <span class="kpi-number" id="kpi-latency" data-unit="ms">—</span>
+                  </div>
+                  <div class="kpi">
+                    <span class="kpi-label">Tests OK</span>
+                    <span class="kpi-number" id="kpi-tests" data-target="98.7" data-unit="%">98.7%</span>
+                  </div>
+                  <div class="kpi">
+                    <span class="kpi-label">Uptime 30j</span>
+                    <span class="kpi-number" id="kpi-uptime" data-target="99.95" data-unit="%">99.95%</span>
+                  </div>
+                  <div class="kpi kpi-hide-sm">
+                    <span class="kpi-label">Docker</span>
+                    <span class="kpi-number" id="kpi-docker">image:latest</span>
+                  </div>
+                </div>
+
+                <div class="mt-3 d-flex flex-wrap gap-3 justify-content-center">
+                  <button id="open-app-modal" class="btn btn-primary btn-lg">
+                    <i class="fas fa-flask me-2"></i>Lancer la démo
+                  </button>
+                  <a id="swagger-link" class="btn btn-outline-secondary btn-lg" href="#" target="_blank" rel="noopener" aria-disabled="true">
+                    <i class="fas fa-book me-2"></i>Documentation API (Swagger)
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-space"></div>
+
+          <section class="hero-section text-center animated-text">
+            <div class="container">
+              <header class="os-animation" data-os-animation="fadeIn">
+                <h2 class="bigger hairline bordered">Découvrir d’autres projets</h2>
+              </header>
+              <div class="section-space-short"></div>
+              <div class="text-center">
+                <a href="/portfolio_florian_b.html" class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight" data-os-animation="fadeInRight">
+                  Explorer le Portfolio
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <section class="section swatch-custom section-text-shadow hero-section">
+            <div class="container text-center">
+              <header class="hero-section animated-text d-flex flex-column align-items-center justify-content-center">
+                <h2 class="bigger hairline bordered mb-3">Envie d’en savoir plus&nbsp;?</h2>
+                <p class="lead mb-4">Parlons intégration, sécurité et performance.</p>
+                <a href="/contact.html"
+                   class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight"
+                   data-os-animation="fadeInRight">
+                  Contact
+                </a>
+              </header>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <footer id="footer" class="swatch-custom">
+      <div class="container">
+        <p>© 2025 Florian Behejohn - Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    <!-- Vendors JS + pile site (defer partout pour éviter le FOIT) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/assets/js/packages.min.js" defer></script>
+    <script src="/assets/js/smartresize-patch.js" defer></script>
+    <script src="/assets/js/navbar.js" defer></script>
+    <script src="/assets/js/animated-text.js" defer></script>
+    <script src="/assets/js/theme.min.js" defer></script>
+    <script src="/assets/js/script.js" defer></script>
+
+    <!-- Player & contrôles (pour l'audio du nuage) -->
+    <script src="/assets/js/player-singleton.js" defer></script>
+    <script src="/assets/js/floating-audio-toggle.js" defer></script>
+    <script src="/assets/js/responsive-audio-player-scaler.js" defer></script>
+    <script src="/assets/js/draggable-audio-player.js" defer></script>
+
+    <!-- imagesLoaded + Nuage (fond particules) -->
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js" defer></script>
+    <script type="module" src="/assets/js/nuage_magique/test.js" defer></script>
+
+    <!-- PJAX & orchestration page (même si cette page est en « full load », OK) -->
+    <script src="/assets/js/pjax-router.js" defer></script>
+    <script src="/assets/js/page-hub.js" defer></script>
+
+    <!-- Utilitaires accessibles par l’iframe .NET -->
+    <script src="config.js" charset="utf-8" defer></script>
+    <script src="normalize-requests.js" charset="utf-8" defer></script>
+
+    <!-- Boot .NET (PJAX-safe). data-app-base = chemin du dossier app -->
+    <script src="/assets/js/pages/dotnet_boot.js" defer data-app-base="/assets/portfolio/Projet_dotnet/"></script>
+
+    <!-- Préchargement & journaux -->
+    <script>
+      // Retrait du masque preload, y compris en cas de navigation PJAX depuis ailleurs
+      window.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.remove('preload');
+        console.info('[app_dotnet] DOMContentLoaded → preload retiré');
+      });
+      document.addEventListener('pjax:ready', () => {
+        document.body.classList.remove('preload');
+        console.info('[app_dotnet] pjax:ready → preload retiré');
+      });
+
+      // Petits logs utiles
+      document.addEventListener('pjax:before', (e)=>console.info('[app_dotnet] pjax:before', e.detail));
+      document.addEventListener('pjax:ready',  (e)=>console.info('[app_dotnet] pjax:ready',  e.detail));
+      document.addEventListener('pjax:error',  (e)=>console.warn('[app_dotnet] pjax:error',  e.detail));
+    </script>
+  </body>
+</html>

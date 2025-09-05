@@ -1,0 +1,9 @@
+* [33m0db941fa[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mrefactor-2025[m[33m)[m fix: restore star rendering & interactions (grid + modal) in bundled modal.js
+* [33mac8524f4[m fix(js): suppression du doublon theme.min.js
+* [33m1f2d9905[m Optimisation logo vinyle: <picture> WebP/JPG, lazy loading, image ronde avatar
+* [33m0f3387a4[m Optimisation image profil : WebP + PNG fallback, lazy loading, accessibilité
+* [33m94acc099[m chore(head): suppression de l'ancien lien color-defaults.min.css (déjà dans swatch.bundle.css)
+* [33mf77255bb[m chore(head): fusion et optimisation des fichiers CSS swatch en swatch.bundle.css
+* [33m0330a706[m perf(head): préchargement critique du CSS principal
+* [33mac436c9a[m[33m ([m[1;31morigin/feature/0_0_0_5[m[33m, [m[1;32mfeature/0_0_0_5[m[33m)[m 🐛 Correction et amélioration de l'itération 0_0_0_5
+* [33m8e574635[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/feature/0_0_0_4[m[33m, [m[1;31morigin/feature/0_0_0_3[m[33m, [m[1;31morigin/dev[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mfeature/0_0_0_4[m[33m, [m[1;32mfeature/0_0_0_3[m[33m)[m Ajout du site personnel

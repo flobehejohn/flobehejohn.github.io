@@ -1,0 +1,9 @@
+# mark common binary media (no EOL conversion)
+*.mp3 binary
+*.wav binary
+*.wasm binary
+
+# keep JS/HTML/CSS as LF in the repository
+*.js text eol=lf
+*.html text eol=lf
+*.css text eol=lf

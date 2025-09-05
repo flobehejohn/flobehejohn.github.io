@@ -1,0 +1,467 @@
+﻿/* =====================================================================
+   Synth FloMo-Dulator — Feuille de style PAGE-SCOPÉE
+   - Fonctionne avec <main data-pjax-root data-page="synth_fm">
+   - Le <link ... data-page-css> permet au routeur de l'injecter/retirer
+   ===================================================================== */
+
+/* Contexte + variables, limité au root PJAX de la page */
+[data-page="synth_fm"] {
+  /* Variables locales à la page */
+  --accent: #ffb347;
+  --accent-dark: #ff9800;
+  --bg-dark: #1f1f2e;
+  --bg-medium: #2b2b40;
+  --shadow-accent: 0 0 24px #b1ada733, 0 2px 16px #0005;
+  --radius: 18px;
+
+  /* Toile de fond + typo + layout principal */
+  min-height: 100vh;
+  width: 100%;
+  display: block;
+  background: linear-gradient(135deg, var(--bg-dark) 40%, var(--bg-medium) 100%);
+  color: #eee;
+}
+
+/* Box-sizing local (pas global au site) */
+[data-page="synth_fm"],
+[data-page="synth_fm"] *,
+[data-page="synth_fm"] *::before,
+[data-page="synth_fm"] *::after {
+  box-sizing: border-box;
+}
+
+/* Container central */
+[data-page="synth_fm"] .container {
+  width: 100%;
+  max-width: 610px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Titres */
+[data-page="synth_fm"] h1 {
+  margin: 28px 0 18px 0;
+  font-size: 2.1rem;
+  text-align: center;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 18px rgb(255 255 255);
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+[data-page="synth_fm"] h3 {
+  margin: 18px 0 10px 0;
+  color: var(--accent);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ---------------- CARTES PRINCIPALES ---------------- */
+[data-page="synth_fm"] .card {
+  background: rgba(32, 32, 54, 0.88);
+  backdrop-filter: blur(8px) saturate(1.1);
+  border: 1.5px solid #ffffff24;
+  border-radius: var(--radius);
+  padding: 22px 26px 20px 26px;
+  box-shadow: var(--shadow-accent);
+  width: 100%;
+  max-width: 520px;
+  margin: 20px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transition: box-shadow 0.2s;
+}
+[data-page="synth_fm"] .card-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Paramètres */
+[data-page="synth_fm"] .param {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+[data-page="synth_fm"] .param label {
+  font-size: 0.93rem;
+  font-weight: 600;
+  color: #ffb347;
+  margin-bottom: 3px;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- SELECT ULTRA LISIBLE ET OPTIONS ----------- */
+[data-page="synth_fm"] select,
+[data-page="synth_fm"] .param select,
+[data-page="synth_fm"] input[type=number] {
+  background: #222a !important;
+  color: #fff !important;
+  border-radius: 6px;
+  border: 1.5px solid #444;
+  padding: 6px 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: border .2s, box-shadow .2s;
+}
+/* Flèche custom moderne */
+[data-page="synth_fm"] select {
+  background-image:
+    linear-gradient(45deg, transparent 49%, var(--accent) 51%),
+    linear-gradient(135deg, var(--accent) 51%, transparent 49%);
+  background-position:
+    calc(100% - 24px) calc(1em + 2px),
+    calc(100% - 19px) calc(1em + 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 34px;
+}
+/* Focus / hover */
+[data-page="synth_fm"] select:focus,
+[data-page="synth_fm"] .param select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px #ffb34744;
+}
+[data-page="synth_fm"] select:hover,
+[data-page="synth_fm"] .param select:hover {
+  border-color: var(--accent-dark);
+}
+/* Menu d’options */
+[data-page="synth_fm"] select option {
+  background: #292940 !important;
+  color: #fff !important;
+  font-size: 1rem;
+  font-family: inherit;
+  padding: 6px 12px;
+}
+/* Option sélectionnée */
+[data-page="synth_fm"] select option:checked,
+[data-page="synth_fm"] select option[selected] {
+  background: var(--accent) !important;
+  color: #1f1f2e !important;
+}
+/* Survol (Chrome/Edge) */
+[data-page="synth_fm"] select:focus option:hover,
+[data-page="synth_fm"] select:focus option:active {
+  background: var(--accent-dark) !important;
+  color: #fff !important;
+}
+/* Firefox survol */
+@-moz-document url-prefix() {
+  [data-page="synth_fm"] select option:hover {
+    background: var(--accent-dark) !important;
+    color: #fff !important;
+  }
+}
+/* Corrige flèche native */
+[data-page="synth_fm"] select::-ms-expand {
+  background: none;
+  color: var(--accent);
+}
+/* Neutralise héritages Bootstrap sur .form-select uniquement ici */
+[data-page="synth_fm"] .form-select,
+[data-page="synth_fm"] .form-select:focus {
+  background: #222a !important;
+  color: #fff !important;
+  border-color: #444 !important;
+  box-shadow: none !important;
+}
+
+/* ------------------ Autres Inputs et Range ------------------ */
+[data-page="synth_fm"] .param input[type=range],
+[data-page="synth_fm"] .param input[type=number] {
+  width: 100%;
+  margin-top: 3px;
+  font-size: 1rem;
+  padding: 3px 6px;
+  border-radius: 6px;
+  background: #222a;
+  color: #eee;
+  border: 1.2px solid #3338;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+[data-page="synth_fm"] .param input[type=range]:focus,
+[data-page="synth_fm"] .param input[type=number]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px #ffb34740;
+}
+
+/* ---------- Slider stylé ---------- */
+[data-page="synth_fm"] input[type=range] {
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 4px;
+  background: #333;
+  outline: none;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+[data-page="synth_fm"] input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2.5px solid #fff;
+  box-shadow: 0 1px 7px #ffb34755;
+  transition: background .2s, border .2s;
+}
+[data-page="synth_fm"] input[type=range]:focus::-webkit-slider-thumb {
+  background: var(--accent-dark);
+  border-color: #fffbe7;
+}
+[data-page="synth_fm"] input[type=range]::-moz-range-thumb {
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2.5px solid #fff;
+  box-shadow: 0 1px 7px #ffb34755;
+  transition: background .2s, border .2s;
+}
+[data-page="synth_fm"] input[type=range]:focus::-moz-range-thumb {
+  background: var(--accent-dark);
+  border-color: #fffbe7;
+}
+[data-page="synth_fm"] input[type=range]::-ms-thumb {
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2.5px solid #fff;
+}
+[data-page="synth_fm"] input[type=range]::-webkit-slider-runnable-track {
+  background: #333;
+  border-radius: 4px;
+  height: 6px;
+}
+[data-page="synth_fm"] input[type=range]::-ms-fill-lower,
+[data-page="synth_fm"] input[type=range]::-ms-fill-upper {
+  background: #333;
+  border-radius: 4px;
+}
+[data-page="synth_fm"] input[type=range]:focus {
+  outline: none;
+  border: none;
+}
+[data-page="synth_fm"] input[type=range]::-ms-tooltip { display: none; }
+
+/* ---------- Boutons ---------- */
+[data-page="synth_fm"] .btn,
+[data-page="synth_fm"] button.btn {
+  display: inline-block;
+  margin-top: 10px;
+  margin-right: 8px;
+  padding: 10px 16px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  background: linear-gradient(90deg,var(--accent),var(--accent-dark));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ffb34755;
+  transition: box-shadow .22s, opacity .22s, transform .15s;
+}
+[data-page="synth_fm"] .btn:last-child { margin-right: 0; }
+[data-page="synth_fm"] .btn:hover,
+[data-page="synth_fm"] button.btn:hover,
+[data-page="synth_fm"] .btn:focus {
+  opacity: .91;
+  box-shadow: 0 0 32px var(--accent);
+  outline: 0;
+  transform: translateY(-2px) scale(1.035);
+}
+
+/* ----------- Piano-Roll ----------- */
+[data-page="synth_fm"] .piano-roll-wrapper {
+  overflow-x: auto;
+  margin-top: 12px;
+  border: 1.4px solid #ffffff33;
+  border-radius: 10px;
+  background: #151528;
+  padding: 8px 2px 8px 4px;
+  width: 100%;
+  box-shadow: 0 2px 10px #0006;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+[data-page="synth_fm"] .piano-roll {
+  display: grid;
+  grid-template-columns: repeat(16, 34px);
+  grid-auto-rows: 26px;
+  min-width: 544px;
+  max-width: 100%;
+  user-select: none;
+  transition: transform .2s;
+  justify-content: center;
+  align-content: center;
+}
+[data-page="synth_fm"] .cell {
+  border: 1px solid #333;
+  background: #242435;
+  width: 34px;
+  height: 26px;
+  border-radius: 4px;
+  margin: 1px;
+  transition: background .12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+[data-page="synth_fm"] .cell.active {
+  background: linear-gradient(120deg, var(--accent) 60%, #fffbe777 100%);
+  box-shadow: 0 0 10px var(--accent-dark);
+}
+
+/* ---------- Divers & centrage ---------- */
+[data-page="synth_fm"] .note {
+  font-size: 0.97rem;
+  color: #fff !important;
+  opacity: 0.92;
+  text-align: center;
+  margin-top: 7px;
+  font-weight: 500;
+  text-shadow: 0 0 2px #000b;
+}
+[data-page="synth_fm"] .adsr {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+[data-page="synth_fm"] .adsr input[type=range] {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Placeholders */
+[data-page="synth_fm"] ::placeholder { color: #eee9; }
+
+/* Spinners number input */
+[data-page="synth_fm"] input[type="number"]::-webkit-inner-spin-button,
+[data-page="synth_fm"] input[type="number"]::-webkit-outer-spin-button {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+/* Utilitaires */
+[data-page="synth_fm"] .center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+[data-page="synth_fm"] .w-100 { width: 100% !important; }
+[data-page="synth_fm"] .mx-auto { margin-left: auto !important; margin-right: auto !important; }
+
+/* Focus/accessibilité */
+[data-page="synth_fm"] :focus-visible {
+  outline: 2.5px solid var(--accent);
+  outline-offset: 1.5px;
+}
+
+/* Responsives */
+@media (max-width: 600px) {
+  [data-page="synth_fm"] .container,
+  [data-page="synth_fm"] .card { max-width: 99vw; }
+  [data-page="synth_fm"] .piano-roll { min-width: 340px; }
+  [data-page="synth_fm"] h1 { font-size: 1.23rem; }
+}
+@media (max-width: 420px) {
+  [data-page="synth_fm"] .card,
+  [data-page="synth_fm"] .container { padding: 0 2vw; }
+  [data-page="synth_fm"] h1 { font-size: 1rem; }
+}
+@media (max-width: 375px) {
+  [data-page="synth_fm"] .card { padding: 10px 2vw; }
+  [data-page="synth_fm"] .piano-roll { min-width: 180px; }
+}
+
+/* -------------------- Blocs informatifs -------------------- */
+[data-page="synth_fm"] .presentation-bloc {
+  background:#21243a;
+  color:#ffb347;
+  border-radius:20px;
+  padding:1.2em 2em;
+  margin:24px auto 10px;
+  max-width:720px;
+  box-shadow:0 4px 24px #0003;
+  font-size:1.06rem;
+  text-align:center;
+}
+[data-page="synth_fm"] .mode-emploi-bloc {
+  background:#f8f8fa;
+  color:#333;
+  border-radius:18px;
+  padding:2em 1.5em 1.2em;
+  margin:26px auto;
+  max-width:720px;
+  box-shadow:0 4px 32px #0001;
+  font-size:1.02rem;
+}
+[data-page="synth_fm"] .mode-emploi-bloc h4 { margin-top:1.15em; color:#24467a; }
+[data-page="synth_fm"] .mode-emploi-bloc code { background:#e9ecef; border-radius:6px; padding:1px 6px; }
+[data-page="synth_fm"] .mode-emploi-bloc strong { color:#204060; }
+
+/* -------------------- (OPTIONNEL) Navbar locale --------------------
+   À n'activer que si la navbar DOIT être différente sur cette page.
+   Sinon, laisse le thème global gérer la navbar. */
+[data-page="synth_fm"] .navbar-sticky { position: sticky; top: 0; z-index: 1050; }
+[data-page="synth_fm"] .navbar-collapse { background: inherit; }
+@media (max-width: 991px) {
+  [data-page="synth_fm"] .navbar-collapse {
+    position: absolute; top: 100%; left: 0; right: 0; width: 100%;
+    padding: 1rem; background: var(--bs-body-bg, #fff);
+    box-shadow: 0 4px 10px rgba(0,0,0,.2);
+  }
+}
+
+/* Sécurité 1re section (si nécessaire pour ta mise en page locale) */
+[data-page="synth_fm"] .section:first-child { padding-top: 140px; }
+@media (max-width: 991px) {
+  [data-page="synth_fm"] .section:first-child { padding-top: 90px; }
+}
+/* === Fixes piano-roll & layout (scopés à la page) === */
+[data-page="synth_fm"] .card--roll {
+  max-width: 840px; /* laisse respirer une grille 16 x 34px */
+}
+
+[data-page="synth_fm"] .card--roll .card-body {
+  overflow: visible; /* évite des coupes "globales" sur certains thèmes */
+}
+
+/* Le wrapper doit pouvoir rétrécir en flex + scroller horizontalement */
+[data-page="synth_fm"] .piano-roll-wrapper {
+  width: 100%;
+  min-width: 0;          /* <— clé : corrige la coupe flex */
+  overflow-x: auto; 
+  overflow-y: hidden;
+}
+
+/* Assure une largeur mini de la grille (16 * 34 = 544px) */
+[data-page="synth_fm"] .piano-roll {
+  min-width: 544px;
+}
+
+/* Optionnel : si tu veux que toutes les cartes de CETTE page soient plus larges */
+[data-page="synth_fm"] .card {
+  max-width: 720px;
+}
+
+

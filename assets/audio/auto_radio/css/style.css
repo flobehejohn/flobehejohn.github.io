@@ -1,0 +1,305 @@
+﻿/* ======================================================================
+   🎧 Skin audio "auto_radio" — SCOPÉ au lecteur (modal + wrapper overlay)
+   Emplacement : /assets/audio/auto_radio/css/style.css
+   Encodage : UTF-8 (corrigé "concaténer" + caractères accentués)
+   ====================================================================== */
+
+/* Portée des variables et styles : dans la modale et/ou son wrapper */
+#audioPlayerModal,
+#responsiveWrapper {
+  --primary-color: #5fbff9;
+  --bg: #22262a;
+  --text: rgba(255, 255, 255, 0.85);
+  --light: #33393f;
+  --dark: #111315;
+}
+
+/* Reset minimal local à la modale pour éviter les effets de bord globaux */
+#audioPlayerModal *,
+#responsiveWrapper * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Conteneur principal du lecteur */
+#audioPlayerModal .radio,
+#responsiveWrapper .radio {
+  background: var(--bg);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow:
+    10px 10px 20px var(--dark),
+    -10px -10px 20px var(--light);
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  max-width: 1000px;
+  width: 95%;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto; /* centrage interne sans toucher <body> */
+}
+
+/* Bandeau d’info (titre) repliable */
+#audioPlayerModal .info-panel,
+#responsiveWrapper .info-panel {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0;
+  background: #111315;
+  color: var(--primary-color);
+  overflow: hidden;
+  transition: height 0.5s ease;
+  z-index: 0;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+#audioPlayerModal .info-panel.open,
+#responsiveWrapper .info-panel.open { height: 50px; }
+
+#audioPlayerModal #trackTitle,
+#responsiveWrapper #trackTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: scroll-text 10s linear infinite;
+  font-size: 1rem;
+}
+
+@keyframes scroll-text {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Pochette circulaire animée */
+#audioPlayerModal .cover,
+#responsiveWrapper .cover {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--bg) 0%, #020509 100%);
+  box-shadow:
+    10px 10px 20px var(--dark),
+    -10px -10px 20px var(--light);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+#audioPlayerModal .cover img,
+#responsiveWrapper .cover img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 2s linear;
+}
+#audioPlayerModal .cover.playing img,
+#responsiveWrapper .cover.playing img { animation: spin 4s linear infinite; }
+
+@keyframes spin {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+/* Zone commandes */
+#audioPlayerModal .controls,
+#responsiveWrapper .controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Boutons */
+#audioPlayerModal .buttons,
+#responsiveWrapper .buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+  justify-content: center;
+  flex: 1;
+}
+
+#audioPlayerModal .button,
+#responsiveWrapper .button {
+  width: 60px;
+  height: 60px;
+  background: var(--bg);
+  border: none;
+  border-radius: 50%;
+  box-shadow:
+    5px 5px 10px var(--dark),
+    -5px -5px 10px var(--light);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#audioPlayerModal .button:hover,
+#responsiveWrapper .button:hover {
+  transform: scale(1.05);
+  box-shadow:
+    3px 3px 6px var(--dark),
+    -3px -3px 6px var(--light);
+}
+#audioPlayerModal .button:active,
+#responsiveWrapper .button:active { transform: scale(0.95); }
+
+/* Icônes */
+#audioPlayerModal .icon,
+#responsiveWrapper .icon { transition: all 0.3s ease-in-out; }
+
+#audioPlayerModal .icon.play,
+#responsiveWrapper .icon.play {
+  width: 0; height: 0;
+  border-left: 20px solid var(--primary-color);
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+}
+#audioPlayerModal .icon.pause,
+#responsiveWrapper .icon.pause {
+  display: flex;
+  gap: 6px;
+  width: 26px;
+  height: 32px;
+  justify-content: center;
+}
+#audioPlayerModal .icon.pause span,
+#responsiveWrapper .icon.pause span {
+  width: 6px;
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: 2px;
+}
+
+#audioPlayerModal .button.playing .icon.play,
+#responsiveWrapper .button.playing .icon.play { display: none; }
+#audioPlayerModal .button:not(.playing) .icon.pause,
+#responsiveWrapper .button:not(.playing) .icon.pause { display: none; }
+
+#audioPlayerModal .icon.stop,
+#responsiveWrapper .icon.stop {
+  width: 20px; height: 20px;
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+#audioPlayerModal .icon.prev,
+#responsiveWrapper .icon.prev,
+#audioPlayerModal .icon.next,
+#responsiveWrapper .icon.next {
+  position: relative;
+  width: 20px; height: 20px;
+}
+#audioPlayerModal .icon.prev::before,
+#responsiveWrapper .icon.prev::before,
+#audioPlayerModal .icon.prev::after,
+#responsiveWrapper .icon.prev::after {
+  content: "";
+  position: absolute; top: 0; bottom: 0; margin: auto;
+  width: 0; height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid var(--primary-color);
+}
+#audioPlayerModal .icon.prev::after,
+#responsiveWrapper .icon.prev::after { left: 10px; }
+
+#audioPlayerModal .icon.next::before,
+#responsiveWrapper .icon.next::before,
+#audioPlayerModal .icon.next::after,
+#responsiveWrapper .icon.next::after {
+  content: "";
+  position: absolute; top: 0; bottom: 0; margin: auto;
+  width: 0; height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid var(--primary-color);
+}
+#audioPlayerModal .icon.next::before,
+#responsiveWrapper .icon.next::before { left: 0; }
+#audioPlayerModal .icon.next::after,
+#responsiveWrapper .icon.next::after  { left: 10px; }
+
+/* Sliders (progress + volume) */
+#audioPlayerModal .sliders,
+#responsiveWrapper .sliders {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Base range */
+#audioPlayerModal input[type="range"],
+#responsiveWrapper input[type="range"] {
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: #444;
+  cursor: pointer;
+}
+
+/* Thumb WebKit */
+#audioPlayerModal input[type="range"]::-webkit-slider-thumb,
+#responsiveWrapper input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  height: 12px; width: 12px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: none;
+}
+/* Thumb Firefox */
+#audioPlayerModal input[type="range"]::-moz-range-thumb,
+#responsiveWrapper input[type="range"]::-moz-range-thumb {
+  height: 12px; width: 12px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: none;
+}
+/* Track Firefox */
+#audioPlayerModal input[type="range"]::-moz-range-track,
+#responsiveWrapper input[type="range"]::-moz-range-track {
+  height: 4px; border-radius: 2px; background: #444;
+}
+
+/* Largeurs ciblées par ID (évite conflit avec .progress Bootstrap) */
+#audioPlayerModal #progress,
+#responsiveWrapper  #progress { width: 200px; }
+#audioPlayerModal #volume,
+#responsiveWrapper  #volume  { width: 100px; background: #333; }
+
+#audioPlayerModal .time,
+#responsiveWrapper .time {
+  font-size: 0.9rem;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Geste "scratching" sur la pochette (désactive la rotation) */
+#audioPlayerModal .cover.scratching,
+#responsiveWrapper .cover.scratching {
+  animation: none;
+  cursor: grabbing;
+}
+
+/* Waveform local au lecteur (si utilisé) */
+#audioPlayerModal #waveform,
+#responsiveWrapper  #waveform {
+  width: 100%;
+  height: 100px;
+  margin-top: 20px;
+}
+
+/* Fin du skin audio */
