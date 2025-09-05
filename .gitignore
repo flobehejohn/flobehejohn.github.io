@@ -1,2 +1,8 @@
-node_modules
-node_modules
+# ignore backups created by scripts
+backup_shell_*/
+# ignore large media hosted on R2
+public/assets/portfolio/projet_mac_val/La_totale.mp3
+public/assets/portfolio/projet_mac_val/campagne_audio.wav
+# ignore other vendor / build artifacts if you want
+assets/vendor/
+node_modules/
