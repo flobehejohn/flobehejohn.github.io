@@ -1,2 +1,7 @@
-node_modules
-node_modules
+flobehejohn-clean-snapshot-mirror.git/
+flobehejohn-mirror.git/
+backup_shell_*/
+public/assets/portfolio/projet_mac_val/*.mp3
+public/assets/portfolio/projet_mac_val/*.wav
+assets/vendor/
+node_modules/
