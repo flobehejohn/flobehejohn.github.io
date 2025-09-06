@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>EHM – Design sonore | Florian Behejohn</title>
+
+    <!-- SEO & Meta -->
+    <meta name="description" content="Production du design sonore de deux clips de sensibilisation et de prévention réalisés par le ministère de l'Éducation nationale, de l’Enseignement supérieur et de la Recherche. Vidéos de démonstration et livrables clés." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!-- Politique audio : pause le lecteur global -->
+    <meta name="audio-policy" content="pause" />
+    <link rel="icon" href="/assets/images/favicon.ico" />
+    <link rel="canonical" href="https://flobehejohn.github.io/assets/portfolio/projet_ehm/ehm.html" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="EHM – Design sonore | Florian Behejohn" />
+    <meta property="og:description" content="Design sonore de deux clips de sensibilisation et de prévention (MEN-ESR). Visionnez les extraits vidéo et découvrez les livrables." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://flobehejohn.github.io/assets/portfolio/projet_ehm/ehm.html" />
+    <meta property="og:image" content="https://flobehejohn.github.io/assets/portfolio/projet_ehm/poster_1.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- CSS vendor -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS site -->
+    <link rel="stylesheet" href="/assets/css/theme.min.css">
+    <link rel="stylesheet" href="/assets/css/swatch.bundle.css">
+    <link rel="stylesheet" href="/assets/css/fixes.css">
+    <link rel="stylesheet" href="/assets/css/carte_magique.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/style_audio_player.css">
+
+    <!-- Perf R2 -->
+    <link rel="preconnect" href="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev" crossorigin>
+    <link rel="preload" as="video" href="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_ehm/pastille1_.mp4" type="video/mp4" crossorigin>
+    <link rel="preload" as="video" href="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_ehm/pastille_.mp4" type="video/mp4" crossorigin>
+
+    <!-- Styles locaux SCOPÉS à la page (rechargés par PJAX) -->
+    <style data-page-css>
+      /* ======================
+         Carte vidéo (même design que Rencontre/Holon)
+      ====================== */
+      [data-page="ehm"] .carte-lecteur-video {
+        display: grid; grid-template-columns: 1fr; gap: 1rem;
+        border-radius: 16px; overflow: hidden; background: #fff;
+        margin: 1.6rem auto; max-width: 1100px; box-sizing: border-box; padding: 0;
+      }
+      [data-page="ehm"] .carte-lecteur-video-media {
+        position: relative; display: block; width: 100%;
+        background: linear-gradient(130deg, #00c8ff 50%, #f0fafe 100%);
+        overflow: hidden; border-radius: 12px 12px 0 0; box-shadow: 0 6px 18px rgba(0,200,255,0.07);
+      }
+      [data-page="ehm"] .carte-lecteur-video-media video {
+        width: 100%; height: auto; display: block; object-fit: cover;
+        border-radius: 12px 12px 0 0; background: #edf7fa;
+      }
+      [data-page="ehm"] .carte-lecteur-video-body { padding: 1rem 1.25rem 1.25rem; }
+      [data-page="ehm"] .carte-lecteur-video-titre { margin: 0 0 .25rem 0; }
+      [data-page="ehm"] .carte-lecteur-video-desc { margin: 0; color: #555; }
+
+      @media (max-width: 900px) {
+        [data-page="ehm"] .carte-lecteur-video { grid-template-columns: 1fr; padding: .6rem; gap: .6rem; }
+        [data-page="ehm"] .carte-lecteur-video-media { min-height: 180px; }
+        [data-page="ehm"] .carte-lecteur-video-media video { max-height: 220px; height: auto; }
+      }
+
+      /* ======================
+         Galerie simple (si besoin d'images)
+      ====================== */
+      [data-page="ehm"] .galerie-simple { display: grid; gap: .9rem; }
+      [data-page="ehm"] .galerie-1 { grid-template-columns: 1fr; }
+      [data-page="ehm"] .galerie-simple img {
+        width: 100%; height: auto; display: block; border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(30,40,60,0.06);
+      }
+
+      /* ======================
+         Cartes clés
+      ====================== */
+      [data-page="ehm"] .key-cards { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+      @media (min-width: 768px){ [data-page="ehm"] .key-cards { grid-template-columns: repeat(3,1fr);} }
+      [data-page="ehm"] .key-card { border-radius: 16px; background: #fff; padding: 1rem 1.25rem; box-shadow: 0 6px 24px rgba(0,0,0,.06); }
+      [data-page="ehm"] .key-card h3 { font-size: 1.05rem; margin-bottom: .5rem; }
+      [data-page="ehm"] .key-card p { margin: 0; color: #555; }
+
+      /* ======================
+         Overlay poster cliquable
+      ====================== */
+      [data-page="ehm"] .video-poster-overlay {
+        position: absolute; inset: 0; width: 100%; height: 100%;
+        object-fit: cover; display: block; transition: opacity .18s ease-in-out;
+        background: #000; cursor: pointer;
+      }
+      [data-page="ehm"] .video-poster-overlay.is-hidden { opacity: 0; pointer-events: none; }
+
+      /* Espacement utilitaire */
+      .section-space { height: 25px; }
+      .section-space-short { height: 16px; }
+
+      /* Lissage */
+      body { -webkit-font-smoothing: antialiased; }
+    </style>
+  </head>
+
+  <body class="normal-header preload">
+    <div id="cloud-bg"></div>
+
+    <!-- NAVBAR (identique au site) -->
+    <nav id="masthead" class="navbar navbar-expand-lg navbar-sticky swatch-custom" role="navigation" aria-label="Navigation principale">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="/index.html" class="navbar-brand d-flex align-items-center">
+          <img src="/assets/images/log_zim.webp" alt="Logo" class="brand-logo" />
+          <span class="site-title">FLORIAN-BEHEJOHN</span>
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Menu">
+          <span class="navbar-toggler-icon"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/index.html" data-no-pjax>Accueil</a></li>
+            <li class="nav-item"><a class="nav-link" href="/portfolio_florian_b.html" data-no-pjax>Portfolio</a></li>
+            <li class="nav-item"><a class="nav-link" href="/parcours.html" data-no-pjax>Parcours</a></li>
+            <li class="nav-item"><a class="nav-link" href="/contact.html" data-no-pjax>Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN PJAX ROOT -->
+    <main id="app" data-pjax-root data-page="ehm" data-audio="local" role="main">
+      <div id="content">
+        <article>
+          <!-- HERO -->
+          <section class="section swatch-custom pb-0">
+            <div class="container">
+              <header class="hero-section animated-text pt-4 text-center">
+                <h1 class="hyper hairline bordered bordered-normal">Sonification – Clips institutionnels</h1>
+                <p class="lead">
+                  Production du design sonore de deux clips de sensibilisation et de prévention
+                  réalisés par le ministère de l'Éducation nationale, de l’Enseignement supérieur et de la Recherche.
+                </p>
+              </header>
+            </div>
+          </section>
+
+          <div class="section-space"></div>
+
+          <!-- Carte vidéo 1 -->
+          <div class="container">
+            <div class="carte-lecteur-video shadow" role="region" aria-label="Clip égalité Homme/Femme">
+              <div class="carte-lecteur-video-media">
+                <img
+                  src="/assets/portfolio/projet_ehm/poster_1.png"
+                  alt="Aperçu du clip égalité Homme/Femme"
+                  class="video-poster-overlay"
+                  decoding="async"
+                  loading="eager"
+                />
+                <video
+                  controls
+                  playsinline
+                  preload="metadata"
+                  poster="/assets/portfolio/projet_ehm/poster_1.png"
+                  crossorigin="anonymous"
+                  title="Clip de prévention – Extrait 1"
+                >
+                  <source src="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_ehm/pastille1_.mp4" type="video/mp4">
+                  Votre navigateur ne supporte pas la vidéo HTML5.
+                </video>
+              </div>
+              <div class="carte-lecteur-video-body">
+                <h3 class="carte-lecteur-video-titre">Clip égalité Homme/Femme</h3>
+                <p class="carte-lecteur-video-desc">Sonification du clip vidéo, au service d’un message d'information.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-space"></div>
+
+          <!-- Carte vidéo 2 -->
+          <div class="container">
+            <div class="carte-lecteur-video shadow" role="region" aria-label="Clip prévention Dysménorrhées">
+              <div class="carte-lecteur-video-media">
+                <img
+                  src="/assets/portfolio/projet_ehm/poster_pastille.png"
+                  alt="Aperçu du clip prévention Dysménorrhées"
+                  class="video-poster-overlay"
+                  decoding="async"
+                  loading="eager"
+                />
+                <video
+                  controls
+                  playsinline
+                  preload="metadata"
+                  poster="/assets/portfolio/projet_ehm/poster_pastille.png"
+                  crossorigin="anonymous"
+                  title="Clip de prévention – Extrait 2"
+                >
+                  <source src="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_ehm/pastille_.mp4" type="video/mp4">
+                  Votre navigateur ne supporte pas la vidéo HTML5.
+                </video>
+              </div>
+              <div class="carte-lecteur-video-body">
+                <h3 class="carte-lecteur-video-titre">Clip prévention Dysménorrhées</h3>
+                <p class="carte-lecteur-video-desc">Sonification du clip vidéo, au service d'un message de sensibilisation.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-space"></div>
+
+          <!-- Résumés clés -->
+          <div class="container">
+            <div class="key-cards">
+              <div class="key-card">
+                <h3><i class="fas fa-bullseye me-2"></i>Objectif</h3>
+                <p>Porter le message de prévention par un langage sonore mémorable, non intrusif et inclusif.</p>
+              </div>
+              <div class="key-card">
+                <h3><i class="fas fa-user-tie me-2"></i>Rôle</h3>
+                <p>Direction &amp; production du design sonore : identité, habillage, transitions, finitions broadcast.</p>
+              </div>
+              <div class="key-card">
+                <h3><i class="fas fa-landmark me-2"></i>Cadre institutionnel</h3>
+                <p>Ministère de l'Éducation nationale, de l’Enseignement supérieur et de la Recherche (clips officiels).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-space"></div>
+
+          <!-- CTA -->
+          <section class="hero-section text-center animated-text">
+            <div class="container">
+              <header class="os-animation" data-os-animation="fadeIn">
+                <h2 class="bigger hairline bordered">Découvrir d’autres projets</h2>
+              </header>
+              <div class="section-space-short"></div>
+              <div class="text-center">
+                <a href="/portfolio_florian_b.html" class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight" data-os-animation="fadeInRight">
+                  Explorer le Portfolio
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <section class="section swatch-custom section-text-shadow text-center">
+            <div class="container">
+              <header class="hero-section animated-text">
+                <h2 class="bigger hairline bordered">Envie d’échanger ?</h2>
+                <p class="lead">Parlons intentions, cibles et formats de diffusion.</p>
+                <div style="height: 24px;"></div>
+                <a href="/contact.html" class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight" data-os-animation="fadeInRight">Contact</a>
+              </header>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="swatch-custom text-center">
+      <div class="container">
+        <p>© 2025 Florian Behejohn - Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    <!-- JS pile (defer) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/assets/js/smartresize-patch.js" defer></script>
+    <script src="/assets/js/navbar.js" defer></script>
+    <script src="/assets/js/packages.min.js" defer></script>
+    <script src="/assets/js/animated-text.js" defer></script>
+    <script src="/assets/js/theme.min.js" defer></script>
+    <script src="/assets/js/script.js" defer></script>
+
+    <!-- Isotope (si utilisé globalement) -->
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js" defer></script>
+    <script src="/assets/js/isotope-skill-grid.js" defer></script>
+
+    <!-- Player singleton + contrôles -->
+    <script src="/assets/js/player-singleton.js" defer></script>
+    <script src="/assets/js/player.js" defer></script>
+    <script src="/assets/js/floating-audio-toggle.js" defer></script>
+    <script src="/assets/js/responsive-audio-player-scaler.js" defer></script>
+    <script src="/assets/js/draggable-audio-player.js" defer></script>
+
+    <!-- imagesLoaded + nuage -->
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js" defer></script>
+    <script type="module" src="/src/nuage_magique/test.js" defer></script>
+
+    <!-- PJAX & page orchestration -->
+    <script src="/assets/js/pjax-router.js" defer></script>
+    <script src="/assets/js/page-hub.js" defer></script>
+
+    <!-- Page module (idempotent) -->
+    <script src="/assets/js/pages/ehm.js" defer></script>
+
+    <!-- Fallback DOM ready -->
+    <script>
+      // retire le preload au DOM ready
+      window.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('preload');
+      });
+      // fallback init si page-hub ne l'a pas fait
+      document.addEventListener('DOMContentLoaded', () => {
+        try {
+          const root = document.querySelector('main[data-pjax-root][data-page="ehm"]');
+          if (root && window.Ehm && typeof window.Ehm.init === 'function') {
+            window.Ehm.init(root);
+          }
+        } catch (e) { console.warn('ehm fallback init failed', e); }
+      });
+    </script>
+    <!-- en bas de body, sur TOUTES les pages PJAX (home, portfolio, etc.) -->
+    <script src="/assets/js/pages/dotnet_boot.js" defer></script>
+  </body>
+</html>
+
