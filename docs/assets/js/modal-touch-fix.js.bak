@@ -1,0 +1,80 @@
+;(function(){
+  // Sélecteurs des “scrollers” autorisés à scroller au doigt
+  var SCROLLER_SEL = [
+    '.modal-content',
+    '#cv-modal .modal-content',
+    '.modal .modal-dialog .modal-content',
+    '.mgc-full-text',
+    '.skill-card.is-open'
+  ].join(',');
+
+  function getOpenModalRoot(){
+    return document.querySelector(
+      '#cv-modal[aria-hidden="false"], .modal-overlay.is-open, .modal.show'
+    );
+  }
+
+  // Lock / unlock body sans casser le scroll interne
+  var scrollTop = 0;
+  function lockBody(){
+    if(document.body.classList.contains('modal-open')) return;
+    scrollTop = window.scrollY || window.pageYOffset || 0;
+    document.body.style.setProperty('--scroll-lock-top', (-scrollTop) + 'px');
+    document.body.classList.add('modal-open');
+  }
+  function unlockBody(){
+    if(!document.body.classList.contains('modal-open')) return;
+    var t = parseInt(getComputedStyle(document.body).getPropertyValue('--scroll-lock-top') || '0', 10);
+    document.body.classList.remove('modal-open');
+    document.body.style.removeProperty('--scroll-lock-top');
+    window.scrollTo(0, -t || 0);
+  }
+
+  // Observe l’ouverture/fermeture des modales
+  var obs = new MutationObserver(function(){
+    var open = getOpenModalRoot() || document.querySelector('.skill-card.is-open') || document.querySelector('.mgc-full-text.is-open');
+    if(open) lockBody(); else unlockBody();
+  });
+  obs.observe(document.documentElement, { subtree:true, attributes:true, attributeFilter:['class','aria-hidden','style'] });
+
+  // Laisse scroller DANS la modale, bloque le fond
+  function allowScrollInside(e){
+    var open = getOpenModalRoot() || document.querySelector('.skill-card.is-open') || document.querySelector('.mgc-full-text.is-open');
+    if(!open) return; // rien d’ouvert → laisser vivre l’UI
+
+    var scroller = e.target && e.target.closest && e.target.closest(SCROLLER_SEL);
+    if(scroller){
+      // On s’assure que le conteneur est scrollable
+      scroller.style.webkitOverflowScrolling = 'touch';
+      scroller.style.overscrollBehavior = 'contain';
+      scroller.style.touchAction = 'pan-y';
+      // Hyper-important : on coupe la propagation très tôt
+      // pour empêcher un preventDefault() global en aval.
+      e.stopImmediatePropagation();
+      // NE PAS preventDefault → le scrolling natif se fait
+      return;
+    }
+    // En dehors de la modale → on bloque
+    if(e.cancelable) e.preventDefault();
+  }
+
+  // Capture en phase CAPTURE pour devancer les listeners tiers
+  ['touchmove','wheel'].forEach(function(ev){
+    document.addEventListener(ev, allowScrollInside, { passive:false, capture:true });
+  });
+
+  // Fallback : touche ESC pour fermer certaines modales custom
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      var openSkill = document.querySelector('.skill-card.is-open') || document.querySelector('.mgc-card.is-open');
+      if(openSkill) openSkill.classList.remove('is-open');
+      var openMgc = document.querySelector('.mgc-full-text.is-open');
+      if(openMgc) openMgc.classList.remove('is-open');
+    }
+  });
+
+  // First pass
+  if(getOpenModalRoot()) lockBody();
+})();
+
+

@@ -1,0 +1,1 @@
+function e(){window.bootstrap&&document.querySelectorAll(".modal.show").forEach(o=>{(bootstrap.Modal.getInstance(o)||new bootstrap.Modal(o)).hide()}),document.querySelectorAll(".modal").forEach(o=>o.classList.remove("show")),document.body.classList.remove("modal-open")}export{e as closeAllModals};
