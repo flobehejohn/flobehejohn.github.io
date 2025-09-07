@@ -78,6 +78,7 @@
     
     
   <link rel="stylesheet" href="/assets/css/modal-touch-fix.css">
+  <script type="module" crossorigin src="/assets/index-BOz4mz9D.js"></script>
 </head>
 
   <body class="normal-header preload">
@@ -220,7 +221,7 @@
             <div class="figure text-center">
               <span class="figure-image">
                 <picture>
-                  <source srcset="/assets/images/people/moi_.webp" type="image/webp" width="445" height="605">
+                  <source srcset="/assets/moi_-ifrN1xMc.webp" type="image/webp" width="445" height="605">
                   <source srcset="/assets/images/people/moi_.png"  type="image/png"  width="445" height="605">
                   <img
                     id="magic-photo"
@@ -1141,17 +1142,6 @@ data-grid="#skills-grid">
 <script src="/assets/js/isotope-skill-grid.js" defer></script>
 
 <!-- 6.5) Binder ESM (garde PJAX + charge le module public sans analyse Vite) -->
-<script type="module">
-  // Bind modal-guard (bundled côté src)
-  try {
-    const { closeAllModals } = await import('/src/modal-guard.js');
-    window.closeAllModals = closeAllModals;
-  } catch (e) {
-    console.warn('[modal-guard] module optionnel manquant — on continue.', e);
-  }
-
-  // Charger un module ESM conservé sous /public (pas analysé par Vite)
-  </script>
 
 <!-- 7) Thème -->
 <script src="/assets/js/theme.min.js" defer></script>
@@ -1202,7 +1192,6 @@ data-grid="#skills-grid">
 
     
 <audio id="global-audio" data-react="nuage" crossorigin="anonymous" controls style="position:fixed;left:-10000px;top:-10000px;width:1px;height:1px"></audio>
-<script type="module" src="/src/nuage_magique/test.js"></script>
 <script src="/assets/js/carte_magique/magic-cards.js"></script>
 <script src="/assets/js/modal-touch-fix.js"></script>
 <script src="/assets/vendor/isotope.pkgd.min.js"></script>
@@ -1211,6 +1200,7 @@ data-grid="#skills-grid">
 </html>
 
   
+
 
 
 
