@@ -1,2 +1,5 @@
 
 .pjax-audit/
+
+# Backups HTML générés par pwsh
+*.bak-*
