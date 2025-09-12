@@ -1,0 +1,125 @@
+/* =========================================================
+   NUAGE MAGIQUE — CSS ROBUSTE (compat PJAX / sans :has())
+   ========================================================= */
+
+   html, body { height: 100%; }
+
+   /* Canvas global, plein écran, cliquable */
+   #cloud-bg {
+     position: fixed;
+     inset: 0;
+     width: 100vw;
+     height: 100vh;
+     z-index: 5;
+     pointer-events: auto;
+     background: transparent;
+   }
+   #cloud-bg canvas {
+     position: absolute;
+     inset: 0;
+     width: 100% !important;
+     height: 100% !important;
+     display: block !important;
+     z-index: 5;
+     pointer-events: auto;
+   }
+   
+   /* Scope page Nuage: mise en page autonome */
+   main#app[data-page="nuage_magique"] {
+     min-height: 100svh;
+     display: flex;
+     flex-direction: column;
+     padding-top: clamp(72px, 10vh, 110px); /* sous navbar sticky */
+     position: relative;
+     z-index: 10;  /* contenu au-dessus du canvas */
+     background: transparent;
+   }
+   
+   /* Zone réservée au texte (hauteur pilotée par JS) */
+   main#app[data-page="nuage_magique"] #cloud-stage {
+     --stage-min-vh: 28;
+     --stage-max-vh: 82;
+     --stage-vh: 36;
+   
+     height: clamp(
+       calc(var(--stage-min-vh, 28) * 1vh),
+       calc(var(--stage-vh, 36) * 1vh),
+       calc(var(--stage-max-vh, 82) * 1vh)
+     );
+     width: 100%;
+     margin: 0 auto;
+     transition: height .3s ease;
+     pointer-events: none; /* laisser passer l’interaction vers le canvas */
+   }
+   
+   /* Pile: input + aide (posée en bas du main) */
+   main#app[data-page="nuage_magique"] #text-cloud-stack {
+     margin-top: auto;
+     margin-bottom: calc(clamp(10px, 3.5vh, 28px) + env(safe-area-inset-bottom, 0px));
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     z-index: 20;
+     padding-inline: 12px;
+     pointer-events: none; /* enfants réactivent */
+   }
+   
+   main#app[data-page="nuage_magique"] #text-cloud-controls {
+     display: flex;
+     gap: 10px;
+     align-items: center;
+     justify-content: center;
+     background: rgba(255,255,255,0.95);
+     box-shadow: 0 6px 22px rgba(0,0,0,0.12);
+     border-radius: 12px;
+     padding: 10px 14px;
+     width: min(92vw, 640px);
+     margin: 0 auto 10px auto;
+     pointer-events: auto;
+   }
+   main#app[data-page="nuage_magique"] #textInputCloud {
+     flex: 1 1 auto;
+     min-width: 180px;
+     padding: 10px 14px;
+     font-size: 1rem;
+     border-radius: 10px;
+     border: 1px solid #cfd8e3;
+     background: #fff;
+   }
+   main#app[data-page="nuage_magique"] #btnTextCloud { padding: 10px 14px; }
+   
+   main#app[data-page="nuage_magique"] .page-hint {
+     color: #334155;
+     background: rgba(255,255,255,.92);
+     border: 1px solid rgba(0,0,0,.06);
+     border-radius: 10px;
+     padding: .75rem 1rem;
+     margin: 4px auto 0 auto;
+     max-width: min(92vw, 780px);
+     box-shadow: 0 8px 20px rgba(0,0,0,.06);
+     font-size: .95rem;
+     text-align: center;
+     pointer-events: auto;
+   }
+   
+   /* Navbar au-dessus de tout */
+   .swatch-custom.navbar-sticky { z-index: 1050; }
+   
+   /* Mobile */
+   @media (max-width: 600px) {
+     main#app[data-page="nuage_magique"] #text-cloud-controls {
+       width: min(96vw, 560px);
+       gap: 8px;
+       padding: 10px 12px;
+     }
+     main#app[data-page="nuage_magique"] #textInputCloud {
+       font-size: 1rem;
+       padding: 10px 12px;
+     }
+     main#app[data-page="nuage_magique"] .page-hint { font-size: .92rem; }
+   }
+   
+   /* Sécurité: garder la clique sur le canvas */
+   #cloud-bg, #cloud-bg canvas { pointer-events: auto !important; }
+   

@@ -1,0 +1,8 @@
+http://127.0.0.1:8080/assets/vendor/bootstrap/bootstrap.min.css -> 200
+http://127.0.0.1:8080/assets/vendor/bootstrap/bootstrap.bundle.min.js -> 200
+http://127.0.0.1:8080/assets/vendor/imagesloaded.pkgd.min.js -> 200
+http://127.0.0.1:8080/assets/vendor/isotope.pkgd.min.js -> 200
+http://127.0.0.1:8080/assets/vendor/skrollr.min.js -> 200
+http://127.0.0.1:8080/assets/js/particles-bg.js -> 200
+http://127.0.0.1:8080/assets/css/particles-bg.css -> 200
+http://127.0.0.1:8080/assets/audio/auto_radio/js/playlist.json -> 200

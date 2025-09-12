@@ -1,0 +1,11 @@
+{
+  "rules": [
+    {
+      "AllowedOrigins": ["https://flobehejohn.github.io", "http://127.0.0.1:8080", "http://localhost:8080"],
+      "AllowedMethods": ["GET", "HEAD"],
+      "AllowedHeaders": ["Origin", "Range", "Content-Type", "Accept", "Cache-Control", "If-Modified-Since", "If-None-Match"],
+      "ExposeHeaders":  ["Accept-Ranges", "Content-Length", "Content-Range", "ETag"],
+      "MaxAgeSeconds": 86400
+    }
+  ]
+}

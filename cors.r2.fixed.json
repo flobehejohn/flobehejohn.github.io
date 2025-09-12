@@ -1,0 +1,28 @@
+{
+  "cors": [
+    {
+      "allowed_origins": [
+        "https://flobehejohn.github.io",
+        "http://127.0.0.1:8080",
+        "http://localhost:8080",
+        "http://127.0.0.1:5500",
+        "http://localhost:5500"
+      ],
+      "allowed_methods": [
+        "GET",
+        "HEAD"
+      ],
+      "max_age_seconds": 86400,
+      "expose_headers": [
+        "ETag",
+        "Content-Length",
+        "Accept-Ranges",
+        "Content-Range",
+        "Content-Type"
+      ],
+      "allowed_headers": [
+        "*"
+      ]
+    }
+  ]
+}

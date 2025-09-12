@@ -1,0 +1,1232 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Florian-Behejohn</title>
+
+    <!-- SEO & Social meta tags -->
+    <meta name="description" content="Portfolio interactif de Florian Behejohn, créateur sonore, designer sonore et développeur web. Découvrez son univers sonore, visuel et ses projets innovants.">
+
+    <!-- Open Graph (Facebook, LinkedIn...) -->
+    <meta property="og:title" content="Florian Behejohn – Son & Innovation">
+    <meta property="og:description" content="Portfolio interactif de Florian Behejohn, créateur sonore et visuel, expert en innovation multimédia et développement web.">
+    <meta property="og:image" content="https://flobehejohn.github.io/assets/images/log_zim.jpg">
+    <meta property="og:url" content="https://flobehejohn.github.io">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Florian Behejohn – Portfolio Son & Web">
+    <meta name="twitter:description" content="Portfolio interactif de Florian Behejohn, créateur sonore & visuel, développeur web et expert en innovation multimédia.">
+    <meta name="twitter:image" content="https://flobehejohn.github.io/assets/images/log_zim.jpg">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://flobehejohn.github.io">
+
+    <!-- Favicon (évite 404) -->
+    <link rel="icon" href="/assets/images/favicon.ico">
+
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Florian Behejohn",
+      "url": "https://flobehejohn.github.io",
+      "image": "https://flobehejohn.github.io/assets/images/log_zim.jpg",
+      "jobTitle": "Créateur sonore, développeur web",
+      "sameAs": [
+        "https://www.linkedin.com/in/tonprofil",
+        "https://github.com/flobehejohn"
+      ]
+    }
+    </script>
+
+    <!-- Préchargement critique du CSS principal -->
+    <link rel="preload" href="/assets/css/theme.min.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/css/theme.min.css"></noscript>
+
+    <!-- Polices -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <!-- Bundle CSS principal -->
+    <link rel="stylesheet" href="/assets/css/swatch.bundle.css">
+
+    <!-- Carte magique (unique) -->
+    <link rel="stylesheet" href="/assets/css/carte_magique.css">
+
+    <!-- FontAwesome (local) -->
+    <link rel="stylesheet" href="/assets/fonts/fontawesome/css/all.min.css">
+
+    <!-- Styles audio spécifiques -->
+    <link rel="stylesheet" href="/assets/css/style_audio_player.css">
+
+    <!-- IMPORTANT : fixes.css DOIT venir APRÈS tes CSS de thème -->
+    <link rel="stylesheet" href="/assets/css/fixes.css">
+
+    
+    
+  <link rel="stylesheet" href="/assets/css/modal-touch-fix.css">
+  <link rel="stylesheet" href="/assets/css/particles-bg.css" />
+</head>
+
+  <body class="normal-header preload">
+    <div id="cloud-bg"></div>
+
+    <!-- ====== NAVBAR ====== -->
+<nav id="masthead" class="navbar navbar-expand-lg navbar-sticky swatch-custom" role="navigation" aria-label="Navigation principale">
+  <div class="container d-flex justify-content-between align-items-center">
+    <!-- BRAND (lien simple = PJAX OK) -->
+    <a href="/index.html" class="navbar-brand d-flex align-items-center">
+      <img src="/assets/images/log_zim.webp" alt="Logo" class="brand-logo" />
+      <span class="site-title">FLORIAN-BEHEJOHN</span>
+    </a>
+
+    <!-- Groupe à droite : bouton lecteur + burger -->
+    <div class="d-flex align-items-center" id="navRightGroup">
+      <!-- Bouton ouvre-modale lecteur -->
+      <button
+        id="openAudioPlayer"
+        class="audio-player-nav-btn"
+        title="Lecteur Audio"
+        type="button"
+        tabindex="0"
+        aria-label="Ouvrir le lecteur audio">
+        <i class="fas fa-headphones-alt"></i>
+      </button>
+
+      <!-- Toggler Bootstrap -->
+      <button
+        class="navbar-toggler collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#main-navbar"
+        aria-controls="main-navbar"
+        aria-expanded="false"
+        aria-label="Menu">
+        <span class="navbar-toggler-icon">
+          <!-- Spans laissés pour compat ; masqués via fixes.css -->
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </span>
+      </button>
+    </div>
+
+    <!-- MENU COLLAPSABLE -->
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="navbar-nav ms-auto"><!-- <- PAS d’id ici -->
+        <li class="nav-item"><a class="nav-link" href="/index.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/portfolio_florian_b.html">Portfolio</a></li>
+        <li class="nav-item"><a class="nav-link" href="/parcours.html">Parcours</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- ====== LECTEUR AUDIO MODALE (persiste entre pages) ====== -->
+    <div id="responsiveWrapper">
+      <div class="audio-player-modal" id="audioPlayerModal" role="dialog" aria-modal="true" aria-label="Lecteur audio">
+        <div class="modal-content-player">
+          <button class="close-button" id="closePlayerModal" aria-label="Fermer le lecteur">&times;</button>
+          <div class="drag-bar" id="dragBar" title="Déplacer la fenêtre"></div>
+
+          <div class="radio">
+            <div class="info-panel" id="infoPanel">
+              <h2 id="trackTitle">Chargement...</h2>
+            </div>
+
+            <div class="cover" id="cover">
+              <picture>
+                <source srcset="/assets/images/log_zim.webp" type="image/webp" />
+                <source srcset="/assets/images/log_zim.jpg"  type="image/jpeg" />
+                <img
+                  id="coverArt"
+                  src="/assets/images/log_zim.jpg"
+                  alt="Logo de Florian Behejohn"
+                  loading="lazy"
+                  width="480"
+                  height="480"
+                  decoding="async"
+                  style="max-width:100%;height:auto;display:block;margin:auto;border-radius:50%;
+                         box-shadow:0 4px 32px #2223;background:#fff;" />
+              </picture>
+              
+            </div>
+
+            <div class="controls">
+              <div class="buttons">
+                <button class="button" id="prevBtn" title="Précédent"><div class="icon prev"></div></button>
+                <button class="button" id="toggleBtn" title="Lecture / Pause">
+                  <div class="icon play"></div>
+                  <div class="icon pause"><span></span><span></span></div>
+                </button>
+                <button class="button" id="stopBtn" title="Stop"><div class="icon stop"></div></button>
+                <button class="button" id="nextBtn" title="Suivant"><div class="icon next"></div></button>
+                <button class="button" id="sfxBtn" title="SFX On/Off">🔊</button>
+              </div>
+
+              <div class="sliders">
+                <span class="time" id="timeDisplay">0:00</span>
+                <input type="range" class="progress" id="progress" value="0" max="100" />
+                <div class="volume-container">
+                  <i class="fas fa-volume-up volume-icon" aria-hidden="true"></i>
+                  <input type="range" class="volume" id="volume" value="100" max="100" title="Volume" />
+                </div>
+              </div>
+            </div>
+
+            <audio id="audioPlayer" preload="auto"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== CONTENU VARIABLE (remplacé via PJAX) ====== -->
+    <main id="app" data-pjax-root data-page="home" data-audio="global">
+
+    <div id="content">
+      <article>
+        <!-- SECTION ACCUEIL -->
+        <section id="two" class="section swatch.bundle">
+          <div class="container">
+            <header class="hero-section text-center animated-text">
+              <h1 class="super hairline bordered-normal">
+                Un créateur sonore et visuel, au croisement de l'innovation et
+                de l’émotion.
+              </h1>
+
+              <section-space></section-space>
+
+              <p class="lead">
+                Expert en production audiovisuelle ,
+                j’explore la frontière entre le son, l’image et la technologie
+                pour donner vie à des expériences immersives et interactives.
+              </p>
+            </header>
+            <!-- On ajoute un ID pour cibler spécifiquement cette image -->
+            <div class="figure text-center">
+              <span class="figure-image">
+                <picture>
+                  <source srcset="/assets/images/people/moi_.webp" type="image/webp" width="445" height="605">
+                  <source srcset="/assets/images/people/moi_.png"  type="image/png"  width="445" height="605">
+                  <img
+                    id="magic-photo"
+                    src="/assets/images/people/moi_.png"
+                    width="445"
+                    height="605"
+                    alt="Portrait de Florian Behejohn, créateur sonore & visuel"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+                
+              </span>
+            </div>
+            
+            
+          </div>
+        </section>
+
+        <!-- SECTION À PROPOS -->
+        <section id="parcours" class="section swatch-custom">
+  <div class="container">
+    <!-- Titre header -->
+    <header class="hero-section text-center animated-text">
+      <h1 class="super hairline bordered-normal">
+        <span class="anim-word anim-in">Un</span>
+        <span class="anim-word anim-in">Parcours</span>
+        <span class="anim-word anim-in">Entre</span>
+        <span class="anim-word anim-in">Création</span>
+        <span class="anim-word anim-in">et</span>
+        <span class="anim-word anim-in">Innovation</span>
+      </h1>
+    </header>
+    <div class="section-space"></div>
+
+   <!-- Magic Cards ultra-pro, 100% safe class naming -->
+<div class="mgc-parcours-grid">
+  <div class="mgc-magic-grid">
+    <!-- Carte 1 -->
+    <div class="mgc-card" id="mgcCard1">
+      <div class="mgc-card-content">
+        <div class="mgc-icon mgc-pulsate"><i class="fa fa-volume-up"></i></div>
+        <h3 class="mgc-card-title">Mon Univers Sonore</h3>
+        <p class="mgc-short-text mgc-glow-text">
+          Clique pour révéler mon parcours...
+        </p>
+        <div class="mgc-full-text" id="mgc-details1">
+          <p class="mgc-magic-text">
+            De la <strong>composition musicale</strong> à la
+            <strong>post-production audio</strong>, je travaille en tant que
+            <strong>ingénieur du son</strong> et
+            <strong>régisseur</strong> sur <strong>scène</strong> et en
+            <strong>studio</strong>. Je collabore avec des
+            <strong>institutions culturelles</strong>, des industries
+            créatives et des entreprises technologiques pour façonner des
+            <strong>expériences sonores innovantes</strong> et
+            <strong>collectives</strong>. J’interviens dans le
+            <strong>spectacle vivant</strong>, <strong>le cinéma</strong>,
+            <strong>le marketing</strong> et
+            <strong>les arts numériques</strong>, en participant à la
+            <strong>conception d’environnements sonores immersifs</strong>.
+          </p>
+          <button class="mgc-close-btn">Fermer</button>
+        </div>
+      </div>
+    </div>
+    <!-- Carte 2 -->
+    <div class="mgc-card" id="mgcCard2">
+      <div class="mgc-card-content">
+        <div class="mgc-icon mgc-pulsate"><i class="fa fa-film"></i></div>
+        <h3 class="mgc-card-title">Audiovisuel & Création</h3>
+        <p class="mgc-short-text mgc-glow-text">
+          Clique pour découvrir mon approche créative...
+        </p>
+        <div class="mgc-full-text" id="mgc-details2">
+          <p class="mgc-magic-text">
+            J’ai conçu des <strong>habillages sonores</strong> et
+            <strong>visuels</strong> pour divers
+            <strong>événements culturels</strong>,
+            <strong>expositions</strong> et
+            <strong>productions médiatiques</strong>. De la création de
+            <strong>performances trans-médias</strong> à l’<strong
+              >exploitation de dispositifs de diffusion</strong
+            > (son, lumière, vidéo, mur d’images), je fusionne
+            <strong>poésie</strong>, <strong>altérité</strong>,
+            <strong>mise en scène</strong> et
+            <strong>innovation technologique</strong>. Mon expertise inclut
+            la <strong>réalisation de bandes-son</strong> pour
+            <strong>documentaires et publicités</strong> ainsi que la
+            <strong>direction artistique</strong> d’<strong
+              >applications mobiles immersives</strong>, la <strong>production d’albums</strong>, d’<strong
+              >installations interactives</strong
+            > et d’<strong>audioguides muséographiques</strong>.
+          </p>
+          <button class="mgc-close-btn">Fermer</button>
+        </div>
+      </div>
+    </div>
+    <!-- Carte 3 -->
+    <div class="mgc-card" id="mgcCard3">
+      <div class="mgc-card-content">
+        <div class="mgc-icon mgc-pulsate">
+          <i class="fa fa-chalkboard-teacher"></i>
+        </div>
+        <h3 class="mgc-card-title">Transmission & Pédagogie</h3>
+        <p class="mgc-short-text mgc-glow-text">
+         Clique pour en savoir plus sur mon approche éducative...
+        </p>
+        <div class="mgc-full-text" id="mgc-details3">
+          <p class="mgc-magic-text">
+            J’anime des <strong>ateliers de création sonore</strong> et
+            <strong>audiovisuelle</strong> destinés à
+            <strong>tous publics</strong>, du conservatoire aux quartiers
+            populaires, en passant par les écoles et les centres culturels.
+            Mon approche allie <strong>transmission pédagogique</strong> et
+            <strong>exploration artistique</strong>, intégrant les nouvelles
+            technologies pour la <strong>composition musicale</strong>,
+            l’enregistrement et la <strong>postproduction</strong>. J’ai
+            dirigé de <strong>grands projets collaboratifs</strong>
+            dans des<strong>résidences artistiques</strong>, des
+            <strong>actions éducatives</strong> et des<strong>formations professionnelles</strong>, favorisant
+            l’<strong>inclusion culturelle</strong> et l’<strong>expression créative</strong
+            >.
+          </p>
+          <button class="mgc-close-btn">Fermer</button>
+        </div>
+      </div>
+    </div>
+    <!-- Carte 4 -->
+    <div class="mgc-card" id="mgcCard4">
+      <div class="mgc-card-content">
+        <div class="mgc-icon mgc-pulsate"><i class="fas fa-code-branch"></i></div>
+        <h3 class="mgc-card-title">Innovation Numérique</h3>
+        <p class="mgc-short-text mgc-glow-text">
+           Clique pour comprendre mes axes de recherche...
+        </p>
+        <div class="mgc-full-text" id="mgc-details4">
+          <p class="mgc-magic-text">
+            Passionné par la <strong>création interactive</strong>, je
+            conçois des <strong>expériences multimédias</strong> où
+            <strong>code</strong>, <strong>UI/UX</strong> et
+            <strong>son</strong> fusionnent. De la
+            <strong>programmation audio avancée</strong> (Max MSP, Pure
+            Data) au <strong>développement web</strong> et
+            <strong>design d’interaction</strong>, j’expérimente et optimise
+            en continu. Curieux et autodidacte, je suis toujours prêt à
+            approfondir, innover et relever de nouveaux défis.
+            <strong>Autonome</strong> mais engagé dans le
+            <strong>collectif</strong>, je m’adapte aux méthodes
+            <strong>Lean</strong>, <strong>Scrum</strong> ou improvisation
+            <strong>agile</strong> pour travailler efficacement en équipe et
+            soutenir l’intelligence collective.
+          </p>
+          <button class="mgc-close-btn">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- /fin parcours-grid -->
+  </div>
+</section>
+
+        <!-- SECTION CARTES MAGIQUES -->
+
+        <!-- SECTION COMPÉTENCES / BADGES FILTRABLES (Isotope) -->
+<section id="skills" class="section swatch-custom">
+  <div class="grid-wrapper-container">
+
+    <!-- En-tête -->
+    <header class="hero-section text-center animated-text">
+      <h2 class="super hairline bordered-normal">Compétences</h2>
+      <div class="section-space-short"></div>
+      <p class="lead">
+        Filtrez par catégorie et note pour découvrir mes capacités. Cliquez sur les cartes pour découvrir mes savoir-faire.
+      </p>
+    </header>
+
+    <div class="section-space"></div>
+
+    <!-- Filtres (catégories) -->
+<nav class="skills-filters filters text-center"
+aria-label="Filtres compétences"
+data-grid="#skills-grid">
+<div class="btn-toolbar justify-content-center" role="toolbar" aria-label="Filtres">
+<div class="btn-group flex-wrap gap-2" role="group" aria-label="Catégories">
+ <button type="button" class="skill-filter btn btn-primary active" data-filter="*">Tous</button>
+ <button type="button" class="skill-filter btn btn-primary" data-filter=".audio">Audio</button>
+ <button type="button" class="skill-filter btn btn-primary" data-filter=".visuel">Visuel</button>
+ <button type="button" class="skill-filter btn btn-primary" data-filter=".code">Code</button>
+ <button type="button" class="skill-filter btn btn-primary" data-filter=".regie">Régie</button>
+ <button type="button" class="skill-filter btn btn-primary" data-filter=".pedago">Transmission</button>
+ <button type="button" class="skill-filter btn btn-primary" data-filter=".admin">Admin</button>
+</div>
+</div>
+</nav>
+
+<div class="section-space-short"></div>
+
+<!-- Tri -->
+<div class="sorters text-center"
+style="margin-top:10px"
+data-grid="#skills-grid">
+<div class="btn-toolbar justify-content-center" role="toolbar" aria-label="Tri">
+<div class="btn-group flex-wrap gap-2" role="group" aria-label="Ordre">
+ <button type="button" class="btn btn-secondary active" data-sort-by="original-order">Ordre Initial</button>
+ <button type="button" class="btn btn-secondary" data-sort-by="rating" data-sort-order="asc">Note Asc.</button>
+ <button type="button" class="btn btn-secondary" data-sort-by="rating" data-sort-order="desc">Note Desc.</button>
+</div>
+</div>
+</div>
+
+
+    <div class="section-space"></div>
+
+        
+          
+
+            <!-- ===== Grille compétences (HOME) ===== -->
+            <div id="skills-grid" class="grid-wrapper" style="margin-top:30px">  <!-- ✅ ID ajouté -->
+              <div class="grid-sizer"></div>
+
+  <!-- Audio 1 -->
+  <div class="grid-item audio pedago" data-rating="4.5">
+    <div
+      class="skill-card"
+      data-tool-ratings='{"Ableton Live":4.5,"Cubase":2.5,"Pro Tools":3.5,"native-instruments":4,"Waves":3,"Audacity":3,"Logic":3.5,"flstudio":2.5}'
+    >
+      <div class="software-logos">
+        <img src="/assets/images/svg/ableton.svg" alt="Ableton Live" class="logo size-md" />
+        <img src="/assets/images/svg/cubase.svg" alt="Cubase" class="logo size-md" />
+        <img src="/assets/images/svg/protools.svg" alt="Pro Tools" class="logo size-md" />
+        <img src="/assets/images/svg/native-instruments-seeklogo.svg" alt="Native-Instruments" class="logo size-xxl" style="width: 150px" />
+        <img src="/assets/images/svg/waves.svg" alt="Waves" class="logo size-md" />
+        <img src="/assets/images/svg/audacity_.svg" alt="Audacity" class="logo size-md" />
+        <img src="/assets/images/svg/icons8-logic-pro-x.svg" alt="Logic" class="logo size-md" />
+      </div>
+      <h3>Production & Édition Audio</h3>
+      <p>
+        Séquenceurs & DAW : Maîtrise avancée de Ableton Live, Pro Tools, Cubase, FL Studio, pour la production musicale,
+        l'enregistrement, le mixage et le mastering. Création et traitement: Édition avancée d'audio avec iZotope RX,
+        Waves Suite, FabFilter Pro-Q3, Melodyne pour correction et optimisation du son.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -><span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Audio 2 -->
+  <div class="grid-item audio" data-rating="3.5">
+    <div
+      class="skill-card"
+      data-tool-ratings='{"Midas":3.5,"Allen-Heath":3,"l-Acoustics":2.5,"Neumann":3,"Shure":3}'
+    >
+      <div class="software-logos">
+        <img src="/assets/images/svg/Shure_Logo.svg" alt="Shure" class="logo size-xl" />
+        <img src="/assets/images/svg/zoom_Corporation_logo.svg" alt="Zoom" class="logo size-xl" style="height: 30px; display: block" />
+        <img src="/assets/images/svg/midas_logo_transparent.avif" alt="Midas" class="logo size-xxl" />
+        <img src="/assets/images/svg/Neumann.svg" alt="Neumann" class="logo size-md" />
+        <img
+          src="/assets/images/svg/allen-heath-vector-logo.svg"
+          alt="Allen-Heath"
+          class="logo"
+          style="width: 80px; height: 30px; object-fit: cover; object-position: center; display: block;"
+        />
+        <img src="/assets/images/svg/l-Acoustics_Square_Logo.svg" alt="l-Acoustics" class="logo size-sm" />
+      </div>
+      <h3>Captation & diffusion Audio</h3>
+      <p>
+        Patch analogique & numérique : Expérience sur Allen & Heath Qu-16, Midas M32R Live + stage box DL32 en studio et en live.
+        Enregistrement multi-sources : Configuration pour voix cabine déportée, captation simultanée de plusieurs artistes
+        avec gestion d’écoutes retours via Behringer P16-M. Prise de son en extérieur : Reportage, captation ambisonique (Sound Field),
+        enregistrement de banques audio avec ZOOM F8n Pro, Sennheiser Ambeo VR, Tascam DR-100MKIII. Prise en studio :
+        Configurations mono-point (Neumann U87, Shure SM7B), multipoint (XY, ORTF, MS, Decca Tree) avec préamplification
+        Focusrite ISA One, API 512c.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -><span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Audio 3 -->
+  <div class="grid-item audio" data-rating="3.5">
+    <div
+      class="skill-card"
+      data-tool-ratings='{"Ircam Tools":3.5,"iZotopeRX":4,"melodyne":4.5,"autotune":3.5,"Boss":3,"wwise":2.5}'
+    >
+      <div class="software-logos">
+        <img src="/assets/images/svg/ircam.svg" alt="Ircam Tools" class="logo size-xl" />
+        <img src="/assets/images/svg/iZotope_logo.svg" alt="iZotopeRX" class="logo size-xl" />
+        <img src="/assets/images/svg/melodyne_logo.svg" alt="melodyne" class="logo size-xl" />
+        <img src="/assets/images/svg/AutoTune_white_logo_with_new_teal_wave.webp" alt="Antares Autotune" class="logo size-xl" />
+        <img
+          src="/assets/images/svg/boss.png"
+          alt="Boss"
+          class="logo size-xl"
+          style="width: 80px; height: 30px; object-fit: cover; object-position: center; display: block;"
+        />
+        <img src="/assets/images/svg/wwise_.png" alt="wwise" class="logo size-lg" />
+      </div>
+      <h3>Post-Production</h3>
+      <p>
+        Mixage, Mastering & Restauration : SSL Fusion, Waves L2/L3, Ozone 11, iZotope RX Suite (dérushage, restauration,
+        denoising, de-reverb, spectral repair). Correction & Transformation Vocale : Antares Auto-Tune (studio & live),
+        Melodyne, looper Electro-Harmonix (720, 95000, Stereo Memory Man), Boss RC-505. Spatialisation & Binaural :
+        IRCAM Tools (SPAT, HEar, TraX), Sound Particles, Dear Reality. Formats Audio & Sound Design : WWISE, FMOD,
+        fabrication pour la radio, habillage sonore, publicité et podcasts.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -><span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Audio 4 -->
+  <div class="grid-item audio" data-rating="3">
+    <div class="skill-card" data-tool-ratings='{"makeMusic_Finale":2.5,"vsl":3,"Spectrasonics":3}'>
+      <div class="software-logos">
+        <img
+          src="/assets/images/svg/finale-music-vector-logo.svg"
+          alt="makeMusic_Finale"
+          class="logo size-xl"
+          style="width: 80px; height: 30px; object-fit: cover; object-position: center; display: block;"
+        />
+        <img src="/assets/images/svg/vsl.svg" alt="vsl" class="logo size-xl" />
+        <img src="/assets/images/svg/spectrasonics-logo-solid-2022.avif" alt="Spectrasonics" class="logo size-xxl" />
+      </div>
+      <h3>Composition Musicale Arrangement</h3>
+      <p>
+        Composition & Arrangement : Instruments virtuels avancés : Native Instruments Komplete, Spectrasonics Omnisphere,
+        Arturia V Collection, Spitfire Audio Plugins d’arrangement orchestral : EastWest ComposerCloud, Orchestral Tools,
+        Vienna Symphonic Library.Outils d’écriture et d’édition de partitions : Finale (MakeMusic) ,Sibelius Ultimate (Avid Technology),
+        MuseScore (Logiciel libre).
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -><span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Audio 5 -->
+  <div class="grid-item audio" data-rating="4">
+    <div class="skill-card" data-tool-ratings='{"vst3":4.5,"vsl":3,"Audio_Units":3,"Synthèse modulaire":3}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/platform-logo-vst3_.svg" alt="vst3" class="logo size-xl" />
+        <img src="/assets/images/svg/audio_Units_Logo.svg" alt="Audio_Units" class="logo size-md" />
+        <img src="/assets/images/svg/Dd_logo.svg" alt="Synthèse modulaire" class="logo size-xxl" />
+      </div>
+      <h3>Sound Design & Synthèse Sonore</h3>
+      <p>
+        Création de textures et de paysages sonores avec Elektron Digitakt, Moog Sub37, Arturia MicroFreak. Maîtrise des synthèses avancées :
+        additive (Phase Plant, Razor), soustractive (Moog Minitaur, Prophet Rev2), granulaire (Granulator II, Tasty Chips GR-1),
+        concaténative (CataRT, Audiostellar). Samplers & Modulaire : Kontakt, Maschine, Reaktor, Make Noise, Mutable Instruments.
+        Conception sonore avec VSTs & générateurs audio (Max/MSP, SuperCollider, Sound Particles).
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -><span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Audio 6 -->
+  <div class="grid-item audio code" data-rating="2.5">
+    <div
+      class="skill-card"
+      data-tool-ratings='{"MIDI":4,"Max-Msp":2.5,"SuperCollider":2.5,"Dante":2.5,"Open sound control":2.5,"Processing":2.5}'
+    >
+      <div class="software-logos">
+        <img src="/assets/images/svg/mIDI_LOGO.svg" alt="MIDI" class="logo size-lg" />
+        <img src="/assets/images/svg/c74-dark.svg" alt="Max-Msp" class="logo size-lg" />
+        <img src="/assets/images/svg/superCollider_logo.svg" alt="SuperCollider" class="logo size-md" />
+        <img
+          src="/assets/images/svg/dante-seeklogo.svg"
+          alt="Dante"
+          class="logo size-xxl"
+          style="width: 80px; height: 30px; object-fit: cover; object-position: center; display: block;"
+        />
+        <img src="/assets/images/svg/logo_osc.svg" alt="Open sound control" class="logo size-md" />
+        <img src="/assets/images/svg/processing_2021_logo.svg.png" alt="Processing" class="logo size-md" />
+      </div>
+      <h3>Design d’interaction</h3>
+      <p>
+        Développement d’interfaces interactives musicales et audiovisuelles en temps réel. Intégration de vision par ordinateur et de systèmes
+        MIDI pour la génération musicale basée sur le mouvement. Programmation audio réactive et synthèse algorithmique appliquée à la performance
+        live et aux installations interactives. Outils & Technologies : Vision par ordinateur : OpenCV, MediaPipe Contrôle & Interaction : MIDO (MIDI),
+        OSC Programmation audio : Max/MSP, SuperCollider, Pure Data Environnement créatif : Python, TouchDesigner, Processing Expertise en interaction
+        gestuelle et génération sonore dynamique.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -><span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Audio 7 -->
+  <div class="grid-item audio pedago" data-rating="4">
+    <div class="skill-card" data-tool-ratings='{"Afro":4,"Latin":4,"Oriental":3.5,"e-Drums":3.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/djembe-svgrepo-com.svg" alt="Afro" class="logo size-lg" />
+        <img src="/assets/images/svg/bongos-svgrepo-com.svg" alt="Latin" class="logo size-lg" />
+        <img src="/assets/images/svg/tablas-svgrepo-com.svg" alt="Oriental" class="logo size-lg" />
+        <img src="/assets/images/svg/roland_Corporation_logo.svg" alt="e-Drums" class="logo size-xxl" />
+      </div>
+      <h3>Percussionniste</h3>
+      <p>
+        Percussionniste polyvalent explorant les interactions entre percussions traditionnelles et numériques. Spécialiste du jeu sans baguette,
+        fusionnant percussions acoustiques et électroniques dans des contextes variés (live, studio, sound design). Percussions traditionnelles :
+        Latines : Bongos, Congas, Cajón Africaines : Djembé, Tamtam, Dum Dum Percussions rares : Tablas, Zarb , Hang Lutherie urbaine :
+        Création d’instruments à partir d’objets récupérés Jeu et performance : Solo : Enregistrement, banque de sons, sound design Jeu en groupe :
+        Accompagnement et improvisation collective Ateliers & pédagogie : Initiation aux percussions pour groupes (jusqu'à 20 pers.)
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -><span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Audio 8 -->
+  <div class="grid-item audio regie" data-rating="4.5">
+    <div class="skill-card" data-tool-ratings='{"Régie son":4.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/faders.svg" alt="Régie son" class="logo size-xxl" />
+      </div>
+      <h3>Régisseur Son Studio & Événementiel</h3>
+      <p>
+        Gestion et exploitation sonore pour studios, spectacles, concerts, radio, podcasts, événements corporate (indoor/outdoor), mariages et salons
+        professionnels. Expertise en installation, calibration et optimisation des systèmes de diffusion. Maîtrise du mixage live, enregistrement
+        multipiste et post-production audio. Coordination technique et gestion d’équipe pour une exécution fluide. Réseaux & intercoms : Dante, AES67,
+        Clear-Com. Consoles : Midas, Allen & Heath, Yamaha CL/QL, SSL. Micros : Neumann, Shure, Sennheiser, Rode. Expert en routing, spatialisation et
+        diffusion sonore immersive.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -><span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Audio 9 -->
+  <div class="grid-item audio regie" data-rating="3.5">
+    <div class="skill-card" data-tool-ratings='{"Prépa/Installation":4}'>
+      <div class="software-logos">
+        <img
+          src="/assets/images/svg/mic_ass.svg"
+          alt="Prépa/Installation"
+          class="logo size-xxl"
+          style="width: 50px; height: 400px; object-fit: cover; object-position: center; display: block;"
+        />
+      </div>
+      <h3>Assistant Son Studio & Live</h3>
+      <p>
+        Technicien polyvalent en assistance sonore pour <strong>studios, plateaux TV, concerts et événements live</strong>. Expert en
+        <strong>préparation, installation et gestion des équipements audio</strong> pour une qualité optimale.
+        <br /><br />
+        Installation & câblage : micros, enceintes, monitoring. Gestion du signal : patching, gain staging, diagnostics. Studio & Live :
+        réglage des niveaux, mixage plateau, enregistrement multipiste. Maintenance : dépannage rapide sous pression.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- visuel 1 -->
+  <div class="grid-item visuel" data-rating="4">
+    <div class="skill-card" data-tool-ratings='{"Canon tools":3,"studio":3,"Captation":3,"Nikon tools":3,"extérieurs":3.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/Canon_logo.svg" alt="Canon tools" class="logo size-xxl" />
+        <img src="/assets/images/svg/photo.svg" alt="studio" class="logo size-md" />
+        <img src="/assets/images/svg/film_camera.svg" alt="Captation" class="logo size-md" />
+        <img
+          src="/assets/images/svg/Nikon_Logo.svg"
+          alt="Nikon tools"
+          class="logo size-xxl"
+          style="width: 100px; height: 30px; object-fit: cover; object-position: center; display: block;"
+        />
+        <img src="/assets/images/svg/photo_paysage.svg" alt="extérieurs" class="logo size-xs" />
+      </div>
+      <h3>Prise de vue photo — studio & terrain</h3>
+      <p>
+        Maîtrise de la photographie argentique et numérique en 24x36 et moyen format. Portraits et mode en studio/plateau, captation en extérieur,
+        concerts, documentaire & création artistique.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- visuel 2 -->
+  <div class="grid-item visuel regie" data-rating="2.5">
+    <div class="skill-card" data-tool-ratings='{"Caméras Sony":3,"Blackmagicdesign":2.5,"OBS":3.5,"vMix":3.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/Sony_logo.svg" alt="Caméras Sony" class="logo size-xl" />
+        <img src="/assets/images/svg/Blackmagic_Design_Logo.svg" alt="Blackmagicdesign" class="logo size-xl" />
+        <img
+          src="/assets/images/svg/open-broadcaster-software-obs-logo-vector.svg"
+          alt="OBS"
+          class="logo size-lg"
+          style="width: 150px; height: 30px; object-fit: cover; object-position: center; display: block;"
+        />
+        <img src="/assets/images/svg/vmix.svg" alt="vMix" class="logo size-md" />
+      </div>
+      <h3>Captation vidéo multicam & diffusion live</h3>
+      <p>
+        Configuration et gestion de dispositifs multicaméras en environnements indoor : caméras PTZ motorisées, webcams HD, caméras mobiles
+        (smartphones stabilisés), DSLR/mirrorless (Canon) et caméras studio (Blackmagic). Routage et synchronisation des sources via cartes
+        d’acquisition (Blackmagic, Elgato Cam Link, Atem Mini), agrégation et mixage avec Open Broadcaster Software (OBS Studio).
+        Optimisation des flux pour diffusion multi-plateforme (YouTube, Facebook Live, Twitch, Zoom) avec encodage en temps réel, gestion
+        des overlays et scènes dynamiques. Déploiement sur petits plateaux, conférences, événements live, captations artistiques et culturelles.
+        Adaptation aux contraintes réseaux, optimisation du signal et de la latence.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- visuel 3 -->
+  <div class="grid-item visuel regie" data-rating="3">
+    <div
+      class="skill-card"
+      data-tool-ratings='{"LED modulaire":3,"HybridCast":3,"ShowLight":2.5,"LightSync":2.5,"VidéoMapping":3}'
+    >
+      <div class="software-logos">
+        <img src="/assets/images/svg/led_wall.svg" alt="LED modulaire" class="logo size-md" />
+        <img src="/assets/images/svg/video-player.svg" alt="HybridCast" class="logo size-md" />
+        <img src="/assets/images/svg/lighting-svgrepo-com.svg" alt="ShowLight" class="logo size-md" />
+        <img src="/assets/images/svg/sportlights-svgrepo-com.svg" alt="LightSync" class="logo size-lg" />
+        <img src="/assets/images/svg/projector-icon.svg" alt="VidéoMapping" class="logo size-lg" />
+      </div>
+      <h3>Technicien vidéo & lumière</h3>
+      <p>
+        Installation et exploitation de systèmes vidéo LED indoor/outdoor (pitch fins, murs d’images, dalles assemblées), avec configuration
+        en façade et structure suspendue (ponts, totems, ground support). Routage vidéo via scalers et matrices (Analog Way, Lightware),
+        gestion de signal SDI/HDMI/DP selon formats d’affichage. Mise en œuvre d’éclairages traditionnels (halogènes, PAR) et automatiques
+        (Lyres, Wash, Beam) pilotés via boîtiers Sunlite Suite 1, 2, 3. Intervention sur événements variés : salons professionnels, mariages,
+        soirées privées, conventions, plateaux institutionnels (montage, exploitation, démontage). Lecture et respect de fiches techniques,
+        coordination avec les équipes plateau et prestataires son/vidéo/lumière.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- visuel 4 -->
+  <div class="grid-item visuel" data-rating="3">
+    <div class="skill-card" data-tool-ratings='{"Adobe":3.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/adobe-logo.svg" alt="AdobeTools" class="logo size-xxl" />
+      </div>
+      <h3>MediaDesign Pro</h3>
+      <p>
+        Production complète de contenus médias professionnels : conception, montage, animation et habillage avec la suite Adobe (Premiere Pro,
+        After Effects, Illustrator, InDesign, Encoder, Trapcode, Red Giant). Maîtrise du workflow de création de supports vidéo, print et
+        motion design pour l’événementiel, le web et l’édition.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Code 1 -->
+  <div class="grid-item code" data-rating="2.5">
+    <div class="skill-card" data-tool-ratings='{"C#":2.5,"NHibernate":2.5,"Swagger":2.5,"Vue.js":3,"Postman":2.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/logo-csharp.svg" alt="C#" class="logo size-lg" />
+        <img src="/assets/images/svg/NHibernate.svg" alt="NHibernate" class="logo size-lg" />
+        <img src="/assets/images/svg/svgviewer-output.svg" alt="Swagger" class="logo size-lg" />
+        <img src="/assets/images/svg/vue-dot-js-svgrepo-com.svg" alt="Vue.js" class="logo size-lg" />
+        <img src="/assets/images/svg/postman-svgrepo-com.svg" alt="Postman" class="logo size-md" />
+      </div>
+      <h3>.NET Fullstack Packager</h3>
+      <p>
+        Développement d’API REST en C# (.NET 6) avec architecture modulaire, routage structuré, ORM NHibernate, logging avancé (Serilog)
+        et documentation Swagger. Maîtrise du déploiement portable via dotnet publish, génération d’exécutables standalone Windows
+        (self-contained), configuration Kestrel et automation par scripts PowerShell/BAT. Packaging fullstack avec Electron + Vue.js,
+        intégration Vite, Axios, TailwindCSS, pour une interface réactive et moderne. Compétence complète en conception, build et distribution
+        d’applications prêtes à l’emploi, sans dépendances externes.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Code 2 -->
+  <div class="grid-item code" data-rating="3.5">
+    <div class="skill-card" data-tool-ratings='{"PowerShell":3.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/powershell-svgrepo-com.svg" alt="PowerShell" class="logo size-xxl" />
+      </div>
+      <h3>PowerShell DevOps Junior</h3>
+      <p>
+        Création de scripts PowerShell robustes pour automatiser le lancement d'applications fullstack (.NET + Vue.js), la gestion de build,
+        le packaging, et le déploiement d’exécutables Windows autonomes. Gestion d’environnements Windows, automatisation de la CLI .NET
+        (dotnet publish), orchestration de frontend/backend avec des scripts *.bat et *.ps1, lancement séquentiel et vérification des ports locaux.
+        Optimisation du workflow développeur : configuration, build, lancement serveur, ouverture du navigateur, journalisation et logs de débogage.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Code 3 -->
+  <div class="grid-item code" data-rating="3.5">
+    <div class="skill-card" data-tool-ratings='{"Python":3.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/python-127-svgrepo-com.svg" alt="Python" class="logo size-xxl" />
+      </div>
+      <h3>Python Interactif & Créatif – Détection, Interfaces & Automation</h3>
+      <p>
+        Développeur Python créatif, capable de concevoir des outils interactifs temps réel mêlant vision par ordinateur, interfaces utilisateurs (GUI/UX),
+        automation web, traitement d'événements, et pilotage MIDI. Maîtrise avancée de bibliothèques comme MediaPipe, PyQt5, mido, Playwright,
+        et des concepts transverses comme le multithreading, la capture comportementale et l’interfaçage physique/logiciel.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Code 4 -->
+  <div class="grid-item code" data-rating="3.5">
+    <div class="skill-card" data-tool-ratings='{"html5":3,"css3":3}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/html5-01-svgrepo-com.svg" alt="html5" class="logo size-xl" />
+        <img src="/assets/images/svg/css3-01-svgrepo-com.svg" alt="css3" class="logo size-xl" />
+      </div>
+      <h3>Design Web & UI/UX Avancé – Front-End Créatif</h3>
+      <p>
+        Front-end Designer & Intégrateur capable de concevoir une expérience web riche, interactive et cohérente, du responsive le plus simple
+        à des animations CSS complexes, en passant par l’intégration de systèmes audio ou modaux. Le tout dans une approche créative mettant
+        l’accent sur l’esthétique, la fluidité et le confort utilisateur. Expertise en composants modulaires, architecture CSS et optimisation UX,
+        assurant un design unique et immersif pour toutes sortes de projets (sites, portfolios, dashboards, interfaces immersives).
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Code 5 -->
+  <div class="grid-item code" data-rating="3">
+    <div class="skill-card" data-tool-ratings='{"JavaScript":3}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/javascript-svgrepo-com.svg" alt="JavaScript" class="logo size-xl" />
+      </div>
+      <h3>JavaScript UX/UI & Audio Créatif</h3>
+      <p>
+        Développeur JavaScript orienté UX/UI dynamique, capable de concevoir et orchestrer des composants web complexes : modales personnalisées,
+        lecteurs audio avancés, comportements responsive et interactions en temps réel. Mon approche mêle précision technique, créativité visuelle
+        et optimisation de l’expérience utilisateur, sans dépendre de frameworks externes.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Code 6 -->
+  <div class="grid-item code" data-rating="2.5">
+    <div class="skill-card" data-tool-ratings='{"React":3.5,"node.js":2.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/atom-svgrepo-com.svg" alt="React" class="logo size-xl" />
+        <img src="/assets/images/svg/nodejs-logo-svgrepo-com.svg" alt="node.js" class="logo size-xl" />
+      </div>
+      <h3>Node.js & React – Gestion de données côté client</h3>
+      <p>
+        Développeur JavaScript fullstack, capable de structurer une application React moderne avec gestion persistante de données, composants interactifs,
+        modaux dynamiques et logique métier avancée. Maîtrise du pattern SPA (Single Page Application), de l’interface utilisateur réactive et d’une
+        approche composant+stockage local scalable pour prototypage ou apps locales sans back-end distant.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- pedago 1 -->
+  <div class="grid-item pedago audio" data-rating="3.5">
+    <div class="skill-card" data-tool-ratings='{"Pédacollab":3.5,"Créactif":3,"Learnflow":4.5,"Audiogénèse":4,"SonoLab":5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/teacher-svgrepo-com.svg" alt="Pédacollab" class="logo size-md" />
+        <img src="/assets/images/svg/electronic-music-piano-svgrepo-com.svg" alt="Créactif" class="logo size-lg" />
+        <img src="/assets/images/svg/televisions-computer-screen-svgrepo-com.svg" alt="Learnflow" class="logo size-md" />
+        <img src="/assets/images/svg/music-player-wire-svgrepo-com.svg" alt="SonoLab" class="logo size-md" />
+        <img src="/assets/images/svg/karaoke-mic-svgrepo-com.svg" alt="Audiogénèse" class="logo size-md" />
+      </div>
+      <h3>Pédagogie créative en Musique Assistée par Ordinateur</h3>
+      <p>
+        Passeur de son et d’outils numériques, j'accompagne chaque personne dans la découverte, l’exploration et la maîtrise du son par ordinateur,
+        dans une approche artistique, technique et profondément humaine. Ma pédagogie repose sur la création vivante, l'écoute active et la valorisation
+        de toutes les voix, quel que soit le niveau.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- pedago 2 -->
+  <div class="grid-item pedago admin" data-rating="2.5">
+    <div class="skill-card" data-tool-ratings='{"Coordination pédagogique":2.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/teamwork-svgrepo-com.svg" alt="Coordination pédagogique" class="logo size-xl" />
+      </div>
+      <h3>Coordination pédagogique & ateliers artistiques</h3>
+      <p>
+        Conception de programmes pédagogiques artistiques modulables (MAO, stop motion, roman-photo) adaptés aux cycles scolaires, avec rédaction de
+        séquences, supports et fiches projet. Encadrement d’équipes d’intervenants : recrutement, plannings, accompagnement, coordination inter-écoles,
+        animation de réunions et temps de formation. Soutien opérationnel terrain : aide à l’installation, médiation éducative, supervision de la
+        pré-prod/post-prod (captation, montage, valorisation des créations). Gestion logistique complète : inventaire, maintenance et déploiement de
+        matériel pédagogique (ordinateurs, MIDI, tablettes, caméras). Lien constant avec les institutions : interface écoles/institutions, bilans
+        d’activité, participation aux comités de pilotage.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- pedago 3 -->
+  <div class="grid-item pedago" data-rating="3.5">
+    <div class="skill-card" data-tool-ratings='{"Écriture":3.5,"Interprétaction":3,"Mise en scène":4}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/writing-svgrepo-com.svg" alt="Écriture" class="logo size-lg" />
+        <img src="/assets/images/svg/theater-masks-svgrepo-com.svg" alt="Interprétaction" class="logo size-lg" />
+        <img src="/assets/images/svg/theatre-stage-svgrepo-com.svg" alt="Mise en scène" class="logo size-lg" />
+      </div>
+      <h3>Ateliers d’Écriture & Performance Narrative</h3>
+      <p>
+        Facilitateur d’expression poétique et littéraire, j’anime des ateliers mêlant écriture, interprétation et narration vivante. Mes interventions
+        favorisent une dynamique participative où chacun devient auteur, conteur, acteur. Une pédagogie sensible et ouverte pour libérer la parole et
+        créer ensemble des espaces d’imaginaire partagés.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Admin 1 -->
+  <div class="grid-item admin" data-rating="3">
+    <div class="skill-card" data-tool-ratings='{"Microsoft_Office":3.5,"google-tools":3,"calendar":2.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/Microsoft_Office_logo_(2013–2019).svg" alt="Microsoft_Office" class="logo size-lg" />
+        <img src="/assets/images/svg/google-drive-svgrepo-com.svg" alt="google-tools" class="logo size-lg" />
+        <img src="/assets/images/svg/calendar-lines-pen-svgrepo-com.svg" alt="calendar" class="logo size-lg" />
+      </div>
+      <h3>Office Intelligence & Gestion de Projet</h3>
+      <p>
+        Alliant précision technique et clarté éditoriale, je transforme la bureautique en levier stratégique de pilotage, de communication et de gestion.
+        Mon approche repose sur l'efficacité, la lisibilité et l’adaptabilité à tous les environnements, qu’ils soient institutionnels, associatifs
+        ou pédagogiques. Montage de dossiers administratifs et culturels (appel à projets, demandes de subvention) Coordination d’équipes à travers des
+        documents de pilotage collaboratifs Préparation de présentations percutantes pour comités, réunions, événements Conception de supports
+        pédagogiques ou communicationnels clairs et attractifs
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Admin 2 -->
+  <div class="grid-item pedago admin" data-rating="3.5">
+    <div class="skill-card" data-tool-ratings='{"diagnostic":3.5,"accompagnement":3,"structuration":3.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/document-view-svgrepo-com.svg" alt="diagnostic" class="logo size-xl" />
+        <img src="/assets/images/svg/document-plus-svgrepo-com.svg" alt="accompagnement" class="logo size-md" />
+        <img src="/assets/images/svg/folders-svgrepo-com.svg" alt="structuration" class="logo size-md" />
+      </div>
+      <h3>Accompagnement numérique & administratif – Projets, droits & accès simplifié</h3>
+      <p>
+        Facilitateur administratif et formateur numérique, je rends l’accès aux outils, aux droits et à l’expression de son projet plus fluide, plus juste,
+        plus accessible. J’interviens à la croisée des besoins techniques, humains et contextuels, pour permettre à chacun de réaliser ses démarches,
+        se former à l’essentiel, et valoriser son projet dans les formes attendues par les institutions.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+
+  <!-- Admin 3 -->
+  <div class="grid-item admin" data-rating="3">
+    <div class="skill-card" data-tool-ratings='{"Gestion documentaire":3.5,"bureautique avancée":4.5,"Organisation":2.5}'>
+      <div class="software-logos">
+        <img src="/assets/images/svg/clipboard-user-svgrepo-com.svg" alt="Gestion documentaire" class="logo size-lg" />
+        <img src="/assets/images/svg/document-management-system-document-management.svg" alt="bureautique avancée" class="logo size-lg" />
+        <img src="/assets/images/svg/calendar-lines-pen-svgrepo-com.svg" alt="Organisation" class="logo size-lg" />
+      </div>
+      <h3>Secrétariat Administratif & Projets Sociaux</h3>
+      <p>
+        Interface clé entre institutions, équipes et porteurs de projet, j’assure un soutien administratif fluide et rigoureux, avec une approche
+        humaine et accessible.
+      </p>
+      <div class="rating-stars"></div>
+      <div class="custom-rating">Skills -> <span class="tool-name"></span></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+<div class="section-space"></div>
+
+            </div>
+
+            <div class="section-space"></div>
+
+            <!-- SECTION DÉCOUVERTE DU CV -->
+<section class="hero-section text-center animated-text">
+  <div class="container">
+    <h2 class="bigger hairline bordered">
+      Découvrez mon parcours et mes compétences en détail en consultant mon CV !
+    </h2>
+    <div class="section-space"></div>
+    <button
+      id="open-cv-modal"
+      type="button"
+      class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight"
+      data-os-animation="fadeInRight"
+    >
+      Mon CV
+    </button>
+    <div class="section-space-short"></div>
+  </div>
+</section>
+
+
+
+<div class="section-space"></div>
+
+<!-- SECTION PORTFOLIO -->
+<section class="hero-section text-center animated-text">
+  <div class="container">
+    <header class="os-animation" data-os-animation="fadeIn">
+      <h2 class="bigger hairline bordered">
+        Découvrez Mes Réalisations
+      </h2>
+    </header>
+    <p class="lead os-animation" data-os-animation="fadeInUp">
+      <i class="fas fa-headphones"></i>
+      <strong>Productions sonores immersives</strong><br />
+      <i class="fas fa-film"></i>
+      <strong>Créations audiovisuelles uniques</strong><br />
+      <i class="fas fa-lightbulb"></i>
+      <strong>Innovation multimédia constante</strong>
+    </p>
+    <div class="section-space-short"></div>
+    <div
+      class="text-center filters os-animation"
+      data-os-animation="fadeInUp"
+      data-os-animation-delay="0.2s"
+    >
+    <a
+    href="/portfolio_florian_b.html"
+    class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight"
+    data-os-animation="fadeInRight"
+  >
+    Explorer mon Portfolio
+  </a>
+  
+    </div>
+  </div>
+</section>
+</main><!-- fin de <main id="app" data-pjax-root> -->
+
+    <!-- MODAL CV (globale, hors PJAX) -->
+<div id="cv-modal"
+  class="modal-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-hidden="true"
+  tabindex="-1">
+<div class="modal-content">
+<button class="close-btn" id="close-cv-modal" aria-label="Fermer la fenêtre">&times;</button>
+<h2 class="text-center">Mon CV</h2>
+
+<iframe
+ id="cv-viewer"
+ src="/assets/images/cv/florian_cv.pdf"
+ width="100%"
+ height="500"
+ title="Visionneuse de CV"
+ loading="lazy"></iframe>
+
+   <div class="text-center" style="margin-top:12px">
+      <a
+        href="/assets/images/cv/florian_cv.pdf"
+        download="Florian_CV.pdf"
+        class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight"
+        data-os-animation="fadeInRight">
+        Télécharger le CV
+      </a>
+    </div>
+  </div>
+</div>
+
+
+    <!-- FOOTER -->
+    <footer id="footer" class="swatch-custom text-center">
+      <div class="container">
+        <p>© 2025 Florian Behejohn - Tous droits réservés.</p>
+      </div>
+    </footer>
+
+     
+
+<!-- CHARGEMENT DES SCRIPTS (ordre garanti avec defer) -->
+
+<!-- 1) Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+
+<!-- 2) jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+
+<!-- 3) Polyfill + patch -->
+<script src="/assets/js/jquery-placeholder-polyfill.js" defer></script>
+<script src="/assets/js/smartresize-patch.js" defer></script>
+
+<!-- 4) Navbar -->
+<script src="/assets/js/navbar.js" defer></script>
+
+<!-- 5) PJAX + Lecteur + Page hub -->
+<script src="/assets/js/pjax-router.js" defer></script>
+<script src="/assets/js/player-singleton.js" defer></script>
+<script src="/assets/js/page-hub.js" defer></script>
+
+<!-- 6) Plugins jQuery -->
+<script src="/assets/js/packages.min.js" defer></script>
+
+<!-- (ré)charge l’init Isotope des skills pour garantir la présence de window.initSkillGrid -->
+<script src="/assets/js/isotope-skill-grid.js" defer></script>
+
+<!-- 6.5) Binder ESM (garde PJAX + charge le module public sans analyse Vite) -->
+<script type="module">
+  // Bind modal-guard (bundled côté src)
+  try {
+    const { closeAllModals } = await import('/src/modal-guard.js');
+    window.closeAllModals = closeAllModals;
+  } catch (e) {
+    console.warn('[modal-guard] module optionnel manquant — on continue.', e);
+  }
+
+  // Charger un module ESM conservé sous /public (pas analysé par Vite)
+  </script>
+
+<!-- 7) Thème -->
+<script src="/assets/js/theme.min.js" defer></script>
+
+<!-- 8) Tes scripts applicatifs (⚠️ sans skill-card.js) -->
+<script src="/assets/js/magic-photo.js" defer></script>
+<script src="/assets/js/animated-text.js" defer></script>
+<script src="/assets/js/word-hold-effect.js" defer></script>
+<script src="/assets/js/hover-menu-config.js" defer></script>
+<script src="/assets/js/script.js" defer></script>
+
+<!-- 9) Modal bundle unique -->
+<script src="/assets/js/modal.js" defer></script>
+
+<!-- 10) Audio UI -->
+<script src="/assets/js/floating-audio-toggle.js" defer></script>
+<script src="/assets/js/responsive-audio-player-scaler.js" defer></script>
+<script src="/assets/js/draggable-audio-player.js" defer></script>
+
+<!-- 11) Modules "classiques" exposant des globals -->
+<script src="/assets/js/cv-modal-handler.js" defer></script>
+
+<!-- Utilitaire preload -->
+<script>
+(() => {
+  'use strict';
+  let bound = false;
+  function init() {
+    document.body.classList.remove('preload');
+    if (bound) return; bound = true;
+  }
+  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('pjax:ready', () => init());
+})();
+</script>
+
+<!-- IMPORTANT: chemin **relatif** (pas de slash initial dans data-app-base) -->
+<!-- À mettre en bas de <body> sur les pages “globales” (index/portfolio) -->
+<script
+  src="/assets/js/pages/dotnet_boot.js"
+  defer
+  data-app-base="/assets/portfolio/Projet_dotnet/">
+</script>
+
+
+
+
+
+    
+<audio id="global-audio" data-react="nuage" crossorigin="anonymous" controls style="position:fixed;left:-10000px;top:-10000px;width:1px;height:1px"></audio>
+<script type="module" src="/src/nuage_magique/test.js"></script>
+<script src="/assets/js/carte_magique/magic-cards.js"></script>
+<script src="/assets/js/modal-touch-fix.js"></script>
+<script src="/assets/vendor/isotope.pkgd.min.js"></script>
+<script src="/assets/vendor/imagesloaded.pkgd.min.js"></script>
+  <script src="/assets/js/particles-bg.js"></script>
+</body>
+</html>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

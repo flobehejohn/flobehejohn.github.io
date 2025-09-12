@@ -1,0 +1,913 @@
+{
+  "When": "2025-09-09T10:08:56",
+  "Root": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean",
+  "ServerHead": 200,
+  "Pages": [
+    {
+      "Page": "/contact.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": true,
+      "HasPartJS": true
+    },
+    {
+      "Page": "/parcours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": true,
+      "HasPartJS": true
+    },
+    {
+      "Page": "/portfolio_florian_b.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": true,
+      "HasPartJS": true
+    },
+    {
+      "Page": "/assets/audio/auto_radio/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/assets/portfolio/nuage_magique/nuage_magique_def.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/assets/portfolio/projet_crea_en_cours/crea_en_cours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/assets/portfolio/Projet_dotnet/app_dotnet.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/assets/portfolio/projet_ehm/ehm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/assets/portfolio/projet_holon/holon.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/assets/portfolio/projet_mac_val/mac_val.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/assets/portfolio/projet_musicam/projet_musicam.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/assets/portfolio/projet_rencontre/rencontre.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/assets/portfolio/projet_smart_city/smart_city.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/assets/portfolio/projet_synth/main_synth_fm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/contact.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/parcours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/portfolio_florian_b.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/audio/auto_radio/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/portfolio/nuage_magique/nuage_magique_def.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/portfolio/projet_crea_en_cours/crea_en_cours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/portfolio/Projet_dotnet/app_dotnet.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/portfolio/projet_ehm/ehm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/portfolio/projet_holon/holon.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/portfolio/projet_mac_val/mac_val.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/portfolio/projet_musicam/projet_musicam.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/portfolio/projet_rencontre/rencontre.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/portfolio/projet_smart_city/smart_city.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/docs/assets/portfolio/projet_synth/main_synth_fm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/contact.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/parcours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/portfolio_florian_b.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/audio/auto_radio/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/portfolio/nuage_magique/nuage_magique_def.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/portfolio/projet_crea_en_cours/crea_en_cours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/portfolio/Projet_dotnet/app_dotnet.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/portfolio/projet_ehm/ehm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/portfolio/projet_holon/holon.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/portfolio/projet_mac_val/mac_val.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/portfolio/projet_musicam/projet_musicam.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/portfolio/projet_rencontre/rencontre.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/portfolio/projet_smart_city/smart_city.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/public/assets/portfolio/projet_synth/main_synth_fm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/vendor/phpmailer/phpmailer/docs/extending.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/vendor/phpmailer/phpmailer/docs/faq.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/vendor/phpmailer/phpmailer/examples/contents.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/vendor/phpmailer/phpmailer/examples/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/contact.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/parcours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/portfolio_florian_b.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/audio/auto_radio/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/portfolio/nuage_magique/nuage_magique_def.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/portfolio/projet_crea_en_cours/crea_en_cours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/portfolio/Projet_dotnet/app_dotnet.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/portfolio/projet_ehm/ehm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/portfolio/projet_holon/holon.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/portfolio/projet_mac_val/mac_val.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/portfolio/projet_musicam/projet_musicam.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/portfolio/projet_rencontre/rencontre.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/portfolio/projet_smart_city/smart_city.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/assets/portfolio/projet_synth/main_synth_fm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/contact.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/parcours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/portfolio_florian_b.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/audio/auto_radio/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/portfolio/nuage_magique/nuage_magique_def.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/portfolio/projet_crea_en_cours/crea_en_cours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/portfolio/Projet_dotnet/app_dotnet.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/portfolio/projet_ehm/ehm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/portfolio/projet_holon/holon.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/portfolio/projet_mac_val/mac_val.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/portfolio/projet_musicam/projet_musicam.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/portfolio/projet_rencontre/rencontre.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/portfolio/projet_smart_city/smart_city.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/docs/assets/portfolio/projet_synth/main_synth_fm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/contact.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/parcours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/portfolio_florian_b.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/audio/auto_radio/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/portfolio/nuage_magique/nuage_magique_def.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/portfolio/projet_crea_en_cours/crea_en_cours.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/portfolio/Projet_dotnet/app_dotnet.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/portfolio/projet_ehm/ehm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/portfolio/projet_holon/holon.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/portfolio/projet_mac_val/mac_val.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/portfolio/projet_musicam/projet_musicam.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/portfolio/projet_rencontre/rencontre.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/portfolio/projet_smart_city/smart_city.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/public/assets/portfolio/projet_synth/main_synth_fm.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/vendor/phpmailer/phpmailer/docs/extending.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/vendor/phpmailer/phpmailer/docs/faq.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/vendor/phpmailer/phpmailer/examples/contents.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    },
+    {
+      "Page": "/__site_clean/vendor/phpmailer/phpmailer/examples/index.html",
+      "Exists": true,
+      "HTTP": 200,
+      "HasPartCSS": false,
+      "HasPartJS": false
+    }
+  ],
+  "CriticalAssets": [
+    {
+      "Url": "http://127.0.0.1:8080/assets/vendor/bootstrap/bootstrap.min.css",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\vendor\\bootstrap\\bootstrap.min.css",
+      "LocalExist": true,
+      "LocalBytes": 232117,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/vendor/bootstrap/bootstrap.bundle.min.js",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\vendor\\bootstrap\\bootstrap.bundle.min.js",
+      "LocalExist": true,
+      "LocalBytes": 80502,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/vendor/imagesloaded.pkgd.min.js",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\vendor\\imagesloaded.pkgd.min.js",
+      "LocalExist": true,
+      "LocalBytes": 5487,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/vendor/isotope.pkgd.min.js",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\vendor\\isotope.pkgd.min.js",
+      "LocalExist": true,
+      "LocalBytes": 35447,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/vendor/skrollr.min.js",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\vendor\\skrollr.min.js",
+      "LocalExist": true,
+      "LocalBytes": 50,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/js/animated-text.js",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\js\\animated-text.js",
+      "LocalExist": true,
+      "LocalBytes": 3355,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/js/navbar.js",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\js\\navbar.js",
+      "LocalExist": true,
+      "LocalBytes": 6820,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/js/pjax-router.js",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\js\\pjax-router.js",
+      "LocalExist": true,
+      "LocalBytes": 22439,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/js/packages.min.js",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\js\\packages.min.js",
+      "LocalExist": true,
+      "LocalBytes": 692623,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/css/particles-bg.css",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\css\\particles-bg.css",
+      "LocalExist": true,
+      "LocalBytes": 50,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/js/particles-bg.js",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\js\\particles-bg.js",
+      "LocalExist": true,
+      "LocalBytes": 911,
+      "HTTP": 200
+    },
+    {
+      "Url": "http://127.0.0.1:8080/assets/audio/auto_radio/js/playlist.json",
+      "LocalPath": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\audio\\auto_radio\\js\\playlist.json",
+      "LocalExist": true,
+      "LocalBytes": 34660,
+      "HTTP": 200
+    }
+  ],
+  "ParticlesCdnHead": 200,
+  "Playlist": {
+    "Url": "http://127.0.0.1:8080/assets/audio/auto_radio/js/playlist.json",
+    "Head": 200,
+    "Count": 153,
+    "CloudflareCount": 0,
+    "Sample": [
+      {
+        "title": "01 Cuica On The Floor.mp3",
+        "src": "https://pub-280f3c4082bb477f9ad37b96d10ee653.r2.dev/audio/backgrounds/01 Cuica On The Floor.mp3",
+        "cover": "assets/images/log_zim.jpg"
+      },
+      {
+        "title": "01 Cumbia Sampuesana.mp3",
+        "src": "https://pub-280f3c4082bb477f9ad37b96d10ee653.r2.dev/audio/backgrounds/01 Cumbia Sampuesana.mp3",
+        "cover": "assets/images/log_zim.jpg"
+      },
+      {
+        "title": "01 Da Cruz - Boom Boom Boom.mp3",
+        "src": "https://pub-280f3c4082bb477f9ad37b96d10ee653.r2.dev/audio/backgrounds/01 Da Cruz - Boom Boom Boom.mp3",
+        "cover": "assets/images/log_zim.jpg"
+      }
+    ]
+  },
+  "HardGithubLinks": [
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\nuage_magique\\nuage_magique_def.html",
+      "LineNumber": 9,
+      "Line": "  <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_nuage_magique/nuage_magique_def.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\projet_crea_en_cours\\crea_en_cours.html",
+      "LineNumber": 14,
+      "Line": "    <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_crea_en_cours/crea_en_cours.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\Projet_dotnet\\app_dotnet.html",
+      "LineNumber": 11,
+      "Line": "    <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/Projet_dotnet/app_dotnet.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\projet_ehm\\ehm.html",
+      "LineNumber": 14,
+      "Line": "    <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_ehm/ehm.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\projet_ehm\\ehm.html",
+      "LineNumber": 20,
+      "Line": "    <meta property=\"og:url\" content=\"https://flobehejohn.github.io/assets/portfolio/projet_ehm/ehm.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\projet_ehm\\ehm.html",
+      "LineNumber": 21,
+      "Line": "    <meta property=\"og:image\" content=\"https://flobehejohn.github.io/assets/portfolio/projet_ehm/poster_1.png\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\projet_holon\\holon.html",
+      "LineNumber": 14,
+      "Line": "    <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_holon/holon.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\projet_mac_val\\mac_val.html",
+      "LineNumber": 14,
+      "Line": "    <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_mac_val/mac_val.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\projet_mac_val\\mac_val.html",
+      "LineNumber": 20,
+      "Line": "    <meta property=\"og:url\" content=\"https://flobehejohn.github.io/assets/portfolio/projet_mac_val/mac_val.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\projet_musicam\\projet_musicam.html",
+      "LineNumber": 13,
+      "Line": "    <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_musicam/projet_musicam.html\" />"
+    }
+  ],
+  "NuageRefs": [
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\assets\\portfolio\\nuage_magique\\nuage_magique_def.html",
+      "LineNumber": 9,
+      "Line": "  <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_nuage_magique/nuage_magique_def.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\docs\\assets\\portfolio\\nuage_magique\\nuage_magique_def.html",
+      "LineNumber": 9,
+      "Line": "  <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_nuage_magique/nuage_magique_def.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\docs\\portfolio_florian_b.html",
+      "LineNumber": 311,
+      "Line": "      href=\"/assets/portfolio/nuage_magique/nuage_magique_def.html\""
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\public\\assets\\portfolio\\nuage_magique\\nuage_magique_def.html",
+      "LineNumber": 9,
+      "Line": "  <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_nuage_magique/nuage_magique_def.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\public\\portfolio_florian_b.html",
+      "LineNumber": 311,
+      "Line": "      href=\"/assets/portfolio/nuage_magique/nuage_magique_def.html\""
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\__site_clean\\portfolio_florian_b.html",
+      "LineNumber": 311,
+      "Line": "      href=\"/assets/portfolio/nuage_magique/nuage_magique_def.html\""
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\assets\\portfolio\\nuage_magique\\nuage_magique_def.html",
+      "LineNumber": 9,
+      "Line": "  <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_nuage_magique/nuage_magique_def.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\docs\\assets\\portfolio\\nuage_magique\\nuage_magique_def.html",
+      "LineNumber": 9,
+      "Line": "  <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_nuage_magique/nuage_magique_def.html\" />"
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\docs\\portfolio_florian_b.html",
+      "LineNumber": 311,
+      "Line": "      href=\"/assets/portfolio/nuage_magique/nuage_magique_def.html\""
+    },
+    {
+      "Path": "C:\\ATLAS\\INBOX\\dev\\Html_css\\Site_perso_2025\\flob-codex-scan\\__site_clean\\public\\assets\\portfolio\\nuage_magique\\nuage_magique_def.html",
+      "LineNumber": 9,
+      "Line": "  <link rel=\"canonical\" href=\"https://flobehejohn.github.io/assets/portfolio/projet_nuage_magique/nuage_magique_def.html\" />"
+    }
+  ],
+  "Linkinator404": "\"https://flobehejohn.github.io/assets/portfolio/projet_nuage_magique/nuage_magique_def.html\",404,BROKEN,\"http://127.0.0.1:8080/assets/portfolio/nuage_magique/nuage_magique_def.html\",\"\"",
+  "Problems": [
+    "Fond particules non injecté sur 95 page(s).",
+    "Lien(s) absolu(s) vers GitHub Pages détectés: 138 occurrence(s).",
+    "Linkinator: 1 URL(s) en 404 (voir _audit_links.csv)."
+  ]
+}

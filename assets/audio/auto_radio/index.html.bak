@@ -1,0 +1,83 @@
+﻿<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>🎧 Lecteur Audio 3D avec Volet & SFX aligné</title>
+    <!-- Garde ton chemin CSS actuel ; si ton fichier s'appelle assets/css/style_audio_player.css, ajuste ce href -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- 🎧 MODALE DU LECTEUR -->
+    <div class="audio-modal" id="audioModal">
+      <div class="audio-modal-content">
+        <div class="radio">
+          <div class="info-panel" id="infoPanel">
+            <h2 id="trackTitle">Titre de la chanson</h2>
+          </div>
+
+          <div class="cover" id="cover">
+            <img
+              id="coverArt"
+              src="/assets/images/log_zim.jpg"
+              alt="Cover Art"
+            />
+          </div>
+
+          <div class="controls">
+            <!-- Boutons principaux -->
+            <div class="buttons">
+              <button class="button" id="prevBtn" title="Précédent">
+                <div class="icon prev"></div>
+              </button>
+              <button class="button" id="toggleBtn" title="Lecture / Pause">
+                <div class="icon play"></div>
+                <div class="icon pause"><span></span><span></span></div>
+              </button>
+              <button class="button" id="stopBtn" title="Stop">
+                <div class="icon stop"></div>
+              </button>
+              <button class="button" id="nextBtn" title="Suivant">
+                <div class="icon next"></div>
+              </button>
+              <button class="button" id="sfxBtn" title="SFX On/Off">🔊</button>
+            </div>
+
+            <!-- ⬇️ Mise en page 2 lignes : 
+                 1) timecode (gauche) + slider progress (droite)
+                 2) icône volume (gauche) + slider volume (droite)
+            -->
+            <!-- Ligne 1 : timecode + slider de progression -->
+            <span class="time" id="timeDisplay" aria-live="off">0:00</span>
+            <input
+              type="range"
+              class="progress"
+              id="progress"
+              value="0"
+              max="100"
+              aria-label="Position de lecture"
+            />
+
+            <!-- Ligne 2 : icône volume + slider volume (grouper dans .volume-container) -->
+            <div class="volume-container">
+              <i class="fas fa-volume-up volume-icon" aria-hidden="true" title="Volume"></i>
+              <input
+                type="range"
+                class="volume"
+                id="volume"
+                value="100"
+                max="100"
+                aria-label="Volume"
+              />
+            </div>
+          </div>
+
+          <audio id="audioPlayer" preload="auto"></audio>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/player.js" type="application/javascript"></script>
+  </body>
+</html>
+
