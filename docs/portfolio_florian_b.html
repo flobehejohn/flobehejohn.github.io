@@ -514,23 +514,10 @@
 <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
 
 <!-- 2) jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
-
 <!-- 3) Polyfill + patch -->
-<script src="/assets/js/jquery-placeholder-polyfill.js" defer></script>
-<script src="/assets/js/smartresize-patch.js" defer></script>
-
 <!-- 4) Navbar -->
-<script src="/assets/js/navbar.js" defer></script>
-
 <!-- 5) PJAX + Player + Page hub -->
-<script src="/assets/js/pjax-router.js" defer></script>
-<script src="/assets/js/player-singleton.js" defer></script>
-<script src="/assets/js/page-hub.js" defer></script>
-
 <!-- 6) Plugins jQuery -->
-<script src="/assets/js/packages.min.js" defer></script>
-
 <!-- 6.5) Binder ESM (garde PJAX) -->
 <script type="module">
   import { closeAllModals } from "/assets/js/modal-guard.js';
@@ -570,8 +557,20 @@
 <audio id="global-audio" data-react="nuage" crossorigin="anonymous" controls style="position:fixed;left:-10000px;top:-10000px;width:1px;height:1px"></audio>
 <script src="/assets/js/modal-touch-fix.js"></script>
   <script src="/assets/js/particles-bg.js"></script>
+
+  <!-- BEGIN core-scripts (managed by pwsh) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script defer src="/assets/js/jquery-placeholder-polyfill.js"></script>
+  <script defer src="/assets/js/smartresize-patch.js"></script>
+  <script defer src="/assets/js/navbar.js"></script>
+  <script defer src="/assets/js/pjax-router.js"></script>
+  <script defer src="/assets/js/player-singleton.js"></script>
+  <script defer src="/assets/js/page-hub.js"></script>
+  <script defer src="/assets/js/packages.min.js"></script>
+  <!-- END core-scripts -->
 </body>
 </html>
+
 
 
 

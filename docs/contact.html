@@ -281,24 +281,14 @@
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
   
   <!-- 2) jQuery (certains plugins/patchs l’exigent) -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
-  
-  <!-- 3) Polyfills / patchs DOM utiles -->
-  <script src="/assets/js/jquery-placeholder-polyfill.js" defer></script>
-  <script src="/assets/js/smartresize-patch.js" defer></script>
+<!-- 3) Polyfills / patchs DOM utiles -->
+<script src="/assets/js/smartresize-patch.js" defer></script>
   
   <!-- 4) Navbar (collapses, focus, liens actifs) -->
-  <script src="/assets/js/navbar.js" defer></script>
-  
-  <!-- 5) Noyau navigation + audio persistant -->
-  <script src="/assets/js/pjax-router.js" defer></script>
-  <script src="/assets/js/player-singleton.js" defer></script>
-  <script src="/assets/js/page-hub.js" defer></script>
-  
-  <!-- 6) Plugins jQuery globaux -->
-  <script src="/assets/js/packages.min.js" defer></script>
-  
-  <!-- 6.5) Binder ESM : gardien de modales (compatible PJAX) -->
+<!-- 5) Noyau navigation + audio persistant -->
+<script src="/assets/js/player-singleton.js" defer></script>
+<!-- 6) Plugins jQuery globaux -->
+<!-- 6.5) Binder ESM : gardien de modales (compatible PJAX) -->
   <script type="module">
     import { closeAllModals } from "/assets/js/modal-guard.js';
     window.closeAllModals = closeAllModals;
@@ -367,8 +357,20 @@
 <script type="module" src="/assets/js/nuage_magique/test.js"></script>
 <script src="/assets/js/modal-touch-fix.js"></script>
   <script src="/assets/js/particles-bg.js"></script>
+
+  <!-- BEGIN core-scripts (managed by pwsh) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script defer src="/assets/js/jquery-placeholder-polyfill.js"></script>
+  <script defer src="/assets/js/smartresize-patch.js"></script>
+  <script defer src="/assets/js/navbar.js"></script>
+  <script defer src="/assets/js/pjax-router.js"></script>
+  <script defer src="/assets/js/player-singleton.js"></script>
+  <script defer src="/assets/js/page-hub.js"></script>
+  <script defer src="/assets/js/packages.min.js"></script>
+  <!-- END core-scripts -->
 </body>
 </html>
+
 
 
 
