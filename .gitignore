@@ -3,3 +3,6 @@
 
 # Backups HTML générés par pwsh
 *.bak-*
+
+# Backups HTML générés par pwsh
+*.bak-*
