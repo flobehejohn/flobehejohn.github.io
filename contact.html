@@ -282,11 +282,8 @@
   
   <!-- 2) jQuery (certains plugins/patchs l’exigent) -->
 <!-- 3) Polyfills / patchs DOM utiles -->
-<script src="/assets/js/smartresize-patch.js" defer></script>
-  
-  <!-- 4) Navbar (collapses, focus, liens actifs) -->
+<!-- 4) Navbar (collapses, focus, liens actifs) -->
 <!-- 5) Noyau navigation + audio persistant -->
-<script src="/assets/js/player-singleton.js" defer></script>
 <!-- 6) Plugins jQuery globaux -->
 <!-- 6.5) Binder ESM : gardien de modales (compatible PJAX) -->
   <script type="module">
@@ -358,18 +355,21 @@
 <script src="/assets/js/modal-touch-fix.js"></script>
   <script src="/assets/js/particles-bg.js"></script>
 
-  <!-- BEGIN core-scripts (managed by pwsh) -->
+    <!-- BEGIN core-scripts (managed by pwsh) -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script defer src="/assets/js/jquery-placeholder-polyfill.js"></script>
   <script defer src="/assets/js/smartresize-patch.js"></script>
   <script defer src="/assets/js/navbar.js"></script>
   <script defer src="/assets/js/pjax-router.js"></script>
+  <script defer src="/assets/js/dev-proxy-cors.js"></script>
   <script defer src="/assets/js/player-singleton.js"></script>
   <script defer src="/assets/js/page-hub.js"></script>
   <script defer src="/assets/js/packages.min.js"></script>
   <!-- END core-scripts -->
 </body>
 </html>
+
+
 
 
 

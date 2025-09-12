@@ -1,13 +1,13 @@
 (function(){
-  var DEST = (window.API_BASE || "").replace(/\/+$/,"") || "https://gestioncommandesapi.agreeablepebble-e135b62f.westeurope.azurecontainerapps.io/";
-  try { console.log("[normalize-requests] actif →", DEST); } catch(e){}
+  function __getDEST__(){ try { return ((window.API_BASE || "").replace(/\/+$/,"") || "https://gestioncommandesapi.agreeablepebble-e135b62f.westeurope.azurecontainerapps.io/"); } catch { return "https://gestioncommandesapi.agreeablepebble-e135b62f.westeurope.azurecontainerapps.io/"; } }
+  try { console.log("[normalize-requests] actif →", __getDEST__()); } catch(e){}
   function absolutize(u){
     try{
       if (!u) return u;
       if (/^https?:\/\//i.test(u)) return u;
       if (u.startsWith("//")) return location.protocol + u;
-      if (u.startsWith("/api")) return DEST + u;        // "/api/Commandes" -> "https://api.../api/Commandes"
-      if (u.startsWith("api/")) return DEST + "/" + u;  // "api/Commandes"  -> "https://api.../api/Commandes"
+      if (u.startsWith("/api")) return __getDEST__() + u;        // "/api/Commandes" -> "https://api.../api/Commandes"
+      if (u.startsWith("api/")) return __getDEST__() + "/" + u;  // "api/Commandes"  -> "https://api.../api/Commandes"
       return u;
     }catch(e){ return u; }
   }
@@ -30,6 +30,7 @@
   }
   // Axios (bonus)
   if (window.axios && window.axios.defaults) {
-    try { window.axios.defaults.baseURL = DEST; } catch(e){}
+    try { window.axios.defaults.baseURL = __getDEST__(); } catch(e){}
   }
 })();
+

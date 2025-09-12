@@ -238,7 +238,7 @@
 
     <!-- Utilitaires accessibles par l’iframe .NET -->
     <script src="config.js" charset="utf-8" defer></script>
-<script src="normalize-requests.js" charset="utf-8"></script>
+<script src="normalize-requests.js" charset="utf-8" defer></script>
 
     <!-- Boot .NET (PJAX-safe). data-app-base = chemin du dossier app -->
     <script src="/assets/js/pages/dotnet_boot.js" defer data-app-base="/assets/portfolio/Projet_dotnet/"></script>
@@ -261,8 +261,12 @@
       document.addEventListener('pjax:error',  (e)=>console.warn('[app_dotnet] pjax:error',  e.detail));
     </script>
     <script src="/assets/js/particles-bg.js"></script>
+
+  <script defer src="/assets/js/dev-proxy-cors.js"></script>
 </body>
 </html>
+
+
 
 
 
