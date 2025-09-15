@@ -650,11 +650,22 @@
     /* ------------------------------------------------------------------------
        Controls bindings
     ------------------------------------------------------------------------ */
+    async function ensurePlaylistReadyAndTrack() {
+      try {
+        if (!playlistReady || !playlist?.length) {
+          await loadPlaylist();
+        }
+        if (!player.src && playlistReady && playlist.length) {
+          if (!(trackIndex >= 0 && trackIndex < playlist.length)) {
+            trackIndex = Math.floor(Math.random() * playlist.length);
+          }
+          setTrack(trackIndex, false);
+        }
+      } catch (e) { warn('ensurePlaylistReadyAndTrack error', e); }
+    }
+
     const onToggle = async () => {
-      if (!playlistReady && !player.src) {
-        warn('toggle requested but playlist not ready and no src');
-        return;
-      }
+      await ensurePlaylistReadyAndTrack();
       if (!isPlayerAvailable()) { warn('toggle requested but player absent'); return; }
       if (player.paused) {
         const ok = await playWithRetry(3, 300);
@@ -788,7 +799,14 @@
         }
       }, 20);
     }
-    toggleButton?.addEventListener('click', (e) => { e?.preventDefault(); openModal(); });
+    toggleButton?.addEventListener('click', (e) => {
+      e?.preventDefault();
+      if (modalEl && (modalEl.classList.contains('show') || modalEl.style.display === 'flex')) {
+        closeModal();
+      } else {
+        openModal();
+      }
+    });
     closeBtn?.addEventListener('click',    (e) => { e?.preventDefault(); closeModal(); });
     wrapperEl?.addEventListener('click',   (e) => { if (e.target === wrapperEl) closeModal(); });
     document.addEventListener('keydown',   (e) => { if (e.key === 'Escape' && modalEl?.classList.contains('show')) closeModal(); });

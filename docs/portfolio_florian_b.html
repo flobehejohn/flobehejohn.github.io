@@ -24,8 +24,8 @@
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap 5 CSS (local) -->
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <!-- Bootstrap 5 CSS (CDN: 5.3.3) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   
     <!-- Styles globaux -->
     <link rel="stylesheet" href="/assets/css/swatch.bundle.css">
@@ -81,11 +81,11 @@
 
     <!-- MENU COLLAPSABLE -->
     <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="navbar-nav ms-auto"><!-- <- PAS d’id ici -->
-        <li class="nav-item"><a class="nav-link" href="/index.html" data-no-pjax>Accueil</a></li>
-        <li class="nav-item"><a class="nav-link" href="/portfolio_florian_b.html" data-no-pjax>Portfolio</a></li>
-        <li class="nav-item"><a class="nav-link" href="/parcours.html" data-no-pjax>Parcours</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact.html" data-no-pjax>Contact</a></li>
+          <ul class="navbar-nav ms-auto"><!-- <- PAS d’id ici -->
+        <li class="nav-item"><a class="nav-link" href="/index.html">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/portfolio_florian_b.html">Portfolio</a></li>
+        <li class="nav-item"><a class="nav-link" href="/parcours.html">Parcours</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
       </ul>
     </div>
   </div>
@@ -394,7 +394,7 @@
 <div class="grid-item projet musicam filter-di filter-audio">
   <a
     href="/assets/portfolio/projet_musicam/projet_musicam.html"
-    class="carte-projet-lien"  data-no-pjax aria-label="Voir le projet MusiCam – mapping mouvement ↔ son (Webcam, Pose, MIDI/WebAudio)">
+    class="carte-projet-lien"  aria-label="Voir le projet MusiCam – mapping mouvement ↔ son (Webcam, Pose, MIDI/WebAudio)">
     <div class="carte-projet">
       <div class="carte-projet-image">
         <img
@@ -510,7 +510,8 @@
 
       <!-- CHARGEMENT DES SCRIPTS (ordre garanti avec defer) -->
 
-<!-- 1) Bootstrap JS supprimé (fallback manuel navbar) -->
+<!-- 1) Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 
 <!-- 3) Patch -->
 <script src="/assets/js/smartresize-patch.js" defer></script>
