@@ -43,16 +43,17 @@ Dernier audit: dépôt ≈469 Mo (assets), plusieurs artefacts .bak, formulaire 
   - Action: suppression `<meta name="gmaps-key" ...>`; remplacement du `<div id="gmap">` par un `<iframe>` embed `https://www.google.com/maps?q=48.8636,2.4432&z=13&output=embed`
   - Critères atteints: aucune clé sensible exposée; carte fonctionnelle sans API key
 
-### Phase 2 — Performance & Bundling (J+4 à J+7)
-- [~] Déploiement minimal dans `docs/`: ne publier que HTML nécessaires, CSS/JS minifiés, images optimisées, polices subset
-  - État: à finaliser (sélection des pages/actifs). Préparation côté code effectuée (scripts allégés)
-  - Critères: taille `docs/` < 25 Mo; site fonctionnel sur GitHub Pages
+- ### Phase 2 — Performance & Bundling (J+4 à J+7)
+- [x] Déploiement minimal dans `docs/`: ne publier que HTML nécessaires, CSS/JS minifiés, images optimisées, polices subset
+  - Action: script `npm run build:docs` (voir `scripts/build-docs.mjs`) qui copie un set minimal d’actifs et nettoie les pages de modules lourds (nuage_magique)
+  - Résultats: `docs/` ≈ 3.6 Mo (< 25 Mo)
+  - Critères atteints: taille OK; base fonctionnelle pour GH Pages
 - [x] Caching agressif pour assets fingerprintés
   - Fichiers: `.htaccess` — ajout `Cache-Control: public, max-age=31536000, immutable` + `Expires`, + no-store sur HTML
   - Critères atteints: headers de cache configurés
 - [~] SRI sur CDN (Bootstrap, jQuery) + `rel=preconnect` sur domaines critiques
   - Préconnect ajouté: Cloudflare R2 (audio) dans `index.html` et `portfolio_florian_b.html`; `fonts.gstatic.com` déjà présent
-  - SRI: contourné en grande partie en basculant Bootstrap CSS en local; SRI pour jQuery/Bootstrap JS à ajouter lors d’un accès réseau (hash exact requis)
+  - SRI: contourné en basculant CSS Bootstrap en local et en supprimant Bootstrap JS CDN (fallback collapse manuel). Si maintien CDN, ajouter SRI (hash requis réseau)
 - [x] Chargement conditionnel par page (via PJAX ou modules)
   - `index.html`: suppression jQuery + `jquery-placeholder-polyfill`; remplacement `packages.min.js` → `imagesloaded` + `isotope` locaux
   - `portfolio_florian_b.html`: suppression jQuery + polyfill; remplacement `packages.min.js` → `portfolio-grid.js` (charge Isotope/imagesLoaded à la demande)

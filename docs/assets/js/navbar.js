@@ -159,6 +159,24 @@
     if (globalsBound) return;
     globalsBound = true;
 
+    // Fallback: si Bootstrap n'est pas présent, on gère l'ouverture/fermeture du collapse
+    document.addEventListener('click', (e) => {
+      const tog = e.target.closest(NAVBAR_TOGGLER_SEL);
+      if (!tog) return;
+      if (hasBS()) return; // laisser Bootstrap gérer si présent
+      e.preventDefault();
+      const el = getCollapseEl();
+      if (!el) return;
+      const isShown = el.classList.contains('show');
+      if (isShown) { hardClose(); return; }
+      // ouvrir
+      el.classList.remove('collapsing');
+      el.classList.add('collapse', 'show');
+      el.style.height = '';
+      tog.classList.remove('collapsed');
+      tog.setAttribute('aria-expanded', 'true');
+    }, { capture: true });
+
     // Clic hors du collapse : ferme
     document.addEventListener('click', (e) => {
       const inCollapse = e.target.closest('#' + NAVBAR_ID);

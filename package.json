@@ -45,6 +45,8 @@
     "start": "npm run serve",
     "watch": "tsc --watch",
     "serve": "lite-server",
-    "prefix-css": "postcss assets/css/theme.css -o assets/css/theme-prefixed.css"
+    "prefix-css": "postcss assets/css/theme.css -o assets/css/theme-prefixed.css",
+    "clean:docs": "node -e \"require('fs').rmSync('docs',{recursive:true,force:true})\"",
+    "build:docs": "node scripts/build-docs.mjs"
   }
 }
