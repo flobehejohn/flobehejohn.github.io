@@ -51,16 +51,17 @@ Dernier audit: dépôt ≈469 Mo (assets), plusieurs artefacts .bak, formulaire 
 - [x] Caching agressif pour assets fingerprintés
   - Fichiers: `.htaccess` — ajout `Cache-Control: public, max-age=31536000, immutable` + `Expires`, + no-store sur HTML
   - Critères atteints: headers de cache configurés
-- [~] SRI sur CDN (Bootstrap, jQuery) + `rel=preconnect` sur domaines critiques
-  - Préconnect ajouté: Cloudflare R2 (audio) dans `index.html` et `portfolio_florian_b.html`; `fonts.gstatic.com` déjà présent
-  - SRI: contourné en basculant CSS Bootstrap en local et en supprimant Bootstrap JS CDN (fallback collapse manuel). Si maintien CDN, ajouter SRI (hash requis réseau)
+- [x] SRI sur CDN (Bootstrap, jQuery) + `rel=preconnect` sur domaines critiques
+  - Préconnect ajouté: Cloudflare R2 (audio) dans `index.html`, `portfolio_florian_b.html` et `contact.html`; `fonts.gstatic.com` déjà présent
+  - SRI: rendu non nécessaire (CSS Bootstrap en local, Bootstrap JS CDN supprimé). Si réintroduction de CDN, ajouter SRI.
 - [x] Chargement conditionnel par page (via PJAX ou modules)
   - `index.html`: suppression jQuery + `jquery-placeholder-polyfill`; remplacement `packages.min.js` → `imagesloaded` + `isotope` locaux
   - `portfolio_florian_b.html`: suppression jQuery + polyfill; remplacement `packages.min.js` → `portfolio-grid.js` (charge Isotope/imagesLoaded à la demande)
   - `contact.html`: suppression jQuery + polyfill + `packages.min.js`
   - Critères atteints: scripts inutiles retirés des pages qui n’en ont pas besoin
-- [ ] Purge CSS (PurgeCSS/PostCSS) sur `theme.min.css` et `swatch.bundle.css`; supprimer `revolution*.css` si inutilisés
-  - Prochaine étape: outillage PurgeCSS + vérification UI
+- [~] Purge CSS (PurgeCSS/PostCSS) sur `theme.min.css` et `swatch.bundle.css`; supprimer `revolution*.css` si inutilisés
+  - Action: suppression des fichiers `assets/css/revolution.css` et `assets/css/revolution.min.css` (non référencés)
+  - À faire: outillage PurgeCSS + vérification UI pour réduire `theme.min.css` et `swatch.bundle.css`
 
 ### Phase 3 — Accessibilité (J+8)
 - [ ] Ajouter un “skip to content” global (`.visually-hidden` → `#content`)
