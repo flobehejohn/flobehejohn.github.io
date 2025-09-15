@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>MAC VAL – Audioguide & Campagne radio | Florian Behejohn</title>
+
+    <!-- SEO & Meta -->
+    <meta name="description" content="Au printemps 2012, enregistrements et habillage sonore des audioguides de l’exposition permanente du MAC VAL (Val-de-Marne), puis production du spot publicitaire de l’exposition. Écoutez les entretiens et la campagne radio (jingle, voix-off, montage)." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!-- Politique audio : pause le lecteur global à l’arrivée -->
+    <meta name="audio-policy" content="pause" />
+    <link rel="icon" href="/assets/images/favicon.ico" />
+    <link rel="canonical" href="https://flobehejohn.github.io/assets/portfolio/projet_mac_val/mac_val.html" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="MAC VAL – Audioguide & Campagne radio | Florian Behejohn" />
+    <meta property="og:description" content="Création maison : captations, design sonore, jingle et montage. Découvrez les entretiens de l’audioguide (version complète) et la campagne radio du MAC VAL." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://flobehejohn.github.io/assets/portfolio/projet_mac_val/mac_val.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- CSS vendor -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS site -->
+    <link rel="stylesheet" href="/assets/css/theme.min.css">
+    <link rel="stylesheet" href="/assets/css/swatch.bundle.css">
+    <link rel="stylesheet" href="/assets/css/fixes.css">
+    <link rel="stylesheet" href="/assets/css/carte_magique.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/style_audio_player.css">
+
+    <!-- Perf R2 -->
+    <link rel="preconnect" href="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev" crossorigin>
+
+    <!-- Styles locaux SCOPÉS à la page (rechargés par PJAX) -->
+    <style data-page-css>
+      /* -------------------------
+         Variables locales (scopées)
+      -------------------------- */
+      [data-page="mac_val"] {
+        --accent: #000000;
+        --accent-2:#1f2937;
+        --ink: #0f172a;
+        --panel: #ffffff;
+        --panel-2: #f3f4f6;
+        --ring: rgba(0,0,0,.12);
+        --bar: #2e2e2e;
+        --bar-bg:#c7c7c7;
+      }
+
+      /* -------------------------
+         Cartes audio (players)
+      -------------------------- */
+      [data-page="mac_val"] .audio-card {
+        display: grid; grid-template-columns: 1fr; gap: 0;
+        border-radius: 18px; overflow: hidden;
+        background: var(--panel);
+        border: 2px solid var(--accent);
+        box-shadow: 0 14px 40px rgba(0,0,0,.12), 0 0 0 6px var(--ring);
+      }
+      [data-page="mac_val"] .audio-header{
+        display:flex; align-items:center; gap:.9rem;
+        padding:1rem 1.15rem;
+        background: linear-gradient(135deg, var(--panel-2), #ffffff);
+        border-bottom: 1px solid rgba(0,0,0,.06);
+      }
+      [data-page="mac_val"] .badge-audio{
+        display:inline-flex; align-items:center; justify-content:center;
+        width:48px; height:48px; border-radius:999px;
+        background: var(--accent); color:#fff; font-size:1.2rem;
+        box-shadow: 0 8px 18px rgba(0,0,0,.35);
+      }
+      [data-page="mac_val"] .audio-header .title{ margin:0; font-weight:800; color:var(--ink); }
+      [data-page="mac_val"] .audio-shell { padding: 1.15rem 1.25rem .25rem; background:#fff; }
+
+      [data-page="mac_val"] .audio-player{
+        display:grid;
+        grid-template-columns:auto 1fr;
+        grid-template-areas:
+          "play timeline"
+          "vol  vol";
+        column-gap: 1rem;
+        row-gap: .85rem;
+        align-items:center;
+      }
+      [data-page="mac_val"] .play-btn{ grid-area: play; }
+      [data-page="mac_val"] .timeline{ grid-area: timeline; }
+      [data-page="mac_val"] .controls-right{ grid-area: vol; justify-self: start; }
+
+      [data-page="mac_val"] .play-btn{
+        width:64px; height:64px; min-width:64px;
+        border-radius:999px; border:0; outline:0;
+        background: var(--accent); color:#fff;
+        display:inline-flex; align-items:center; justify-content:center;
+        cursor:pointer;
+        box-shadow: 0 10px 22px rgba(0,0,0,.35);
+        transition: transform .1s ease, box-shadow .2s ease, background .2s ease;
+      }
+      [data-page="mac_val"] .play-btn:hover{ transform: translateY(-1px); background: var(--accent-2); }
+      [data-page="mac_val"] .play-btn:active{ transform: translateY(0); }
+      [data-page="mac_val"] .play-btn:focus-visible{ box-shadow: 0 0 0 4px var(--ring); }
+      [data-page="mac_val"] .icon{ width:28px; height:28px; fill:#fff; }
+
+      [data-page="mac_val"] .timeline{ display:grid; grid-template-columns: 1fr; gap:.5rem; width:100%; }
+      [data-page="mac_val"] .time-row{
+        display:flex; align-items:center; justify-content:space-between;
+        font-weight:800; letter-spacing:.2px; color:var(--ink);
+      }
+      [data-page="mac_val"] .time{ font-variant-numeric: tabular-nums; font-size:1.05rem; }
+
+      /* Range progression */
+      [data-page="mac_val"] .progress{
+        -webkit-appearance:none; appearance:none; width:100%; height:14px;
+        background: var(--bar-bg); border-radius:999px; outline:none;
+        cursor:pointer; border: 2px solid var(--bar);
+      }
+      [data-page="mac_val"] .progress:focus-visible{ box-shadow: 0 0 0 4px var(--ring); }
+      [data-page="mac_val"] .progress::-webkit-slider-thumb{
+        -webkit-appearance:none; width:20px; height:20px; border-radius:50%;
+        background: var(--accent); border:2px solid #fff;
+        box-shadow: 0 6px 14px rgba(0,0,0,.25); margin-top:-4px;
+      }
+      [data-page="mac_val"] .progress::-webkit-slider-runnable-track{
+        height:10px; border-radius:999px; background: linear-gradient(90deg, var(--bar) var(--_val,0%), var(--bar-bg) 0%);
+      }
+      [data-page="mac_val"] .progress::-moz-range-thumb{
+        width:20px; height:20px; border-radius:50%;
+        background: var(--accent); border:2px solid #fff;
+      }
+      [data-page="mac_val"] .progress::-moz-range-track{ height:10px; border-radius:999px; background: var(--bar-bg); }
+      [data-page="mac_val"] .progress::-moz-range-progress{ height:10px; border-radius:999px; background: var(--bar); }
+
+      [data-page="mac_val"] .controls-right{ display:flex; align-items:center; gap:.75rem; }
+      [data-page="mac_val"] .mute-btn{
+        width:44px; height:44px; min-width:44px;
+        border-radius:999px; border:2px solid var(--accent);
+        background:#fff; color:var(--accent);
+        display:inline-flex; align-items:center; justify-content:center;
+        cursor:pointer; transition: background .2s ease, color .2s ease, transform .1s ease;
+      }
+      [data-page="mac_val"] .mute-btn:hover{ background: var(--accent); color:#fff; transform: translateY(-1px); }
+      [data-page="mac_val"] .mute-btn:focus-visible{ box-shadow: 0 0 0 4px var(--ring); }
+
+      [data-page="mac_val"] .vol{
+        width:200px; height:10px; cursor:pointer;
+        -webkit-appearance:none; appearance:none;
+        background: var(--bar-bg); border-radius:999px; border: 2px solid var(--bar);
+      }
+      [data-page="mac_val"] .vol::-webkit-slider-thumb{
+        -webkit-appearance:none; width:16px; height:16px; border-radius:50%;
+        background: var(--accent); border:2px solid #fff; margin-top:-4px;
+      }
+      [data-page="mac_val"] .vol::-webkit-slider-runnable-track{
+        height:8px; border-radius:999px; background: linear-gradient(90deg, var(--bar) var(--_val,100%), var(--bar-bg) 0%);
+      }
+      [data-page="mac_val"] .vol::-moz-range-thumb{ width:16px; height:16px; border-radius:50%; background: var(--accent); border:2px solid #fff; }
+      [data-page="mac_val"] .vol::-moz-range-track{ height:8px; border-radius:999px; background: var(--bar-bg); }
+      [data-page="mac_val"] .vol::-moz-range-progress{ height:8px; border-radius:999px; background: var(--bar); }
+
+      [data-page="mac_val"] .audio-card-body { padding: .25rem 1.25rem 1.25rem; }
+      [data-page="mac_val"] .audio-card-body p { margin: 0; color: #333; }
+      [data-page="mac_val"] .audio-card-body ul { color:#4b5563; }
+
+      [data-page="mac_val"] .btn-outline-secondary.btn-sm{ border-color: var(--accent); color: var(--accent); }
+      [data-page="mac_val"] .btn-outline-secondary.btn-sm:hover{ background: var(--accent); color:#fff; border-color:var(--accent); }
+
+      /* -------------------------
+         HABILLAGE "key-card" (comme smart_city / ehm)
+      -------------------------- */
+      [data-page="mac_val"] .key-cards { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+      @media (min-width: 768px){ [data-page="mac_val"] .key-cards { grid-template-columns: repeat(3,1fr); } }
+      [data-page="mac_val"] .key-card {
+        border-radius: 16px; background: #fff;
+        padding: 1rem 1.25rem; box-shadow: 0 6px 24px rgba(0,0,0,.06);
+      }
+      [data-page="mac_val"] .key-card h3,
+      [data-page="mac_val"] .key-card h4 { font-size: 1.05rem; margin-bottom: .5rem; }
+      [data-page="mac_val"] .key-card p { margin: 0; color: #555; }
+
+      /* -------------------------
+         Hero/CTA centrés (parité visuelle avec smart_city)
+      -------------------------- */
+      [data-page="mac_val"] .hero-section,
+      [data-page="mac_val"] .hero-section *:not(.btn) { text-align: center !important; }
+      [data-page="mac_val"] .hero-section .btn,
+      [data-page="mac_val"] .hero-section .btn-lg,
+      [data-page="mac_val"] .hero-section .btn-action {
+        display: inline-flex !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        justify-content: center; align-items: center;
+      }
+
+      /* Espacement utilitaire */
+      .section-space { height: 28px; }
+      .section-space-short { height: 16px; }
+
+      /* Anti-occlusion : le fond ne capte pas les clics */
+      [data-page="mac_val"] #cloud-bg { pointer-events: none !important; z-index: 0 !important; }
+
+      body { -webkit-font-smoothing: antialiased; }
+      /* === MAC_VAL : Masquer tous les overlays/contrôles MediaElement.js ========== */
+[data-page="mac_val"] .mejs-container,
+[data-page="mac_val"] .mejs-controls,
+[data-page="mac_val"] .mejs-overlay,
+[data-page="mac_val"] .mejs-layers,
+[data-page="mac_val"] .mejs-inner,
+[data-page="mac_val"] .mejs-mediaelement + .mejs-layers /* selon versions */ {
+  display: none !important;
+}
+
+/* Optionnel : s’il reste une boîte résiduelle zéro-largeur qui capte des clics */
+[data-page="mac_val"] .mejs-container, 
+[data-page="mac_val"] .mejs-layers {
+  pointer-events: none !important;
+}
+
+    </style>
+  </head>
+
+  <body class="normal-header preload">
+    <div id="cloud-bg"></div>
+
+    <!-- NAVBAR -->
+<nav id="masthead" class="navbar navbar-expand-lg navbar-sticky swatch-custom" role="navigation" aria-label="Navigation principale">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a href="/index.html" data-no-pjax class="navbar-brand d-flex align-items-center">
+      <img src="/assets/images/log_zim.webp" alt="Logo" class="brand-logo" />
+      <span class="site-title">FLORIAN-BEHEJOHN</span>
+    </a>
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Menu">
+      <span class="navbar-toggler-icon"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></span>
+    </button>
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/index.html" data-no-pjax>Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/portfolio_florian_b.html" data-no-pjax>Portfolio</a></li>
+        <li class="nav-item"><a class="nav-link" href="/parcours.html" data-no-pjax>Parcours</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact.html" data-no-pjax>Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- MAIN PJAX ROOT -->
+    <main id="app" data-pjax-root data-page="mac_val" data-audio="local" role="main">
+      <div id="content">
+        <article>
+          <!-- HERO -->
+          <section class="section swatch-custom pb-0">
+            <div class="container">
+              <header class="hero-section animated-text pt-4 text-center">
+                <h1 class="hyper hairline bordered bordered-normal">MAC VAL – Audioguide &amp; Campagne radio</h1>
+                <p class="lead">
+                  Au printemps 2012, j’ai réalisé une partie des enregistrements et l’habillage sonore des audioguides de l’exposition permanente
+                  du Musée d’Art Contemporain du Val-de-Marne (MAC VAL). J’ai ensuite produit le <strong>spot publicitaire radio</strong> :
+                  jingle original, bande-son et enregistrement voix-off.
+                </p>
+              </header>
+            </div>
+          </section>
+
+          <div class="section-space"></div>
+
+          <!-- AUDIO 1 : Audioguide -->
+          <div class="container">
+            <div class="audio-card shadow" role="region" aria-label="Lecteur Audioguide – Entretiens (version complète)">
+              <div class="audio-header">
+                <span class="badge-audio" aria-hidden="true"><i class="fas fa-headphones"></i></span>
+                <h2 class="title h5 mb-0">Audioguide – Entretiens (version complète)</h2>
+              </div>
+              <div class="audio-shell">
+                <div class="audio-player" data-audio="guide" data-src="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/La_totale.mp3" tabindex="0">
+                  <button class="play-btn" aria-label="Lecture/Pause" data-role="toggle">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+                  </button>
+
+                  <div class="timeline">
+                    <input class="progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Position de lecture">
+                    <div class="time-row">
+                      <span class="time" data-role="current">00:00</span>
+                      <span class="time" data-role="duration">00:00</span>
+                    </div>
+                  </div>
+
+                  <div class="controls-right">
+                    <button class="mute-btn" aria-label="Muet" data-role="mute"><i class="fas fa-volume-up" aria-hidden="true"></i></button>
+                    <input class="vol" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+                  </div>
+
+                  <!-- Audio natif (si non remplacé par un wrapper externe) -->
+                  <audio preload="metadata" crossorigin="anonymous" id="audio-guide" data-mejs-disabled="true">
+                    <source src="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/La_totale.mp3" type="audio/mpeg">
+                  </audio>
+                </div>
+              </div>
+              <div class="audio-card-body">
+                <p>
+                  Concaténation des entretiens principaux de l’audioguide, captés sur site et restitués avec un
+                  <em>habillage discret</em> pour préserver l’intelligibilité des propos des artistes et de l’équipe.
+                </p>
+                <ul class="mt-2 mb-2">
+                  <li>Captations sur place (artistes & médiation) et nettoyage doux (réduction de bruit, égalisation légère).</li>
+                  <li>Habillage sonore minimaliste : intention d’écoute, respiration, respect du silence.</li>
+                  <li>Montage & normalisation pour écoute confortable sur casques et diffuseurs de salle.</li>
+                </ul>
+                <div class="d-flex flex-wrap gap-2">
+                  <a class="btn btn-outline-secondary btn-sm" href="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/La_totale.mp3" download="MAC_VAL_Audioguide_Entretiens.mp3" rel="noopener">
+                    <i class="fas fa-download me-2"></i>Télécharger (MP3)
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-space"></div>
+
+          <!-- AUDIO 2 : Campagne radio -->
+          <div class="container">
+            <div class="audio-card shadow" role="region" aria-label="Lecteur Campagne radio – Spot publicitaire">
+              <div class="audio-header">
+                <span class="badge-audio" aria-hidden="true"><i class="fas fa-bullhorn"></i></span>
+                <h2 class="title h5 mb-0">Campagne radio – Spot publicitaire</h2>
+              </div>
+              <div class="audio-shell">
+                <div class="audio-player" data-audio="spot" data-src="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/campagne_audio.wav" tabindex="0">
+                  <button class="play-btn" aria-label="Lecture/Pause" data-role="toggle">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+                  </button>
+
+                  <div class="timeline">
+                    <input class="progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Position de lecture">
+                    <div class="time-row">
+                      <span class="time" data-role="current">00:00</span>
+                      <span class="time" data-role="duration">00:00</span>
+                    </div>
+                  </div>
+
+                  <div class="controls-right">
+                    <button class="mute-btn" aria-label="Muet" data-role="mute"><i class="fas fa-volume-up" aria-hidden="true"></i></button>
+                    <input class="vol" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+                  </div>
+
+                  <audio preload="metadata" crossorigin="anonymous" id="audio-spot" data-mejs-disabled="true">
+                    <source src="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/campagne_audio.wav" type="audio/wav">
+                  </audio>
+                </div>
+              </div>
+              <div class="audio-card-body">
+                <p>
+                  Production complète du spot : <strong>jingle original</strong>, <strong>montage</strong> et
+                  <strong>voix-off</strong>, dans le respect des contraintes de diffusion (LUFS, intelligibilité, dynamique).
+                </p>
+                <ul class="mt-2 mb-2">
+                  <li>Écriture sonore courte & impactante (signature mémorisable, call-to-action clair).</li>
+                  <li>Montage voix-off, mixage musique/ambiances, vérification mono-compatibilité.</li>
+                  <li>Mastering radio pour diffusion multi-plateformes.</li>
+                </ul>
+                <div class="d-flex flex-wrap gap-2">
+                  <a class="btn btn-outline-secondary btn-sm" href="https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev/projet_mac_val/campagne_audio.wav" download="MAC_VAL_Campagne_Radio.wav" rel="noopener">
+                    <i class="fas fa-download me-2"></i>Télécharger (WAV)
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-space"></div>
+
+          <!-- Approche créative (habillée en key-card) -->
+          <div class="container mb-4">
+            <header class="animated-text hero-section">
+              <h2 class="hyper hairline bordered bordered-normal">Approche &amp; matière sonore</h2>
+            </header>
+            <div class="row g-3 mt-1">
+              <div class="col-md-6">
+                <div class="key-card">
+                  <h4><i class="fas fa-lightbulb me-2"></i>Intentions</h4>
+                  <p>
+                    Le design sonore s’est construit sous la direction artistique de la commissaire d’exposition, afin
+                    de soutenir la compréhension des œuvres et de guider l’attention sans la saturer. La narration sonore
+                    respecte la temporalité des espaces et le rythme de visite.
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="key-card">
+                  <h4><i class="fas fa-microphone me-2"></i>Matières &amp; procédés</h4>
+                  <p>
+                    Pastilles audio réalisées à partir de <strong>sons concrets</strong> que j’ai moi-même enregistrés
+                    (balle de ping-pong, tintement de verre, eau) et produites sous la direction artistique de la
+                    commissaire d’exposition, pour des marqueurs doux, identifiables et non intrusifs.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Résumés clés (habillés en key-cards) -->
+          <div class="container">
+            <div class="key-cards">
+              <div class="key-card">
+                <h4><i class="fas fa-bullseye me-2"></i>Objectif</h4>
+                <p>Faciliter l’accès aux contenus du musée et soutenir la mémorisation par un langage sonore clair et empathique.</p>
+              </div>
+              <div class="key-card">
+                <h4><i class="fas fa-user-tie me-2"></i>Rôle</h4>
+                <p>Prise de son, montage, habillage &amp; design sonore, jingle et voix-off pour le spot radio.</p>
+              </div>
+              <div class="key-card">
+                <h4><i class="fas fa-toolbox me-2"></i>Livrables</h4>
+                <p>Entretiens audioguide (version concaténée), spot radio (WAV), masters optimisés pour diffusion.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-space"></div>
+
+          <!-- CTA -->
+          <section class="hero-section text-center animated-text">
+            <div class="container">
+              <header class="os-animation" data-os-animation="fadeIn">
+                <h2 class="bigger hairline bordered">Découvrir d’autres projets</h2>
+              </header>
+              <div class="section-space-short"></div>
+              <div class="text-center">
+                <a href="/portfolio_florian_b.html" class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight" data-os-animation="fadeInRight">
+                  Explorer le Portfolio
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <section class="section swatch-custom section-text-shadow hero-section">
+            <div class="container">
+              <header class="hero-section animated-text">
+                <h2 class="bigger hairline bordered">Envie d’échanger&nbsp;?</h2>
+                <p class="lead">Parlons intention narrative et formats de diffusion.</p>
+                <div style="height: 24px;"></div>
+                <a href="/contact.html" class="btn btn-primary btn-lg btn-action os-animation animated fadeInRight" data-os-animation="fadeInRight">Contact</a>
+              </header>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="swatch-custom text-center">
+      <div class="container">
+        <p>© 2025 Florian Behejohn - Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    <!-- JS pile (defer) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/assets/js/smartresize-patch.js" defer></script>
+    <script src="/assets/js/navbar.js" defer></script>
+    <script src="/assets/js/packages.min.js" defer></script>
+    <script src="/assets/js/animated-text.js" defer></script>
+    <script src="/assets/js/theme.min.js" defer></script>
+    <script src="/assets/js/script.js" defer></script>
+
+    <!-- Isotope (si utilisé globalement) -->
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js" defer></script>
+    <script src="/assets/js/isotope-skill-grid.js" defer></script>
+
+    <!-- Player singleton + contrôles -->
+    <script src="/assets/js/player-singleton.js" defer></script>
+    <script src="/assets/js/player.js" defer></script>
+    <script src="/assets/js/floating-audio-toggle.js" defer></script>
+    <script src="/assets/js/responsive-audio-player-scaler.js" defer></script>
+    <script src="/assets/js/draggable-audio-player.js" defer></script>
+
+    <!-- imagesLoaded + nuage -->
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js" defer></script>
+    <script type="module" src="/assets/js/nuage_magique/test.js" defer></script>
+
+    <!-- PJAX & page orchestration -->
+    <script src="/assets/js/pjax-router.js" defer></script>
+    <script src="/assets/js/page-hub.js" defer></script>
+
+    <!-- Page module (idempotent) -->
+    <script src="/assets/js/pages/mac_val.js" defer></script>
+
+    <!-- Fallback DOM ready -->
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('preload');
+      });
+      document.addEventListener('DOMContentLoaded', () => {
+        try {
+          const root = document.querySelector('main[data-pjax-root][data-page="mac_val"]');
+          if (root && window.MacVal && typeof window.MacVal.init === 'function') {
+            window.MacVal.init(root);
+          }
+        } catch (e) { console.warn('mac_val fallback init failed', e); }
+      });
+    </script>
+    <!-- en bas de body, sur TOUTES les pages PJAX (home, portfolio, etc.) -->
+    <script src="/assets/js/pages/dotnet_boot.js" defer></script>
+  </body>
+</html>

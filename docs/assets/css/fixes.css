@@ -1,0 +1,201 @@
+/* =======================================================================
+   fixes.css — correctifs transverses & compatibilité (PJAX, Bootstrap 5)
+   Auteur : Florian Behejohn — 2025
+   Objet : Une seule source de vérité pour la navbar, hamburger garanti,
+           z-index propres, et compensation du contenu sous navbar fixed.
+   ======================================================================= */
+
+/* -------------------------------------------------
+   0) Chargement doux : masquage visuel du body
+   ------------------------------------------------- */
+   body.preload { opacity: 0 !important; }
+
+   /* -------------------------------------------------
+      1) Variables & hauteurs navbar
+      ------------------------------------------------- */
+   :root { --masthead-h: 76px; }              /* desktop */
+   @media (max-width: 991.98px){ :root { --masthead-h: 64px; } } /* mobile/tablette */
+   
+   /* -------------------------------------------------
+      2) NAVBAR — Source de vérité unique
+         Choix : position: fixed (recommandé)
+         (Si tu veux "sticky", remplace fixed par sticky ici ET PARTOUT)
+      ------------------------------------------------- */
+   .swatch-custom.navbar-sticky {
+     position: fixed;           /* <= choisir fixed OU sticky, mais UN seul */
+     top: 0; left: 0; right: 0;
+     z-index: 1050;
+     background-color: rgba(255,255,255,0.98);
+     backdrop-filter: blur(10px);
+     border-bottom: 2px solid rgba(0,200,255,0.6);
+   }
+   
+   /* -------------------------------------------------
+      3) Compensation du contenu sous la navbar fixed
+         (évite que le contenu passe en dessous)
+      ------------------------------------------------- */
+   body.normal-header [data-pjax-root],
+   body.normal-header main#app,
+   body.normal-header .section:first-child {
+     padding-top: calc(var(--masthead-h) + 24px);
+   }
+   
+   /* -------------------------------------------------
+      4) Z-index & layout du burger/collapse (mobile)
+      ------------------------------------------------- */
+   .navbar .navbar-toggler { 
+     border: 0; 
+     outline: none; 
+     box-shadow: none !important; 
+     position: relative; 
+     z-index: 1100;          /* au-dessus du collapse */
+   }
+   
+   /* Accessibilité : halo discret au clavier */
+   .navbar .navbar-toggler:focus-visible{
+     outline: 0;
+     box-shadow: 0 0 0 3px rgba(0,200,255,.35) !important;
+     border-radius: .5rem;
+   }
+   
+   .navbar .navbar-collapse { z-index: 1000; }
+   
+   @media (max-width: 991.98px) {
+     .navbar .navbar-collapse {
+       position: absolute;    /* menu déroulant sous la barre */
+       top: 100%; left: 0; right: 0; width: 100%;
+       padding: 1rem;
+       background-color: var(--bs-body-bg, #fff);
+       box-shadow: 0 4px 10px rgba(0,0,0,.2);
+     }
+   
+     /* Evite le scroll horizontal + borne la hauteur du menu */
+     .navbar .navbar-collapse.show{
+       max-height: calc(100vh - var(--masthead-h));
+       overflow-y: auto;
+     }
+   }
+   
+   /* Menus déroulants au-dessus du contenu */
+   .navbar .dropdown-menu { z-index: 1101; }
+   
+   /* -------------------------------------------------
+      5) Icône hamburger — variable + fallback garanti
+      ------------------------------------------------- */
+   
+   /* Nouveau : ne touche QUE la vraie navbar (pas les autres .swatch-custom du site) */
+   .navbar.swatch-custom,
+   #masthead.swatch-custom {
+     --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0,200,255,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+   }
+   
+   /* L’icône Bootstrap utilise bien la variable, sinon fallback sombre lisible */
+   .navbar .navbar-toggler-icon{
+     width: 1.5rem; 
+     height: 1.5rem;
+     background-repeat: no-repeat; 
+     background-position: center; 
+     background-size: 100% 100%;
+     /* Fallback si la var n’est pas posée par .navbar-light/.navbar-dark */
+     background-image: var(
+       --bs-navbar-toggler-icon-bg,
+       url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(30,42,56,0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")
+     ) !important;
+   }
+   
+   /* Cache proprement les <span class="icon-bar"> hérités */
+   .navbar .navbar-toggler .icon-bar,
+   .navbar-toggler-icon .icon-bar { display: none !important; }
+   
+   /* -------------------------------------------------
+      6) Petites sécurités UI globales
+      ------------------------------------------------- */
+   .brand-logo { max-height: 40px; height: auto; }   /* garde le logo dans la barre */
+   .site-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+   #cloud-bg { pointer-events: none; }               /* évite les clics fantômes si canvas/cloud derrière */
+   
+   /* Empilement sûr pour la modale du lecteur audio (au-dessus de la navbar) */
+   .audio-player-modal { z-index: 1200; }
+   
+      /* Grille Portfolio (Isotope Masonry) */
+      .grid { position: relative; }
+      .grid::after { content: ""; display: block; clear: both; }
+      .grid-sizer, .grid-item { width: 33.3333%; }
+      .grid-item { float: left; }
+  
+      @media (max-width: 991.98px) { .grid-sizer, .grid-item { width: 50%; } }
+      @media (max-width: 575.98px) { .grid-sizer, .grid-item { width: 100%; } }
+  
+      /* Cartes projet */
+      .carte-projet {
+        background:#fff; border:1px solid #ddd; border-radius:12px; overflow:hidden;
+        box-shadow:0 2px 10px rgba(0,0,0,.08);
+        display:flex; flex-direction:column; min-height:260px; height:100%;
+        transition: box-shadow .25s, transform .25s;
+      }
+      .carte-projet:hover { box-shadow:0 8px 32px rgba(0,200,255,.18),0 2px 6px rgba(0,0,0,.08); transform: translateY(-6px) scale(1.025); cursor:pointer; }
+      .carte-projet-image { width:100%; height:170px; display:flex; align-items:center; justify-content:center; border-radius:12px 12px 0 0; position:relative; overflow:hidden; }
+      .carte-projet-image img { width:100%; height:100%; object-fit:cover; border-radius:12px 12px 0 0; transition: transform .3s; background:#f7fbfc; }
+      .carte-projet:hover .carte-projet-image img{ transform: scale(1.04); }
+      .carte-projet-body{ padding:22px 20px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; flex-grow:1; }
+      .carte-projet-body h3{ margin:0 0 10px; font-size:1.1rem; color:#1e2a38; font-weight:700; }
+      .carte-projet-body p{ font-size:.96rem; color:#444; margin:0; line-height:1.5; display:-webkit-box; -webkit-line-clamp:10; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; min-height:4.5em; max-height:11.5em; }
+  
+      @media (max-width: 992px){ .carte-projet-image{ height:130px; } .carte-projet-body{ padding:16px 12px 10px; } }
+      @media (max-width: 768px){ .carte-projet-image{ height:95px; } .carte-projet-body{ padding:11px 6px 6px; } .carte-projet{ min-height:160px; } }
+  
+      /* Sécurité : évite que le contenu passe sous la navbar sticky */
+      body.normal-header .section:first-child { padding-top: 150px; }
+      @media (max-width: 991px){ body.normal-header .section:first-child { padding-top: 80px; } }
+      @media (max-width: 600px){ body.normal-header .section:first-child { padding-top: 168px; } }
+    /* fixes.css — ensure modal internal scroll and contain overscroll */
+.modal-content-shell,
+.audio-player-modal .modal-content-shell,
+#publication-modal .modal-content-shell {
+  overflow: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
+  max-height: calc(90vh - 48px);
+}
+.modal-overlay { touch-action: auto; }
+
+
+/* fixes.css - ensure modal-open does not hide scroll on desktop, keep gutter stable */
+@media (min-width: 992px) {
+    /* override any rule forcing overflow:hidden on body.modal-open for desktop */
+    body.modal-open {
+      overflow: visible !important;
+      /* remove padding-right forced by previous JS locks on desktop (if any) */
+      padding-right: 0 !important;
+    }
+  }
+  
+  /* keep scrollbar gutter stable (prevents layout jump when scrollbars appear/disappear) */
+  html {
+    scrollbar-gutter: stable;
+  }
+  
+  /* ensure modal content itself is scrollable (should already be present in your scoped CSS) */
+  .modal-content-shell, .audio-player-modal .modal-content-shell {
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    max-height: calc(90vh - 48px) !important;
+  }
+  
+
+  
+  /* Fond nuage global : neutre par défaut */
+#cloud-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none; /* pas d'interaction par défaut */
+    contain: layout paint size;
+  }
+  #cloud-bg > canvas { display:block; width:100%; height:100%; }
+
+  
+  
+  
+  
