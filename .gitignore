@@ -17,3 +17,18 @@ docs/**/*.mp3
 docs/**/*.wav
 docs/**/*.mp4
 docs/**/*.mov
+
+# ——— Phase 0: Hygiène du dépôt ———
+# Artefacts et gros fichiers à exclure du VCS
+*.bak
+*.psd
+*.zip
+*.map
+*.xap
+
+# Optionnel: ignorer vendors lourds si non déployés tels quels
+# assets/vendor/
+
+# Log/rapports/outils locaux
+playwright-report/
+.eslintcache

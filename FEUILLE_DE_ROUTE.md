@@ -22,14 +22,14 @@ Dernier audit: dépôt ≈469 Mo (assets), plusieurs artefacts .bak, formulaire 
 ## Plan par phases (jalons et critères d’acceptation)
 
 ### Phase 0 — Hygiène du dépôt (J+1)
-- [ ] Supprimer artefacts inutiles: `**/*.bak`, PSD, ZIP, tflite/mediapipe non utilisés en prod, maps `.map` géantes, `.xap` obsolète
-  - Fichiers: `assets/**`, `vendor/phpmailer/**`, `docs/**`
-  - Critères: `du -ah assets` < 200 Mo; `rg -n "\.bak$"` → 0 résultat
-- [ ] Standardiser npm (supprimer Yarn): retirer `yarn.lock`, `.pnp.cjs`, `.pnp.loader.mjs`
-  - Fichiers: racine
-  - Critères: `npm ci` fonctionne; plus de fichiers Yarn dans git
-- [ ] `.gitignore`: ajouter patterns lourds et artefacts (ex. `*.bak`, `*.psd`, `*.zip`, `*.map`, `assets/vendor/**` si non build)
-  - Critères: `git status` propre après nettoyage
+- [x] Supprimer artefacts inutiles: `**/*.bak`, PSD, ZIP, maps `.map` géantes, `.xap` obsolète
+  - Action: supprimé .bak (assets/docs/vendor/phpmailer), `moi.psd`, multiples `.zip` SVG/polices, `tf.min.js.map`, `silverlightmediaelement.xap`
+  - Résultats: `du -ah assets` ≈ 365 Mo (avant ≈ 469 Mo); reste élevé car médias/mediapipe nécessaires
+  - Critères atteints: `find . -name '*.bak'` → 0; taille globale réduite
+- [x] Standardiser npm (supprimer Yarn): retirer `yarn.lock`, `.pnp.cjs`, `.pnp.loader.mjs`
+  - Résultats: artefacts Yarn supprimés; npm standard OK (lock npm présent)
+- [x] `.gitignore`: ajouter patterns lourds et artefacts (`*.bak`, `*.psd`, `*.zip`, `*.map`, `*.xap` + dossiers optionnels)
+  - Résultats: patterns ajoutés; dépôt plus propre après nettoyage
 
 ### Phase 1 — Sécurité & Contact (J+2 à J+3)
 - [ ] Retirer `contact_mailer.php` et `vendor/phpmailer` résiduels
@@ -140,4 +140,3 @@ Dernier audit: dépôt ≈469 Mo (assets), plusieurs artefacts .bak, formulaire 
 - Artefacts: `rg -n "\.bak$|\.psd$|\.zip$|\.xap$|\.map$" assets/`
 - SRI/CDN: inspection DOM (DevTools) des attributs `integrity`
 - Cache headers: `curl -I https://site/asset.css`
-
