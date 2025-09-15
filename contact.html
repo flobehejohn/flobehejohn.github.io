@@ -11,8 +11,7 @@
     <meta content="yes" name="apple-mobile-web-app-capable" />
     <meta name="audio-policy" content="global" />
 
-    <!-- 🚩 Clé Google Maps (restreinte au domaine GitHub Pages/Cloudflare) -->
-    <meta name="gmaps-key" content="AIzaSyAOqVrYNXr3Y6wHu-E7CckgMoVjXXBUU0c" />
+    <!-- Carte: on utilise un embed sans API key pour éviter l'exposition de clés -->
 
     <!-- Polices -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -51,7 +50,7 @@
         margin-top: 0;
       }
       main[data-page="contact"] .hero-section { margin-bottom: var(--section-gap); }
-      main[data-page="contact"] .ratio > #gmap { min-height: 420px; }
+      main[data-page="contact"] .ratio iframe { min-height: 420px; }
       main[data-page="contact"] .fa-ul { margin-left: 1.4em; }
       main[data-page="contact"] .fa-li { top: .25em; }
       /* Petites retouches formulaires */
@@ -168,13 +167,12 @@
                   <div class="contact-card">
                     <h2 class="h4 mb-3">Où me trouver</h2>
                     <div class="ratio ratio-16x9 rounded overflow-hidden">
-                      <div id="gmap"></div>
+                      <iframe title="Carte – Paris" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=48.8636,2.4432&z=13&output=embed" style="border:0;width:100%;height:100%"></iframe>
                     </div>
                     <div class="d-flex flex-wrap gap-2 mt-3">
-                      <button id="mapRecenter" class="btn btn-outline-primary btn-sm" type="button">Recentrer</button>
                       <a id="mapDirections" class="btn btn-outline-secondary btn-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=48.8636,2.4432">Itinéraire</a>
                     </div>
-                    <div id="mapStatus" class="mt-2 small text-muted" aria-live="polite" aria-atomic="true"></div>
+                    <div class="mt-2 small text-muted" aria-live="polite" aria-atomic="true">Carte embarquée sans API key (meilleure confidentialité).</div>
                   </div>
                 </div>
 
@@ -306,6 +304,7 @@
   <script src="/assets/js/theme.min.js" defer></script>
   <script src="/assets/js/animated-text.js" defer></script>
   <script src="/assets/js/script.js" defer></script>
+  <script src="/assets/js/contact-mailto.js" defer></script>
   
   <!-- 8) UI du lecteur (toggle flottant, scale responsive, drag) -->
   <script src="/assets/js/floating-audio-toggle.js" defer></script>

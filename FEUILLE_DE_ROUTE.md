@@ -32,14 +32,16 @@ Dernier audit: dépôt ≈469 Mo (assets), plusieurs artefacts .bak, formulaire 
   - Résultats: patterns ajoutés; dépôt plus propre après nettoyage
 
 ### Phase 1 — Sécurité & Contact (J+2 à J+3)
-- [ ] Retirer `contact_mailer.php` et `vendor/phpmailer` résiduels
-  - Critères: fichiers supprimés, lien de contact fonctionnel via alternative
-- [ ] Implémenter alternative sans backend (recommandé): bouton mailto ou service (Formspree/Resend/CF Workers)
-  - Fichiers: `contact.html`, `assets/js/contact.js` si nécessaire
-  - Critères: envoi de message opérationnel, pas de données sensibles côté client
-- [ ] Clé Google Maps: retirer/rotater et basculer sur embed/statique si possible; sinon documenter restrictions strictes (domaines, quotas)
-  - Fichiers: `contact.html`
-  - Critères: aucune clé sensible en clair ou usage restreint vérifié
+- [x] Retirer `contact_mailer.php` et `vendor/phpmailer` résiduels
+  - Action: supprimé `contact_mailer.php` et `vendor/phpmailer/*`
+  - Critères atteints: plus de backend PHP legacy; pas de secret SMTP
+- [x] Implémenter alternative sans backend (mailto)
+  - Fichiers: `assets/js/contact-mailto.js` (nouveau), `contact.html` (inclusion script)
+  - Fonctionnement: validation client + construction d’un `mailto:` (sujet + corps) vers l’adresse reconstruite depuis `#emailSafe`
+  - Critères atteints: envoi via client mail, aucune donnée envoyée côté serveur
+- [x] Clé Google Maps: retirer et basculer sur embed statique
+  - Action: suppression `<meta name="gmaps-key" ...>`; remplacement du `<div id="gmap">` par un `<iframe>` embed `https://www.google.com/maps?q=48.8636,2.4432&z=13&output=embed`
+  - Critères atteints: aucune clé sensible exposée; carte fonctionnelle sans API key
 
 ### Phase 2 — Performance & Bundling (J+4 à J+7)
 - [ ] Déploiement minimal dans `docs/`: ne publier que HTML nécessaires, CSS/JS minifiés, images optimisées, polices subset
