@@ -77,7 +77,7 @@
   ];
 
   // whitelist pages "visual-only"
-  const VISUAL_ONLY_PAGES = new Set(['home','portfolio','contact']);
+  const VISUAL_ONLY_PAGES = new Set(['home','portfolio','contact','parcours']);
 
   let inflight = null; // AbortController en cours
 

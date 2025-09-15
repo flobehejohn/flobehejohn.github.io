@@ -668,6 +668,9 @@
       await ensurePlaylistReadyAndTrack();
       if (!isPlayerAvailable()) { warn('toggle requested but player absent'); return; }
       if (player.paused) {
+        // Nudge certains navigateurs pour éviter un premier play silencieux
+        try { if (player.currentTime === 0) player.currentTime = 0.0001; } catch {}
+        try { player.muted = false; } catch {}
         const ok = await playWithRetry(3, 300);
         if (ok) {
           playBtn?.classList.add('playing');
