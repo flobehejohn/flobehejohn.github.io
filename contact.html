@@ -21,7 +21,7 @@
 
     <!-- CSS globaux -->
     <link rel="preload" href="/assets/css/theme.min.css" as="style" onload="this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/css/theme.min.css"></noscript>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/swatch.bundle.css">
     <link rel="stylesheet" href="/assets/css/style_audio_player.css">
     <link rel="stylesheet" href="/assets/fonts/fontawesome/css/all.min.css">
@@ -276,11 +276,7 @@
   <!-- 1) Bootstrap (bundle = +Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
   
-  <!-- 2) jQuery (certains plugins/patchs l’exigent) -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
-  
-  <!-- 3) Polyfills / patchs DOM utiles -->
-  <script src="/assets/js/jquery-placeholder-polyfill.js" defer></script>
+  <!-- 3) Patch DOM utile (idempotent) -->
   <script src="/assets/js/smartresize-patch.js" defer></script>
   
   <!-- 4) Navbar (collapses, focus, liens actifs) -->
@@ -291,8 +287,7 @@
   <script src="/assets/js/player-singleton.js" defer></script>
   <script src="/assets/js/page-hub.js" defer></script>
   
-  <!-- 6) Plugins jQuery globaux -->
-  <script src="/assets/js/packages.min.js" defer></script>
+  <!-- 6) Plugins globaux supprimés sur Contact (allégement) -->
   
   <!-- 6.5) Binder ESM : gardien de modales (compatible PJAX) -->
   <script type="module">

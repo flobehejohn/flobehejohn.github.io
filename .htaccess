@@ -4,3 +4,19 @@ AddOutputFilterByType DEFLATE "application/atom+xml" "application/javascript" "a
 # SECTION BEGIN GIT PROTECTION
 RedirectMatch 404 /\.git
 # SECTION END GIT PROTECTION
+
+# SECTION BEGIN CACHING
+# HTML: no-store (toujours rafraîchi)
+<FilesMatch "\.(html|htm)$">
+  Header set Cache-Control "no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</FilesMatch>
+
+# Assets fingerprintés (CSS/JS/Images/Fonts) : cache long
+<FilesMatch "\.(?:css|js|mjs|json|png|jpg|jpeg|webp|gif|svg|ico|woff|woff2|ttf|otf|mp3|mp4|webm)$">
+  Header set Cache-Control "public, max-age=31536000, immutable"
+  ExpiresActive On
+  ExpiresDefault "access plus 1 year"
+</FilesMatch>
+# SECTION END CACHING

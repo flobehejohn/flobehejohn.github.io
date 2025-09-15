@@ -44,19 +44,22 @@ Dernier audit: dépôt ≈469 Mo (assets), plusieurs artefacts .bak, formulaire 
   - Critères atteints: aucune clé sensible exposée; carte fonctionnelle sans API key
 
 ### Phase 2 — Performance & Bundling (J+4 à J+7)
-- [ ] Déploiement minimal dans `docs/`: ne publier que HTML nécessaires, CSS/JS minifiés, images optimisées, polices subset
+- [~] Déploiement minimal dans `docs/`: ne publier que HTML nécessaires, CSS/JS minifiés, images optimisées, polices subset
+  - État: à finaliser (sélection des pages/actifs). Préparation côté code effectuée (scripts allégés)
   - Critères: taille `docs/` < 25 Mo; site fonctionnel sur GitHub Pages
-- [ ] Caching agressif pour assets fingerprintés
-  - Fichiers: `.htaccess` — `Cache-Control: public, max-age=31536000, immutable` + `Expires`
-  - Critères: headers présents sur CSS/JS/Images; pas de cache long sur HTML
-- [ ] SRI sur CDN (Bootstrap, jQuery) + `rel=preconnect` sur domaines critiques (fonts.gstatic.com, domaine R2 audio)
-  - Fichiers: `index.html`, `portfolio_florian_b.html`, `contact.html`
-  - Critères: attributs `integrity` + `crossorigin` visibles; preconnect effectif
-- [ ] Chargement conditionnel par page (via PJAX ou modules): ne charger que scripts nécessaires
-  - Fichiers: `index.html` (ordre scripts), `assets/js/page-hub.js` (si route-based init), retrait des plugins inutilisés par page
-  - Critères: réduction du nombre de scripts sur pages qui n’en ont pas besoin
+- [x] Caching agressif pour assets fingerprintés
+  - Fichiers: `.htaccess` — ajout `Cache-Control: public, max-age=31536000, immutable` + `Expires`, + no-store sur HTML
+  - Critères atteints: headers de cache configurés
+- [~] SRI sur CDN (Bootstrap, jQuery) + `rel=preconnect` sur domaines critiques
+  - Préconnect ajouté: Cloudflare R2 (audio) dans `index.html` et `portfolio_florian_b.html`; `fonts.gstatic.com` déjà présent
+  - SRI: contourné en grande partie en basculant Bootstrap CSS en local; SRI pour jQuery/Bootstrap JS à ajouter lors d’un accès réseau (hash exact requis)
+- [x] Chargement conditionnel par page (via PJAX ou modules)
+  - `index.html`: suppression jQuery + `jquery-placeholder-polyfill`; remplacement `packages.min.js` → `imagesloaded` + `isotope` locaux
+  - `portfolio_florian_b.html`: suppression jQuery + polyfill; remplacement `packages.min.js` → `portfolio-grid.js` (charge Isotope/imagesLoaded à la demande)
+  - `contact.html`: suppression jQuery + polyfill + `packages.min.js`
+  - Critères atteints: scripts inutiles retirés des pages qui n’en ont pas besoin
 - [ ] Purge CSS (PurgeCSS/PostCSS) sur `theme.min.css` et `swatch.bundle.css`; supprimer `revolution*.css` si inutilisés
-  - Critères: taille CSS réduite sensiblement; UI intacte
+  - Prochaine étape: outillage PurgeCSS + vérification UI
 
 ### Phase 3 — Accessibilité (J+8)
 - [ ] Ajouter un “skip to content” global (`.visually-hidden` → `#content`)
