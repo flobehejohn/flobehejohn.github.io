@@ -77,6 +77,8 @@
   ];
 
   // whitelist pages "visual-only"
+  // Pages visuelles (reload léger) — conserver audio global
+  // Parcours nécessite un boot complet (analytics + layout), ne pas le mettre ici.
   const VISUAL_ONLY_PAGES = new Set(['home','portfolio','contact']);
 
   let inflight = null; // AbortController en cours

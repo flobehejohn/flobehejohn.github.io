@@ -570,6 +570,24 @@
         return;
       }
 
+      // (0) Assurer vendors requis pour certaines pages (home/portfolio)
+      try {
+        if (targetPageName === 'home' || targetPageName === 'portfolio') {
+          await needScript(
+            ['/assets/vendor/imagesloaded.pkgd.min.js', 'https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js'],
+            () => typeof window.imagesLoaded === 'function'
+          );
+          await needScript(
+            ['/assets/vendor/isotope.pkgd.min.js', 'https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js'],
+            () => typeof window.Isotope !== 'undefined'
+          );
+          await needScript('/assets/js/isotope-skill-grid.js', () =>
+            (typeof window.initSkillGrid === 'function') || (window.SkillGrid && typeof window.SkillGrid.init === 'function')
+          );
+          await needScript('/assets/js/skill-card.js', () => typeof window.initSkillCards === 'function');
+        }
+      } catch (e) { warn('visualReload vendor ensure failed', e); }
+
       // (1) Re-bind lazy images: copy data-src -> src si pas encore chargé
       try {
         const lazyImgs = container.querySelectorAll('img[data-src], img[data-lazy-src]');

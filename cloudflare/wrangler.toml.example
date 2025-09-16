@@ -1,0 +1,9 @@
+name = "flobehejohn-cors-proxy"
+main = "cloudflare/cors-proxy-worker.js"
+compatibility_date = "2024-09-01"
+
+# Optionnel: custom domain
+# routes = [
+#   { pattern = "cors.your-domain.tld", custom_domain = true }
+# ]
+

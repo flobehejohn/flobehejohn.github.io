@@ -3,7 +3,7 @@
 // - Copie uniquement les pages et assets requis
 // - Exclut les ressources lourdes/inutiles
 
-import { mkdirSync, rmSync, readFileSync, writeFileSync, copyFileSync } from 'fs';
+import { mkdirSync, rmSync, readFileSync, writeFileSync, copyFileSync, cpSync } from 'fs';
 import { dirname, join } from 'path';
 
 const root = process.cwd();
@@ -61,10 +61,15 @@ function build() {
     ['assets/css/carte_magique.css'],
     ['assets/css/style_audio_player.css'],
     ['assets/css/bootstrap.min.css'],
+    // .NET demo specific styles
+    ['assets/css/dotnet.css'],
   ]);
 
   // 3) JS requis (noyau + UI + vendors légers)
   copyList([
+    // vendors the pages expect (local bundle)
+    ['assets/js/packages.min.js'],
+    ['assets/js/theme.min.js'],
     ['assets/js/navbar.js'],
     ['assets/js/pjax-router.js'],
     ['assets/js/player-singleton.js'],
@@ -87,6 +92,14 @@ function build() {
     ['assets/vendor/isotope.pkgd.min.js'],
     ['assets/js/playlist.json'],
   ]);
+
+  // 3.b) JS pages spécifiques (dotnet demo)
+  ensureDir(join(outDir, 'assets/js/pages'));
+  copy('assets/js/pages/dotnet_boot.js');
+  copy('assets/js/pages/dotnet_demo.js');
+
+  // 3.c) Nuage magique (utilisé par certaines pages et par app_dotnet)
+  try { cpSync(join(root, 'assets/js/nuage_magique'), join(outDir, 'assets/js/nuage_magique'), { recursive: true }); } catch {}
 
   // 4) Fonts/icônes nécessaires (FontAwesome bundle complet par simplicité)
   copy('assets/fonts/fontawesome/css/all.min.css');
@@ -116,8 +129,25 @@ function build() {
   // 7) PDF CV si utilisé
   copy('assets/images/cv/florian_cv.pdf');
 
+  // 8) Démo .NET (copie complète du dossier projet dist + helpers)
+  try {
+    cpSync(join(root, 'assets/portfolio/Projet_dotnet'), join(outDir, 'assets/portfolio/Projet_dotnet'), { recursive: true });
+  } catch {
+    // fallback: copier au minimum les fichiers essentiels si cpSync indisponible
+    copy('assets/portfolio/Projet_dotnet/app_dotnet.html');
+    copy('assets/portfolio/Projet_dotnet/config.js');
+    copy('assets/portfolio/Projet_dotnet/normalize-requests.js');
+    try {
+      ensureDir(join(outDir, 'assets/portfolio/Projet_dotnet/dist/assets'));
+      copy('assets/portfolio/Projet_dotnet/dist/index.html');
+      copy('assets/portfolio/Projet_dotnet/dist/config.js');
+      copy('assets/portfolio/Projet_dotnet/dist/normalize-requests.js');
+      copy('assets/portfolio/Projet_dotnet/dist/assets/index-Bpjn-eMl.js');
+      copy('assets/portfolio/Projet_dotnet/dist/assets/index-C7ORl4QR.css');
+    } catch {}
+  }
+
   console.log('[build-docs] Bundle minimal généré dans ./docs');
 }
 
 build();
-

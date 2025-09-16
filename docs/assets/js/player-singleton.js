@@ -343,13 +343,25 @@
         if (!isPlayerAvailable()) { warn('setPlayerSrcSafely: player absent'); return; }
         const cur = safeGetCurrentSrc();
         if (!src) { player.removeAttribute('src'); try{player.load();}catch{} return; }
-        if (cur && cur === src) return;
+        // Normalise et encode l'URL si besoin (espaces, accents)
+        let next = String(src || '').trim();
+        try {
+          // Si c'est une URL absolue valide, on l'utilise telle quelle
+          const u = new URL(next, window.location.origin);
+          next = u.href;
+        } catch {
+          try { next = encodeURI(next); } catch {}
+        }
+        if (cur && (cur === next || cur === src)) return;
         safePause();
         try {
-          player.src = src;
+          player.setAttribute('crossorigin','anonymous');
+          try { player.crossOrigin = 'anonymous'; } catch {}
+          try { player.setAttribute('playsinline',''); } catch {}
+          player.src = next;
           player.load();
         } catch (e) {
-          try { player.setAttribute('src', src); player.load(); } catch (e2) { warn('set src failed', e, e2); }
+          try { player.setAttribute('src', next); player.load(); } catch (e2) { warn('set src failed', e, e2); }
         }
         // after setting src ensure overlay removed (in case vendor created poster)
         removePosterAttributes(player);
@@ -586,25 +598,39 @@
 
       if (!play) { saveSession(true); return; }
 
-      playWithRetry(3, 300).then((ok) => {
-        if (ok) {
-          log('lecture démarrée (index=%s)', trackIndex);
-          playBtn?.classList.add('playing');
-          cover?.classList.add('playing');
-          infoPanel?.classList.add('open');
-          toggleButton?.classList.add('playing', 'large');
-          logo?.classList.add('glow-on-play');
-          saveSession(true);
-        } else {
-          err('échec de lecture après retries — on passe à la piste suivante');
-          if (playlist && playlist.length > 1) {
-            const nextIndex = (trackIndex + 1) % playlist.length;
-            setTimeout(() => setTrack(nextIndex, true), 200);
-          } else {
+      const startPlay = () => {
+        // Nudge: certaines plateformes demandent un léger décalage au démarrage
+        try { if (player.currentTime === 0) player.currentTime = 0.0001; } catch {}
+        try { player.muted = false; } catch {}
+        playWithRetry(4, 350).then((ok) => {
+          if (ok) {
+            log('lecture démarrée (index=%s)', trackIndex);
+            playBtn?.classList.add('playing');
+            cover?.classList.add('playing');
+            infoPanel?.classList.add('open');
+            toggleButton?.classList.add('playing', 'large');
+            logo?.classList.add('glow-on-play');
             saveSession(true);
+          } else {
+            err('échec de lecture après retries — on passe à la piste suivante');
+            if (playlist && playlist.length > 1) {
+              const nextIndex = (trackIndex + 1) % playlist.length;
+              setTimeout(() => setTrack(nextIndex, true), 200);
+            } else {
+              saveSession(true);
+            }
           }
-        }
-      });
+        });
+      };
+
+      if (player.readyState >= 2) {
+        startPlay();
+      } else {
+        const once = () => { player.removeEventListener('canplay', once); startPlay(); };
+        player.addEventListener('canplay', once, { once: true });
+        // Fallback timer au cas où canplay tarde
+        setTimeout(() => { try { player.removeEventListener('canplay', once); } catch{} startPlay(); }, 1200);
+      }
     }
 
     function advanceToNextTrack() {
@@ -668,6 +694,9 @@
       await ensurePlaylistReadyAndTrack();
       if (!isPlayerAvailable()) { warn('toggle requested but player absent'); return; }
       if (player.paused) {
+        // Nudge certains navigateurs pour éviter un premier play silencieux
+        try { if (player.currentTime === 0) player.currentTime = 0.0001; } catch {}
+        try { player.muted = false; } catch {}
         const ok = await playWithRetry(3, 300);
         if (ok) {
           playBtn?.classList.add('playing');
