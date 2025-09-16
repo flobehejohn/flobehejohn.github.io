@@ -196,10 +196,33 @@
       } catch (e) { warn(TAG_OV, 'removeOverlayDOM error', e); }
     }
 
+    // Sweep agressif pendant un court laps de temps pour blindage total
+    function hardOverlaySweep(durationMs = 800, everyMs = 80) {
+      try {
+        if (window._playerOverlaySweepId) return; // déjà en cours
+        const startedAt = Date.now();
+        const tick = () => {
+          try { removeOverlayDOM(); removePosterAttributes(); } catch {}
+          if (Date.now() - startedAt >= durationMs) {
+            if (window._playerOverlaySweepId) {
+              clearInterval(window._playerOverlaySweepId);
+              window._playerOverlaySweepId = 0;
+            }
+          }
+        };
+        window._playerOverlaySweepId = setInterval(tick, Math.max(30, everyMs));
+        // premier passage immédiat
+        tick();
+        debug(TAG_OV, 'hardOverlaySweep started (duration=%sms, step=%sms)', durationMs, everyMs);
+      } catch (e) { warn(TAG_OV, 'hardOverlaySweep error', e); }
+    }
+
     function setupOverlayGuard() {
       injectOverlayHideCSS();
       removePosterAttributes();
       removeOverlayDOM();
+      // blindage court et agressif pour rattraper les insertions tardives
+      hardOverlaySweep(900, 75);
 
       // observe for late insertions (PJAX / vendor init)
       try {
@@ -241,6 +264,46 @@
       } catch (e) {
         warn(TAG_OV, 'failed to attach overlay MutationObserver', e);
       }
+    }
+
+    // Nettoyage "dur" (forcé) — appelé avant navigation PJAX / déchargement
+    function hardOverlayCleanup() {
+      try {
+        if (window._playerOverlaySweepId) { try { clearInterval(window._playerOverlaySweepId); } catch {} window._playerOverlaySweepId = 0; }
+        if (window._playerOverlayObserver && window._playerOverlayObserver.disconnect) {
+          try { window._playerOverlayObserver.disconnect(); } catch {}
+          window._playerOverlayObserver = null;
+        }
+        removePosterAttributes();
+        removeOverlayDOM();
+        // remove custom poster overlays used on some project pages
+        try {
+          document.querySelectorAll('.video-poster-overlay').forEach(n => { try { n.remove(); } catch {} });
+        } catch {}
+        // remove mejs containers created for page-scoped players (but keep the global audio player)
+        try {
+          const root = document.querySelector('main[data-pjax-root]');
+          if (root) {
+            root.querySelectorAll('.mejs-container').forEach(el => {
+              try {
+                if (!el.contains(document.getElementById('audioPlayer'))) el.remove();
+              } catch {}
+            });
+          }
+        } catch {}
+        // Forcer la libération des verrous de scroll si aucun modal ouvert
+        try {
+          const b = document.body;
+          if (b) {
+            delete b.dataset._scrollLockCount;
+            delete b.dataset._prevOverflow;
+            delete b.dataset._prevPaddingRight;
+            b.style.overflow = '';
+            b.style.paddingRight = '';
+          }
+        } catch {}
+        debug(TAG_OV, 'hardOverlayCleanup executed');
+      } catch (e) { warn(TAG_OV, 'hardOverlayCleanup error', e); }
     }
 
     /* ------------------------------------------------------------------------
@@ -300,6 +363,9 @@
     window.addEventListener('DOMContentLoaded', () => { setupOverlayGuard(); safeInitMediaElementPlayer(); });
     document.addEventListener('pjax:ready', () => { setupOverlayGuard(); safeInitMediaElementPlayer(); });
     window.addEventListener('pageshow', () => { setupOverlayGuard(); safeInitMediaElementPlayer(); });
+    // Hard cleanup juste avant navigation
+    document.addEventListener('pjax:before', () => { hardOverlayCleanup(); });
+    window.addEventListener('beforeunload', () => { hardOverlayCleanup(); });
 
     /* ------------------------------------------------------------------------
        Safe helpers to avoid accessing player when null

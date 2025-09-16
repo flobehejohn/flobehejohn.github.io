@@ -28,6 +28,17 @@
   // Exposition de pageHub (API légère) — garantis l'objet existe
   window.pageHub = window.pageHub || {};
 
+  // Purge des styles page-scoped avant navigation pour éviter la contamination inter-pages
+  try {
+    document.addEventListener('pjax:before', () => {
+      try {
+        const scoped = document.head.querySelectorAll('link[rel="stylesheet"][data-page-css], style[data-page-css]');
+        scoped.forEach(n => { try { n.remove(); } catch {} });
+        dbg('page-scoped CSS purged before PJAX');
+      } catch (e) { warn('failed to purge page-scoped CSS', e); }
+    }, { passive: true });
+  } catch (e) { /* non-fatal */ }
+
   let currentPage = null;
   let synthModule = null;
 

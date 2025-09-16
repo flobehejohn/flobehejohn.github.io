@@ -436,6 +436,18 @@ ${urlShim}
 
       function openModal() {
         lastFocused = document.activeElement;
+        // Inject CSS ad hoc pour la modale (hors page dédiée)
+        try {
+          const hasAdhoc = !!document.head.querySelector('link[rel="stylesheet"][data-page-css="dotnet-adhoc"]');
+          if (!hasAdhoc) {
+            const l = document.createElement('link');
+            l.rel = 'stylesheet';
+            l.href = '/assets/css/dotnet.css';
+            l.setAttribute('data-page-css','dotnet-adhoc');
+            document.head.appendChild(l);
+          }
+        } catch {}
+        try { overlay.style.display = 'grid'; } catch {}
         overlay.classList.add('show');
         overlay.setAttribute('aria-hidden','false');
         lockBodyScroll();
@@ -450,10 +462,12 @@ ${urlShim}
       function closeModal() {
         overlay.classList.remove('show');
         overlay.setAttribute('aria-hidden','true');
+        try { overlay.style.display = 'none'; } catch {}
         off(document, 'keydown', keydownHandler);
         off(overlay, 'click', onOverlayClick);
         keydownHandler = null;
         unlockBodyScroll();
+        try { document.head.querySelectorAll('link[rel="stylesheet"][data-page-css="dotnet-adhoc"]').forEach(l => l.remove()); } catch {}
         if (lastFocused && lastFocused.focus) lastFocused.focus();
         OKL('Modale fermée');
       }
@@ -482,24 +496,7 @@ ${urlShim}
 
         if (!root) root = qs('main[data-pjax-root]') || document;
 
-        // Safety: tagguer aussi si l’HTML ne l’avait pas (mais le bon fix est dans le HTML)
-        document.body.setAttribute('data-page','dotnet_demo');
-        const main = qs('main[data-pjax-root]');
-        if (main) main.setAttribute('data-page','dotnet_demo');
-
-        // Inject CSS page-scopée (dotnet.css) si absente
-        try {
-          const head = document.head || document.getElementsByTagName('head')[0];
-          const has = !!Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
-            .find(l => (l.getAttribute('href')||'').endsWith('/assets/css/dotnet.css'));
-          if (!has) {
-            const l = document.createElement('link');
-            l.rel = 'stylesheet';
-            l.href = '/assets/css/dotnet.css';
-            l.setAttribute('data-page-css','dotnet');
-            head.appendChild(l);
-          }
-        } catch {}
+        // Pas de marquage global ni d'injection CSS ici (évite d'impacter d'autres pages)
 
         LOG('boot page…');
         initKPIs(root);
@@ -523,13 +520,8 @@ ${urlShim}
         if (state.moIframe) { try { state.moIframe.disconnect(); } catch {} }
         const ov = state.modalCtl && state.modalCtl.overlay;
         if (ov && ov.classList.contains('show')) { try { ov.classList.remove('show'); } catch {}; unlockBodyScroll(); }
-        // Retirer CSS page-scopée si injectée par init (propreté PJAX)
-        try {
-          document.querySelectorAll('link[rel="stylesheet"][data-page-css="dotnet"]').forEach(l => l.parentNode && l.parentNode.removeChild(l));
-        } catch {}
-        if (document.body.getAttribute('data-page') === 'dotnet_demo') document.body.removeAttribute('data-page');
-        const main = qs('main[data-pjax-root]');
-        if (main && main.getAttribute('data-page') === 'dotnet_demo') main.removeAttribute('data-page');
+        // Nettoyage CSS éventuel (ad hoc ou page-scopé)
+        try { document.head.querySelectorAll('link[rel="stylesheet"][data-page-css^="dotnet"]').forEach(l => l.remove()); } catch {}
       } catch (e) {
         BADL('destroy WARN', e);
       } finally {

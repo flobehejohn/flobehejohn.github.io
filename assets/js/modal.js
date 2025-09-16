@@ -24,10 +24,11 @@
       return;
     }
 
-    const overlay  = Object.assign(document.createElement('div'), { id: 'skill-modal', className: 'sc-modal-overlay', style: 'display:none' });
-    const content  = Object.assign(document.createElement('div'), { className: 'sc-modal-content' });
-    const closeBtn = Object.assign(document.createElement('span'), { className: 'sc-close-btn', innerHTML: '&times;' });
-    modalBody      = document.createElement('div'); modalBody.className = 'sc-modal-body';
+    const overlay  = Object.assign(document.createElement('div'), { id: 'skill-modal', style: 'display:none' });
+    overlay.className = 'sc-modal-overlay modal-overlay';
+    const content  = document.createElement('div'); content.className = 'sc-modal-content modal-content';
+    const closeBtn = document.createElement('span'); closeBtn.className = 'sc-close-btn close-btn'; closeBtn.innerHTML = '&times;';
+    modalBody      = document.createElement('div'); modalBody.className = 'sc-modal-body modal-body';
 
     // Fermetures
     closeBtn.addEventListener('click', closeSkillModal);
