@@ -20,14 +20,14 @@
   function createSkillModal() {
     if (document.getElementById('skill-modal')) {
       modal = document.getElementById('skill-modal');
-      modalBody = modal.querySelector('.modal-body');
+      modalBody = modal.querySelector('.sc-modal-body') || modal.querySelector('.modal-body');
       return;
     }
 
-    const overlay  = Object.assign(document.createElement('div'), { id: 'skill-modal', className: 'modal-overlay', style: 'display:none' });
-    const content  = Object.assign(document.createElement('div'), { className: 'modal-content' });
-    const closeBtn = Object.assign(document.createElement('span'), { className: 'close-btn', innerHTML: '&times;' });
-    modalBody      = document.createElement('div'); modalBody.className = 'modal-body';
+    const overlay  = Object.assign(document.createElement('div'), { id: 'skill-modal', className: 'sc-modal-overlay', style: 'display:none' });
+    const content  = Object.assign(document.createElement('div'), { className: 'sc-modal-content' });
+    const closeBtn = Object.assign(document.createElement('span'), { className: 'sc-close-btn', innerHTML: '&times;' });
+    modalBody      = document.createElement('div'); modalBody.className = 'sc-modal-body';
 
     // Fermetures
     closeBtn.addEventListener('click', closeSkillModal);
@@ -37,6 +37,27 @@
     content.append(closeBtn, modalBody);
     overlay.appendChild(content);
     document.body.appendChild(overlay);
+
+    // Inject minimal CSS once (if absent)
+    if (!document.querySelector('style[data-skill-modal-css],link[href*="/assets/css/skill-card-modal.css"]')) {
+      const css = `
+        .sc-modal-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);z-index:3000}
+        .sc-modal-overlay[aria-hidden="false"],.sc-modal-overlay.show{display:flex}
+        .sc-modal-content{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column;max-height:92vh;max-width:min(900px,92vw);width:92vw}
+        .sc-close-btn{align-self:flex-end;margin:.5rem .75rem 0 0;font-size:1.75rem;line-height:1;cursor:pointer}
+        .sc-modal-body{padding:1rem;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+        .sc-modal-body .software-logos{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin:0 0 .5rem 0}
+        .sc-modal-body .modal-logo{width:40px;height:40px;object-fit:contain;border-radius:4px;box-shadow:none;opacity:.95;transition:transform .15s ease}
+        @media (min-width: 576px){.sc-modal-body .modal-logo{width:48px;height:48px}}
+        .sc-modal-body .modal-logo:hover{transform:scale(1.06)}
+        .sc-modal-body .modal-logo.selected{outline:2px solid rgba(255,0,0,.35)}
+        .sc-modal-body h3{font-size:1.1rem;font-weight:600;text-align:center;margin:.25rem 0 .5rem}
+        .sc-modal-body p{margin:.25rem 0 .75rem}
+        @media (max-width: 767.98px){.sc-modal-content{width:100vw;height:100vh;max-height:100vh;border-radius:0}}
+      `;
+      const st = document.createElement('style'); st.type='text/css'; st.setAttribute('data-skill-modal-css','1'); st.appendChild(document.createTextNode(css));
+      document.head.appendChild(st);
+    }
 
     modal = overlay;
   }
@@ -173,13 +194,28 @@
   }
 
   // ---------- 3. Utilitaires ----------
+  function starSVG(level = 0, color = '#FFD700') {
+    const id = 'clip' + Math.random().toString(36).slice(2);
+    const base = '#ddd';
+    const ratio = Math.max(0, Math.min(1, level));
+    return `
+      <svg viewBox="0 0 24 24" width="20" height="20" style="margin:2px;vertical-align:middle">
+        <defs>
+          <clipPath id="${id}"><rect x="0" y="0" width="${24*ratio}" height="24" /></clipPath>
+        </defs>
+        <path d="M12 2.1l2.77 5.61 6.19.9-4.48 4.37 1.06 6.16L12 16.97 6.46 19.14l1.06-6.16L3.04 8.61l6.19-.9L12 2.1z" fill="${base}"/>
+        <g clip-path="url(#${id})">
+          <path d="M12 2.1l2.77 5.61 6.19.9-4.48 4.37 1.06 6.16L12 16.97 6.46 19.14l1.06-6.16L3.04 8.61l6.19-.9L12 2.1z" fill="${color}"/>
+        </g>
+      </svg>`;
+  }
+
   function getStarsHTML(val, color = '#FFD700') {
-    let html = '';
     const v = Number(val) || 0;
+    let html = '';
     for (let i = 1; i <= 5; i++) {
-      html += v >= i       ? `<i class="fas fa-star" style="color:${color}"></i>`
-           :  v >= i - 0.5 ? `<i class="fas fa-star-half-alt" style="color:${color}"></i>`
-                           : `<i class="far fa-star" style="color:#ddd"></i>`;
+      const lvl = v >= i ? 1 : (v >= i - 0.5 ? 0.5 : 0);
+      html += starSVG(lvl, color);
     }
     return html;
   }

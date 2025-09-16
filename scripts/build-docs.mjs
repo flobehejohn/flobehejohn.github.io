@@ -35,6 +35,9 @@ function transformHtml(srcPath, transforms = []) {
   for (const [pattern, repl] of transforms) {
     html = html.replace(pattern, repl);
   }
+  // Inject minimal style-guard before </body> for GitHub Pages
+  const guard = `\n<script>(function(){try{var isDotnet=(document.body&&document.body.getAttribute('data-page')==='dotnet_demo');if(!isDotnet){document.querySelectorAll('link[rel="stylesheet"][href*="/assets/css/dotnet.css"]').forEach(function(l){l.parentNode&&l.parentNode.removeChild(l);});document.body&&document.body.classList&&document.body.classList.remove('preload');}}catch(e){/* ignore */}})();</script>`;
+  html = html.replace(/\s*<\/body>/i, `${guard}\n</body>`);
   const dst = join(outDir, srcPath);
   ensureDir(dirname(dst));
   writeFileSync(dst, html, 'utf-8');
@@ -60,6 +63,7 @@ function build() {
     ['assets/css/fixes.css'],
     ['assets/css/carte_magique.css'],
     ['assets/css/style_audio_player.css'],
+    ['assets/css/skill-card-modal.css'],
     ['assets/css/bootstrap.min.css'],
     // .NET demo specific styles
     ['assets/css/dotnet.css'],
@@ -87,6 +91,10 @@ function build() {
     ['assets/js/draggable-audio-player.js'],
     ['assets/js/portfolio-grid.js'],
     ['assets/js/isotope-skill-grid.js'],
+    ['assets/js/skill-card.js'],
+    ['assets/js/skill-card-modal.js'],
+    ['assets/js/skill-modal-handler.js'],
+    ['assets/js/skill-modal-scroll-handler.js'],
     ['assets/js/contact-mailto.js'],
     ['assets/vendor/imagesloaded.pkgd.min.js'],
     ['assets/vendor/isotope.pkgd.min.js'],

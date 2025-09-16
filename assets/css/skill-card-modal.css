@@ -1,0 +1,15 @@
+/* Dedicated modal CSS for skill-cards (scoped classes to avoid interference) */
+.sc-modal-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);z-index:3000}
+.sc-modal-overlay[aria-hidden="false"],.sc-modal-overlay.show{display:flex}
+.sc-modal-content{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column;max-height:92vh;max-width:min(900px,92vw);width:92vw}
+.sc-close-btn{align-self:flex-end;margin:.5rem .75rem 0 0;font-size:1.75rem;line-height:1;cursor:pointer}
+.sc-modal-body{padding:1rem;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+@media (max-width: 767.98px){.sc-modal-content{width:100vw;height:100vh;max-height:100vh;border-radius:0}}
+
+/* Compact logo strip at top of modal */
+.sc-modal-body .software-logos{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin:0 0 .5rem 0}
+.sc-modal-body .modal-logo{width:40px;height:40px;object-fit:contain;border-radius:4px;box-shadow:none;opacity:.95;transition:transform .15s ease}
+@media (min-width: 576px){.sc-modal-body .modal-logo{width:48px;height:48px}}
+.sc-modal-body .modal-logo:hover{transform:scale(1.06)}
+.sc-modal-body h3{font-size:1.1rem;font-weight:600;text-align:center;margin:.25rem 0 .5rem}
+.sc-modal-body p{margin:.25rem 0 .75rem}

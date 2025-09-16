@@ -64,6 +64,51 @@
     return null;
   }
 
+  // -------- Base styles guard (keeps core CSS present + minimal visual reset) --
+  async function ensureBaseStyles(container = document) {
+    try {
+      // Remove accidental 'preload' flags left by some pages
+      try { document.body?.classList?.remove('preload'); } catch {}
+
+      // Ensure core CSS are present (avoid aggressive reordering to prevent flashes)
+      const head = document.head || document.getElementsByTagName('head')[0];
+      const need = [
+        '/assets/css/theme.min.css',
+        '/assets/css/swatch.bundle.css',
+        '/assets/fonts/fontawesome/css/all.min.css',
+        '/assets/css/fixes.css'
+      ];
+      need.forEach(href => {
+        try {
+          const exists = !!Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+            .find(l => (l.getAttribute('href')||'').endsWith(href));
+          if (!exists) {
+            const l = document.createElement('link');
+            l.rel = 'stylesheet';
+            l.href = href;
+            l.setAttribute('data-base-style','1');
+            head.appendChild(l);
+          }
+        } catch {}
+      });
+
+      // Re-init skill cards if present in the new content (robust PJAX)
+      try {
+        const root = (container instanceof Element) ? container : document;
+        if (root.querySelector('.skill-card')) {
+          const ok = (typeof window.initSkillCards === 'function')
+            || await needScript('/assets/js/skill-card.js', () => typeof window.initSkillCards === 'function');
+          if (ok && typeof window.initSkillCards === 'function') {
+            window.initSkillCards(root);
+            info('style-guard: initSkillCards ✔');
+          }
+        }
+      } catch(e){ warn('style-guard initSkillCards failed', e); }
+    } catch (e) {
+      warn('ensureBaseStyles failed', e);
+    }
+  }
+
   // -------- helper: robust loader with fallbacks (forces order) ---------------
   function needScript(srcOrList, testFn, { module = false } = {}) {
     const urls = Array.isArray(srcOrList) ? srcOrList : [srcOrList];
@@ -387,6 +432,7 @@
     }
 
     info('bootFor page =', page);
+    try { await ensureBaseStyles(container); } catch {}
 
     // Pages connues
     if (page === 'synth_fm')      return bootSynth(container);
@@ -704,4 +750,8 @@
   });
 
   info('chargé ✔ (page-hub with visualReload)');
+  try {
+    window.addEventListener('DOMContentLoaded', () => ensureBaseStyles());
+    document.addEventListener('pjax:ready', (e) => ensureBaseStyles(e?.detail?.container || getContainer()));
+  } catch {}
 })();
