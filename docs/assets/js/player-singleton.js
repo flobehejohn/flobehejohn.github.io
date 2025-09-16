@@ -291,6 +291,13 @@
             });
           }
         } catch {}
+        // supprimer les modales locales à la page (mais conserver les globales hors <main>)
+        try {
+          const root = document.querySelector('main[data-pjax-root]');
+          if (root) {
+            root.querySelectorAll('.modal-overlay').forEach(n => { try { n.remove(); } catch {} });
+          }
+        } catch {}
         // Forcer la libération des verrous de scroll si aucun modal ouvert
         try {
           const b = document.body;

@@ -596,6 +596,10 @@
   // -------- Hooks cycle de vie ----------------------------------------------
   document.addEventListener('DOMContentLoaded', async () => {
     const container = getContainer();
+    try {
+      const pg = container?.getAttribute('data-page') || '';
+      if (pg) document.body.setAttribute('data-page', pg); else document.body.removeAttribute('data-page');
+    } catch {}
     try { applyAudioArbiter(container); } catch {}
     try { await bootFor(container); } catch (e) { warn('bootFor error on DOMContentLoaded', e); }
     try { await initPageVideoCards(container); } catch (e) { warn('initPageVideoCards error on DOMContentLoaded', e); }
@@ -603,6 +607,10 @@
 
   document.addEventListener('pjax:ready', async (e) => {
     const container = e.detail?.container || getContainer();
+    try {
+      const pg = container?.getAttribute('data-page') || '';
+      if (pg) document.body.setAttribute('data-page', pg); else document.body.removeAttribute('data-page');
+    } catch {}
     try { applyAudioArbiter(container); } catch {}
     try { await bootFor(container); } catch (e2) { warn('bootFor error on pjax:ready', e2); }
     try { await initPageVideoCards(container); } catch (e3) { warn('initPageVideoCards error on pjax:ready', e3); }
@@ -688,6 +696,25 @@
 
       // (3) Reinit magic/photo/skill-card modules si présents
       try {
+        // S'assurer que la modale CV globale existe (nécessaire à initSkillCards)
+        try {
+          if (!document.getElementById('cv-modal')) {
+            const overlay = document.createElement('div');
+            overlay.id = 'cv-modal';
+            overlay.className = 'modal-overlay';
+            overlay.setAttribute('role','dialog');
+            overlay.setAttribute('aria-modal','true');
+            overlay.setAttribute('aria-hidden','true');
+            overlay.tabIndex = -1;
+            const content = document.createElement('div'); content.className = 'modal-content';
+            const close   = document.createElement('button'); close.className='close-btn'; close.id='close-cv-modal'; close.setAttribute('aria-label','Fermer la fenêtre'); close.innerHTML='&times;';
+            const title   = document.createElement('h2'); title.className='text-center'; title.textContent='Mon CV';
+            const body    = document.createElement('div'); body.className = 'modal-body';
+            content.append(close, title, body);
+            overlay.appendChild(content);
+            document.body.appendChild(overlay);
+          }
+        } catch (e) { warn('ensure cv-modal shell failed', e); }
         if (typeof window.initMagicPhoto === 'function') {
           try { window.initMagicPhoto(container); dbg('visualReload: initMagicPhoto'); } catch(e){ warn(e); }
         }
@@ -697,6 +724,15 @@
         if (typeof window.initMagicCards === 'function') {
           try { window.initMagicCards(container); dbg('visualReload: initMagicCards'); } catch(e){ warn(e); }
         }
+        // Assurer la dispo de la modale CV si la page la contient
+        try {
+          const needsCv = !!(container.querySelector('#open-cv-modal') || document.getElementById('cv-modal'));
+          if (needsCv) {
+            const ok = (typeof window.initCvModal === 'function')
+              || await needScript('/assets/js/cv-modal-handler.js', () => typeof window.initCvModal === 'function');
+            if (ok && typeof window.initCvModal === 'function') window.initCvModal();
+          }
+        } catch(e){ warn('visualReload: initCvModal failed', e); }
       } catch (e) { warn('visualReload module inits failed', e); }
 
       // (4) Re-bind video cards (UI-only) — n'impacte pas le flux audio
