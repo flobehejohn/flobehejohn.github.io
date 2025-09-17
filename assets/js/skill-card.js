@@ -162,13 +162,16 @@
       logos.forEach((logo) => {
         if (window.matchMedia?.('(hover:hover)').matches) {
           logo.addEventListener('mouseenter', () => {
+            // Aperçu rouge uniquement au survol (non persistant)
             showRating(logo, starsContainer, customRating);
           });
           logo.addEventListener('mouseleave', resetToDefault);
         }
+        // Sur clic dans la carte, on ouvre la modale (pas de note rouge persistante en liste)
         logo.addEventListener('click', (e) => {
+          e.preventDefault();
           e.stopPropagation();
-          showRating(logo, starsContainer, customRating);
+          openSkillModal();
         });
       });
 
