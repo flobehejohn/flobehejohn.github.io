@@ -615,6 +615,19 @@
     try { applyAudioArbiter(container); } catch {}
     try { await bootFor(container); } catch (e2) { warn('bootFor error on pjax:ready', e2); }
     try { await initPageVideoCards(container); } catch (e3) { warn('initPageVideoCards error on pjax:ready', e3); }
+    // Assurer player prêt + reprise si on revient sur home via PJAX
+    try {
+      const pg = (container?.getAttribute('data-page') || '').toLowerCase();
+      if (pg === 'home') {
+        const needInit = (!window.AudioApp || window.AudioApp.initialized !== true) && !!document.getElementById('audioPlayer');
+        if (needInit) {
+          await needScript('/assets/js/player-singleton.js', () => window.AudioApp && window.AudioApp.initialized);
+        }
+        if (window.AudioApp && typeof window.AudioApp.resumeFromSnapshot === 'function') {
+          await window.AudioApp.resumeFromSnapshot();
+        }
+      }
+    } catch (ee) { warn('pjax:ready resumeFromSnapshot failed', ee); }
   });
 
   document.addEventListener('pjax:beforeReplace', () => {
@@ -737,8 +750,15 @@
         // Sur la home, tenter une reprise si un snapshot forcé était enregistré
         try {
           const pageName = (container?.getAttribute('data-page') || '').toLowerCase();
-          if (pageName === 'home' && window.AudioApp && typeof window.AudioApp.resumeFromSnapshot === 'function') {
-            await window.AudioApp.resumeFromSnapshot();
+          if (pageName === 'home') {
+            // Si le singleton n'est pas encore initialisé mais que l'UI a été injectée → (re)charger le script
+            const needInit = (!window.AudioApp || window.AudioApp.initialized !== true) && !!document.getElementById('audioPlayer');
+            if (needInit) {
+              await needScript('/assets/js/player-singleton.js', () => window.AudioApp && window.AudioApp.initialized);
+            }
+            if (window.AudioApp && typeof window.AudioApp.resumeFromSnapshot === 'function') {
+              await window.AudioApp.resumeFromSnapshot();
+            }
           }
         } catch(e){ warn('visualReload: resumeFromSnapshot failed', e); }
       } catch (e) { warn('visualReload module inits failed', e); }

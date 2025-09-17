@@ -12,8 +12,8 @@
     const root =
       container instanceof Element ? container : document.querySelector('main[data-pjax-root]') || document;
 
-    // Ne s'exécute que sur la page d'accueil (où se trouve l'UI du lecteur)
-    if (!(root instanceof Element) || root.getAttribute('data-page') !== 'home') return;
+    // Exécute si l'UI du lecteur global est présente dans le DOM
+    if (!(root instanceof Element)) return;
 
     // Déjà initialisé pour CE container ? (le flag disparaît quand PJAX remplace le <main>)
     if (root.__floatingAudioInit) return;
@@ -59,7 +59,31 @@
     // ——————————————————————————————————————————
     // Liaison des événements (pour CE container)
     // ——————————————————————————————————————————
-    toggleButton.addEventListener('click', togglePlayerVisibility);
+    async function ensureSingletonReady() {
+      try {
+        const needsInit = (!window.AudioApp || window.AudioApp.initialized !== true) && !!document.getElementById('audioPlayer');
+        if (needsInit) {
+          await new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = '/assets/js/player-singleton.js?v=' + Date.now();
+            s.async = false;
+            s.onload = () => resolve();
+            s.onerror = (e) => reject(e);
+            document.head.appendChild(s);
+          });
+        }
+      } catch {}
+    }
+
+    toggleButton.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await ensureSingletonReady();
+      if (window.AudioApp && typeof window.AudioApp.open === 'function') {
+        window.AudioApp.open();
+      } else {
+        togglePlayerVisibility();
+      }
+    });
     if (closeBtn) closeBtn.addEventListener('click', hidePlayer);
 
     const onPlay = () => { toggleButton.classList.add('playing', 'large'); };

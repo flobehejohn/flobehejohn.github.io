@@ -615,6 +615,18 @@
     try { applyAudioArbiter(container); } catch {}
     try { await bootFor(container); } catch (e2) { warn('bootFor error on pjax:ready', e2); }
     try { await initPageVideoCards(container); } catch (e3) { warn('initPageVideoCards error on pjax:ready', e3); }
+    try {
+      const pg = (container?.getAttribute('data-page') || '').toLowerCase();
+      if (pg === 'home') {
+        const needInit = (!window.AudioApp || window.AudioApp.initialized !== true) && !!document.getElementById('audioPlayer');
+        if (needInit) {
+          await needScript('/assets/js/player-singleton.js', () => window.AudioApp && window.AudioApp.initialized);
+        }
+        if (window.AudioApp && typeof window.AudioApp.resumeFromSnapshot === 'function') {
+          await window.AudioApp.resumeFromSnapshot();
+        }
+      }
+    } catch (ee) { warn('pjax:ready resumeFromSnapshot failed', ee); }
   });
 
   document.addEventListener('pjax:beforeReplace', () => {

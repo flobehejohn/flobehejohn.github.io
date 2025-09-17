@@ -277,6 +277,20 @@
     log('body classes synced →', document.body.className);
   }
 
+  // Injecte l'UI globale du lecteur audio (#responsiveWrapper) si absente,
+  // en la recopiant depuis le document de destination (doc)
+  function syncGlobalAudioUIFrom(doc) {
+    try {
+      const hasWrapper = !!document.getElementById('responsiveWrapper');
+      const srcWrapper = doc.getElementById('responsiveWrapper');
+      if (!hasWrapper && srcWrapper) {
+        const clone = srcWrapper.cloneNode(true);
+        document.body.appendChild(clone);
+        log('global audio UI injected from target doc');
+      }
+    } catch (e) { warn('syncGlobalAudioUIFrom failed', e); }
+  }
+
   function syncRootAttributes(container, newRoot) {
     const page = newRoot.getAttribute('data-page');
     if (page) {
@@ -354,6 +368,8 @@
       // parse safely
       const parser = new DOMParser();
       const doc = parser.parseFromString(fragmentHTML, 'text/html');
+      // Avant tout, s'assurer que l'UI audio globale est présente
+      try { syncGlobalAudioUIFrom(doc); } catch {}
 
       // collect new nodes
       const newNodes = [...doc.head.querySelectorAll('style[data-page-css],link[rel="stylesheet"][data-page-css]')];
