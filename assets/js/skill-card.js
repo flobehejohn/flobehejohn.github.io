@@ -182,6 +182,9 @@
           e.stopPropagation();
           openSkillModal();
         });
+        // Touch/pointer friendly
+        logo.addEventListener('touchend', (e) => { e.preventDefault(); e.stopPropagation(); openSkillModal(); }, { passive: false });
+        logo.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') { e.preventDefault(); e.stopPropagation(); openSkillModal(); } });
       });
 
       card.addEventListener('click', () => { openSkillModal(); });

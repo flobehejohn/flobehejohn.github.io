@@ -148,15 +148,14 @@
 
       logos.forEach((logo) => {
         if (window.matchMedia?.('(hover:hover)').matches) {
-          logo.addEventListener('mouseenter', () => {
-            showRating(logo, starsContainer, customRating);
-          });
+          logo.addEventListener('mouseenter', () => { showRating(logo, starsContainer, customRating); });
           logo.addEventListener('mouseleave', resetToDefault);
         }
-        logo.addEventListener('click', (e) => {
-          e.stopPropagation();
-          showRating(logo, starsContainer, customRating);
-        });
+        // Clic = ouvre la modale (pas de note rouge persistante en liste)
+        logo.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openSkillModal(); });
+        // Touch/pointer friendly
+        logo.addEventListener('touchend', (e) => { e.preventDefault(); e.stopPropagation(); openSkillModal(); }, { passive: false });
+        logo.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') { e.preventDefault(); e.stopPropagation(); openSkillModal(); } });
       });
 
       card.addEventListener('click', () => {

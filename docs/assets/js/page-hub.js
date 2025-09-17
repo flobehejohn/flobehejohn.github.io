@@ -625,10 +625,33 @@
           || await needScript('/assets/js/cv-modal-handler.js', () => typeof window.initCvModal === 'function');
         if (okCv && typeof window.initCvModal === 'function') window.initCvModal();
       }
-      if (container.querySelector('.skill-card')) {
+      // Injecter une modale dédiée aux skills si absente
+      try {
+        if (!document.getElementById('skill-modal')) {
+          const overlay  = document.createElement('div');
+          overlay.id = 'skill-modal';
+          overlay.className = 'sc-modal-overlay modal-overlay';
+          overlay.setAttribute('role','dialog');
+          overlay.setAttribute('aria-modal','true');
+          overlay.setAttribute('aria-hidden','true');
+          const content  = document.createElement('div'); content.className = 'sc-modal-content modal-content';
+          const closeBtn = document.createElement('span'); closeBtn.className = 'sc-close-btn close-btn'; closeBtn.innerHTML = '\u00d7';
+          const body     = document.createElement('div'); body.className = 'sc-modal-body modal-body';
+          content.append(closeBtn, body); overlay.appendChild(content);
+          document.body.appendChild(overlay);
+          closeBtn.addEventListener('click', () => { overlay.style.display='none'; overlay.setAttribute('aria-hidden','true'); body.innerHTML=''; });
+          overlay.addEventListener('click', (e) => { if (e.target === overlay) { closeBtn.click(); } });
+          content.addEventListener('click', (e) => e.stopPropagation());
+        }
+      } catch {}
+      const hasCards = !!container.querySelector('.skill-card');
+      if (hasCards) {
         const okStars = (typeof window.initSkillCards === 'function')
           || await needScript('/assets/js/skill-card.js', () => typeof window.initSkillCards === 'function');
         if (okStars && typeof window.initSkillCards === 'function') window.initSkillCards(container);
+        try { setTimeout(() => { try { window.initSkillCards(container); } catch {} }, 0); } catch {}
+        try { setTimeout(() => { try { window.initSkillCards(container); } catch {} }, 150); } catch {}
+        try { requestAnimationFrame(() => { try { window.initSkillCards(container); } catch {} }); } catch {}
       }
     } catch (e4) { warn('pjax:ready skill-cards/cv-modal ensure failed', e4); }
   });
