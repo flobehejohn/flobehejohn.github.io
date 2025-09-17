@@ -87,7 +87,9 @@
         '/assets/css/theme.min.css',
         '/assets/css/swatch.bundle.css',
         '/assets/fonts/fontawesome/css/all.min.css',
-        '/assets/css/fixes.css'
+        '/assets/css/fixes.css',
+        '/assets/css/style_audio_player.css',
+        '/assets/css/skill-card-modal.css'
       ];
       need.forEach(href => {
         try {
@@ -732,6 +734,13 @@
             if (ok && typeof window.initCvModal === 'function') window.initCvModal();
           }
         } catch(e){ warn('visualReload: initCvModal failed', e); }
+        // Sur la home, tenter une reprise si un snapshot forcé était enregistré
+        try {
+          const pageName = (container?.getAttribute('data-page') || '').toLowerCase();
+          if (pageName === 'home' && window.AudioApp && typeof window.AudioApp.resumeFromSnapshot === 'function') {
+            await window.AudioApp.resumeFromSnapshot();
+          }
+        } catch(e){ warn('visualReload: resumeFromSnapshot failed', e); }
       } catch (e) { warn('visualReload module inits failed', e); }
 
       // (4) Re-bind video cards (UI-only) — n'impacte pas le flux audio

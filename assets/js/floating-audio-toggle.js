@@ -12,8 +12,8 @@
     const root =
       container instanceof Element ? container : document.querySelector('main[data-pjax-root]') || document;
 
-    // Ne s'exécute que sur la page d'accueil (où se trouve l'UI du lecteur)
-    if (!(root instanceof Element) || root.getAttribute('data-page') !== 'home') return;
+    // Exécute si l'UI du lecteur global est présente dans le DOM
+    if (!(root instanceof Element)) return;
 
     // Déjà initialisé pour CE container ? (le flag disparaît quand PJAX remplace le <main>)
     if (root.__floatingAudioInit) return;
@@ -59,7 +59,12 @@
     // ——————————————————————————————————————————
     // Liaison des événements (pour CE container)
     // ——————————————————————————————————————————
-    toggleButton.addEventListener('click', togglePlayerVisibility);
+    // Si PlayerSingleton est dispo → ouvrir la modale via son API (plus robuste)
+    if (window.AudioApp && typeof window.AudioApp.open === 'function') {
+      toggleButton.addEventListener('click', (e) => { e.preventDefault(); window.AudioApp.open(); });
+    } else {
+      toggleButton.addEventListener('click', togglePlayerVisibility);
+    }
     if (closeBtn) closeBtn.addEventListener('click', hidePlayer);
 
     const onPlay = () => { toggleButton.classList.add('playing', 'large'); };
