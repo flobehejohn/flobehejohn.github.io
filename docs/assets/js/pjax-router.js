@@ -277,6 +277,23 @@
     log('body classes synced →', document.body.className);
   }
 
+  // Injecte/remplace la modale CV globale (#cv-modal) pour garantir le contenu complet
+  function syncGlobalCvModalFrom(doc) {
+    try {
+      const src = doc.getElementById('cv-modal');
+      if (!src) return;
+      const dst = document.getElementById('cv-modal');
+      const isComplete = (el) => !!(el && el.querySelector('#cv-viewer'));
+      if (!dst) {
+        document.body.appendChild(src.cloneNode(true));
+        log('cv-modal injected from target doc');
+      } else if (!isComplete(dst) && isComplete(src)) {
+        dst.replaceWith(src.cloneNode(true));
+        log('cv-modal replaced with complete version from target doc');
+      }
+    } catch (e) { warn('syncGlobalCvModalFrom failed', e); }
+  }
+
   // Injecte l'UI globale du lecteur audio (#responsiveWrapper) si absente,
   // en la recopiant depuis le document de destination (doc)
   function syncGlobalAudioUIFrom(doc) {
@@ -368,6 +385,8 @@
       // parse safely
       const parser = new DOMParser();
       const doc = parser.parseFromString(fragmentHTML, 'text/html');
+      // S'assurer que la modale CV complète est présente
+      try { syncGlobalCvModalFrom(doc); } catch {}
       // Avant tout, s'assurer que l'UI audio globale est présente
       try { syncGlobalAudioUIFrom(doc); } catch {}
 
@@ -450,6 +469,8 @@
       syncAudioPolicyMetaFrom(doc);
       syncPageScopedStylesFrom(doc); // clones link/style[data-page-css] venant du <head> de la réponse (fallback)
       syncBodyClassesFrom(doc);
+      // S'assurer que la modale CV complète est présente
+      syncGlobalCvModalFrom(doc);
       syncRootAttributes(container, newRoot);
 
       // Politique audio source/destination

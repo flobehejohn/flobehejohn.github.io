@@ -873,20 +873,15 @@
       modalEl.classList.add('open', 'show', 'is-open');
       modalEl.style.display = 'flex';
       modalEl.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('modal-open');
-
-      if (!isDesktop()) {
-        window.__utils?.lockBodyScroll?.() ?? (document.body.style.overflow = 'hidden');
-      } else {
-        ensureBodyUnblockedOnDesktop();
-      }
+      // Ne pas bloquer le scroll de la page pour le lecteur audio (UX mobile)
+      // Pas de body.modal-open ici; laisser le scroll global actif.
+      ensureBodyUnblockedOnDesktop();
     }
     function closeModal() {
       if (!modalEl) return;
       modalEl.classList.remove('open', 'show', 'is-open');
       modalEl.style.display = 'none';
       modalEl.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('modal-open');
       if (wrapperEl) wrapperEl.style.display = 'none';
 
       setTimeout(() => {

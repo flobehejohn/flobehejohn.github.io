@@ -105,18 +105,7 @@
         } catch {}
       });
 
-      // Re-init skill cards if present in the new content (robust PJAX)
-      try {
-        const root = (container instanceof Element) ? container : document;
-        if (root.querySelector('.skill-card')) {
-          const ok = (typeof window.initSkillCards === 'function')
-            || await needScript('/assets/js/skill-card.js', () => typeof window.initSkillCards === 'function');
-          if (ok && typeof window.initSkillCards === 'function') {
-            window.initSkillCards(root);
-            info('style-guard: initSkillCards ✔');
-          }
-        }
-      } catch(e){ warn('style-guard initSkillCards failed', e); }
+      // (skill-cards init déplacé dans pjax:ready pour garantir l'ordre avec cv-modal)
     } catch (e) {
       warn('ensureBaseStyles failed', e);
     }
@@ -628,6 +617,21 @@
         }
       }
     } catch (ee) { warn('pjax:ready resumeFromSnapshot failed', ee); }
+
+    // Filets de sécurité: s'assurer que cv-modal est bindée et que les skill-cards sont initialisées
+    try {
+      const needsCv = !!(container.querySelector('#open-cv-modal') || document.getElementById('cv-modal'));
+      if (needsCv) {
+        const okCv = (typeof window.initCvModal === 'function')
+          || await needScript('/assets/js/cv-modal-handler.js', () => typeof window.initCvModal === 'function');
+        if (okCv && typeof window.initCvModal === 'function') window.initCvModal();
+      }
+      if (container.querySelector('.skill-card')) {
+        const okStars = (typeof window.initSkillCards === 'function')
+          || await needScript('/assets/js/skill-card.js', () => typeof window.initSkillCards === 'function');
+        if (okStars && typeof window.initSkillCards === 'function') window.initSkillCards(container);
+      }
+    } catch (e4) { warn('pjax:ready skill-cards/cv-modal ensure failed', e4); }
   });
 
   document.addEventListener('pjax:beforeReplace', () => {
@@ -710,25 +714,7 @@
 
       // (3) Reinit magic/photo/skill-card modules si présents
       try {
-        // S'assurer que la modale CV globale existe (nécessaire à initSkillCards)
-        try {
-          if (!document.getElementById('cv-modal')) {
-            const overlay = document.createElement('div');
-            overlay.id = 'cv-modal';
-            overlay.className = 'modal-overlay';
-            overlay.setAttribute('role','dialog');
-            overlay.setAttribute('aria-modal','true');
-            overlay.setAttribute('aria-hidden','true');
-            overlay.tabIndex = -1;
-            const content = document.createElement('div'); content.className = 'modal-content';
-            const close   = document.createElement('button'); close.className='close-btn'; close.id='close-cv-modal'; close.setAttribute('aria-label','Fermer la fenêtre'); close.innerHTML='&times;';
-            const title   = document.createElement('h2'); title.className='text-center'; title.textContent='Mon CV';
-            const body    = document.createElement('div'); body.className = 'modal-body';
-            content.append(close, title, body);
-            overlay.appendChild(content);
-            document.body.appendChild(overlay);
-          }
-        } catch (e) { warn('ensure cv-modal shell failed', e); }
+        // (cv-modal est désormais injectée depuis le fragment cible par pjax-router)
         if (typeof window.initMagicPhoto === 'function') {
           try { window.initMagicPhoto(container); dbg('visualReload: initMagicPhoto'); } catch(e){ warn(e); }
         }

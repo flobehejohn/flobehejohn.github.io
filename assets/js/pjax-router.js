@@ -291,6 +291,23 @@
     } catch (e) { warn('syncGlobalAudioUIFrom failed', e); }
   }
 
+  // Injecte/remplace la modale CV globale (#cv-modal) pour garantir le contenu complet
+  function syncGlobalCvModalFrom(doc) {
+    try {
+      const src = doc.getElementById('cv-modal');
+      if (!src) return;
+      const dst = document.getElementById('cv-modal');
+      const isComplete = (el) => !!(el && el.querySelector('#cv-viewer'));
+      if (!dst) {
+        document.body.appendChild(src.cloneNode(true));
+        log('cv-modal injected from target doc');
+      } else if (!isComplete(dst) && isComplete(src)) {
+        dst.replaceWith(src.cloneNode(true));
+        log('cv-modal replaced with complete version from target doc');
+      }
+    } catch (e) { warn('syncGlobalCvModalFrom failed', e); }
+  }
+
   function syncRootAttributes(container, newRoot) {
     const page = newRoot.getAttribute('data-page');
     if (page) {
@@ -370,6 +387,9 @@
       const doc = parser.parseFromString(fragmentHTML, 'text/html');
       // Avant tout, s'assurer que l'UI audio globale est présente
       try { syncGlobalAudioUIFrom(doc); } catch {}
+
+      // S'assurer que la modale CV complète est présente
+      try { syncGlobalCvModalFrom(doc); } catch {}
 
       // collect new nodes
       const newNodes = [...doc.head.querySelectorAll('style[data-page-css],link[rel="stylesheet"][data-page-css]')];
@@ -452,6 +472,8 @@
       syncBodyClassesFrom(doc);
       // S'assurer que l'UI audio globale est présente (home → .NET → home)
       syncGlobalAudioUIFrom(doc);
+      // S'assurer que la modale CV complète est présente
+      syncGlobalCvModalFrom(doc);
       syncRootAttributes(container, newRoot);
 
       // Politique audio source/destination

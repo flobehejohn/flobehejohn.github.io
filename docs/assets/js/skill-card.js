@@ -37,11 +37,11 @@
     }
     if (!modal) return;
 
-    const modalContent = modal.querySelector('.modal-content');
-    const modalBody    = modal.querySelector('.modal-body');
-    if (!modalContent || !modalBody) return;
+    const modalContent = modal ? modal.querySelector('.modal-content') : null;
+    const modalBody    = modal ? modal.querySelector('.modal-body') : null;
+    // on continue même si la modale n'est pas encore présente (étoiles/hover)
 
-    if (!modal.__skillBound) {
+    if (modal && !modal.__skillBound) {
       const onOutsideClick = () => {
         modal.style.display = 'none';
         modal.setAttribute('aria-hidden', 'true');
@@ -51,7 +51,7 @@
       const onInsideClick = (e) => e.stopPropagation();
 
       modal.addEventListener('click', onOutsideClick);
-      modalContent.addEventListener('click', onInsideClick);
+      if (modalContent) modalContent.addEventListener('click', onInsideClick);
 
       modal.querySelectorAll('.close-btn, #close-skill-modal, #close-cv-modal, [data-dismiss="modal"]')
         .forEach((btn) => btn.addEventListener('click', onOutsideClick));
@@ -109,7 +109,11 @@
       };
 
       const openSkillModal = () => {
-        modalBody.innerHTML = `
+        let m = document.getElementById('skill-modal') || document.getElementById('skillModal') || null;
+        if (!m) { const cv = document.getElementById('cv-modal'); if (cv && cv.querySelector('.modal-body')) m = cv; }
+        if (!m) return;
+        const mBody = m.querySelector('.modal-body'); if (!mBody) return;
+        mBody.innerHTML = `
           <div class="software-logos">${card.querySelector('.software-logos')?.innerHTML || ''}</div>
           <h3>${card.querySelector('h3')?.textContent || ''}</h3>
           <p>${card.querySelector('p')?.innerHTML || ''}</p>
@@ -117,14 +121,14 @@
           <div class="custom-rating"><span class="tool-name"></span></div>
         `;
 
-        const modalStars        = modalBody.querySelector('.rating-stars');
-        const modalCustomRating = modalBody.querySelector('.custom-rating');
-        const modalLogos        = modalBody.querySelectorAll('.software-logos .logo');
+        const modalStars        = mBody.querySelector('.rating-stars');
+        const modalCustomRating = mBody.querySelector('.custom-rating');
+        const modalLogos        = mBody.querySelectorAll('.software-logos .logo');
 
         renderStars(modalStars, defaultRating);
-        modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden', 'false');
-        currentOpenModal = modal;
+        m.style.display = 'flex';
+        m.setAttribute('aria-hidden', 'false');
+        currentOpenModal = m;
 
         modalLogos.forEach((logo) => {
           logo.addEventListener('click', (e) => {
@@ -133,7 +137,7 @@
           });
         });
 
-        modalBody.onclick = (e) => {
+        mBody.onclick = (e) => {
           if (!e.target.classList.contains('logo')) {
             modalLogos.forEach((l) => l.classList.remove('selected'));
             renderStars(modalStars, defaultRating);
@@ -156,7 +160,6 @@
       });
 
       card.addEventListener('click', () => {
-        if (!modal || !modalBody || !modalContent) return;
         openSkillModal();
       });
     });
