@@ -647,6 +647,20 @@
       } catch {}
       const hasCards = !!container.querySelector('.skill-card');
       if (hasCards) {
+        // Filets vendor: s'assurer qu'Isotope + imagesLoaded + init grid sont prêts
+        try {
+          await needScript(
+            ['/assets/vendor/imagesloaded.pkgd.min.js', 'https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js'],
+            () => typeof window.imagesLoaded === 'function'
+          );
+          await needScript(
+            ['/assets/vendor/isotope.pkgd.min.js', 'https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js'],
+            () => typeof window.Isotope !== 'undefined'
+          );
+          await needScript('/assets/js/isotope-skill-grid.js', () => (typeof window.initSkillGrid === 'function') || (window.SkillGrid && typeof window.SkillGrid.init === 'function'));
+          // init grid (scope = container)
+          try { (window.initSkillGrid || window.SkillGrid?.init)?.(container); } catch {}
+        } catch {}
         const okStars = (typeof window.initSkillCards === 'function')
           || await needScript('/assets/js/skill-card.js', () => typeof window.initSkillCards === 'function');
         if (okStars && typeof window.initSkillCards === 'function') window.initSkillCards(container);

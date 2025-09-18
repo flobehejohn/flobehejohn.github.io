@@ -499,6 +499,9 @@
         installPageScopedCSSFromFragment(html);
       } catch (e) { warn('installPageScopedCSSFromFragment call failed', e); }
 
+      // Pré-initialiser rapidement la grille compétences si disponible (réactivité filtres)
+      try { (window.initSkillGrid || window.SkillGrid?.init)?.(container); } catch (e) { /* silent */ }
+
       // Purge des overlays/backdrops orphelins (post-swap)
       document.body.classList.remove('modal-open');
       document.querySelectorAll('.modal-backdrop,.offcanvas-backdrop').forEach(n => n.remove());

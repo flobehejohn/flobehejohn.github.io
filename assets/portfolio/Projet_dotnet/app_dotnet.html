@@ -250,6 +250,9 @@
     <script src="config.js" charset="utf-8" defer></script>
     <script src="normalize-requests.js" charset="utf-8" defer></script>
 
+    <!-- Précharge le gestionnaire de grille (filtres Accueil) pour PJAX → évite toute course -->
+    <script src="/assets/js/isotope-skill-grid.js" defer></script>
+
     <!-- Boot .NET (PJAX-safe). data-app-base = chemin du dossier app -->
     <script src="/assets/js/pages/dotnet_boot.js" defer data-app-base="/assets/portfolio/Projet_dotnet/"></script>
 
