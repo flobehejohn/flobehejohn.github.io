@@ -33,37 +33,44 @@
     <!-- Fond nuage/particules (piloté par /assets/js/nuage_magique/test.js) -->
     <div id="cloud-bg"></div>
 
-    <!-- NAVBAR (liens root-relatifs pour compat PJAX et GitHub Pages) -->
+        <!-- NAVBAR -->
     <nav id="masthead" class="navbar navbar-expand-lg navbar-sticky swatch-custom" role="navigation" aria-label="Navigation principale">
       <div class="container d-flex justify-content-between align-items-center">
-        <!-- BRAND -->
+        <!-- BRAND (lien simple = PJAX OK) -->
         <a href="/index.html" class="navbar-brand d-flex align-items-center">
           <img src="/assets/images/log_zim.webp" alt="Logo" class="brand-logo" />
           <span class="site-title">FLORIAN-BEHEJOHN</span>
         </a>
 
-        <!-- Bouton audio + Burger -->
-        <button
-          id="openAudioPlayer"
-          class="audio-player-nav-btn"
-          title="Lecteur Audio"
-          type="button"
-          tabindex="0"
-          aria-label="Ouvrir le lecteur audio">
-          <i class="fas fa-headphones-alt"></i>
-        </button>
-        <button
-          class="navbar-toggler collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#main-navbar"
-          aria-controls="main-navbar"
-          aria-expanded="false"
-          aria-label="Menu">
-          <span class="navbar-toggler-icon">
-            <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-          </span>
-        </button>
+        <!-- Groupe à droite : bouton lecteur + burger -->
+        <div class="d-flex align-items-center" id="navRightGroup">
+          <!-- Bouton ouvre-modale lecteur -->
+          <button
+            id="openAudioPlayer"
+            class="audio-player-nav-btn"
+            title="Lecteur Audio"
+            type="button"
+            tabindex="0"
+            aria-label="Ouvrir le lecteur audio">
+            <i class="fas fa-headphones-alt"></i>
+          </button>
+
+          <!-- Toggler Bootstrap -->
+          <button
+            class="navbar-toggler collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#main-navbar"
+            aria-controls="main-navbar"
+            aria-expanded="false"
+            aria-label="Menu">
+            <span class="navbar-toggler-icon">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </span>
+          </button>
+        </div>
 
         <!-- MENU COLLAPSABLE -->
         <div class="collapse navbar-collapse" id="main-navbar">
@@ -324,6 +331,7 @@
     <!-- 10) Tes scripts globaux -->
     <script src="/assets/js/animated-text.js" defer></script>
     <script src="/assets/js/script.js" defer></script>
+<script src="/assets/js/section-navigator.js" defer></script>
     <!-- 11) Nuage (module ESM) -->
     <script type="module" src="/assets/js/nuage_magique/test.js"></script>
     <!-- 12) (exemple) boot démo .NET si présent sur le site -->
@@ -410,3 +418,4 @@
     </script>
   </body>
 </html>
+
