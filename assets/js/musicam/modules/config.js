@@ -144,6 +144,7 @@ export const THRESHOLDS_DEFAULT = {
 // 6) Valeurs par défaut (défauts “musicals” sûrs)
 // ————————————————————————————————————————————————
 export const DEFAULTS = {
+  autoResolution: false,
   instrument: 'piano',
   outputMode: 'auto',                  // 'auto' | 'synth' | 'midi'
   movementThreshold: MOVEMENT_THRESH_GLOBAL,

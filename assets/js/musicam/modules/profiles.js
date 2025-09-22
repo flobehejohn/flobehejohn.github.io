@@ -15,7 +15,8 @@ function pickProfileFromState() {
     mappingMode: state.mappingMode,
     calibration: state.calibration,                 // { wristOffsetY, deadZone }
     tuning: { modelType: state.tuning?.modelType || 'full' }, // 'full' | 'lite'
-    level: state._desiredLevel || undefined         // 'hi' | 'mid' (facultatif)
+    level: state._desiredLevel || undefined,         // 'hi' | 'mid' (facultatif)
+    autoResolution: !!state.autoResolution
   };
 }
 
@@ -37,6 +38,8 @@ function applyProfileToState(p) {
     state.tuning = { ...(state.tuning || {}), modelType: p.tuning.modelType };
   }
   if (p.level) state._desiredLevel = p.level;
+  if (typeof p.autoResolution === "boolean") state.autoResolution = p.autoResolution;
+  else if (p.level) state.autoResolution = (p.level === "hi");
 
   return true;
 }

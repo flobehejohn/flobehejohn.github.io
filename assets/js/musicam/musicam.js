@@ -83,7 +83,7 @@ let _resBucket = 'mid';
 let _resTarget = 'mid';
 let _resUpStreak = 0, _resDownStreak = 0;
 let _resCooldownT = 0;
-const RES_UP_NEED = 45, RES_DOWN_NEED = 45, RES_COOLDOWN_MS = 2500;
+const RES_UP_NEED = 120, RES_DOWN_NEED = 30, RES_COOLDOWN_MS = 2500;
 
 let _resSwitching = false;
 let _pendingSwitch = null;
@@ -170,7 +170,7 @@ async function setVideoResolution(level, { videoEl } = {}){
 
 function autoResolutionFromPerf(fpsEMA){
   const dt = nowMs() - _resCooldownT; if (dt < RES_COOLDOWN_MS) return;
-  const fps = +fpsEMA || 0, GOOD_UP = 31, BAD_DN = 17;
+  const fps = +fpsEMA || 0, GOOD_UP = 35, BAD_DN = 22;
 
   if (fps > GOOD_UP) { _resUpStreak++;  _resDownStreak = 0; }
   else if (fps < BAD_DN) { _resDownStreak++; _resUpStreak = 0; }

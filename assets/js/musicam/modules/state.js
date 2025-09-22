@@ -21,6 +21,8 @@ export const state = {
   noteOffHoldMs:     (DEFAULTS?.noteOffHoldMs ?? 160),
   currentScale:      (DEFAULTS?.currentScale ?? 'C_major_pentatonic'),
   mappingMode:       (DEFAULTS?.mappingMode ?? 'y-pitch'),
+  autoResolution: (DEFAULTS?.autoResolution ?? false),
+  _desiredLevel: (DEFAULTS?.videoLevel ?? 'mid'),
 
   // Ancien suivi FPS (gardé pour compat de badges externes)
   fpsEMA: 0,
