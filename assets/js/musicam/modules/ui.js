@@ -63,18 +63,60 @@ function fitOverlayToVideo() {
   const cvs   = $('overlay');
   if (!video || !cvs) return;
 
-  const w = video.clientWidth  || video.videoWidth  || 640;
-  const h = video.clientHeight || video.videoHeight || 480;
+  const host = (typeof cvs.closest === 'function' ? cvs.closest('.video-wrap') : null) || video.parentElement;
+  const stage = host?.parentElement || null;
+  const hostRect  = host && typeof host.getBoundingClientRect === 'function' ? host.getBoundingClientRect()  : null;
+  const stageRect = stage && typeof stage.getBoundingClientRect === 'function' ? stage.getBoundingClientRect() : null;
+  const targetRatio = 16 / 9;
+
+  const widthCandidates = [
+    stageRect?.width,
+    stage?.clientWidth,
+    stage?.offsetWidth,
+    hostRect?.width,
+    host?.clientWidth,
+    host?.offsetWidth,
+    video.clientWidth,
+    video.offsetWidth,
+    video.videoWidth,
+    cvs.clientWidth,
+    cvs.offsetWidth,
+  ].map(v => (typeof v === 'number' ? v : Number(v) || 0));
+
+  const cssW = widthCandidates.find(v => v > 1) || 0;
+  if (!cssW) {
+    delete cvs.dataset.overlayWidth;
+    delete cvs.dataset.overlayHeight;
+    if (host) {
+      host.style.removeProperty('height');
+      host.style.removeProperty('--video-wrap-height');
+      host.style.removeProperty('width');
+    }
+    return;
+  }
+
+  const widthPx = Math.round(cssW);
+  const cssH = Math.max(1, Math.round(widthPx / targetRatio));
+
+  if (host) {
+    host.style.removeProperty('width');
+    host.style.removeProperty('--video-wrap-height');
+    host.style.removeProperty('height');
+  }
 
   // ⚠️ OffscreenCanvas : ne PAS toucher cvs.width/height (géré côté worker)
   // On ajuste seulement le rendu CSS pour la superposition 1:1.
   cvs.style.position = 'absolute';
   cvs.style.inset = '0';
-  cvs.style.width = w + 'px';
-  cvs.style.height = h + 'px';
+  cvs.style.width = '100%';
+  cvs.style.height = '100%';
   cvs.style.pointerEvents = 'none';
   cvs.style.zIndex = '10';
+
+  cvs.dataset.overlayWidth  = String(widthPx);
+  cvs.dataset.overlayHeight = String(cssH);
 }
+
 
 function startOverlaySyncLoop() {
   let t = 0;
@@ -380,3 +422,5 @@ export function syncControlsFromState() {
     setIf('sensitivity', state.movementThreshold);
   }
 }
+
+

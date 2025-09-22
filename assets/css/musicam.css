@@ -54,6 +54,7 @@
     width:min(1100px, 96vw);
     display:grid; gap:14px;
     grid-template-columns: 1fr;               /* mobile par défaut */
+    justify-items: stretch;
   }
   
   /* Breakpoints (option de colonnes latérales si tu veux plus tard) */
@@ -78,8 +79,33 @@
     min-width: 2px; min-height: 2px; /* garde-fous anti 0×0 */
     width: 100%;
   }
-  
+
+  @supports not (aspect-ratio: 16 / 9){
+    .video-wrap{
+      height:auto;
+    }
+    .video-wrap::before{
+      content: "";
+      display:block;
+      width:100%;
+      padding-top:56.25%;
+    }
+  }
   /* Base : occuper le cadre (le JS choisit cover/contain via classe) */
+
+  /* Neutralise la cover audio qui déborde sur MusiCam */
+  .video-wrap.cover,
+  .video-wrap.contain{
+    width: 100%;
+    height: auto;
+    padding: 0;
+    border-radius: var(--radius-lg);
+    background:#000;
+    box-shadow: 0 20px 70px #0009, 0 0 0 1px var(--ring) inset;
+    overflow:hidden;
+    flex-shrink: initial;
+  }
+
   .video-wrap video,
   .video-wrap canvas{
     position:absolute; inset:0;
@@ -344,3 +370,4 @@
 .adv[open] .adv-summary{
   box-shadow: 0 10px 32px rgba(255,179,71,.45);
 }
+

@@ -273,8 +273,20 @@ function applyFit(mode) {
 function computeFitMapping() {
   if (!webcam || !canvas) return null;
   const host = videoWrap || canvas;
-  const cssW = canvas.clientWidth  || host.clientWidth  || canvas.width  || 1;
-  const cssH = canvas.clientHeight || host.clientHeight || canvas.height || 1;
+  const targetRatio = 16 / 9;
+
+  const dataW = Number(canvas.dataset?.overlayWidth)  || 0;
+  const dataH = Number(canvas.dataset?.overlayHeight) || 0;
+
+  let cssW = host?.clientWidth || canvas.clientWidth || dataW || host?.offsetWidth || canvas.offsetWidth || canvas.width || 0;
+  let cssH = host?.clientHeight || canvas.clientHeight || dataH || host?.offsetHeight || canvas.offsetHeight || canvas.height || 0;
+
+  if (!cssW && cssH) cssW = Math.round(cssH * targetRatio);
+  if (!cssH && cssW) cssH = Math.round(cssW / targetRatio);
+
+  cssW = cssW > 0 ? cssW : 960;
+  cssH = cssH > 0 ? cssH : Math.round(cssW / targetRatio);
+
   const vidW = webcam.videoWidth  || 1;
   const vidH = webcam.videoHeight || 1;
   const sw = cssW / vidW, sh = cssH / vidH;
@@ -403,10 +415,12 @@ async function start(){
 
       const pumpResize = () => {
         try {
+          const dataW = Number(canvas.dataset?.overlayWidth)  || canvas.clientWidth  || cssW;
+          const dataH = Number(canvas.dataset?.overlayHeight) || canvas.clientHeight || cssH;
           drawWorker?.postMessage({
             type: 'resize',
-            cssW: canvas.clientWidth  || cssW,
-            cssH: canvas.clientHeight || cssH,
+            cssW: dataW,
+            cssH: dataH,
             dpr:  window.devicePixelRatio || dpr
           });
           postFitToWorker(); // calage précis après resize
@@ -654,3 +668,5 @@ function buildSkeletonFlat() {
   };
   window.MusiCam = Object.assign(window.MusiCam || {}, api);
 })();
+
+
