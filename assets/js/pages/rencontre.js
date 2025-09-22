@@ -111,9 +111,10 @@
         try { video.setAttribute('data-playing', 'true'); } catch {}
       };
   
-      const onPauseOrEnded = () => {
+      const onPauseOrEnded = (evt) => {
         try { video.removeAttribute('data-playing'); } catch {}
-        if (globalPausedByThis) {
+        const shouldResume = evt && evt.type === 'ended';
+        if (shouldResume && globalPausedByThis) {
           const resumed = tryResumeGlobalPlayer();
           if (resumed) globalPausedByThis = false;
         }
