@@ -31,7 +31,7 @@
 }
 
 /* Container central */
-[data-page="synth_fm"] .container {
+[data-page="synth_fm"] > .container {
   width: 100%;
   max-width: 610px;
   margin: 0 auto;
