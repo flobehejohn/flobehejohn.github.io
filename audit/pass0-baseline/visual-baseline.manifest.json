@@ -1,7 +1,7 @@
 {
   "baselineId": "pass0-prod-reference-20260423",
-  "status": "spec-only",
-  "limitation": "Les captures PNG n'ont pas pu être produites depuis cet environnement GitHub-only. Le manifeste définit la vérité attendue pour une capture Playwright ultérieure.",
+  "status": "automation-ready",
+  "limitation": "Les captures PNG ne sont pas encore matérialisées tant que la CI n'a pas passé validate puis smoke. La spec de capture Playwright et la publication d'artefacts CI sont maintenant en place.",
   "captures": [
     {
       "name": "home-desktop",
@@ -153,9 +153,22 @@
       "captured": false
     }
   ],
-  "recommendedCaptureCommand": "npx playwright test tests/smoke.spec.ts --project=chromium",
+  "recommendedCaptureCommands": {
+    "smoke": "npm run test:smoke",
+    "visual": "npm run test:visual",
+    "all": "npm run test:e2e"
+  },
+  "ciBehavior": {
+    "order": [
+      "npm run validate",
+      "npm run test:smoke",
+      "npm run test:visual"
+    ],
+    "artifact": "visual-baseline-screenshots"
+  },
   "recommendedFollowUp": [
-    "Ajouter une spec dédiée de capture visuelle quand la CI smoke est verte.",
-    "Versionner les PNG seulement après validation manuelle de la parité visuelle desktop/mobile."
+    "Faire passer Validate repository pour débloquer le smoke.",
+    "Valider manuellement la première génération PNG desktop/mobile avant d'envisager du VRT bloquant.",
+    "Ne versionner les PNG qu'après stabilisation du rendu et réduction des animations parasites."
   ]
 }
