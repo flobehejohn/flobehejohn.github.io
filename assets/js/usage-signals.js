@@ -15,7 +15,9 @@
   function writeQueue(items) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items.slice(-MAX_ITEMS)));
-    } catch {}
+    } catch {
+      void 0;
+    }
   }
 
   function push(type, details = {}) {
