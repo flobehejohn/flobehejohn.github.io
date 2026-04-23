@@ -1,6 +1,4 @@
-import { defineConfig } from '@playwright/test';
-
-export default defineConfig({
+export default {
   testDir: './tests',
   timeout: 30_000,
   retries: process.env.CI ? 1 : 0,
@@ -18,4 +16,4 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 120_000
   }
-});
+};
