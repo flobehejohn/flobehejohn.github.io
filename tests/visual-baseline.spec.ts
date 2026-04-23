@@ -1,8 +1,9 @@
-import playwright from '@playwright/test';
+import { createRequire } from 'module';
 import { mkdirSync } from 'fs';
 import { dirname, join } from 'path';
 
-const { test, expect } = playwright;
+const require = createRequire(import.meta.url);
+const { test, expect } = require('@playwright/test') as typeof import('@playwright/test');
 const CAPTURE_DIR = join(process.cwd(), 'audit', 'pass0-baseline', 'screenshots');
 
 const captures = [
