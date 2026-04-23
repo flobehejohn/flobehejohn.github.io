@@ -6,7 +6,7 @@ const { test, expect } = require('@playwright/test') as typeof import('@playwrig
 const routes = [
   { path: '/', heading: /Au croisement|innovation/i },
   { path: '/portfolio_florian_b.html', heading: /Portfolio/i },
-  { path: '/parcours.html', heading: /Analytics|Parcours/i },
+  { path: '/parcours.html', heading: /Analytics|Parcours|Actions rapides/i },
   { path: '/contact.html', heading: /Contact/i }
 ];
 
