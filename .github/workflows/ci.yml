@@ -28,8 +28,20 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Validate repository
-        run: npm run validate
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build docs
+        run: npm run build
+
+      - name: SEO audit
+        run: npm run audit:seo
+
+      - name: Build guard
+        run: npm run audit:build
 
       - name: Run smoke tests
         run: npm run test:smoke
