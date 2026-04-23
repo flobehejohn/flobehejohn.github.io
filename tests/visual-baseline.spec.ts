@@ -1,7 +1,8 @@
-import { test, expect, type Page } from '@playwright/test';
+import playwright from '@playwright/test';
 import { mkdirSync } from 'fs';
 import { dirname, join } from 'path';
 
+const { test, expect } = playwright;
 const CAPTURE_DIR = join(process.cwd(), 'audit', 'pass0-baseline', 'screenshots');
 
 const captures = [
@@ -67,20 +68,16 @@ function ensureDir(path: string) {
   mkdirSync(dirname(path), { recursive: true });
 }
 
-async function settlePage(page: Page) {
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForTimeout(1200);
-  await page.evaluate(() => {
-    document.body.classList.remove('preload');
-    (document.documentElement as HTMLElement).style.scrollBehavior = 'auto';
-  });
-}
-
 for (const capture of captures) {
   test(`visual baseline ${capture.name}`, async ({ page }) => {
     await page.setViewportSize(capture.viewport);
     await page.goto(capture.route, { waitUntil: 'domcontentloaded' });
-    await settlePage(page);
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForTimeout(1200);
+    await page.evaluate(() => {
+      document.body.classList.remove('preload');
+      (document.documentElement as HTMLElement).style.scrollBehavior = 'auto';
+    });
 
     for (const anchor of capture.anchors) {
       await expect(page.locator(anchor).first(), `Anchor missing for ${capture.name}: ${anchor}`).toHaveCount(1);
