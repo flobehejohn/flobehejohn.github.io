@@ -1,0 +1,159 @@
+{
+  "baselineId": "pass0-prod-reference-20260423",
+  "generatedAt": "2026-04-23",
+  "productionReference": {
+    "branch": "main",
+    "commit": "0918c23535158d4c713936869a85ca2bee2b7727",
+    "siteUrl": "https://flobehejohn.github.io/",
+    "snapshotBranch": "snapshot/pass0-prod-reference-20260423"
+  },
+  "workingReference": {
+    "branch": "refactor/repo-hardening-ci-seo-analytics-20260423",
+    "commit": "b74550d1f9d1a4e0cd63da88dd751a1d02fc1611"
+  },
+  "seoBaseline": {
+    "robots": {
+      "userAgent": "*",
+      "allow": "/",
+      "sitemap": "https://flobehejohn.github.io/sitemap.xml"
+    },
+    "sitemap": [
+      "https://flobehejohn.github.io/",
+      "https://flobehejohn.github.io/index.html",
+      "https://flobehejohn.github.io/portfolio_florian_b.html",
+      "https://flobehejohn.github.io/parcours.html",
+      "https://flobehejohn.github.io/contact.html"
+    ],
+    "pages": [
+      {
+        "route": "/",
+        "aliases": ["/index.html"],
+        "title": "Florian-Behejohn",
+        "description": "Portfolio interactif de Florian Behejohn, créateur sonore, designer sonore et développeur web. Découvrez son univers sonore, visuel et ses projets innovants.",
+        "canonical": "https://flobehejohn.github.io",
+        "favicon": "/assets/images/favicon.ico",
+        "ogImage": "https://flobehejohn.github.io/assets/images/log_zim.jpg",
+        "expectedHeadingRegex": "Au croisement|innovation",
+        "publishedPath": "docs/index.html"
+      },
+      {
+        "route": "/portfolio_florian_b.html",
+        "title": "Portfolio – Florian Behejohn",
+        "description": "Portfolio interactif et immersif de Florian Behejohn : projets sonores, audiovisuels et numériques, innovation et design.",
+        "canonical": "https://flobehejohn.github.io/portfolio_florian_b.html",
+        "favicon": "/assets/images/favicon.ico",
+        "expectedHeadingRegex": "Portfolio",
+        "sourcePath": "portfolio_florian_b.html"
+      },
+      {
+        "route": "/parcours.html",
+        "title": "Analytics – Florian Behejohn",
+        "description": "Visualisation des analytics anonymisés : interactions, comportements et score d’engagement, avec fond de particules.",
+        "canonical": "https://flobehejohn.github.io/parcours.html",
+        "expectedHeadingRegex": "Analytics|Parcours",
+        "sourcePath": "parcours.html"
+      },
+      {
+        "route": "/contact.html",
+        "title": "Contact – Florian Behejohn",
+        "description": "Contacter Florian Behejohn – développement, audio, audiovisuel, UX/UI et projets interactifs.",
+        "canonical": "https://flobehejohn.github.io/contact.html",
+        "expectedHeadingRegex": "Contact",
+        "sourcePath": "contact.html"
+      }
+    ]
+  },
+  "navigationBaseline": {
+    "primaryNavRoutes": [
+      "/index.html",
+      "/portfolio_florian_b.html",
+      "/parcours.html",
+      "/contact.html"
+    ],
+    "portfolioLeafRoutes": [
+      "/assets/portfolio/projet_rencontre/rencontre.html",
+      "/assets/portfolio/projet_holon/holon.html",
+      "/assets/portfolio/projet_crea_en_cours/crea_en_cours.html",
+      "/assets/portfolio/projet_synth/main_synth_fm.html",
+      "/assets/portfolio/nuage_magique/nuage_magique_def.html",
+      "/assets/portfolio/projet_ehm/ehm.html",
+      "/assets/portfolio/projet_mac_val/mac_val.html",
+      "/assets/portfolio/projet_musicam/projet_musicam.html",
+      "/assets/portfolio/projet_smart_city/smart_city.html",
+      "/assets/portfolio/Projet_dotnet/app_dotnet.html"
+    ]
+  },
+  "criticalAssets": {
+    "css": [
+      "/assets/css/theme.min.css",
+      "/assets/css/swatch.bundle.css",
+      "/assets/css/fixes.css",
+      "/assets/css/carte_magique.css",
+      "/assets/css/style_audio_player.css",
+      "/assets/css/skill-card-modal.css",
+      "/assets/css/bootstrap.min.css",
+      "/assets/css/dotnet.css"
+    ],
+    "jsCore": [
+      "/assets/js/navbar.js",
+      "/assets/js/pjax-router.js",
+      "/assets/js/player-singleton.js",
+      "/assets/js/page-hub.js",
+      "/assets/js/portfolio-grid.js",
+      "/assets/js/contact-mailto.js",
+      "/assets/js/floating-audio-toggle.js",
+      "/assets/js/responsive-audio-player-scaler.js",
+      "/assets/js/draggable-audio-player.js",
+      "/assets/js/analytics.js",
+      "/assets/js/usage-signals.js",
+      "/assets/js/pages/dotnet_boot.js"
+    ],
+    "imagesAndBranding": [
+      "/assets/images/favicon.ico",
+      "/assets/images/favicons/favicon.ico",
+      "/assets/images/log_zim.jpg",
+      "/assets/images/log_zim.webp",
+      "/assets/images/platine.jpg",
+      "/assets/images/platine.webp",
+      "/assets/images/people/moi_.png",
+      "/assets/images/people/moi_.webp"
+    ],
+    "fontsAndIcons": [
+      "/assets/fonts/fontawesome/css/all.min.css",
+      "/assets/fonts/fontawesome/webfonts/fa-solid-900.woff2",
+      "/assets/fonts/fontawesome/webfonts/fa-regular-400.woff2",
+      "/assets/fonts/fontawesome/webfonts/fa-brands-400.woff2",
+      "/svg-icons/outline-icons.svg"
+    ],
+    "externalDependencies": [
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com",
+      "https://pub-280f3c4082bb477f9ad37b96d10ee653.r2.dev",
+      "https://pub-525a19d7515c4507b60232d7af96dd8f.r2.dev"
+    ]
+  },
+  "analyticsTargetBaseline": {
+    "mode": "queue-only",
+    "loader": "/assets/js/analytics.js",
+    "collector": "/assets/js/usage-signals.js",
+    "localStorageKeys": [
+      "site_usage_signals_v1",
+      "site_analytics_queue_v1"
+    ],
+    "globalEventTypes": [
+      "page_view",
+      "click",
+      "audio_play",
+      "audio_pause",
+      "audio_end",
+      "page_unload"
+    ],
+    "observabilitySurface": "/parcours.html",
+    "notes": [
+      "Le chargeur analytics actuel installe une collecte locale sans envoi serveur par défaut.",
+      "La présence de deux clés de stockage local indique une cible analytics encore à aligner fonctionnellement."
+    ]
+  }
+}

@@ -30,6 +30,7 @@
     "@eslint/js": "^9.25.1",
     "@playwright/test": "^1.55.0",
     "@types/isotope-layout": "^3.0.14",
+    "@types/node": "^22.15.3",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.25.1",
     "eslint-plugin-vue": "^10.0.0",
@@ -41,13 +42,23 @@
     "typescript-eslint": "^8.31.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build:docs",
+    "build:docs": "node scripts/build-docs.mjs",
+    "build:ts": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "audit:seo": "node scripts/seo-audit.mjs",
+    "audit:build": "node scripts/build-guard.mjs",
+    "validate": "npm run lint && npm run typecheck && npm run build && npm run audit:seo && npm run audit:build",
+    "test:e2e": "playwright test",
+    "test:smoke": "playwright test tests/smoke.spec.ts",
+    "test:visual": "playwright test tests/visual-baseline.spec.ts",
     "start": "npm run serve",
-    "watch": "tsc --watch",
+    "watch": "tsc -p tsconfig.build.json --watch",
     "serve": "lite-server",
+    "serve:docs": "node scripts/serve-docs.mjs",
     "dev:proxy": "node scripts/dev-cors-proxy.mjs",
     "prefix-css": "postcss assets/css/theme.css -o assets/css/theme-prefixed.css",
-    "clean:docs": "node -e \"require('fs').rmSync('docs',{recursive:true,force:true})\"",
-    "build:docs": "node scripts/build-docs.mjs"
+    "clean:docs": "node -e \"require('fs').rmSync('docs',{recursive:true,force:true})\""
   }
 }
