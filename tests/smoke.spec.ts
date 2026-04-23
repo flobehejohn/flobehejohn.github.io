@@ -1,4 +1,6 @@
-import { test, expect } from '@playwright/test';
+import playwright from '@playwright/test';
+
+const { test, expect } = playwright;
 
 const routes = [
   { path: '/', heading: /Au croisement|innovation/i },
