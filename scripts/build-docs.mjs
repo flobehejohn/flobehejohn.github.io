@@ -27,7 +27,9 @@ function ensureDir(p) {
 function cleanOutDir() {
   try {
     rmSync(outDir, { recursive: true, force: true });
-  } catch {}
+  } catch {
+    void 0;
+  }
   ensureDir(outDir);
 }
 
@@ -148,6 +150,7 @@ function build() {
     ['assets/js/skill-modal-scroll-handler.js'],
     ['assets/js/contact-mailto.js'],
     ['assets/js/analytics.js'],
+    ['assets/js/usage-signals.js'],
     ['assets/vendor/imagesloaded.pkgd.min.js'],
     ['assets/vendor/isotope.pkgd.min.js'],
     ['assets/js/playlist.json']
@@ -161,7 +164,9 @@ function build() {
   // 6) Nuage magique (utilisé par certaines pages et par app_dotnet)
   try {
     cpSync(join(root, 'assets/js/nuage_magique'), join(outDir, 'assets/js/nuage_magique'), { recursive: true });
-  } catch {}
+  } catch {
+    void 0;
+  }
 
   // 7) Fonts/icônes nécessaires
   copy('assets/fonts/fontawesome/css/all.min.css');
@@ -202,7 +207,9 @@ function build() {
       copyIfExists('assets/portfolio/Projet_dotnet/dist/normalize-requests.js');
       copyIfExists('assets/portfolio/Projet_dotnet/dist/assets/index-Bpjn-eMl.js');
       copyIfExists('assets/portfolio/Projet_dotnet/dist/assets/index-C7ORl4QR.css');
-    } catch {}
+    } catch {
+      void 0;
+    }
   }
 
   console.log('[build-docs] Bundle minimal généré dans ./docs');
