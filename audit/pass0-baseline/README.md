@@ -21,6 +21,10 @@ Cette baseline fige l’état de référence du site avant poursuite de la refac
   - spécification de baseline visuelle desktop/mobile
   - anchors visuels attendus page par page
   - noms de captures attendus
+  - ordre d’exécution CI pour la capture
+- `tests/visual-baseline.spec.ts`
+  - capture Playwright desktop/mobile
+  - génération de PNG dans `audit/pass0-baseline/screenshots`
 
 ## Ce qui a été réellement gelé
 
@@ -56,6 +60,22 @@ La cible actuellement préparée dans la branche de refactor est un mode **local
 
 La baseline recense aussi la page `parcours.html` comme surface d’observabilité dédiée.
 
+### 5. Capture visuelle automatisée
+La capture visuelle Playwright est maintenant câblée :
+
+- `npm run test:smoke`
+- `npm run test:visual`
+
+Dans la CI GitHub Actions, l’ordre cible est désormais :
+
+1. `npm run validate`
+2. `npm run test:smoke`
+3. `npm run test:visual`
+
+Les PNG générés sont publiés en artefact CI :
+
+- `visual-baseline-screenshots`
+
 ## Limites constatées pendant cette pass
 
 ### Pas de vrai tag Git créé
@@ -66,7 +86,7 @@ Pour conserver un équivalent robuste et référençable, j’ai créé la branc
 
 ### Pas de captures PNG réellement produites depuis cet environnement
 Je peux lire et modifier le dépôt, mais pas ouvrir/rendre le site comme un navigateur live dans cet environnement.
-La baseline visuelle est donc **spécifiée** dans `visual-baseline.manifest.json`, mais les PNG desktop/mobile restent à capturer ensuite depuis un run Playwright local ou CI.
+La baseline visuelle est donc **spécifiée et automatisée**, mais les PNG desktop/mobile ne seront matérialisés qu’après passage de `validate` puis `smoke` dans la CI ou en local.
 
 ### Divergence analytics déjà visible
 Deux clés de stockage local apparaissent dans l’état courant :
@@ -82,4 +102,5 @@ Ce n’est pas bloquant pour Pass 0, mais c’est un point d’alignement à tra
 
 - toute refacto doit préserver cette baseline ou documenter explicitement ses écarts ;
 - la branche `snapshot/pass0-prod-reference-20260423` sert de point de retour fiable ;
-- `baseline.manifest.json` devient la source de vérité du périmètre public minimal à garantir.
+- `baseline.manifest.json` devient la source de vérité du périmètre public minimal à garantir ;
+- `visual-baseline.manifest.json` et `tests/visual-baseline.spec.ts` forment la référence de capture desktop/mobile à faire passer en CI.
