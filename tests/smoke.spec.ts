@@ -1,6 +1,7 @@
-import playwright from '@playwright/test';
+import { createRequire } from 'module';
 
-const { test, expect } = playwright;
+const require = createRequire(import.meta.url);
+const { test, expect } = require('@playwright/test') as typeof import('@playwright/test');
 
 const routes = [
   { path: '/', heading: /Au croisement|innovation/i },
