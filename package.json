@@ -30,6 +30,7 @@
     "@eslint/js": "^9.25.1",
     "@playwright/test": "^1.55.0",
     "@types/isotope-layout": "^3.0.14",
+    "@types/node": "^22.15.3",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.25.1",
     "eslint-plugin-vue": "^10.0.0",
