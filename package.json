@@ -50,6 +50,8 @@
     "audit:build": "node scripts/build-guard.mjs",
     "validate": "npm run lint && npm run typecheck && npm run build && npm run audit:seo && npm run audit:build",
     "test:e2e": "playwright test",
+    "test:smoke": "playwright test tests/smoke.spec.ts",
+    "test:visual": "playwright test tests/visual-baseline.spec.ts",
     "start": "npm run serve",
     "watch": "tsc -p tsconfig.build.json --watch",
     "serve": "lite-server",
