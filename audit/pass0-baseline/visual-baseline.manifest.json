@@ -1,0 +1,161 @@
+{
+  "baselineId": "pass0-prod-reference-20260423",
+  "status": "spec-only",
+  "limitation": "Les captures PNG n'ont pas pu être produites depuis cet environnement GitHub-only. Le manifeste définit la vérité attendue pour une capture Playwright ultérieure.",
+  "captures": [
+    {
+      "name": "home-desktop",
+      "route": "/",
+      "viewport": { "width": 1440, "height": 1200 },
+      "outputPath": "audit/pass0-baseline/screenshots/home-desktop.png",
+      "expectedAnchors": [
+        "#masthead",
+        "#openAudioPlayer",
+        "main[data-page='home']",
+        "#magic-photo",
+        "#skills-grid"
+      ],
+      "expectedAboveTheFold": [
+        "headline home visible",
+        "portrait principal visible",
+        "navbar visible",
+        "accès lecteur audio visible"
+      ],
+      "captured": false
+    },
+    {
+      "name": "home-mobile",
+      "route": "/",
+      "viewport": { "width": 390, "height": 844 },
+      "outputPath": "audit/pass0-baseline/screenshots/home-mobile.png",
+      "expectedAnchors": [
+        "#masthead",
+        ".navbar-toggler",
+        "#openAudioPlayer",
+        "main[data-page='home']"
+      ],
+      "expectedAboveTheFold": [
+        "burger visible",
+        "headline home lisible",
+        "CTA/navigation mobile visible"
+      ],
+      "captured": false
+    },
+    {
+      "name": "portfolio-desktop",
+      "route": "/portfolio_florian_b.html",
+      "viewport": { "width": 1440, "height": 1200 },
+      "outputPath": "audit/pass0-baseline/screenshots/portfolio-desktop.png",
+      "expectedAnchors": [
+        "#masthead",
+        "main[data-page='portfolio']",
+        "#portfolio-list",
+        ".grid",
+        ".carte-projet"
+      ],
+      "expectedAboveTheFold": [
+        "titre Portfolio visible",
+        "grille portfolio visible",
+        "filtres portfolio visibles"
+      ],
+      "captured": false
+    },
+    {
+      "name": "portfolio-mobile",
+      "route": "/portfolio_florian_b.html",
+      "viewport": { "width": 390, "height": 844 },
+      "outputPath": "audit/pass0-baseline/screenshots/portfolio-mobile.png",
+      "expectedAnchors": [
+        "#masthead",
+        ".navbar-toggler",
+        "main[data-page='portfolio']",
+        ".grid"
+      ],
+      "expectedAboveTheFold": [
+        "titre Portfolio visible",
+        "première carte projet visible",
+        "navigation mobile intacte"
+      ],
+      "captured": false
+    },
+    {
+      "name": "parcours-desktop",
+      "route": "/parcours.html",
+      "viewport": { "width": 1440, "height": 1200 },
+      "outputPath": "audit/pass0-baseline/screenshots/parcours-desktop.png",
+      "expectedAnchors": [
+        "#masthead",
+        "main[data-page='parcours']",
+        "#cloud-bg",
+        "#analyticsDashboard",
+        "#analyticsToggle"
+      ],
+      "expectedAboveTheFold": [
+        "fond particules visible",
+        "panneau analytics visible",
+        "zone playground visible"
+      ],
+      "captured": false
+    },
+    {
+      "name": "parcours-mobile",
+      "route": "/parcours.html",
+      "viewport": { "width": 390, "height": 844 },
+      "outputPath": "audit/pass0-baseline/screenshots/parcours-mobile.png",
+      "expectedAnchors": [
+        "#masthead",
+        ".navbar-toggler",
+        "main[data-page='parcours']",
+        "#analyticsDashboard"
+      ],
+      "expectedAboveTheFold": [
+        "analytics pane toujours accessible",
+        "fond vivant visible",
+        "navbar mobile lisible"
+      ],
+      "captured": false
+    },
+    {
+      "name": "contact-desktop",
+      "route": "/contact.html",
+      "viewport": { "width": 1440, "height": 1200 },
+      "outputPath": "audit/pass0-baseline/screenshots/contact-desktop.png",
+      "expectedAnchors": [
+        "#masthead",
+        "main[data-page='contact']",
+        "#contactForm",
+        "#mapDirections",
+        "#emailSafe"
+      ],
+      "expectedAboveTheFold": [
+        "titre Contact visible",
+        "carte/contact cards visibles",
+        "formulaire visible"
+      ],
+      "captured": false
+    },
+    {
+      "name": "contact-mobile",
+      "route": "/contact.html",
+      "viewport": { "width": 390, "height": 844 },
+      "outputPath": "audit/pass0-baseline/screenshots/contact-mobile.png",
+      "expectedAnchors": [
+        "#masthead",
+        ".navbar-toggler",
+        "main[data-page='contact']",
+        "#contactForm"
+      ],
+      "expectedAboveTheFold": [
+        "titre Contact visible",
+        "formulaire accessible",
+        "navigation mobile intacte"
+      ],
+      "captured": false
+    }
+  ],
+  "recommendedCaptureCommand": "npx playwright test tests/smoke.spec.ts --project=chromium",
+  "recommendedFollowUp": [
+    "Ajouter une spec dédiée de capture visuelle quand la CI smoke est verte.",
+    "Versionner les PNG seulement après validation manuelle de la parité visuelle desktop/mobile."
+  ]
+}
