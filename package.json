@@ -41,13 +41,21 @@
     "typescript-eslint": "^8.31.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build:docs",
+    "build:docs": "node scripts/build-docs.mjs",
+    "build:ts": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "audit:seo": "node scripts/seo-audit.mjs",
+    "audit:build": "node scripts/build-guard.mjs",
+    "validate": "npm run lint && npm run typecheck && npm run build && npm run audit:seo && npm run audit:build",
+    "test:e2e": "playwright test",
     "start": "npm run serve",
-    "watch": "tsc --watch",
+    "watch": "tsc -p tsconfig.build.json --watch",
     "serve": "lite-server",
+    "serve:docs": "node scripts/serve-docs.mjs",
     "dev:proxy": "node scripts/dev-cors-proxy.mjs",
     "prefix-css": "postcss assets/css/theme.css -o assets/css/theme-prefixed.css",
-    "clean:docs": "node -e \"require('fs').rmSync('docs',{recursive:true,force:true})\"",
-    "build:docs": "node scripts/build-docs.mjs"
+    "clean:docs": "node -e \"require('fs').rmSync('docs',{recursive:true,force:true})\""
   }
 }
