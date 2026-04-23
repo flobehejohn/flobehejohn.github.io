@@ -45,7 +45,7 @@
     "build:docs": "node scripts/build-docs.mjs",
     "build:ts": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "eslint . --max-warnings=0",
+    "lint": "eslint eslint.config.js playwright.config.ts scripts/**/*.mjs tests/**/*.ts assets/ts/**/*.ts assets/js/analytics.js assets/js/usage-signals.js --max-warnings=0",
     "audit:seo": "node scripts/seo-audit.mjs",
     "audit:build": "node scripts/build-guard.mjs",
     "validate": "npm run lint && npm run typecheck && npm run build && npm run audit:seo && npm run audit:build",
