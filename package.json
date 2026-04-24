@@ -12,26 +12,11 @@
     "node": "20.20.2",
     "npm": "10.8.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/flobehejohn/flobehejohn.github.io"
-  },
-  "bugs": {
-    "url": "https://github.com/flobehejohn/flobehejohn.github.io/issues"
-  },
-  "keywords": [
-    "portfolio",
-    "web design",
-    "typescript",
-    "isotope"
-  ],
-  "engines": {
-    "node": "20.20.2",
-    "npm": ">=10.8.2"
-  },
-  "dependencies": {
-    "lite-server": "^2.6.1"
-  },
+  "repository": { "type": "git", "url": "https://github.com/flobehejohn/flobehejohn.github.io" },
+  "bugs": { "url": "https://github.com/flobehejohn/flobehejohn.github.io/issues" },
+  "keywords": ["portfolio", "web design", "typescript", "isotope"],
+  "engines": { "node": "20.20.2", "npm": ">=10.8.2" },
+  "dependencies": { "lite-server": "^2.6.1" },
   "devDependencies": {
     "@eslint/js": "^9.25.1",
     "@playwright/test": "^1.55.0",
@@ -60,11 +45,19 @@
     "ci:validate": "npm run validate",
     "ci:smoke": "npm run test:smoke",
     "ci:runtime": "npm run test:runtime",
+    "ci:particles-runtime": "npm run test:particles-runtime",
+    "ci:audio-runtime": "npm run test:audio-runtime",
+    "ci:dynamic-text": "npm run test:dynamic-text",
+    "ci:ga4-runtime": "npm run test:ga4-runtime",
     "ci:rich-runtime": "npm run test:rich-runtime",
     "ci:visual": "npm run test:visual",
     "test:e2e": "playwright test",
     "test:smoke": "playwright test tests/smoke.spec.ts",
     "test:runtime": "playwright test tests/runtime-contract.spec.ts",
+    "test:particles-runtime": "playwright test tests/legacy-particles-runtime.spec.ts",
+    "test:audio-runtime": "playwright test tests/legacy-audio-runtime.spec.ts",
+    "test:dynamic-text": "playwright test tests/legacy-dynamic-text.spec.ts",
+    "test:ga4-runtime": "playwright test tests/analytics-ga4-runtime.spec.ts",
     "test:rich-runtime": "playwright test tests/legacy-rich-runtime.spec.ts",
     "test:visual": "playwright test tests/visual-baseline.spec.ts",
     "start": "npm run serve",
