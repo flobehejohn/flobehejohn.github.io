@@ -62,6 +62,9 @@ jobs:
       - name: Run deep portfolio certification
         run: npx playwright test tests/portfolio-deep-runtime.spec.ts
 
+      - name: Run rich legacy runtime certification
+        run: npm run test:rich-runtime
+
       - name: Capture visual baseline
         run: npm run test:visual
 
