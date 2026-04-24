@@ -85,6 +85,8 @@
       var mapped = nodesOf(api).map(function (node, index) { return callback.call(node, index, node); }).filter(function (value) { return value != null; });
       return { get: function (index) { return index === undefined ? mapped : mapped[index]; } };
     };
+    api.not = function () { return api; };
+    api.filter = function () { return api; };
     api.placeholder = function () { return api; };
     api.fitVids = function () { return api; };
     api.mediaelementplayer = function () { return api; };
