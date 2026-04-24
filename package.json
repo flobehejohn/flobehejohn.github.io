@@ -7,6 +7,11 @@
   "private": true,
   "type": "module",
   "homepage": "https://flobehejohn.github.io/",
+  "packageManager": "npm@10.8.2",
+  "volta": {
+    "node": "20.20.2",
+    "npm": "10.8.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/flobehejohn/flobehejohn.github.io"
@@ -21,7 +26,8 @@
     "isotope"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": "20.20.2",
+    "npm": ">=10.8.2"
   },
   "dependencies": {
     "lite-server": "^2.6.1"
@@ -49,6 +55,9 @@
     "audit:seo": "node scripts/seo-audit.mjs",
     "audit:build": "node scripts/build-guard.mjs",
     "validate": "npm run lint && npm run typecheck && npm run build && npm run audit:seo && npm run audit:build",
+    "ci:validate": "npm run validate",
+    "ci:smoke": "npm run test:smoke",
+    "ci:visual": "npm run test:visual",
     "test:e2e": "playwright test",
     "test:smoke": "playwright test tests/smoke.spec.ts",
     "test:visual": "playwright test tests/visual-baseline.spec.ts",
