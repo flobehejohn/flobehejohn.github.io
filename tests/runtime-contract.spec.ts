@@ -11,15 +11,16 @@ test('runtime home: audio facade, PJAX and playlist are available', async ({ pag
   await expect(page.locator('#openAudioPlayer')).toHaveCount(1);
 
   const runtime = await page.evaluate(async () => {
+    const globals = window as unknown as Record<string, unknown>;
     const response = await fetch('/assets/audio/auto_radio/js/playlist.json', { cache: 'no-store' });
     const playlist = response.ok ? await response.json() : [];
     return {
-      audioApp: Boolean(window.AudioApp),
-      player: Boolean(window.PlayerSingleton),
-      pageHub: Boolean(window.pageHub),
-      pjax: Boolean(window.PJAX),
-      analytics: Boolean(window.SiteAnalytics),
-      usageSignals: Boolean(window.SiteUsageSignals),
+      audioApp: Boolean(globals.AudioApp),
+      player: Boolean(globals.PlayerSingleton),
+      pageHub: Boolean(globals.pageHub),
+      pjax: Boolean(globals.PJAX),
+      analytics: Boolean(globals.SiteAnalytics),
+      usageSignals: Boolean(globals.SiteUsageSignals),
       playlistOk: response.ok,
       playlistCount: Array.isArray(playlist) ? playlist.length : 0
     };
@@ -42,11 +43,14 @@ test('runtime portfolio: vendors and project grid are available', async ({ page 
   await expect(page.locator('.grid')).toHaveCount(1);
   await expect(page.locator('.carte-projet').first()).toBeVisible();
 
-  const runtime = await page.evaluate(() => ({
-    imagesLoaded: typeof window.imagesLoaded === 'function',
-    isotope: typeof window.Isotope === 'function',
-    cards: document.querySelectorAll('.carte-projet').length
-  }));
+  const runtime = await page.evaluate(() => {
+    const globals = window as unknown as Record<string, unknown>;
+    return {
+      imagesLoaded: typeof globals.imagesLoaded === 'function',
+      isotope: typeof globals.Isotope === 'function',
+      cards: document.querySelectorAll('.carte-projet').length
+    };
+  });
 
   expect(runtime.imagesLoaded).toBeTruthy();
   expect(runtime.isotope).toBeTruthy();
@@ -61,11 +65,14 @@ test('runtime parcours: particle surface and analytics hooks exist', async ({ pa
   await expect(page.locator('#analyticsDashboard')).toHaveCount(1);
   await expect(page.locator('#analyticsToggle')).toHaveCount(1);
 
-  const runtime = await page.evaluate(() => ({
-    usageSignals: Boolean(window.SiteUsageSignals),
-    analytics: Boolean(window.SiteAnalytics),
-    cloud: Boolean(document.querySelector('#cloud-bg'))
-  }));
+  const runtime = await page.evaluate(() => {
+    const globals = window as unknown as Record<string, unknown>;
+    return {
+      usageSignals: Boolean(globals.SiteUsageSignals),
+      analytics: Boolean(globals.SiteAnalytics),
+      cloud: Boolean(document.querySelector('#cloud-bg'))
+    };
+  });
 
   expect(runtime.usageSignals).toBeTruthy();
   expect(runtime.analytics).toBeTruthy();
