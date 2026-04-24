@@ -13,6 +13,12 @@ function ensureBeforeBodyClose(html, snippet) {
   return html.replace(/\s*<\/body>/i, `\n${snippet}\n</body>`);
 }
 
+function relaxAudioCors(html) {
+  return html
+    .replace(/\s+crossorigin="anonymous"/gi, '')
+    .replace(/\s+crossorigin='anonymous'/gi, '');
+}
+
 for (const relativePath of pages) {
   const fullPath = join(root, relativePath);
   if (!existsSync(fullPath)) {
@@ -21,13 +27,24 @@ for (const relativePath of pages) {
   }
 
   const before = readFileSync(fullPath, 'utf-8');
-  const after = ensureBeforeBodyClose(before, requiredModule);
+  const after = relaxAudioCors(ensureBeforeBodyClose(before, requiredModule));
   if (after !== before) writeFileSync(fullPath, after, 'utf-8');
 
   const finalHtml = readFileSync(fullPath, 'utf-8');
   if (finalHtml.includes('id="cloud-bg"') && !finalHtml.includes('/assets/js/nuage_magique/test.js')) {
     failures.push(`missing nuage bootstrap on cloud page: ${relativePath}`);
   }
+}
+
+const playerPath = join(root, 'docs/assets/js/player-singleton.js');
+if (existsSync(playerPath)) {
+  const before = readFileSync(playerPath, 'utf-8');
+  const after = before
+    .replace("player.setAttribute('crossorigin','anonymous');", "player.removeAttribute('crossorigin');")
+    .replace("player.crossOrigin = 'anonymous';", "player.crossOrigin = null;");
+  if (after !== before) writeFileSync(playerPath, after, 'utf-8');
+} else {
+  failures.push('missing asset: docs/assets/js/player-singleton.js');
 }
 
 const requiredAssets = [
