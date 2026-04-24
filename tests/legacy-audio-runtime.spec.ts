@@ -3,14 +3,25 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const { test, expect } = require('@playwright/test') as typeof import('@playwright/test');
 
+type AudioProbe = {
+  title: string;
+  url: string;
+  ok: boolean;
+  status: number;
+  contentType: string;
+  acceptRanges: string;
+  corsReadable: boolean;
+  error?: string;
+};
+
 test('audio playlist exposes reachable R2 tracks', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-  const result = await page.evaluate(async () => {
+  const result = await page.evaluate(async (): Promise<{ playlistOk: boolean; playlistCount: number; probes: AudioProbe[] }> => {
     const response = await fetch('/assets/audio/auto_radio/js/playlist.json', { cache: 'no-store' });
     const playlist = response.ok ? await response.json() : [];
     const tracks = Array.isArray(playlist) ? playlist.slice(0, 5) : [];
-    const probes = [];
+    const probes: AudioProbe[] = [];
 
     for (const track of tracks) {
       const url = String(track.src || '');
@@ -53,7 +64,7 @@ test('audio playlist exposes reachable R2 tracks', async ({ page }) => {
   expect(result.playlistOk).toBeTruthy();
   expect(result.playlistCount).toBeGreaterThan(10);
   for (const probe of result.probes) {
-    expect(probe.ok, `${probe.title} ${probe.status} ${probe.url}`).toBeTruthy();
+    expect(probe.ok, `${probe.title} ${probe.status} ${probe.url} ${probe.error || ''}`).toBeTruthy();
     expect(probe.contentType, `${probe.title} content-type`).toMatch(/audio|mpeg|octet-stream/i);
   }
 });
