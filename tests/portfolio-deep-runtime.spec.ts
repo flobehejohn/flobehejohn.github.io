@@ -10,6 +10,9 @@ type DeepPage = {
   optionalSelectors?: string[];
 };
 
+type AssetProbe = { url: string; ok: boolean; status: number };
+type ImageProbe = { src: string; loaded: boolean; width: number; height: number };
+
 const deepPages: DeepPage[] = [
   {
     name: 'nuage-magique',
@@ -78,7 +81,7 @@ function attachFailureGuards(page: import('@playwright/test').Page, failures: st
 test('deep assets: logos, profile photos and vendors load with natural dimensions', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-  const probes = await page.evaluate(async () => {
+  const probes = await page.evaluate(async (): Promise<{ results: AssetProbe[]; imageChecks: ImageProbe[] }> => {
     const urls = [
       '/assets/images/log_zim.jpg',
       '/assets/images/log_zim.webp',
@@ -91,7 +94,7 @@ test('deep assets: logos, profile photos and vendors load with natural dimension
       '/assets/audio/auto_radio/js/playlist.json'
     ];
 
-    const results = [];
+    const results: AssetProbe[] = [];
     for (const url of urls) {
       const response = await fetch(url, { cache: 'no-store' });
       results.push({ url, ok: response.ok, status: response.status });
@@ -100,7 +103,7 @@ test('deep assets: logos, profile photos and vendors load with natural dimension
     const imageChecks = await Promise.all(
       ['/assets/images/log_zim.jpg', '/assets/images/people/moi_.png'].map(
         (src) =>
-          new Promise<{ src: string; loaded: boolean; width: number; height: number }>((resolve) => {
+          new Promise<ImageProbe>((resolve) => {
             const image = new Image();
             image.onload = () => resolve({ src, loaded: true, width: image.naturalWidth, height: image.naturalHeight });
             image.onerror = () => resolve({ src, loaded: false, width: 0, height: 0 });
@@ -142,16 +145,8 @@ for (const deepPage of deepPages) {
         width: img.naturalWidth,
         height: img.naturalHeight
       })),
-      canvasCount: document.querySelectorAll('canvas').length,
       buttonCount: document.querySelectorAll('button, a[href], input, select, textarea').length,
-      scriptCount: document.scripts.length,
-      hasWebGL: Array.from(document.querySelectorAll('canvas')).some((canvas) => {
-        try {
-          return Boolean(canvas.getContext('webgl') || canvas.getContext('webgl2') || canvas.getContext('2d'));
-        } catch {
-          return false;
-        }
-      })
+      scriptCount: document.scripts.length
     }));
 
     expect(bodyStats.textLength, `${deepPage.name} should expose meaningful text`).toBeGreaterThan(80);
