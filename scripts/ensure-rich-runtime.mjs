@@ -6,6 +6,7 @@ const pages = ['docs/index.html', 'docs/portfolio_florian_b.html', 'docs/parcour
 const requiredNuageModule = '<script type="module" src="/assets/js/nuage_magique/test.js"></script>';
 const requiredAnimatedText = '<script src="/assets/js/animated-text.js" defer></script>';
 const requiredJqueryLite = '<script src="/assets/js/jquery-lite-compat.js" defer></script>';
+const requiredSkrollrLite = '<script src="/assets/js/skrollr-lite-compat.js" defer></script>';
 const failures = [];
 
 function insertBeforeBodyClose(html, snippet) {
@@ -43,7 +44,9 @@ function ensureAnimatedRoot(relativePath, html) {
 
 function ensureContactJqueryCompat(relativePath, html) {
   if (relativePath !== 'docs/contact.html') return html;
-  return insertBeforeTheme(html, requiredJqueryLite)
+  let next = insertBeforeTheme(html, requiredJqueryLite);
+  next = insertBeforeTheme(next, requiredSkrollrLite);
+  return next
     .split('\n')
     .filter((line) => !line.includes('/assets/js/pages/mac_val.js'))
     .join('\n');
@@ -72,6 +75,7 @@ for (const relativePath of pages) {
   if (relativePath === 'docs/parcours.html' && !/class=["'][^"']*(animated-text|anim-texte|anim-word|word|char)[^"']*["']|data-animate/i.test(finalHtml)) failures.push('missing animated root on parcours');
   if (relativePath === 'docs/contact.html') {
     if (!finalHtml.includes('/assets/js/jquery-lite-compat.js')) failures.push('missing local jQuery compatibility shim on contact');
+    if (!finalHtml.includes('/assets/js/skrollr-lite-compat.js')) failures.push('missing local skrollr compatibility shim on contact');
     if (finalHtml.includes('/assets/js/pages/mac_val.js')) failures.push('contact still loads mac_val.js');
   }
 }
@@ -94,6 +98,7 @@ const requiredAssets = [
   'docs/assets/js/nuage_magique/text_particles.js',
   'docs/assets/js/animated-text.js',
   'docs/assets/js/jquery-lite-compat.js',
+  'docs/assets/js/skrollr-lite-compat.js',
   'docs/assets/js/player-singleton.js',
   'docs/assets/audio/auto_radio/js/playlist.json'
 ];
