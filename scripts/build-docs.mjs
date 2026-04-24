@@ -153,7 +153,8 @@ function build() {
     ['assets/js/usage-signals.js'],
     ['assets/vendor/imagesloaded.pkgd.min.js'],
     ['assets/vendor/isotope.pkgd.min.js'],
-    ['assets/js/playlist.json']
+    ['assets/js/playlist.json'],
+    ['assets/audio/auto_radio/js/playlist.json']
   ]);
 
   // 5) JS pages spécifiques (dotnet demo)
