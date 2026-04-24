@@ -10,6 +10,7 @@ const requiredJqueryReadyArg = '<script src="/assets/js/jquery-ready-arg-compat.
 const requiredJqueryTraversal = '<script src="/assets/js/jquery-traversal-compat.js" defer></script>';
 const requiredJqueryWaypoint = '<script src="/assets/js/jquery-waypoint-compat.js" defer></script>';
 const requiredJqueryWaypointFind = '<script src="/assets/js/jquery-waypoint-find-compat.js" defer></script>';
+const requiredJqueryClass = '<script src="/assets/js/jquery-class-compat.js" defer></script>';
 const requiredSkrollrLite = '<script src="/assets/js/skrollr-lite-compat.js" defer></script>';
 const requiredAudioCors = '<script src="/assets/js/audio-cors-compat.js" defer></script>';
 const failures = [];
@@ -61,6 +62,7 @@ function ensureContactJqueryCompat(relativePath, html) {
   next = insertBeforeTheme(next, requiredJqueryTraversal);
   next = insertBeforeTheme(next, requiredJqueryWaypoint);
   next = insertBeforeTheme(next, requiredJqueryWaypointFind);
+  next = insertBeforeTheme(next, requiredJqueryClass);
   next = insertBeforeTheme(next, requiredSkrollrLite);
   return next
     .split('\n')
@@ -100,6 +102,7 @@ for (const relativePath of pages) {
     if (!finalHtml.includes('/assets/js/jquery-traversal-compat.js')) failures.push('missing local jQuery traversal shim on contact');
     if (!finalHtml.includes('/assets/js/jquery-waypoint-compat.js')) failures.push('missing local jQuery waypoint shim on contact');
     if (!finalHtml.includes('/assets/js/jquery-waypoint-find-compat.js')) failures.push('missing local jQuery chained waypoint shim on contact');
+    if (!finalHtml.includes('/assets/js/jquery-class-compat.js')) failures.push('missing local jQuery class shim on contact');
     if (!finalHtml.includes('/assets/js/skrollr-lite-compat.js')) failures.push('missing local skrollr compatibility shim on contact');
     if (finalHtml.includes('/assets/js/pages/mac_val.js')) failures.push('contact still loads mac_val.js');
   }
@@ -129,6 +132,7 @@ const requiredAssets = [
   'docs/assets/js/jquery-traversal-compat.js',
   'docs/assets/js/jquery-waypoint-compat.js',
   'docs/assets/js/jquery-waypoint-find-compat.js',
+  'docs/assets/js/jquery-class-compat.js',
   'docs/assets/js/skrollr-lite-compat.js',
   'docs/assets/js/player-singleton.js',
   'docs/assets/audio/auto_radio/js/playlist.json'
