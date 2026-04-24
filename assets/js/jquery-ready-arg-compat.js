@@ -9,23 +9,27 @@
     else run();
   }
 
+  function nodesOf(api) {
+    var nodes = [];
+    if (api && typeof api.each === 'function') {
+      api.each(function (_index, node) { nodes.push(node || this); });
+      return nodes.filter(function (node) { return Boolean(node); });
+    }
+    var length = api && typeof api.length === 'number' ? api.length : 0;
+    for (var index = 0; index < length; index += 1) if (api[index]) nodes.push(api[index]);
+    return nodes;
+  }
+
   function sizeOf(api, dimension) {
-    var first = api && api.length ? api[0] : null;
+    var first = nodesOf(api)[0];
     if (first === window) return dimension === 'height' ? window.innerHeight : window.innerWidth;
     if (first === document) return dimension === 'height' ? document.documentElement.scrollHeight : document.documentElement.scrollWidth;
     if (first && first.getBoundingClientRect) return first.getBoundingClientRect()[dimension] || 0;
     return dimension === 'height' ? window.innerHeight : window.innerWidth;
   }
 
-  function nodesOf(api) {
-    var nodes = [];
-    var length = api && typeof api.length === 'number' ? api.length : 0;
-    for (var index = 0; index < length; index += 1) nodes.push(api[index]);
-    return nodes;
-  }
-
   function positionOf(api) {
-    var first = api && api.length ? api[0] : null;
+    var first = nodesOf(api)[0];
     if (!first || !first.getBoundingClientRect) return { top: 0, left: 0 };
     var rect = first.getBoundingClientRect();
     return { top: rect.top + window.scrollY, left: rect.left + window.scrollX };
