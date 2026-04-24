@@ -32,6 +32,15 @@ function ensureAnimatedTextRuntime(html) {
   return insertBeforeBodyClose(html, requiredAnimatedText);
 }
 
+function ensureAnimatedRoot(relativePath, html) {
+  if (relativePath !== 'docs/parcours.html') return html;
+  if (/class=["'][^"']*(animated-text|anim-texte|anim-word|word|char)[^"']*["']|data-animate/i.test(html)) return html;
+  return html.replace(/<h([1-3])([^>]*)>/i, (match, level, attrs) => {
+    if (/class=/.test(attrs)) return `<h${level}${attrs.replace(/class=(["'])(.*?)\1/, 'class=$1$2 animated-text$1')}>`;
+    return `<h${level}${attrs} class="animated-text">`;
+  });
+}
+
 function ensureContactJqueryCompat(relativePath, html) {
   if (relativePath !== 'docs/contact.html') return html;
   return insertBeforeTheme(html, requiredJqueryLite)
@@ -54,12 +63,13 @@ for (const relativePath of pages) {
   }
 
   const before = readFileSync(fullPath, 'utf-8');
-  const after = relaxAudioCors(ensureAnimatedTextRuntime(ensureNuageBootstrap(ensureContactJqueryCompat(relativePath, before))));
+  const after = relaxAudioCors(ensureAnimatedRoot(relativePath, ensureAnimatedTextRuntime(ensureNuageBootstrap(ensureContactJqueryCompat(relativePath, before)))));
   if (after !== before) writeFileSync(fullPath, after, 'utf-8');
 
   const finalHtml = readFileSync(fullPath, 'utf-8');
   if (finalHtml.includes('id="cloud-bg"') && !finalHtml.includes('/assets/js/nuage_magique/test.js')) failures.push(`missing nuage bootstrap on cloud page: ${relativePath}`);
   if (!finalHtml.includes('/assets/js/animated-text.js')) failures.push(`missing animated text runtime: ${relativePath}`);
+  if (relativePath === 'docs/parcours.html' && !/class=["'][^"']*(animated-text|anim-texte|anim-word|word|char)[^"']*["']|data-animate/i.test(finalHtml)) failures.push('missing animated root on parcours');
   if (relativePath === 'docs/contact.html') {
     if (!finalHtml.includes('/assets/js/jquery-lite-compat.js')) failures.push('missing local jQuery compatibility shim on contact');
     if (finalHtml.includes('/assets/js/pages/mac_val.js')) failures.push('contact still loads mac_val.js');
