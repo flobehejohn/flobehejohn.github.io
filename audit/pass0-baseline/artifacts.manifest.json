@@ -1,0 +1,33 @@
+{
+  "baselineId": "pass0-prod-reference-20260423",
+  "successfulRun": {
+    "runId": 24860936141,
+    "jobId": 72785945494,
+    "branch": "refactor/validate-unblock-20260423",
+    "headCommit": "13fe76aa0b1b2901df6cf254bfc7f65a089ed777"
+  },
+  "artifacts": {
+    "docsBuild": {
+      "artifactId": 6612980121,
+      "name": "docs-build"
+    },
+    "visualBaselineScreenshots": {
+      "artifactId": 6612980286,
+      "name": "visual-baseline-screenshots",
+      "files": [
+        "audit/pass0-baseline/screenshots/home-desktop.png",
+        "audit/pass0-baseline/screenshots/home-mobile.png",
+        "audit/pass0-baseline/screenshots/portfolio-desktop.png",
+        "audit/pass0-baseline/screenshots/portfolio-mobile.png",
+        "audit/pass0-baseline/screenshots/parcours-desktop.png",
+        "audit/pass0-baseline/screenshots/parcours-mobile.png",
+        "audit/pass0-baseline/screenshots/contact-desktop.png",
+        "audit/pass0-baseline/screenshots/contact-mobile.png"
+      ]
+    },
+    "playwrightReport": {
+      "artifactId": 6612980429,
+      "name": "playwright-report"
+    }
+  }
+}
