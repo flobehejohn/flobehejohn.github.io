@@ -48,6 +48,14 @@
       if (typeof callback === 'function') api.on('click', callback);
       return api;
     };
+    api.append = function (content) {
+      nodesOf(api).forEach(function (node) {
+        if (!node) return;
+        if (typeof content === 'string' && node.insertAdjacentHTML) node.insertAdjacentHTML('beforeend', content);
+        else if (content && node.appendChild) node.appendChild(content.cloneNode ? content.cloneNode(true) : content);
+      });
+      return api;
+    };
     api.height = function () { return sizeOf(api, 'height'); };
     api.width = function () { return sizeOf(api, 'width'); };
     api.outerHeight = function () { return sizeOf(api, 'height'); };
