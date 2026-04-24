@@ -17,6 +17,13 @@
     return dimension === 'height' ? window.innerHeight : window.innerWidth;
   }
 
+  function positionOf(api) {
+    var first = api && api.length ? api[0] : null;
+    if (!first || !first.getBoundingClientRect) return { top: 0, left: 0 };
+    var rect = first.getBoundingClientRect();
+    return { top: rect.top + window.scrollY, left: rect.left + window.scrollX };
+  }
+
   function addLegacyMethods(api) {
     api.ready = function (callback) {
       onReady(callback, document);
@@ -34,6 +41,8 @@
     api.width = function () { return sizeOf(api, 'width'); };
     api.outerHeight = function () { return sizeOf(api, 'height'); };
     api.outerWidth = function () { return sizeOf(api, 'width'); };
+    api.position = function () { return positionOf(api); };
+    api.offset = function () { return positionOf(api); };
     api.placeholder = function () { return api; };
     api.fitVids = function () { return api; };
     api.mediaelementplayer = function () { return api; };
