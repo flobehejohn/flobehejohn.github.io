@@ -62,6 +62,18 @@ jobs:
       - name: Run deep portfolio certification
         run: npx playwright test tests/portfolio-deep-runtime.spec.ts
 
+      - name: Run particles runtime certification
+        run: npm run test:particles-runtime
+
+      - name: Run audio runtime certification
+        run: npm run test:audio-runtime
+
+      - name: Run dynamic text runtime certification
+        run: npm run test:dynamic-text
+
+      - name: Run GA4 runtime certification
+        run: npm run test:ga4-runtime
+
       - name: Run rich legacy runtime certification
         run: npm run test:rich-runtime
 
@@ -81,11 +93,23 @@ jobs:
           commit_message: "deploy(preview): publish refactor preview"
 
       - name: Upload preview artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: preview-dist
           path: preview-dist
           include-hidden-files: true
+          if-no-files-found: ignore
+
+      - name: Upload Playwright reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-playwright-report
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
 
       - name: Upload visual baseline screenshots
         if: always()
