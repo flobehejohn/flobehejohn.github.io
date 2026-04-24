@@ -36,6 +36,20 @@
   }
 
   function addLegacyMethods(api) {
+    var originalOn = api.on;
+    var originalOff = api.off;
+    api.on = function (eventName, handler) {
+      if (typeof handler !== 'function') return api;
+      if (typeof originalOn === 'function') return originalOn.call(api, eventName, handler);
+      nodesOf(api).forEach(function (node) { if (node && node.addEventListener) node.addEventListener(eventName, handler); });
+      return api;
+    };
+    api.off = function (eventName, handler) {
+      if (typeof handler !== 'function') return api;
+      if (typeof originalOff === 'function') return originalOff.call(api, eventName, handler);
+      nodesOf(api).forEach(function (node) { if (node && node.removeEventListener) node.removeEventListener(eventName, handler); });
+      return api;
+    };
     api.ready = function (callback) {
       onReady(callback, document);
       return api;
