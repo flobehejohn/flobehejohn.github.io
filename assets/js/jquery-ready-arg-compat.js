@@ -37,6 +37,7 @@
     api.placeholder = function () { return api; };
     api.fitVids = function () { return api; };
     api.mediaelementplayer = function () { return api; };
+    api.wrap = function () { return api; };
     var originalFind = api.find;
     api.find = function (selector) {
       if (typeof originalFind === 'function') return addLegacyMethods(originalFind.call(api, selector));
