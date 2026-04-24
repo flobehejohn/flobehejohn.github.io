@@ -215,9 +215,41 @@ jobs:
             test-results
           if-no-files-found: ignore
 
-  visual:
+  deep:
     runs-on: ubuntu-latest
     needs: runtime
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Download docs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: Run deep portfolio certification
+        run: npx playwright test tests/portfolio-deep-runtime.spec.ts
+      - name: Upload deep runtime report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-deep-runtime
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  visual:
+    runs-on: ubuntu-latest
+    needs: deep
     steps:
       - name: Checkout
         uses: actions/checkout@v4
