@@ -12,49 +12,36 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Lint
-        run: npm run lint
+      - run: npm ci
+      - run: npm run lint
 
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Typecheck
-        run: npm run typecheck
+      - run: npm ci
+      - run: npm run typecheck
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Build docs
-        run: npm run build
-      - name: Upload docs artifact
-        uses: actions/upload-artifact@v4
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
         with:
           name: docs-build
           path: docs
@@ -64,117 +51,83 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Download docs artifact
-        uses: actions/download-artifact@v4
+      - run: npm ci
+      - uses: actions/download-artifact@v4
         with:
           name: docs-build
           path: docs
-      - name: SEO audit
-        run: npm run audit:seo
+      - run: npm run audit:seo
 
   analytics:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Download docs artifact
-        uses: actions/download-artifact@v4
+      - run: npm ci
+      - uses: actions/download-artifact@v4
         with:
           name: docs-build
           path: docs
-      - name: Analytics audit
-        run: npm run audit:analytics
+      - run: npm run audit:analytics
 
   content:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Download docs artifact
-        uses: actions/download-artifact@v4
+      - run: npm ci
+      - uses: actions/download-artifact@v4
         with:
           name: docs-build
           path: docs
-      - name: Deep content inventory audit
-        run: npm run audit:content
+      - run: npm run audit:content
 
   build_guard:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Download docs artifact
-        uses: actions/download-artifact@v4
+      - run: npm ci
+      - uses: actions/download-artifact@v4
         with:
           name: docs-build
           path: docs
-      - name: Build guard
-        run: npm run audit:build
+      - run: npm run audit:build
 
   smoke:
     runs-on: ubuntu-latest
-    needs:
-      - lint
-      - typecheck
-      - build
-      - seo
-      - analytics
-      - content
-      - build_guard
+    needs: [lint, typecheck, build, seo, analytics, content, build_guard]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Download docs artifact
-        uses: actions/download-artifact@v4
+      - run: npm ci
+      - uses: actions/download-artifact@v4
         with:
           name: docs-build
           path: docs
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
-      - name: Run smoke tests
-        run: npm run test:smoke
-      - name: Upload smoke report
-        if: always()
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:smoke
+      - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-smoke
@@ -187,26 +140,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: smoke
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Download docs artifact
-        uses: actions/download-artifact@v4
+      - run: npm ci
+      - uses: actions/download-artifact@v4
         with:
           name: docs-build
           path: docs
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
-      - name: Run runtime JS contracts
-        run: npm run test:runtime
-      - name: Upload runtime report
-        if: always()
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:runtime
+      - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-runtime
@@ -219,26 +165,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: runtime
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Download docs artifact
-        uses: actions/download-artifact@v4
+      - run: npm ci
+      - uses: actions/download-artifact@v4
         with:
           name: docs-build
           path: docs
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
-      - name: Run deep portfolio certification
-        run: npx playwright test tests/portfolio-deep-runtime.spec.ts
-      - name: Upload deep runtime report
-        if: always()
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test tests/portfolio-deep-runtime.spec.ts
+      - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-deep-runtime
@@ -247,37 +186,54 @@ jobs:
             test-results
           if-no-files-found: ignore
 
-  visual:
+  rich_runtime:
     runs-on: ubuntu-latest
     needs: deep
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Download docs artifact
-        uses: actions/download-artifact@v4
+      - run: npm ci
+      - uses: actions/download-artifact@v4
         with:
           name: docs-build
           path: docs
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
-      - name: Capture visual baseline
-        run: npm run test:visual
-      - name: Upload visual baseline screenshots
-        if: always()
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:rich-runtime
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-rich-runtime
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  visual:
+    runs-on: ubuntu-latest
+    needs: rich_runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:visual
+      - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: visual-baseline-screenshots
           path: audit/pass0-baseline/screenshots
           if-no-files-found: ignore
-      - name: Upload visual report
-        if: always()
+      - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-visual
