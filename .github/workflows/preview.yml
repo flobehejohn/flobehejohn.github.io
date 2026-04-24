@@ -1,0 +1,120 @@
+name: Preview
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'refactor/validate-unblock-20260423'
+
+permissions:
+  contents: write
+
+env:
+  PREVIEW_BRANCH: preview/refactor-live
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build docs
+        run: npm run build
+
+      - name: SEO audit
+        run: npm run audit:seo
+
+      - name: Build guard
+        run: npm run audit:build
+
+      - name: Analytics audit
+        run: npm run audit:analytics
+
+      - name: Deep content inventory audit
+        run: npm run audit:content
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run smoke tests
+        run: npm run test:smoke
+
+      - name: Run runtime JS contracts
+        run: npm run test:runtime
+
+      - name: Run deep portfolio certification
+        run: npx playwright test tests/portfolio-deep-runtime.spec.ts
+
+      - name: Run particles runtime certification
+        run: npm run test:particles-runtime
+
+      - name: Run audio runtime certification
+        run: npm run test:audio-runtime
+
+      - name: Run dynamic text runtime certification
+        run: npm run test:dynamic-text
+
+      - name: Run GA4 runtime certification
+        run: npm run test:ga4-runtime
+
+      - name: Run rich legacy runtime certification
+        run: npm run test:rich-runtime
+
+      - name: Capture visual baseline
+        run: npm run test:visual
+
+      - name: Build preview bundle
+        run: node scripts/build-preview.mjs
+
+      - name: Publish preview branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ github.token }}
+          publish_branch: ${{ env.PREVIEW_BRANCH }}
+          publish_dir: ./preview-dist
+          force_orphan: true
+          commit_message: "deploy(preview): publish refactor preview"
+
+      - name: Upload preview artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-dist
+          path: preview-dist
+          include-hidden-files: true
+          if-no-files-found: ignore
+
+      - name: Upload Playwright reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-playwright-report
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+      - name: Upload visual baseline screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-visual-baseline-screenshots
+          path: audit/pass0-baseline/screenshots
+          if-no-files-found: ignore

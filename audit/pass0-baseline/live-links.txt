@@ -1,0 +1,14 @@
+SITE_LIVE_PROD=https://flobehejohn.github.io/
+RUN_ID=24860936141
+JOB_ID=72785945494
+ARTIFACT_DOCS_BUILD=6612980121
+ARTIFACT_VISUAL_BASELINE=6612980286
+ARTIFACT_PLAYWRIGHT_REPORT=6612980429
+PNG_1=audit/pass0-baseline/screenshots/home-desktop.png
+PNG_2=audit/pass0-baseline/screenshots/home-mobile.png
+PNG_3=audit/pass0-baseline/screenshots/portfolio-desktop.png
+PNG_4=audit/pass0-baseline/screenshots/portfolio-mobile.png
+PNG_5=audit/pass0-baseline/screenshots/parcours-desktop.png
+PNG_6=audit/pass0-baseline/screenshots/parcours-mobile.png
+PNG_7=audit/pass0-baseline/screenshots/contact-desktop.png
+PNG_8=audit/pass0-baseline/screenshots/contact-mobile.png

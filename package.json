@@ -7,25 +7,16 @@
   "private": true,
   "type": "module",
   "homepage": "https://flobehejohn.github.io/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/flobehejohn/flobehejohn.github.io"
+  "packageManager": "npm@10.8.2",
+  "volta": {
+    "node": "20.20.2",
+    "npm": "10.8.2"
   },
-  "bugs": {
-    "url": "https://github.com/flobehejohn/flobehejohn.github.io/issues"
-  },
-  "keywords": [
-    "portfolio",
-    "web design",
-    "typescript",
-    "isotope"
-  ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "lite-server": "^2.6.1"
-  },
+  "repository": { "type": "git", "url": "https://github.com/flobehejohn/flobehejohn.github.io" },
+  "bugs": { "url": "https://github.com/flobehejohn/flobehejohn.github.io/issues" },
+  "keywords": ["portfolio", "web design", "typescript", "isotope"],
+  "engines": { "node": "20.20.2", "npm": ">=10.8.2" },
+  "dependencies": { "lite-server": "^2.6.1" },
   "devDependencies": {
     "@eslint/js": "^9.25.1",
     "@playwright/test": "^1.55.0",
@@ -41,13 +32,40 @@
     "typescript-eslint": "^8.31.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build:docs && node scripts/ensure-rich-runtime.mjs",
+    "build:docs": "node scripts/build-docs.mjs",
+    "build:ts": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint eslint.config.js playwright.config.ts scripts/**/*.mjs tests/**/*.ts assets/ts/**/*.ts assets/js/analytics.js assets/js/usage-signals.js --max-warnings=0",
+    "audit:seo": "node scripts/seo-audit.mjs",
+    "audit:build": "node scripts/build-guard.mjs",
+    "audit:analytics": "node scripts/analytics-audit.mjs",
+    "audit:content": "node scripts/content-inventory-audit.mjs",
+    "validate": "npm run lint && npm run typecheck && npm run build && npm run audit:seo && npm run audit:build && npm run audit:analytics && npm run audit:content",
+    "ci:validate": "npm run validate",
+    "ci:smoke": "npm run test:smoke",
+    "ci:runtime": "npm run test:runtime",
+    "ci:particles-runtime": "npm run test:particles-runtime",
+    "ci:audio-runtime": "npm run test:audio-runtime",
+    "ci:dynamic-text": "npm run test:dynamic-text",
+    "ci:ga4-runtime": "npm run test:ga4-runtime",
+    "ci:rich-runtime": "npm run test:rich-runtime",
+    "ci:visual": "npm run test:visual",
+    "test:e2e": "playwright test",
+    "test:smoke": "playwright test tests/smoke.spec.ts",
+    "test:runtime": "playwright test tests/runtime-contract.spec.ts",
+    "test:particles-runtime": "playwright test tests/legacy-particles-runtime.spec.ts",
+    "test:audio-runtime": "playwright test tests/legacy-audio-runtime.spec.ts",
+    "test:dynamic-text": "playwright test tests/legacy-dynamic-text.spec.ts",
+    "test:ga4-runtime": "playwright test tests/analytics-ga4-runtime.spec.ts",
+    "test:rich-runtime": "playwright test tests/legacy-rich-runtime.spec.ts",
+    "test:visual": "playwright test tests/visual-baseline.spec.ts",
     "start": "npm run serve",
-    "watch": "tsc --watch",
+    "watch": "tsc -p tsconfig.build.json --watch",
     "serve": "lite-server",
+    "serve:docs": "node scripts/serve-docs.mjs",
     "dev:proxy": "node scripts/dev-cors-proxy.mjs",
     "prefix-css": "postcss assets/css/theme.css -o assets/css/theme-prefixed.css",
-    "clean:docs": "node -e \"require('fs').rmSync('docs',{recursive:true,force:true})\"",
-    "build:docs": "node scripts/build-docs.mjs"
+    "clean:docs": "node -e \"require('fs').rmSync('docs',{recursive:true,force:true})\""
   }
 }
