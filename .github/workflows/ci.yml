@@ -186,9 +186,109 @@ jobs:
             test-results
           if-no-files-found: ignore
 
-  rich_runtime:
+  particles_runtime:
     runs-on: ubuntu-latest
     needs: deep
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:particles-runtime
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-particles-runtime
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  audio_runtime:
+    runs-on: ubuntu-latest
+    needs: deep
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:audio-runtime
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-audio-runtime
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  dynamic_text_runtime:
+    runs-on: ubuntu-latest
+    needs: deep
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:dynamic-text
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-dynamic-text-runtime
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  ga4_runtime:
+    runs-on: ubuntu-latest
+    needs: deep
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:ga4-runtime
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-ga4-runtime
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  rich_runtime:
+    runs-on: ubuntu-latest
+    needs: [particles_runtime, audio_runtime, dynamic_text_runtime, ga4_runtime]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
