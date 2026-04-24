@@ -7,6 +7,7 @@ const requiredNuageModule = '<script type="module" src="/assets/js/nuage_magique
 const requiredAnimatedText = '<script src="/assets/js/animated-text.js" defer></script>';
 const requiredJqueryLite = '<script src="/assets/js/jquery-lite-compat.js" defer></script>';
 const requiredJqueryReadyArg = '<script src="/assets/js/jquery-ready-arg-compat.js" defer></script>';
+const requiredJqueryTraversal = '<script src="/assets/js/jquery-traversal-compat.js" defer></script>';
 const requiredSkrollrLite = '<script src="/assets/js/skrollr-lite-compat.js" defer></script>';
 const failures = [];
 
@@ -47,6 +48,7 @@ function ensureContactJqueryCompat(relativePath, html) {
   if (relativePath !== 'docs/contact.html') return html;
   let next = insertBeforeTheme(html, requiredJqueryLite);
   next = insertBeforeTheme(next, requiredJqueryReadyArg);
+  next = insertBeforeTheme(next, requiredJqueryTraversal);
   next = insertBeforeTheme(next, requiredSkrollrLite);
   return next
     .split('\n')
@@ -78,6 +80,7 @@ for (const relativePath of pages) {
   if (relativePath === 'docs/contact.html') {
     if (!finalHtml.includes('/assets/js/jquery-lite-compat.js')) failures.push('missing local jQuery compatibility shim on contact');
     if (!finalHtml.includes('/assets/js/jquery-ready-arg-compat.js')) failures.push('missing local jQuery ready argument shim on contact');
+    if (!finalHtml.includes('/assets/js/jquery-traversal-compat.js')) failures.push('missing local jQuery traversal shim on contact');
     if (!finalHtml.includes('/assets/js/skrollr-lite-compat.js')) failures.push('missing local skrollr compatibility shim on contact');
     if (finalHtml.includes('/assets/js/pages/mac_val.js')) failures.push('contact still loads mac_val.js');
   }
@@ -102,6 +105,7 @@ const requiredAssets = [
   'docs/assets/js/animated-text.js',
   'docs/assets/js/jquery-lite-compat.js',
   'docs/assets/js/jquery-ready-arg-compat.js',
+  'docs/assets/js/jquery-traversal-compat.js',
   'docs/assets/js/skrollr-lite-compat.js',
   'docs/assets/js/player-singleton.js',
   'docs/assets/audio/auto_radio/js/playlist.json'
