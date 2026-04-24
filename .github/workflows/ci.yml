@@ -58,6 +58,7 @@ jobs:
         with:
           name: docs-build
           path: docs
+          include-hidden-files: true
 
   seo:
     runs-on: ubuntu-latest
