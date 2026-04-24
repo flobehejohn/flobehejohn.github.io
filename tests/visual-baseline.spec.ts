@@ -54,7 +54,7 @@ const captures = [
     route: '/contact.html',
     viewport: { width: 1440, height: 1200 },
     outputPath: join(CAPTURE_DIR, 'contact-desktop.png'),
-    anchors: ['#masthead', "main[data-page='contact']", '#contactForm', '#mapDirections', '#emailSafe']
+    anchors: ['#masthead', "main[data-page='contact']", '#contactForm', '#mapDirections', 'a[href^="tel:"]']
   },
   {
     name: 'contact-mobile',
