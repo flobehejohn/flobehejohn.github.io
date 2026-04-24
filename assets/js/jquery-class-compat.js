@@ -54,6 +54,9 @@
     if (typeof api.tooltip !== 'function') {
       api.tooltip = function () { return api; };
     }
+    if (typeof api.carousel !== 'function') {
+      api.carousel = function () { return api; };
+    }
     var originalFind = api.find;
     if (typeof originalFind === 'function' && !api.__classFindCompat) {
       api.__classFindCompat = true;
