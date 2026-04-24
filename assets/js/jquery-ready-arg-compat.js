@@ -17,6 +17,13 @@
     return dimension === 'height' ? window.innerHeight : window.innerWidth;
   }
 
+  function nodesOf(api) {
+    var nodes = [];
+    var length = api && typeof api.length === 'number' ? api.length : 0;
+    for (var index = 0; index < length; index += 1) nodes.push(api[index]);
+    return nodes;
+  }
+
   function positionOf(api) {
     var first = api && api.length ? api[0] : null;
     if (!first || !first.getBoundingClientRect) return { top: 0, left: 0 };
@@ -43,6 +50,15 @@
     api.outerWidth = function () { return sizeOf(api, 'width'); };
     api.position = function () { return positionOf(api); };
     api.offset = function () { return positionOf(api); };
+    api.get = function (index) {
+      var nodes = nodesOf(api);
+      if (index === undefined) return nodes;
+      return nodes[index];
+    };
+    api.map = function (callback) {
+      var mapped = nodesOf(api).map(function (node, index) { return callback.call(node, index, node); }).filter(function (value) { return value != null; });
+      return { get: function (index) { return index === undefined ? mapped : mapped[index]; } };
+    };
     api.placeholder = function () { return api; };
     api.fitVids = function () { return api; };
     api.mediaelementplayer = function () { return api; };
