@@ -9,6 +9,14 @@
     else run();
   }
 
+  function sizeOf(api, dimension) {
+    var first = api && api.length ? api[0] : null;
+    if (first === window) return dimension === 'height' ? window.innerHeight : window.innerWidth;
+    if (first === document) return dimension === 'height' ? document.documentElement.scrollHeight : document.documentElement.scrollWidth;
+    if (first && first.getBoundingClientRect) return first.getBoundingClientRect()[dimension] || 0;
+    return dimension === 'height' ? window.innerHeight : window.innerWidth;
+  }
+
   function addLegacyMethods(api) {
     api.ready = function (callback) {
       onReady(callback, document);
@@ -22,6 +30,10 @@
       if (typeof callback === 'function') api.on('click', callback);
       return api;
     };
+    api.height = function () { return sizeOf(api, 'height'); };
+    api.width = function () { return sizeOf(api, 'width'); };
+    api.outerHeight = function () { return sizeOf(api, 'height'); };
+    api.outerWidth = function () { return sizeOf(api, 'width'); };
     return api;
   }
 
