@@ -18,6 +18,10 @@
       if (typeof callback === 'function') api.on('resize', callback);
       return api;
     };
+    api.click = function (callback) {
+      if (typeof callback === 'function') api.on('click', callback);
+      return api;
+    };
     return api;
   }
 
