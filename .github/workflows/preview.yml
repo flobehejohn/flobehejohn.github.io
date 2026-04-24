@@ -47,6 +47,9 @@ jobs:
       - name: Analytics audit
         run: npm run audit:analytics
 
+      - name: Deep content inventory audit
+        run: npm run audit:content
+
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
