@@ -2,12 +2,24 @@
   'use strict';
   if (window.jQuery && window.$) return;
 
+  function onReady(callback, context) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { callback.call(context || document); }, { once: true });
+    } else {
+      callback.call(context || document);
+    }
+  }
+
   function wrap(nodes) {
     const list = Array.isArray(nodes) ? nodes : Array.from(nodes || []);
     return {
       length: list.length,
       each(callback) {
         list.forEach((node, index) => callback.call(node, index, node));
+        return this;
+      },
+      ready(callback) {
+        onReady(callback, list[0] || document);
         return this;
       },
       on(eventName, handler) {
@@ -44,8 +56,7 @@
 
   function jquery(selectorOrCallback, root) {
     if (typeof selectorOrCallback === 'function') {
-      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', selectorOrCallback, { once: true });
-      else selectorOrCallback();
+      onReady(selectorOrCallback, document);
       return wrap([]);
     }
     if (selectorOrCallback === window || selectorOrCallback === document || selectorOrCallback instanceof Element) return wrap([selectorOrCallback]);
