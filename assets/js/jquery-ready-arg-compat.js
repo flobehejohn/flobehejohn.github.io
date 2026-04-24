@@ -34,6 +34,7 @@
     api.width = function () { return sizeOf(api, 'width'); };
     api.outerHeight = function () { return sizeOf(api, 'height'); };
     api.outerWidth = function () { return sizeOf(api, 'width'); };
+    api.placeholder = function () { return api; };
     return api;
   }
 
