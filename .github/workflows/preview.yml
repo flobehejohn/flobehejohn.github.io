@@ -53,6 +53,9 @@ jobs:
       - name: Run smoke tests
         run: npm run test:smoke
 
+      - name: Run runtime JS contracts
+        run: npm run test:runtime
+
       - name: Capture visual baseline
         run: npm run test:visual
 
