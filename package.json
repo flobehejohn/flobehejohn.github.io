@@ -47,7 +47,7 @@
     "typescript-eslint": "^8.31.0"
   },
   "scripts": {
-    "build": "npm run build:docs",
+    "build": "npm run build:docs && node scripts/ensure-rich-runtime.mjs",
     "build:docs": "node scripts/build-docs.mjs",
     "build:ts": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -60,10 +60,12 @@
     "ci:validate": "npm run validate",
     "ci:smoke": "npm run test:smoke",
     "ci:runtime": "npm run test:runtime",
+    "ci:rich-runtime": "npm run test:rich-runtime",
     "ci:visual": "npm run test:visual",
     "test:e2e": "playwright test",
     "test:smoke": "playwright test tests/smoke.spec.ts",
     "test:runtime": "playwright test tests/runtime-contract.spec.ts",
+    "test:rich-runtime": "playwright test tests/legacy-rich-runtime.spec.ts",
     "test:visual": "playwright test tests/visual-baseline.spec.ts",
     "start": "npm run serve",
     "watch": "tsc -p tsconfig.build.json --watch",
