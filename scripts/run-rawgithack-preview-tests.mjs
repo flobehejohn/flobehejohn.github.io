@@ -6,6 +6,7 @@ process.env.PREVIEW_BASE_PATH = '/flobehejohn/flobehejohn.github.io/preview/refa
 const specs = [
   'tests/rawgithack-preview-contract.spec.ts',
   'tests/runtime-url.contract.spec.ts',
+  'tests/mobile-debug-rawgithack-contract.spec.ts',
   'tests/magic-cloud-rawgithack-contract.spec.ts',
   'tests/dotnet-demo-rawgithack-contract.spec.ts',
   'tests/contact-privacy-contract.spec.ts',
