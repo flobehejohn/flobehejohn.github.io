@@ -74,6 +74,30 @@ function repairCopiedPlayer() {
   player = player.replaceAll("player.crossOrigin = 'anonymous';", "player.crossOrigin = null;");
   writeFileSync(playerPath, player, 'utf-8');
 }
+function repairCopiedDotnetBoot() {
+  const bootPath = join(outDir, 'assets/js/pages/dotnet_boot.js');
+  if (!existsSync(bootPath)) return;
+  let boot = readFileSync(bootPath, 'utf-8');
+  boot = boot.replace(
+    "const attr = thisScript?.dataset?.appBase || '/assets/portfolio/Projet_dotnet/';\n    const u = new URL(attr, window.location.origin);\n    let p = u.pathname;\n    if (!p.endsWith('/')) p += '/';\n    const abs = u.origin + p;",
+    "const attr = thisScript?.dataset?.appBase || 'assets/portfolio/Projet_dotnet/';\n    const abs = (window.AppRuntimeUrl && typeof window.AppRuntimeUrl.asset === 'function')\n      ? window.AppRuntimeUrl.asset('assets/portfolio/Projet_dotnet/')\n      : new URL(attr.replace(/^\\/+/, ''), window.location.origin + '/').href;"
+  );
+  writeFileSync(bootPath, boot, 'utf-8');
+}
+function repairCopiedNuageFonts() {
+  const textParticlesPath = join(outDir, 'assets/js/nuage_magique/text_particles.js');
+  if (!existsSync(textParticlesPath)) return;
+  let code = readFileSync(textParticlesPath, 'utf-8');
+  code = code.replace(
+    "const DEFAULT_FONT_URLS = [\n  '/assets/js/nuage_magique/fonts/Noto%20Sans_Regular.json',               // 1) Latin étendu (accents)\n  '/assets/js/nuage_magique/fonts/NotoSans-Regular.typeface.json',         // 2) autre option\n  '/assets/js/nuage_magique/fonts/helvetiker_regular.typeface.json'        // 3) fallback ASCII\n];",
+    "const resolveFontUrl = (path) => (window.AppRuntimeUrl && typeof window.AppRuntimeUrl.asset === 'function') ? window.AppRuntimeUrl.asset(path) : new URL(path.replace(/^\\/+/, ''), window.location.origin + '/').href;\nconst DEFAULT_FONT_URLS = [\n  resolveFontUrl('assets/js/nuage_magique/fonts/Noto%20Sans_Regular.json'),\n  resolveFontUrl('assets/js/nuage_magique/fonts/NotoSans-Regular.typeface.json'),\n  resolveFontUrl('assets/js/nuage_magique/fonts/helvetiker_regular.typeface.json')\n];"
+  );
+  code = code.replace(
+    "if (i >= urls.length) return reject(new Error('Aucune police n’a pu être chargée.'));",
+    "if (i >= urls.length) { window.__NUAGE_AUDIT__ = Object.assign(window.__NUAGE_AUDIT__ || {}, { fontFallback: true, fallbackControlled: true, fontFailures: urls.slice() }); return reject(new Error('NUAGE_FONT_FALLBACK_CONTROLLED')); }"
+  );
+  writeFileSync(textParticlesPath, code, 'utf-8');
+}
 function walkHtmlFiles(dir, acc = []) {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
@@ -188,6 +212,8 @@ function build() {
   transformHtml('parcours.html');
   transformHtml('contact.html');
   repairCopiedPlayer();
+  repairCopiedDotnetBoot();
+  repairCopiedNuageFonts();
   normalizeCopiedHtmlFiles();
   copyFileIfExists('robots.txt');
   copyFileIfExists('sitemap.xml');
