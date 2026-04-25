@@ -87,6 +87,7 @@
     "test:site-matrix": "playwright test tests/site-matrix.spec.ts",
     "test:security": "npx playwright install --with-deps chromium && playwright test tests/security-baseline.spec.ts",
     "test:visual": "playwright test tests/visual-baseline.spec.ts",
+    "test:rawgithack-preview": "node scripts/run-rawgithack-preview-tests.mjs",
     "start": "npm run serve",
     "watch": "tsc -p tsconfig.build.json --watch",
     "serve": "lite-server",
