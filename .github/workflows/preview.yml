@@ -110,6 +110,9 @@ jobs:
           mkdir -p audit/_latest
           node -e "const fs=require('fs'); fs.writeFileSync('audit/_latest/visual-summary.json', JSON.stringify({timestamp:new Date().toISOString(), verdict:'passed', source:'npm run test:visual'}, null, 2) + '\n')"
 
+      - name: Run RawGitHack preview certification
+        run: npm run test:rawgithack-preview
+
       - name: Generate release proof manifest
         run: npm run audit:release
 
