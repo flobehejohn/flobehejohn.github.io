@@ -119,6 +119,16 @@ function normalizeRootAbsoluteAssetRefs(html, prefix) {
     .replace(/(src|href)=(["'])\/svg-icons\//g, `$1=$2${prefix}svg-icons/`);
 }
 
+function normalizeRichPage(relativePath, html, prefix) {
+  let next = ensureContactJqueryCompat(relativePath, html);
+  next = ensureNuageBootstrap(next);
+  next = ensureAnimatedTextRuntime(next);
+  next = ensureAnimatedRoot(relativePath, next);
+  next = ensureAudioCorsCompat(next);
+  next = relaxAudioCors(next);
+  return normalizeRootAbsoluteAssetRefs(next, prefix);
+}
+
 for (const relativePath of pages) {
   const fullPath = join(root, relativePath);
   if (!existsSync(fullPath)) {
@@ -128,10 +138,7 @@ for (const relativePath of pages) {
 
   const before = readFileSync(fullPath, 'utf-8');
   const prefix = relativePrefixForDocsHtml(fullPath);
-  const after = normalizeRootAbsoluteAssetRefs(
-    relaxAudioCors(ensureAudioCorsCompat(ensureAnimatedRoot(relativePath, ensureAnimatedTextRuntime(ensureNuageBootstrap(ensureContactJqueryCompat(relativePath, before))))),
-    prefix
-  );
+  const after = normalizeRichPage(relativePath, before, prefix);
   if (after !== before) writeFileSync(fullPath, after, 'utf-8');
 
   const finalHtml = readFileSync(fullPath, 'utf-8');
