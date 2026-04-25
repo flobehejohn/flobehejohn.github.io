@@ -1,5 +1,5 @@
 // assets/js/pages/contact.js
-// Page Contact — Google Maps JS API + mailto — idempotent, PJAX-friendly, logs chics (Firefox/Chromium)
+// Page Contact — fallback statique Google Maps sans appel externe avant clé + consentement explicite.
 
 (function (window, document) {
     'use strict';
@@ -8,7 +8,6 @@
     const API = { init, destroy };
     let state = null;
   
-    // Logger homogène
     const TAG = '%c[Contact]';
     const CSS = 'background:#0b1f2a;color:#8bf0ff;font-weight:700;padding:2px 6px;border-radius:3px';
     const OK  = 'background:#0c2a1a;color:#77ffcc;font-weight:700;padding:2px 6px;border-radius:3px';
@@ -19,22 +18,46 @@
     const err  = (...a) => console.error(TAG, CSS, ...a);
   
     const qs  = (s, r=document) => r.querySelector(s);
-    const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
   
-    // Carte : Montreuil
     const CENTER = { lat: 48.8636, lng: 2.4432 };
     const ZOOM   = 14;
+
+    function ensureAudit() {
+      window.__CONTACT_AUDIT__ = window.__CONTACT_AUDIT__ || {
+        initialized: false,
+        mapFallbackControlled: false,
+        mapsExternalCallsBlockedWithoutConsent: true,
+        consent: false,
+        hasMapsKey: false
+      };
+      return window.__CONTACT_AUDIT__;
+    }
+
+    function hasExplicitMapsConsent() {
+      try {
+        return window.__CONTACT_MAPS_CONSENT__ === true
+          || localStorage.getItem('contact:maps-consent') === '1'
+          || document.documentElement.dataset.mapsConsent === 'true';
+      } catch {
+        return window.__CONTACT_MAPS_CONSENT__ === true;
+      }
+    }
   
-    // Charge Google Maps (promesse unique globale, safe pour PJAX)
     async function ensureGMaps(key) {
+      const audit = ensureAudit();
+      audit.hasMapsKey = /^G-[A-Z0-9]+$/.test(key) === false && Boolean(key);
+      audit.consent = hasExplicitMapsConsent();
+
+      if (!key) throw new Error('GMAPS_MISSING_KEY');
+      if (!audit.consent) throw new Error('GMAPS_MISSING_CONSENT');
+
       if (window.google && window.google.maps) {
         info('%cGoogle Maps déjà présent', OK);
         return window.google.maps;
       }
-      if (!key) throw new Error('GMAPS_MISSING_KEY');
   
       if (!window.__GMAPS_PROMISE__) {
-        info('Chargement Google Maps…');
+        info('Chargement Google Maps après consentement explicite…');
         window.__GMAPS_PROMISE__ = new Promise((resolve, reject) => {
           const cb = '__CONTACT_MAP_CB__';
           window[cb] = () => {
@@ -54,7 +77,6 @@
       return window.__GMAPS_PROMISE__;
     }
   
-    // Obfuscation e-mail → lien mailto
     function revealEmail() {
       const span = qs('#emailSafe');
       if (!span) return;
@@ -67,7 +89,6 @@
       info('%cE-mail révélé (anti-bot)', OK);
     }
   
-    // Générateur d’e-mail (mailto vers florian.behejohn@hotmail.fr)
     function setupMailForm() {
       const form     = qs('#contactForm');
       if (!form) return () => {};
@@ -115,8 +136,44 @@
       form.addEventListener('submit', onSubmit);
       return () => form.removeEventListener('submit', onSubmit);
     }
+
+    function mountStaticMapFallback(reason = 'GMAPS_MISSING_CONSENT') {
+      const audit = ensureAudit();
+      audit.mapFallbackControlled = true;
+      audit.mapsExternalCallsBlockedWithoutConsent = true;
+      audit.reason = reason;
+
+      const container = qs('#gmap');
+      const statusBox = qs('#mapStatus');
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${CENTER.lat},${CENTER.lng}`;
+
+      if (container) {
+        container.dataset.fallbackControlled = 'true';
+        container.setAttribute('role', 'status');
+        container.setAttribute('aria-live', 'polite');
+        container.innerHTML = `
+          <div>
+            <p class="mb-3 fw-semibold">Carte désactivée : ouvrir dans Google Maps</p>
+            <a class="btn btn-outline-secondary btn-sm" target="_blank" rel="noopener noreferrer" href="${mapsUrl}">Ouvrir dans Google Maps</a>
+          </div>`;
+      }
+
+      const directions = qs('#mapDirections');
+      if (directions) {
+        directions.href = mapsUrl;
+        directions.target = '_blank';
+        directions.rel = 'noopener noreferrer';
+      }
+
+      if (statusBox) {
+        statusBox.textContent = reason === 'GMAPS_MISSING_KEY'
+          ? 'Carte désactivée : aucune clé Google Maps explicite.'
+          : 'Carte désactivée : consentement Google Maps non donné.';
+      }
+      warn('%cGoogle Maps fallback contrôlé', BAD, { code: reason });
+      return () => {};
+    }
   
-    // Monte la carte Google
     function mountMap(googleMaps) {
       const container = qs('#gmap');
       const statusBox = qs('#mapStatus');
@@ -139,7 +196,7 @@
       });
   
       const infoWindow = new googleMaps.InfoWindow({
-        content: `<strong>Florian Behejohn</strong><br>29 rue Émile Zola<br>93100 Montreuil`
+        content: `<strong>Florian Behejohn</strong><br>Paris — France`
       });
       marker.addListener('click', () => infoWindow.open({ map, anchor: marker }));
   
@@ -150,17 +207,15 @@
       const directions = qs('#mapDirections');
       if (directions) directions.href = `https://www.google.com/maps/dir/?api=1&destination=${CENTER.lat},${CENTER.lng}`;
   
-      statusBox && (statusBox.textContent = 'Carte Google Maps chargée ✅');
+      statusBox && (statusBox.textContent = 'Carte Google Maps chargée après consentement explicite.');
       info('%cCarte initialisée', OK, { center: CENTER, zoom: ZOOM });
   
-      // Cleanup local
       return () => {
         try { if (btnCenter) btnCenter.removeEventListener('click', onCenter); } catch {}
         info('%cCarte démontée', OK);
       };
     }
   
-    // INIT / DESTROY (PJAX-ready)
     async function init() {
       if (state?.mounted) return warn('%cInit ignoré (déjà monté)', BAD);
   
@@ -169,6 +224,7 @@
       const key  = qs('meta[name="gmaps-key"]')?.content?.trim() || '';
       const unsubs = [];
       const abortCtl = new AbortController();
+      const audit = ensureAudit();
   
       revealEmail();
       const unsubForm = setupMailForm();
@@ -179,20 +235,12 @@
         const unsubMap = mountMap(gmaps);
         if (typeof unsubMap === 'function') unsubs.push(unsubMap);
       } catch (e) {
-        const box = qs('#mapStatus');
-        if (e && e.message === 'GMAPS_MISSING_KEY') {
-          warn('%cGoogle Maps fallback contrôlé : clé absente', BAD, { code: 'GMAPS_MISSING_KEY' });
-          if (box) {
-            box.innerHTML = `<span class="text-warning">Carte Google Maps désactivée : clé absente. <a target="_blank" rel="noopener" href="https://maps.google.com/?q=${CENTER.lat},${CENTER.lng}">Ouvrir la carte</a></span>`;
-          }
-        } else {
-          err('%cÉchec Google Maps', BAD, e);
-          if (box) {
-            box.innerHTML = `<span class="text-warning">Impossible de charger Google Maps. <a target="_blank" rel="noopener" href="https://maps.google.com/?q=${CENTER.lat},${CENTER.lng}">Ouvrir la carte</a></span>`;
-          }
-        }
+        const code = e && e.message ? e.message : 'GMAPS_UNAVAILABLE';
+        const unsubFallback = mountStaticMapFallback(code);
+        if (typeof unsubFallback === 'function') unsubs.push(unsubFallback);
       }
   
+      audit.initialized = true;
       state = { mounted: true, abortCtl, unsubs };
       log('%cinit()', OK, { page: 'contact' });
     }
@@ -205,9 +253,8 @@
       log('%cdestroy()', OK);
     }
   
-    // Expose & auto-init hors PJAX
     window[NS] = API;
-    window.contact = API; // alias éventuel
+    window.contact = API;
   
     if (document.querySelector('main[data-page="contact"]')) {
       if (document.readyState === 'loading') {
@@ -217,10 +264,8 @@
       }
     }
   
-    // Hooks PJAX si présents
     window.addEventListener('pjax:ready',  () => document.querySelector('main[data-page="contact"]') && init());
     window.addEventListener('pjax:before', () => document.querySelector('main[data-page="contact"]') && destroy());
     window.addEventListener('beforeunload', destroy);
   
   })(window, document);
-  
