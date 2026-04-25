@@ -1,7 +1,8 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'fs';
+import { dirname, join, relative } from 'path';
 
 const root = process.cwd();
+const docsRoot = join(root, 'docs');
 const pages = ['docs/index.html', 'docs/portfolio_florian_b.html', 'docs/parcours.html', 'docs/contact.html'];
 const requiredNuageModule = '<script type="module" src="/assets/js/nuage_magique/test.js"></script>';
 const requiredAnimatedText = '<script src="/assets/js/animated-text.js" defer></script>';
@@ -80,6 +81,44 @@ function relaxAudioCors(html) {
     .replace(/\s+crossorigin='anonymous'/gi, '');
 }
 
+function walkHtmlFiles(dir, acc = []) {
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    const st = statSync(full);
+    if (st.isDirectory()) walkHtmlFiles(full, acc);
+    else if (entry.toLowerCase().endsWith('.html')) acc.push(full);
+  }
+  return acc;
+}
+
+function relativePrefixForDocsHtml(file) {
+  const relDir = dirname(relative(docsRoot, file)).replace(/\\/g, '/');
+  if (relDir === '.') return '';
+  return `${relDir.split('/').map(() => '..').join('/')}/`;
+}
+
+function injectMobileDebugRuntime(html, prefix) {
+  if (/assets\/js\/runtime-mobile-debug\.js/.test(html)) return html;
+  const tag = `<script src="${prefix}assets/js/runtime-mobile-debug.js" defer></script>`;
+  const runtimeUrl = /<script[^>]+src=["'][^"']*assets\/js\/runtime-url\.js[^>]*><\/script>/i;
+  if (runtimeUrl.test(html)) return html.replace(runtimeUrl, `$&\n${tag}`);
+  const runtimeAnchors = [
+    /<script[^>]+src=["'][^"']*assets\/js\/pjax-router\.js[^>]*><\/script>/i,
+    /<script[^>]+src=["'][^"']*assets\/js\/page-hub\.js[^>]*><\/script>/i,
+    /<script[^>]+src=["'][^"']*assets\/js\/player-singleton\.js[^>]*><\/script>/i
+  ];
+  for (const anchor of runtimeAnchors) {
+    if (anchor.test(html)) return html.replace(anchor, `${tag}\n$&`);
+  }
+  return html.replace(/\s*<\/head>/i, `  ${tag}\n</head>`);
+}
+
+function normalizeRootAbsoluteAssetRefs(html, prefix) {
+  return html
+    .replace(/(src|href)=(["'])\/assets\//g, `$1=$2${prefix}assets/`)
+    .replace(/(src|href)=(["'])\/svg-icons\//g, `$1=$2${prefix}svg-icons/`);
+}
+
 for (const relativePath of pages) {
   const fullPath = join(root, relativePath);
   if (!existsSync(fullPath)) {
@@ -88,23 +127,36 @@ for (const relativePath of pages) {
   }
 
   const before = readFileSync(fullPath, 'utf-8');
-  const after = relaxAudioCors(ensureAudioCorsCompat(ensureAnimatedRoot(relativePath, ensureAnimatedTextRuntime(ensureNuageBootstrap(ensureContactJqueryCompat(relativePath, before))))));
+  const prefix = relativePrefixForDocsHtml(fullPath);
+  const after = normalizeRootAbsoluteAssetRefs(
+    relaxAudioCors(ensureAudioCorsCompat(ensureAnimatedRoot(relativePath, ensureAnimatedTextRuntime(ensureNuageBootstrap(ensureContactJqueryCompat(relativePath, before))))),
+    prefix
+  );
   if (after !== before) writeFileSync(fullPath, after, 'utf-8');
 
   const finalHtml = readFileSync(fullPath, 'utf-8');
-  if (finalHtml.includes('id="cloud-bg"') && !finalHtml.includes('/assets/js/nuage_magique/test.js')) failures.push(`missing nuage bootstrap on cloud page: ${relativePath}`);
-  if (!finalHtml.includes('/assets/js/animated-text.js')) failures.push(`missing animated text runtime: ${relativePath}`);
-  if (!finalHtml.includes('/assets/js/audio-cors-compat.js')) failures.push(`missing audio CORS compatibility shim: ${relativePath}`);
+  if (finalHtml.includes('id="cloud-bg"') && !finalHtml.includes('assets/js/nuage_magique/test.js')) failures.push(`missing nuage bootstrap on cloud page: ${relativePath}`);
+  if (!finalHtml.includes('assets/js/animated-text.js')) failures.push(`missing animated text runtime: ${relativePath}`);
+  if (!finalHtml.includes('assets/js/audio-cors-compat.js')) failures.push(`missing audio CORS compatibility shim: ${relativePath}`);
   if (relativePath === 'docs/parcours.html' && !/class=["'][^"']*(animated-text|anim-texte|anim-word|word|char)[^"']*["']|data-animate/i.test(finalHtml)) failures.push('missing animated root on parcours');
   if (relativePath === 'docs/contact.html') {
-    if (!finalHtml.includes('/assets/js/jquery-lite-compat.js')) failures.push('missing local jQuery compatibility shim on contact');
-    if (!finalHtml.includes('/assets/js/jquery-ready-arg-compat.js')) failures.push('missing local jQuery ready argument shim on contact');
-    if (!finalHtml.includes('/assets/js/jquery-traversal-compat.js')) failures.push('missing local jQuery traversal shim on contact');
-    if (!finalHtml.includes('/assets/js/jquery-waypoint-compat.js')) failures.push('missing local jQuery waypoint shim on contact');
-    if (!finalHtml.includes('/assets/js/jquery-waypoint-find-compat.js')) failures.push('missing local jQuery chained waypoint shim on contact');
-    if (!finalHtml.includes('/assets/js/jquery-class-compat.js')) failures.push('missing local jQuery class shim on contact');
-    if (!finalHtml.includes('/assets/js/skrollr-lite-compat.js')) failures.push('missing local skrollr compatibility shim on contact');
+    if (!finalHtml.includes('assets/js/jquery-lite-compat.js')) failures.push('missing local jQuery compatibility shim on contact');
+    if (!finalHtml.includes('assets/js/jquery-ready-arg-compat.js')) failures.push('missing local jQuery ready argument shim on contact');
+    if (!finalHtml.includes('assets/js/jquery-traversal-compat.js')) failures.push('missing local jQuery traversal shim on contact');
+    if (!finalHtml.includes('assets/js/jquery-waypoint-compat.js')) failures.push('missing local jQuery waypoint shim on contact');
+    if (!finalHtml.includes('assets/js/jquery-waypoint-find-compat.js')) failures.push('missing local jQuery chained waypoint shim on contact');
+    if (!finalHtml.includes('assets/js/jquery-class-compat.js')) failures.push('missing local jQuery class shim on contact');
+    if (!finalHtml.includes('assets/js/skrollr-lite-compat.js')) failures.push('missing local skrollr compatibility shim on contact');
     if (finalHtml.includes('/assets/js/pages/mac_val.js')) failures.push('contact still loads mac_val.js');
+  }
+}
+
+if (existsSync(docsRoot)) {
+  for (const htmlPath of walkHtmlFiles(docsRoot)) {
+    const before = readFileSync(htmlPath, 'utf-8');
+    const prefix = relativePrefixForDocsHtml(htmlPath);
+    const after = injectMobileDebugRuntime(normalizeRootAbsoluteAssetRefs(before, prefix), prefix);
+    if (after !== before) writeFileSync(htmlPath, after, 'utf-8');
   }
 }
 
@@ -121,6 +173,7 @@ if (existsSync(playerPath)) {
 }
 
 const requiredAssets = [
+  'docs/assets/js/runtime-mobile-debug.js',
   'docs/assets/js/nuage_magique/test.js',
   'docs/assets/js/nuage_magique/bootstrap.js',
   'docs/assets/js/nuage_magique/nuage.js',
