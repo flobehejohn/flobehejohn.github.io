@@ -8,6 +8,15 @@ const htmlAnalyticsSnippet = '\n<script src="/assets/js/analytics.js" defer data
 const buildStamp = '<meta name="x-build-origin" content="scripts/build-docs.mjs">';
 const nuageBootstrap = '<script type="module" src="/assets/js/nuage_magique/test.js"></script>';
 const animatedTextScript = '<script src="/assets/js/animated-text.js" defer></script>';
+const contactLegacyShims = [
+  '<script src="/assets/js/jquery-lite-compat.js" defer></script>',
+  '<script src="/assets/js/jquery-ready-arg-compat.js" defer></script>',
+  '<script src="/assets/js/jquery-traversal-compat.js" defer></script>',
+  '<script src="/assets/js/jquery-waypoint-compat.js" defer></script>',
+  '<script src="/assets/js/jquery-waypoint-find-compat.js" defer></script>',
+  '<script src="/assets/js/jquery-class-compat.js" defer></script>',
+  '<script src="/assets/js/skrollr-lite-compat.js" defer></script>'
+];
 
 function ensureDir(path) { mkdirSync(path, { recursive: true }); }
 function cleanOutDir() { rmSync(outDir, { recursive: true, force: true }); ensureDir(outDir); }
@@ -29,6 +38,11 @@ function beforeBody(html, snippet) {
   if (html.includes(snippet)) return html;
   return html.includes('</body>') ? html.replace(/\s*<\/body>/i, `\n${snippet}\n</body>`) : `${html}\n${snippet}\n`;
 }
+function beforeTheme(html, snippet) {
+  if (html.includes(snippet)) return html;
+  const themeScript = /<script[^>]+src=["'][^"']*assets\/js\/theme(?:\.min)?\.js[^>]*><\/script>/i;
+  return themeScript.test(html) ? html.replace(themeScript, `${snippet}\n  $&`) : beforeBody(html, snippet);
+}
 function ensureRobotsMeta(html) {
   return /name="robots"/i.test(html) ? html : html.replace(/\s*<\/head>/i, '  <meta name="robots" content="index,follow">\n</head>');
 }
@@ -45,11 +59,19 @@ function injectStyleGuard(html) {
   const guard = `\n<script>(function(){try{var isDotnet=(document.body&&document.body.getAttribute('data-page')==='dotnet_demo');if(!isDotnet){document.querySelectorAll('link[rel="stylesheet"][href*="/assets/css/dotnet.css"]').forEach(function(l){l.parentNode&&l.parentNode.removeChild(l);});document.body&&document.body.classList&&document.body.classList.remove('preload');}}catch(e){/* ignore */}})();</script>`;
   return html.replace(/\s*<\/body>/i, `${guard}\n</body>`);
 }
+function ensureContactLegacyShims(html) {
+  let next = html;
+  for (const shim of contactLegacyShims) next = beforeTheme(next, shim);
+  return next;
+}
 function preserveRichRuntime(srcPath, html) {
   let next = html;
   if (next.includes('id="cloud-bg"') && !next.includes('/assets/js/nuage_magique/test.js')) next = beforeBody(next, nuageBootstrap);
   if (/animated-text|anim-texte|anim-word|data-animate/.test(next) && !next.includes('/assets/js/animated-text.js')) next = beforeBody(next, animatedTextScript);
-  if (srcPath === 'contact.html') next = next.split('\n').filter((line) => !line.includes('/assets/js/pages/mac_val.js')).join('\n');
+  if (srcPath === 'contact.html') {
+    next = ensureContactLegacyShims(next);
+    next = next.split('\n').filter((line) => !line.includes('/assets/js/pages/mac_val.js')).join('\n');
+  }
   next = next.replaceAll(' crossorigin="anonymous"', '').replaceAll(" crossorigin='anonymous'", '');
   return next;
 }
