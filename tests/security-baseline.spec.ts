@@ -1,9 +1,12 @@
-import { test, expect } from '@playwright/test';
+import { createRequire } from 'module';
 import { attachConsoleProbe, assertNoFatalConsole } from './utils/consoleErrors';
 import { attachNetworkProbe, assertNoLocalAssetFailures } from './utils/networkProbe';
 import { assertSecurityBaseline, getSecurityState } from './utils/securityProbe';
 import { attachAnalyticsProbe, assertNoAnalyticsLeak } from './utils/analyticsProbe';
 import { nowIso, writeAuditJson } from './utils/artifactWriter';
+
+const require = createRequire(import.meta.url);
+const { test, expect } = require('@playwright/test') as typeof import('@playwright/test');
 
 const pages = ['/', '/portfolio_florian_b.html', '/parcours.html', '/contact.html'];
 
