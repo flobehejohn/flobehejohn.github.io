@@ -1,9 +1,12 @@
-import { test, expect } from '@playwright/test';
+import { createRequire } from 'module';
 import { attachConsoleProbe, assertNoFatalConsole } from './utils/consoleErrors';
 import { attachNetworkProbe, assertNoLocalAssetFailures } from './utils/networkProbe';
 import { getPjaxState, installPjaxAudit } from './utils/pjaxProbe';
 import { getAudioRuntimeState } from './utils/audioProbe';
 import { nowIso, writeAuditJson } from './utils/artifactWriter';
+
+const require = createRequire(import.meta.url);
+const { test, expect } = require('@playwright/test') as typeof import('@playwright/test');
 
 const navigationTargets = [
   { url: '/', next: '/portfolio_florian_b.html' },
