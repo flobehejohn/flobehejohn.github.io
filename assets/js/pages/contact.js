@@ -179,12 +179,15 @@
         const unsubMap = mountMap(gmaps);
         if (typeof unsubMap === 'function') unsubs.push(unsubMap);
       } catch (e) {
-        err('%cÉchec Google Maps', BAD, e);
         const box = qs('#mapStatus');
-        if (box) {
-          if (e && e.message === 'GMAPS_MISSING_KEY') {
-            box.innerHTML = `<span class="text-danger">Clé Google Maps absente. Ajoutez-la dans &lt;meta name="gmaps-key" content="…">&gt;.</span>`;
-          } else {
+        if (e && e.message === 'GMAPS_MISSING_KEY') {
+          warn('%cGoogle Maps fallback contrôlé : clé absente', BAD, { code: 'GMAPS_MISSING_KEY' });
+          if (box) {
+            box.innerHTML = `<span class="text-warning">Carte Google Maps désactivée : clé absente. <a target="_blank" rel="noopener" href="https://maps.google.com/?q=${CENTER.lat},${CENTER.lng}">Ouvrir la carte</a></span>`;
+          }
+        } else {
+          err('%cÉchec Google Maps', BAD, e);
+          if (box) {
             box.innerHTML = `<span class="text-warning">Impossible de charger Google Maps. <a target="_blank" rel="noopener" href="https://maps.google.com/?q=${CENTER.lat},${CENTER.lng}">Ouvrir la carte</a></span>`;
           }
         }
