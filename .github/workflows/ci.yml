@@ -135,11 +135,16 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with:
+          name: audit-security
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
           name: playwright-report-security
           path: |
             playwright-report
             test-results
-            audit/_latest
           if-no-files-found: ignore
 
   smoke:
@@ -288,11 +293,16 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with:
+          name: audit-audio-r2-runtime
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
           name: playwright-report-audio-r2-runtime
           path: |
             playwright-report
             test-results
-            audit/_latest
           if-no-files-found: ignore
 
   dynamic_text_runtime:
@@ -389,11 +399,16 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with:
+          name: audit-pjax-runtime
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
           name: playwright-report-pjax-runtime
           path: |
             playwright-report
             test-results
-            audit/_latest
           if-no-files-found: ignore
 
   interactive_runtime:
@@ -415,11 +430,16 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with:
+          name: audit-interactive-runtime
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
           name: playwright-report-interactive-runtime
           path: |
             playwright-report
             test-results
-            audit/_latest
           if-no-files-found: ignore
 
   site_matrix:
@@ -441,11 +461,16 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with:
+          name: audit-site-matrix
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
           name: playwright-report-site-matrix
           path: |
             playwright-report
             test-results
-            audit/_latest
           if-no-files-found: ignore
 
   visual:
@@ -464,6 +489,16 @@ jobs:
           path: docs
       - run: npx playwright install --with-deps chromium
       - run: npm run test:visual
+      - name: Write visual proof summary
+        run: |
+          mkdir -p audit/_latest
+          node -e "const fs=require('fs'); fs.writeFileSync('audit/_latest/visual-summary.json', JSON.stringify({timestamp:new Date().toISOString(), verdict:'passed', source:'npm run test:visual'}, null, 2) + '\n')"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-visual
+          path: audit/_latest
+          if-no-files-found: error
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -493,6 +528,12 @@ jobs:
         with:
           name: docs-build
           path: docs
+      - name: Download audit proof artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: audit-*
+          path: audit/_latest
+          merge-multiple: true
       - run: npm run audit:release
       - uses: actions/upload-artifact@v4
         with:
