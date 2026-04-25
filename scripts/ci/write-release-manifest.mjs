@@ -25,6 +25,7 @@ const requiredProofs = [
   ['security', /^security-.*-summary\.json$/],
   ['visual', /^visual-summary\.json$/],
   ['rawgithack-contract', /^rawgithack-preview-.*summary\.json$|^static-url-normalization-summary\.json$/],
+  ['mobile-debug', /^mobile-debug-.*summary\.json$|^static-url-normalization-summary\.json$/],
   ['contact-privacy', /^contact-privacy-.*summary\.json$|^static-url-normalization-summary\.json$/],
   ['media-permissions', /^media-permissions-.*summary\.json$|^static-url-normalization-summary\.json$/]
 ];
@@ -82,7 +83,9 @@ const counters = {
 const rawgithackRuntimeProofs = {
   rawgithackPreviewBasePath: process.env.PREVIEW_BASE_PATH || '/flobehejohn/flobehejohn.github.io/preview/refactor-live/',
   runtimeUrlResolverVersion: '20260425.1',
+  mobileDebugRuntimeVersion: '20260425.mobile-debug.1',
   rawgithack_contract: proofStatus(/^rawgithack-preview-.*summary\.json$|^static-url-normalization-summary\.json$/),
+  mobileDebug: proofStatus(/^mobile-debug-.*summary\.json$|^static-url-normalization-summary\.json$/),
   localAssetFailures: { count: counters.localAssetFailuresCount },
   fatalConsoleErrors: { count: counters.fatalErrorsCount },
   pjaxDeepNavigation: proofStatus(/^pjax-.*-summary\.json$/),
