@@ -9,6 +9,7 @@ const requiredAssets = [
   'docs/assets/js/usage-signals.js'
 ];
 const failures = [];
+const analyticsLoaderPattern = /src="(?:\.\.\/)*assets\/js\/analytics\.js"/i;
 
 for (const path of requiredAssets) {
   if (!existsSync(join(root, path))) {
@@ -24,7 +25,7 @@ for (const page of pages) {
   }
 
   const html = readFileSync(fullPath, 'utf-8');
-  if (!/src="\/assets\/js\/analytics\.js"/i.test(html)) {
+  if (!analyticsLoaderPattern.test(html)) {
     failures.push(`${page}: missing analytics loader`);
   }
 }
