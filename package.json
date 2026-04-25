@@ -12,11 +12,26 @@
     "node": "20.20.2",
     "npm": "10.8.2"
   },
-  "repository": { "type": "git", "url": "https://github.com/flobehejohn/flobehejohn.github.io" },
-  "bugs": { "url": "https://github.com/flobehejohn/flobehejohn.github.io/issues" },
-  "keywords": ["portfolio", "web design", "typescript", "isotope"],
-  "engines": { "node": "20.20.2", "npm": ">=10.8.2" },
-  "dependencies": { "lite-server": "^2.6.1" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flobehejohn/flobehejohn.github.io"
+  },
+  "bugs": {
+    "url": "https://github.com/flobehejohn/flobehejohn.github.io/issues"
+  },
+  "keywords": [
+    "portfolio",
+    "web design",
+    "typescript",
+    "isotope"
+  ],
+  "engines": {
+    "node": "20.20.2",
+    "npm": ">=10.8.2"
+  },
+  "dependencies": {
+    "lite-server": "^2.6.1"
+  },
   "devDependencies": {
     "@eslint/js": "^9.25.1",
     "@playwright/test": "^1.55.0",
@@ -41,24 +56,36 @@
     "audit:build": "node scripts/build-guard.mjs",
     "audit:analytics": "node scripts/analytics-audit.mjs",
     "audit:content": "node scripts/content-inventory-audit.mjs",
-    "validate": "npm run lint && npm run typecheck && npm run build && npm run audit:seo && npm run audit:build && npm run audit:analytics && npm run audit:content",
+    "audit:security": "node scripts/security-audit.mjs",
+    "audit:release": "node scripts/ci/write-release-manifest.mjs",
+    "validate": "npm run lint && npm run typecheck && npm run build && npm run audit:seo && npm run audit:build && npm run audit:analytics && npm run audit:content && npm run audit:security",
     "ci:validate": "npm run validate",
     "ci:smoke": "npm run test:smoke",
     "ci:runtime": "npm run test:runtime",
     "ci:particles-runtime": "npm run test:particles-runtime",
     "ci:audio-runtime": "npm run test:audio-runtime",
+    "ci:audio-r2-runtime": "npm run test:audio-r2-runtime",
     "ci:dynamic-text": "npm run test:dynamic-text",
     "ci:ga4-runtime": "npm run test:ga4-runtime",
     "ci:rich-runtime": "npm run test:rich-runtime",
+    "ci:pjax-runtime": "npm run test:pjax-runtime",
+    "ci:interactive-runtime": "npm run test:interactive-runtime",
+    "ci:site-matrix": "npm run test:site-matrix",
     "ci:visual": "npm run test:visual",
+    "ci:release": "npm run audit:release",
     "test:e2e": "playwright test",
     "test:smoke": "playwright test tests/smoke.spec.ts",
     "test:runtime": "playwright test tests/runtime-contract.spec.ts",
     "test:particles-runtime": "playwright test tests/legacy-particles-runtime.spec.ts",
     "test:audio-runtime": "playwright test tests/legacy-audio-runtime.spec.ts",
+    "test:audio-r2-runtime": "playwright test tests/audio-r2-contract.spec.ts",
     "test:dynamic-text": "playwright test tests/legacy-dynamic-text.spec.ts",
     "test:ga4-runtime": "playwright test tests/analytics-ga4-runtime.spec.ts",
     "test:rich-runtime": "playwright test tests/legacy-rich-runtime.spec.ts",
+    "test:pjax-runtime": "playwright test tests/pjax-navigation-contract.spec.ts",
+    "test:interactive-runtime": "playwright test tests/interactive-modules.contract.spec.ts tests/musicam-runtime.spec.ts tests/synth-runtime.spec.ts tests/magic-cloud-runtime.spec.ts",
+    "test:site-matrix": "playwright test tests/site-matrix.spec.ts",
+    "test:security": "playwright test tests/security-baseline.spec.ts",
     "test:visual": "playwright test tests/visual-baseline.spec.ts",
     "start": "npm run serve",
     "watch": "tsc -p tsconfig.build.json --watch",
