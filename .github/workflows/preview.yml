@@ -5,9 +5,12 @@ on:
   push:
     branches:
       - 'refactor/validate-unblock-20260423'
+      - 'fix/legacy-interactions-audio-pjax-certification-20260425'
 
 permissions:
   contents: write
+  actions: read
+  pull-requests: read
 
 env:
   PREVIEW_BRANCH: preview/refactor-live
@@ -50,6 +53,9 @@ jobs:
       - name: Deep content inventory audit
         run: npm run audit:content
 
+      - name: Security audit
+        run: npm run audit:security
+
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
@@ -68,6 +74,9 @@ jobs:
       - name: Run audio runtime certification
         run: npm run test:audio-runtime
 
+      - name: Run audio R2 certification
+        run: npm run test:audio-r2-runtime
+
       - name: Run dynamic text runtime certification
         run: npm run test:dynamic-text
 
@@ -77,8 +86,23 @@ jobs:
       - name: Run rich legacy runtime certification
         run: npm run test:rich-runtime
 
+      - name: Run PJAX certification
+        run: npm run test:pjax-runtime
+
+      - name: Run interactive modules certification
+        run: npm run test:interactive-runtime
+
+      - name: Run site matrix certification
+        run: npm run test:site-matrix
+
+      - name: Run security runtime certification
+        run: npm run test:security
+
       - name: Capture visual baseline
         run: npm run test:visual
+
+      - name: Generate release proof manifest
+        run: npm run audit:release
 
       - name: Build preview bundle
         run: node scripts/build-preview.mjs
@@ -90,7 +114,7 @@ jobs:
           publish_branch: ${{ env.PREVIEW_BRANCH }}
           publish_dir: ./preview-dist
           force_orphan: true
-          commit_message: "deploy(preview): publish refactor preview"
+          commit_message: "deploy(preview): publish certified legacy runtime preview ${{ github.sha }}"
 
       - name: Upload preview artifact
         if: always()
@@ -109,6 +133,7 @@ jobs:
           path: |
             playwright-report
             test-results
+            audit/_latest
           if-no-files-found: ignore
 
       - name: Upload visual baseline screenshots
