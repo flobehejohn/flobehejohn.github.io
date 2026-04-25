@@ -8,9 +8,18 @@ export type ConsoleProbe = {
 const fatalPatterns = [
   /ReferenceError/i,
   /TypeError/i,
+  /SyntaxError/i,
   /jQuery is not defined/i,
   /NotSupportedError/i,
-  /Failed to fetch dynamically imported module/i
+  /Failed to fetch dynamically imported module/i,
+  /export declarations may only appear at top level of a module/i,
+  /spécificateur .* était un spécificateur simple/i,
+  /bare specifier/i,
+  /blocked because of a disallowed MIME type/i,
+  /type MIME interdit/i,
+  /Failed to load module script/i,
+  /Échec du chargement pour le module/i,
+  /Aucune police n’a pu être chargée/i
 ];
 
 export function attachConsoleProbe(page: Page): ConsoleProbe {
