@@ -85,7 +85,7 @@
     "test:pjax-runtime": "playwright test tests/pjax-navigation-contract.spec.ts",
     "test:interactive-runtime": "playwright test tests/interactive-modules.contract.spec.ts tests/musicam-runtime.spec.ts tests/synth-runtime.spec.ts tests/magic-cloud-runtime.spec.ts",
     "test:site-matrix": "playwright test tests/site-matrix.spec.ts",
-    "test:security": "playwright test tests/security-baseline.spec.ts",
+    "test:security": "npx playwright install --with-deps chromium && playwright test tests/security-baseline.spec.ts",
     "test:visual": "playwright test tests/visual-baseline.spec.ts",
     "start": "npm run serve",
     "watch": "tsc -p tsconfig.build.json --watch",
