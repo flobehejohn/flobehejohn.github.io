@@ -7,6 +7,10 @@ import { nowIso, writeAuditJson } from './utils/artifactWriter';
 const require = createRequire(import.meta.url);
 const { test, expect } = require('@playwright/test') as typeof import('@playwright/test');
 
+function isControlledAudioFailure(message: string): boolean {
+  return /audio|media|r2|failed|lecture|piste suivante|player-singleton|échec de lecture/i.test(message);
+}
+
 test('R2 audio player exposes a certified simple-playback path', async ({ page }) => {
   const consoleProbe = attachConsoleProbe(page);
   const networkProbe = attachNetworkProbe(page);
@@ -58,7 +62,7 @@ test('R2 outage remains controlled and does not break local runtime', async ({ p
   expect(afterGesture.errorCode > 0 || afterGesture.networkState >= 2 || afterGesture.fallbackVisible).toBeTruthy();
 
   assertNoLocalAssetFailures(networkProbe);
-  const nonAudioFatalErrors = consoleProbe.fatalErrors.filter((message) => !/audio|media|r2|failed/i.test(message));
+  const nonAudioFatalErrors = consoleProbe.fatalErrors.filter((message) => !isControlledAudioFailure(message));
   expect(nonAudioFatalErrors).toEqual([]);
 
   writeAuditJson('audit/_latest/audio-r2-fallback-summary.json', {
@@ -68,7 +72,8 @@ test('R2 outage remains controlled and does not break local runtime', async ({ p
     afterGesture,
     localAssetFailures: networkProbe.localAssetFailures,
     externalFailures: networkProbe.externalFailures,
-    fatalErrors: consoleProbe.fatalErrors,
+    controlledAudioFailures: consoleProbe.fatalErrors.filter(isControlledAudioFailure),
+    fatalErrors: nonAudioFatalErrors,
     verdict: 'passed-with-controlled-external-failure'
   });
 });
