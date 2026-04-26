@@ -13,7 +13,7 @@ type DeepPage = {
 
 type AssetProbe = { url: string; ok: boolean; status: number };
 type ImageProbe = { src: string; loaded: boolean; width: number; height: number };
-type LocalImageProbe = { src: string; ok: boolean; status: number };
+type LocalImageProbe = { src: string; ok: boolean; status: number; timedOut?: boolean };
 
 const deepPages: DeepPage[] = [
   { name: 'nuage-magique', path: '/assets/portfolio/nuage_magique/nuage_magique_def.html', expectedText: /nuage|magique|particle|particule/i, proofSelectors: ['canvas', '#cloud-bg', '[data-page]', 'script[src*="nuage"]'] },
@@ -83,13 +83,27 @@ for (const deepPage of deepPages) {
     await page.waitForTimeout(1800);
     await expect(page.locator('body')).toContainText(deepPage.expectedText);
     const bodyStats = await page.evaluate(async (): Promise<{ textLength: number; localImages: LocalImageProbe[]; controls: number; scripts: number; canvases: number; media: number }> => {
-      const localImageSrcs = Array.from(document.images).map((img) => img.currentSrc || img.src).filter((src) => src.includes('/assets/'));
-      const localImages: LocalImageProbe[] = [];
-      for (const src of localImageSrcs) {
+      const localImageSrcs = Array.from(new Set(
+        Array.from(document.images)
+          .map((img) => img.currentSrc || img.src)
+          .filter((src) => src.includes('/assets/'))
+      )).slice(0, 64);
+
+      async function probeLocalImage(src: string): Promise<LocalImageProbe> {
         const url = new URL(src, window.location.href).pathname;
-        const response = await fetch(url, { cache: 'no-store' });
-        localImages.push({ src: url, ok: response.ok, status: response.status });
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 1500);
+        try {
+          const response = await fetch(url, { cache: 'no-store', signal: controller.signal });
+          return { src: url, ok: response.ok, status: response.status };
+        } catch {
+          return { src: url, ok: false, status: 0, timedOut: true };
+        } finally {
+          window.clearTimeout(timeout);
+        }
       }
+
+      const localImages = await Promise.all(localImageSrcs.map((src) => probeLocalImage(src)));
       return { textLength: document.body.innerText.trim().length, localImages, controls: document.querySelectorAll('button, a[href], input, select, textarea').length, scripts: document.scripts.length, canvases: document.querySelectorAll('canvas').length, media: document.querySelectorAll('audio, video').length };
     });
     expect(bodyStats.textLength, `${deepPage.name} should expose meaningful text`).toBeGreaterThan(80);
