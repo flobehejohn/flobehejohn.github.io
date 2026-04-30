@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'fs';
 import { join, sep } from 'path';
 
 const root = process.cwd();
@@ -32,6 +32,23 @@ function isLegacyBundleTargetBlankStaticSignal(file) {
   return legacyBundleTargetBlankAllowlist.some((suffix) => file.endsWith(suffix));
 }
 
+function writeSecuritySummary(verdict) {
+  const outDir = join(root, 'audit', '_latest');
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(
+    join(outDir, 'security-audit-summary.json'),
+    `${JSON.stringify({
+      timestamp: new Date().toISOString(),
+      verdict,
+      scannedFiles: files.length,
+      failures,
+      warnings,
+      source: 'npm run audit:security'
+    }, null, 2)}\n`,
+    'utf8'
+  );
+}
+
 const files = publicRoots.flatMap((relative) => walk(join(root, relative)))
   .filter((file) => /\.(html|js|mjs|json|css|txt|xml|md)$/i.test(file));
 
@@ -54,13 +71,17 @@ for (const file of files) {
 }
 
 if (failures.length) {
+  writeSecuritySummary('failed');
   console.error('[security-audit] FAIL');
   for (const failure of failures) console.error(` - ${failure}`);
   process.exit(1);
 }
 
+writeSecuritySummary('passed');
+
 console.log('[security-audit] OK');
 console.log(`[security-audit] scannedFiles=${files.length}`);
+console.log('[security-audit] proof OK audit/_latest/security-audit-summary.json');
 if (warnings.length) {
   console.log('[security-audit] warnings');
   for (const warning of warnings.slice(0, 40)) console.log(` - ${warning}`);

@@ -21,7 +21,18 @@ const proof = {
   proofName,
 };
 
-const outFile = path.join(outDir, `${proofName}-summary.json`);
-fs.writeFileSync(outFile, `${JSON.stringify(proof, null, 2)}\n`, 'utf8');
+const aliasFilesByProofName = new Map([
+  ['audio-online', ['audio-summary.json']],
+  ['audio-r2-runtime', ['audio-r2-fallback-summary.json']],
+]);
 
-console.log(`[runtime-proof] OK ${path.relative(process.cwd(), outFile)}`);
+const outputFiles = [
+  `${proofName}-summary.json`,
+  ...(aliasFilesByProofName.get(proofName) || []),
+];
+
+for (const fileName of outputFiles) {
+  const outFile = path.join(outDir, fileName);
+  fs.writeFileSync(outFile, `${JSON.stringify(proof, null, 2)}\n`, 'utf8');
+  console.log(`[runtime-proof] OK ${path.relative(process.cwd(), outFile)}`);
+}
