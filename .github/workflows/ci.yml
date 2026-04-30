@@ -267,11 +267,16 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with:
+          name: audit-audio-runtime
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
           name: playwright-report-audio-runtime
           path: |
             playwright-report
             test-results
-            audit/_latest
           if-no-files-found: ignore
 
   audio_r2_runtime:
@@ -514,9 +519,40 @@ jobs:
             test-results
           if-no-files-found: ignore
 
+  rawgithack_preview:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:rawgithack-preview
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-rawgithack-preview
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-rawgithack-preview
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
   release_manifest:
     runs-on: ubuntu-latest
-    needs: visual
+    needs: [visual, rawgithack_preview]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
