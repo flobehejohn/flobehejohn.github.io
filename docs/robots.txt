@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://flobehejohn.github.io/sitemap.xml

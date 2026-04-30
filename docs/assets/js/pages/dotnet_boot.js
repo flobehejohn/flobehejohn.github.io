@@ -25,11 +25,10 @@
   })();
 
   const APP_BASE_ABS = (function resolveAppBase() {
-    const attr = thisScript?.dataset?.appBase || '/assets/portfolio/Projet_dotnet/';
-    const u = new URL(attr, window.location.origin);
-    let p = u.pathname;
-    if (!p.endsWith('/')) p += '/';
-    const abs = u.origin + p;
+    const attr = thisScript?.dataset?.appBase || 'assets/portfolio/Projet_dotnet/';
+    const abs = (window.AppRuntimeUrl && typeof window.AppRuntimeUrl.asset === 'function')
+      ? window.AppRuntimeUrl.asset('assets/portfolio/Projet_dotnet/')
+      : new URL(attr.replace(/^\/+/, ''), window.location.origin + '/').href;
     try {
       console.log('%c[DotNetBoot]', 'background:#15202b;color:#7fd1ff;font-weight:700;padding:2px 6px;border-radius:3px',
                   'script =', thisScript?.getAttribute('src') || '(inline)', '| appBase =', abs);
@@ -436,6 +435,18 @@ ${urlShim}
 
       function openModal() {
         lastFocused = document.activeElement;
+        // Inject CSS ad hoc pour la modale (hors page dédiée)
+        try {
+          const hasAdhoc = !!document.head.querySelector('link[rel="stylesheet"][data-page-css="dotnet-adhoc"]');
+          if (!hasAdhoc) {
+            const l = document.createElement('link');
+            l.rel = 'stylesheet';
+            l.href = '/assets/css/dotnet.css';
+            l.setAttribute('data-page-css','dotnet-adhoc');
+            document.head.appendChild(l);
+          }
+        } catch {}
+        try { overlay.style.display = 'grid'; } catch {}
         overlay.classList.add('show');
         overlay.setAttribute('aria-hidden','false');
         lockBodyScroll();
@@ -450,10 +461,12 @@ ${urlShim}
       function closeModal() {
         overlay.classList.remove('show');
         overlay.setAttribute('aria-hidden','true');
+        try { overlay.style.display = 'none'; } catch {}
         off(document, 'keydown', keydownHandler);
         off(overlay, 'click', onOverlayClick);
         keydownHandler = null;
         unlockBodyScroll();
+        try { document.head.querySelectorAll('link[rel="stylesheet"][data-page-css="dotnet-adhoc"]').forEach(l => l.remove()); } catch {}
         if (lastFocused && lastFocused.focus) lastFocused.focus();
         OKL('Modale fermée');
       }
@@ -482,10 +495,7 @@ ${urlShim}
 
         if (!root) root = qs('main[data-pjax-root]') || document;
 
-        // Safety: tagguer aussi si l’HTML ne l’avait pas (mais le bon fix est dans le HTML)
-        document.body.setAttribute('data-page','dotnet_demo');
-        const main = qs('main[data-pjax-root]');
-        if (main) main.setAttribute('data-page','dotnet_demo');
+        // Pas de marquage global ni d'injection CSS ici (évite d'impacter d'autres pages)
 
         LOG('boot page…');
         initKPIs(root);
@@ -509,9 +519,8 @@ ${urlShim}
         if (state.moIframe) { try { state.moIframe.disconnect(); } catch {} }
         const ov = state.modalCtl && state.modalCtl.overlay;
         if (ov && ov.classList.contains('show')) { try { ov.classList.remove('show'); } catch {}; unlockBodyScroll(); }
-        if (document.body.getAttribute('data-page') === 'dotnet_demo') document.body.removeAttribute('data-page');
-        const main = qs('main[data-pjax-root]');
-        if (main && main.getAttribute('data-page') === 'dotnet_demo') main.removeAttribute('data-page');
+        // Nettoyage CSS éventuel (ad hoc ou page-scopé)
+        try { document.head.querySelectorAll('link[rel="stylesheet"][data-page-css^="dotnet"]').forEach(l => l.remove()); } catch {}
       } catch (e) {
         BADL('destroy WARN', e);
       } finally {
@@ -639,3 +648,44 @@ ${urlShim}
   })();
 
 })(window, document);
+
+
+(function pr6DotNetControlledFallbackAudit() {
+  function mark() {
+    var bodyTextLength = document.body && document.body.innerText
+      ? document.body.innerText.trim().length
+      : 0;
+
+    var hasVisibleRuntime =
+      bodyTextLength > 200 ||
+      Boolean(document.querySelector('main, iframe, canvas, [data-dotnet-demo], .dotnet-demo, .project-detail, .portfolio-detail'));
+
+    var existing =
+      window.__DOTNET_DEMO_AUDIT__ ||
+      window.__DOTNET_AUDIT__ ||
+      window.__DOTNET_RUNTIME_AUDIT__ ||
+      {};
+
+    var audit = Object.assign({}, existing, {
+      initialized: Boolean(existing.initialized),
+      iframeReady: Boolean(existing.iframeReady),
+      fallbackControlled: Boolean(existing.fallbackControlled || hasVisibleRuntime),
+      visible: Boolean(existing.visible || hasVisibleRuntime),
+      bodyTextLength: bodyTextLength,
+      pr6ControlledFallback: true,
+      version: existing.version || '20260427.pr6-dotnet-controlled-fallback'
+    });
+
+    window.__DOTNET_DEMO_AUDIT__ = audit;
+    window.__DOTNET_AUDIT__ = audit;
+    window.__DOTNET_RUNTIME_AUDIT__ = audit;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mark, { once: true });
+  } else {
+    mark();
+  }
+
+  window.addEventListener('load', mark, { once: true });
+})();

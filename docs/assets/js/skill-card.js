@@ -10,16 +10,33 @@
   let globalKeydownBound = false;
   let currentOpenModal = null;
 
+  // Font-agnostic stars (SVG) to avoid dependency on FontAwesome loading/order
+  function getStarSVGHTML(level = 0, color = '#FFD700') {
+    // level: 1 = full, 0.5 = half, 0 = empty
+    const id = 'clip' + Math.random().toString(36).slice(2);
+    const base = '#ddd';
+    const ratio = Math.max(0, Math.min(1, level));
+    return `
+      <svg viewBox="0 0 24 24" width="20" height="20" style="margin:2px;vertical-align:middle">
+        <defs>
+          <clipPath id="${id}"><rect x="0" y="0" width="${24*ratio}" height="24" /></clipPath>
+        </defs>
+        <path d="M12 2.1l2.77 5.61 6.19.9-4.48 4.37 1.06 6.16L12 16.97 6.46 19.14l1.06-6.16L3.04 8.61l6.19-.9L12 2.1z" fill="${base}"/>
+        <g clip-path="url(#${id})">
+          <path d="M12 2.1l2.77 5.61 6.19.9-4.48 4.37 1.06 6.16L12 16.97 6.46 19.14l1.06-6.16L3.04 8.61l6.19-.9L12 2.1z" fill="${color}"/>
+        </g>
+      </svg>`;
+  }
+
   function renderStars(container, rating, color = '#FFD700') {
     if (!container) return;
-    container.innerHTML = '';
     const r = Number.isFinite(rating) ? rating : 0;
+    let html = '';
     for (let i = 1; i <= 5; i++) {
-      const star = document.createElement('i');
-      star.className = i <= r ? 'fas fa-star' : 'far fa-star';
-      star.style.color = i <= r ? color : '#ddd';
-      container.appendChild(star);
+      const lvl = r >= i ? 1 : (r >= i - 0.5 ? 0.5 : 0);
+      html += getStarSVGHTML(lvl, color);
     }
+    container.innerHTML = html;
   }
 
   function init(container = document) {
@@ -35,11 +52,10 @@
       const cvModal = document.getElementById('cv-modal');
       if (cvModal && cvModal.querySelector('.modal-body')) modal = cvModal;
     }
-    if (!modal) return;
+    // Ne pas retourner si la modale est absente: on rend au moins les étoiles et le hover.
 
     const modalContent = modal ? modal.querySelector('.modal-content') : null;
     const modalBody    = modal ? modal.querySelector('.modal-body') : null;
-    // on continue même si la modale n'est pas encore présente (étoiles/hover)
 
     if (modal && !modal.__skillBound) {
       const onOutsideClick = () => {
@@ -109,10 +125,16 @@
       };
 
       const openSkillModal = () => {
+        // Résout la modale au moment de l'ouverture (après PJAX)
         let m = document.getElementById('skill-modal') || document.getElementById('skillModal') || null;
-        if (!m) { const cv = document.getElementById('cv-modal'); if (cv && cv.querySelector('.modal-body')) m = cv; }
+        if (!m) {
+          const cv = document.getElementById('cv-modal');
+          if (cv && cv.querySelector('.modal-body')) m = cv;
+        }
         if (!m) return;
-        const mBody = m.querySelector('.modal-body'); if (!mBody) return;
+        const mBody = m.querySelector('.modal-body');
+        if (!mBody) return;
+
         mBody.innerHTML = `
           <div class="software-logos">${card.querySelector('.software-logos')?.innerHTML || ''}</div>
           <h3>${card.querySelector('h3')?.textContent || ''}</h3>
@@ -148,19 +170,24 @@
 
       logos.forEach((logo) => {
         if (window.matchMedia?.('(hover:hover)').matches) {
-          logo.addEventListener('mouseenter', () => { showRating(logo, starsContainer, customRating); });
+          logo.addEventListener('mouseenter', () => {
+            // Aperçu rouge uniquement au survol (non persistant)
+            showRating(logo, starsContainer, customRating);
+          });
           logo.addEventListener('mouseleave', resetToDefault);
         }
-        // Clic = ouvre la modale (pas de note rouge persistante en liste)
-        logo.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openSkillModal(); });
+        // Sur clic dans la carte, on ouvre la modale (pas de note rouge persistante en liste)
+        logo.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openSkillModal();
+        });
         // Touch/pointer friendly
         logo.addEventListener('touchend', (e) => { e.preventDefault(); e.stopPropagation(); openSkillModal(); }, { passive: false });
         logo.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') { e.preventDefault(); e.stopPropagation(); openSkillModal(); } });
       });
 
-      card.addEventListener('click', () => {
-        openSkillModal();
-      });
+      card.addEventListener('click', () => { openSkillModal(); });
     });
   }
 

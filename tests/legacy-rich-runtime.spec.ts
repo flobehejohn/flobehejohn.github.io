@@ -89,7 +89,9 @@ test('home rich runtime: particles canvas, audio player and dynamic text are act
   expect(dynamic.headingVisible).toBeTruthy();
 
   await expect(page.locator('#openAudioPlayer')).toBeVisible();
-  await page.locator('#openAudioPlayer').click();
+  const openAudioPlayer = page.locator('#openAudioPlayer').first();
+  await openAudioPlayer.scrollIntoViewIfNeeded().catch(() => undefined);
+  await openAudioPlayer.click({ timeout: 15_000, noWaitAfter: true, force: true });
   await page.waitForTimeout(500);
 
   const audio = await page.evaluate(async () => {
@@ -156,7 +158,7 @@ test('PJAX/navigation keeps singleton audio and dynamic runtime coherent', async
 
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(1200);
-  await page.locator('a[href="/portfolio_florian_b.html"]').first().click();
+  await page.locator('a[href="/portfolio_florian_b.html"], a[href="portfolio_florian_b.html"], a[href$="portfolio_florian_b.html"]').first().click({ timeout: 15_000, noWaitAfter: true });
   await page.waitForLoadState('domcontentloaded').catch(() => undefined);
   await page.waitForTimeout(1800);
 

@@ -604,6 +604,7 @@
     try { applyAudioArbiter(container); } catch {}
     try { await bootFor(container); } catch (e2) { warn('bootFor error on pjax:ready', e2); }
     try { await initPageVideoCards(container); } catch (e3) { warn('initPageVideoCards error on pjax:ready', e3); }
+    // Assurer player prêt + reprise si on revient sur home via PJAX
     try {
       const pg = (container?.getAttribute('data-page') || '').toLowerCase();
       if (pg === 'home') {
@@ -625,7 +626,7 @@
           || await needScript('/assets/js/cv-modal-handler.js', () => typeof window.initCvModal === 'function');
         if (okCv && typeof window.initCvModal === 'function') window.initCvModal();
       }
-      // Injecter une modale dédiée aux skills si absente
+      // Injecter une modale dédiée aux skills si absente (évite d'écraser la CV)
       try {
         if (!document.getElementById('skill-modal')) {
           const overlay  = document.createElement('div');
@@ -646,9 +647,24 @@
       } catch {}
       const hasCards = !!container.querySelector('.skill-card');
       if (hasCards) {
+        // Filets vendor: s'assurer qu'Isotope + imagesLoaded + init grid sont prêts
+        try {
+          await needScript(
+            ['/assets/vendor/imagesloaded.pkgd.min.js', 'https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js'],
+            () => typeof window.imagesLoaded === 'function'
+          );
+          await needScript(
+            ['/assets/vendor/isotope.pkgd.min.js', 'https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js'],
+            () => typeof window.Isotope !== 'undefined'
+          );
+          await needScript('/assets/js/isotope-skill-grid.js', () => (typeof window.initSkillGrid === 'function') || (window.SkillGrid && typeof window.SkillGrid.init === 'function'));
+          // init grid (scope = container)
+          try { (window.initSkillGrid || window.SkillGrid?.init)?.(container); } catch {}
+        } catch {}
         const okStars = (typeof window.initSkillCards === 'function')
           || await needScript('/assets/js/skill-card.js', () => typeof window.initSkillCards === 'function');
         if (okStars && typeof window.initSkillCards === 'function') window.initSkillCards(container);
+        // Réparations tardives (DOM encore en mouvement après PJAX)
         try { setTimeout(() => { try { window.initSkillCards(container); } catch {} }, 0); } catch {}
         try { setTimeout(() => { try { window.initSkillCards(container); } catch {} }, 150); } catch {}
         try { requestAnimationFrame(() => { try { window.initSkillCards(container); } catch {} }); } catch {}
@@ -758,8 +774,15 @@
         // Sur la home, tenter une reprise si un snapshot forcé était enregistré
         try {
           const pageName = (container?.getAttribute('data-page') || '').toLowerCase();
-          if (pageName === 'home' && window.AudioApp && typeof window.AudioApp.resumeFromSnapshot === 'function') {
-            await window.AudioApp.resumeFromSnapshot();
+          if (pageName === 'home') {
+            // Si le singleton n'est pas encore initialisé mais que l'UI a été injectée → (re)charger le script
+            const needInit = (!window.AudioApp || window.AudioApp.initialized !== true) && !!document.getElementById('audioPlayer');
+            if (needInit) {
+              await needScript('/assets/js/player-singleton.js', () => window.AudioApp && window.AudioApp.initialized);
+            }
+            if (window.AudioApp && typeof window.AudioApp.resumeFromSnapshot === 'function') {
+              await window.AudioApp.resumeFromSnapshot();
+            }
           }
         } catch(e){ warn('visualReload: resumeFromSnapshot failed', e); }
       } catch (e) { warn('visualReload module inits failed', e); }

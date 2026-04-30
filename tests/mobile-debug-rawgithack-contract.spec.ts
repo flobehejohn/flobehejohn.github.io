@@ -1,4 +1,10 @@
-import { expect, test } from '@playwright/test';
+import * as pw from '@playwright/test';
+type PlaywrightRuntime = typeof import('@playwright/test');
+const playwrightRuntime = ((pw as unknown as { default?: PlaywrightRuntime }).default ?? pw) as PlaywrightRuntime;
+const { test, expect } = playwrightRuntime;
+
+
+test.setTimeout(120_000);
 
 const basePath = process.env.PREVIEW_BASE_PATH || '/flobehejohn/flobehejohn.github.io/preview/refactor-live/';
 

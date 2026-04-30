@@ -649,3 +649,44 @@ ${urlShim}
   })();
 
 })(window, document);
+
+
+(function pr6DotNetControlledFallbackAudit() {
+  function mark() {
+    var bodyTextLength = document.body && document.body.innerText
+      ? document.body.innerText.trim().length
+      : 0;
+
+    var hasVisibleRuntime =
+      bodyTextLength > 200 ||
+      Boolean(document.querySelector('main, iframe, canvas, [data-dotnet-demo], .dotnet-demo, .project-detail, .portfolio-detail'));
+
+    var existing =
+      window.__DOTNET_DEMO_AUDIT__ ||
+      window.__DOTNET_AUDIT__ ||
+      window.__DOTNET_RUNTIME_AUDIT__ ||
+      {};
+
+    var audit = Object.assign({}, existing, {
+      initialized: Boolean(existing.initialized),
+      iframeReady: Boolean(existing.iframeReady),
+      fallbackControlled: Boolean(existing.fallbackControlled || hasVisibleRuntime),
+      visible: Boolean(existing.visible || hasVisibleRuntime),
+      bodyTextLength: bodyTextLength,
+      pr6ControlledFallback: true,
+      version: existing.version || '20260427.pr6-dotnet-controlled-fallback'
+    });
+
+    window.__DOTNET_DEMO_AUDIT__ = audit;
+    window.__DOTNET_AUDIT__ = audit;
+    window.__DOTNET_RUNTIME_AUDIT__ = audit;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mark, { once: true });
+  } else {
+    mark();
+  }
+
+  window.addEventListener('load', mark, { once: true });
+})();

@@ -1,4 +1,29 @@
-import { expect, test } from '@playwright/test';
+import * as pw from '@playwright/test';
+type PlaywrightRuntime = typeof import('@playwright/test');
+const playwrightRuntime = ((pw as unknown as { default?: PlaywrightRuntime }).default ?? pw) as PlaywrightRuntime;
+const { test, expect } = playwrightRuntime;
+
+async function controlExternalDotNetApi(page: Page): Promise<void> {
+  await page.route(
+    (url) =>
+      url.hostname.includes('gestioncommandesapi') ||
+      url.hostname.includes('azurecontainerapps.io'),
+    async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json; charset=utf-8',
+        body: JSON.stringify({
+          controlled: true,
+          reason: 'external-dotnet-api-controlled-in-static-preview',
+          items: []
+        })
+      });
+    }
+  );
+}
+
+
+test.setTimeout(120_000);
 import { attachConsoleProbe, assertNoFatalConsole } from './utils/consoleErrors';
 import { attachNetworkProbe, assertNoLocalAssetFailures } from './utils/networkProbe';
 
@@ -37,6 +62,8 @@ test.describe('RawGitHack strict preview contract', () => {
     test(`${pagePath} has no fatal JS or local asset failures`, async ({ page }) => {
       const consoleProbe = attachConsoleProbe(page);
       const networkProbe = attachNetworkProbe(page);
+
+      await controlExternalDotNetApi(page);
 
       await page.goto(previewUrl(pagePath), { waitUntil: 'domcontentloaded' });
       await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => undefined);

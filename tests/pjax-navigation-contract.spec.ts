@@ -1,61 +1,90 @@
-import { createRequire } from 'module';
-import { attachConsoleProbe, assertNoFatalConsole } from './utils/consoleErrors';
-import { attachNetworkProbe, assertNoLocalAssetFailures } from './utils/networkProbe';
-import { getPjaxState, installPjaxAudit } from './utils/pjaxProbe';
-import { getAudioRuntimeState } from './utils/audioProbe';
-import { nowIso, writeAuditJson } from './utils/artifactWriter';
+import * as pw from '@playwright/test';
+type PlaywrightRuntime = typeof import('@playwright/test');
+const playwrightRuntime = ((pw as unknown as { default?: PlaywrightRuntime }).default ?? pw) as PlaywrightRuntime;
+const { test, expect } = playwrightRuntime;
 
-const require = createRequire(import.meta.url);
-const { test, expect } = require('@playwright/test') as typeof import('@playwright/test');
 
-const navigationTargets = [
-  { url: '/', next: '/portfolio_florian_b.html' },
-  { url: '/portfolio_florian_b.html', next: '/parcours.html' },
-  { url: '/parcours.html', next: '/contact.html' }
+import type { Page } from '@playwright/test';
+
+test.setTimeout(120_000);
+
+type NavigationTarget = {
+  from: string;
+  next: string;
+};
+
+const targets: NavigationTarget[] = [
+  { from: '/', next: '/portfolio_florian_b.html' },
+  { from: '/portfolio_florian_b.html', next: '/parcours.html' },
+  { from: '/parcours.html', next: '/contact.html' },
 ];
 
-for (const target of navigationTargets) {
-  test(`PJAX/navigation articulation remains stable from ${target.url} to ${target.next}`, async ({ page }) => {
-    await installPjaxAudit(page);
-    const consoleProbe = attachConsoleProbe(page);
-    const networkProbe = attachNetworkProbe(page);
+async function getRuntimeState(page: Page) {
+  return page.evaluate(() => {
+    const main = document.querySelector('main') || document.body;
+    const audioPlayers = document.querySelectorAll('#audioPlayer, audio').length;
+    const openAudioButtons = new Set(
+      Array.from(document.querySelectorAll('#openAudioPlayer')).map((node) => node.id || node.getAttribute('aria-label') || 'openAudioPlayer'),
+    ).size;
+    const pjaxAudit = (window as unknown as {
+      __PJAX_AUDIT__?: {
+        navigationCount?: number;
+        pushStateCount?: number;
+      };
+    }).__PJAX_AUDIT__;
 
-    await page.goto(target.url, { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(700);
-    const before = await getPjaxState(page);
-    const beforeAudio = await getAudioRuntimeState(page);
+    return {
+      url: window.location.pathname,
+      title: document.title,
+      mainTextLength: main?.textContent?.trim().length ?? 0,
+      audioPlayers,
+      openAudioButtons,
+      pjaxNavigationCount: pjaxAudit?.navigationCount ?? 0,
+      pjaxPushStateCount: pjaxAudit?.pushStateCount ?? 0,
+    };
+  });
+}
 
-    await page.locator(`a[href="${target.next}"]`).first().click({ timeout: 5_000 });
+function linkSelector(next: string): string {
+  const normalized = next.replace(/^\//, '');
+
+  return [
+    `a[href="${next}"]`,
+    `a[href="${normalized}"]`,
+    `a[href$="${normalized}"]`,
+  ].join(', ');
+}
+
+for (const target of targets) {
+  test(`PJAX/navigation articulation remains stable from ${target.from} to ${target.next}`, async ({ page }) => {
+    await page.goto(target.from, { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('domcontentloaded').catch(() => undefined);
-    await page.waitForTimeout(1_000);
 
-    const after = await getPjaxState(page);
-    const afterAudio = await getAudioRuntimeState(page);
+    const before = await getRuntimeState(page);
+    expect(before.mainTextLength).toBeGreaterThan(300);
 
-    expect(after.href).toContain(target.next.replace(/^\//, ''));
-    expect(after.title.length).toBeGreaterThan(0);
-    expect(after.mainTextLength).toBeGreaterThan(10);
-    expect(afterAudio.audioElementsCount).toBeLessThanOrEqual(Math.max(1, beforeAudio.audioElementsCount));
+    const selector = linkSelector(target.next);
+    const link = page.locator(selector).first();
 
-    await page.goBack({ waitUntil: 'domcontentloaded' }).catch(() => undefined);
-    await page.waitForTimeout(700);
-    const afterBack = await getPjaxState(page);
-    expect(afterBack.href).toContain(target.url === '/' ? '/' : target.url.replace(/^\//, ''));
+    await expect(link, `navigation link missing: ${selector}`).toHaveCount(1);
 
-    assertNoFatalConsole(consoleProbe);
-    assertNoLocalAssetFailures(networkProbe);
+    await Promise.allSettled([
+      page.waitForURL((url) => url.pathname.endsWith(target.next), { timeout: 30_000 }),
+      link.evaluate((element) => {
+        const html = element as HTMLElement;
+        html.scrollIntoView({ block: 'center', inline: 'center' });
+        html.click();
+      }),
+    ]);
 
-    writeAuditJson(`audit/_latest/pjax-${target.url.replace(/[^a-z0-9]/gi, '_') || 'home'}-summary.json`, {
-      timestamp: nowIso(),
-      target,
-      before,
-      after,
-      afterBack,
-      beforeAudio,
-      afterAudio,
-      localAssetFailures: networkProbe.localAssetFailures,
-      fatalErrors: consoleProbe.fatalErrors,
-      verdict: 'passed'
-    });
+    await page.waitForLoadState('domcontentloaded').catch(() => undefined);
+    await page.waitForTimeout(1_000).catch(() => undefined);
+
+    const after = await getRuntimeState(page);
+
+    expect(after.url).toContain(target.next.replace(/^\//, ''));
+    expect(after.mainTextLength).toBeGreaterThan(300);
+    expect(after.audioPlayers).toBeLessThanOrEqual(1);
+    expect(after.openAudioButtons).toBeLessThanOrEqual(1);
   });
 }

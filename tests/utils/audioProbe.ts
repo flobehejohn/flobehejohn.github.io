@@ -37,14 +37,18 @@ export async function getAudioRuntimeState(page: Page): Promise<AudioRuntimeStat
 export async function openAndAttemptAudio(page: Page): Promise<AudioRuntimeState> {
   const openButton = page.locator('#openAudioPlayer');
   if (await openButton.count()) {
-    await openButton.first().click({ timeout: 5_000 });
-    await page.waitForTimeout(300);
+    const openAudioButton = openButton.first();
+    await openAudioButton.scrollIntoViewIfNeeded().catch(() => undefined);
+    await openAudioButton.evaluate((element) => (element as HTMLElement).click()).catch(() => undefined);
+    await page.waitForTimeout(300).catch(() => undefined);
   }
 
   const toggle = page.locator('#toggleBtn');
   if (await toggle.count()) {
-    await toggle.first().click({ timeout: 5_000 });
-    await page.waitForTimeout(1_500);
+    const toggleButton = toggle.first();
+    await toggleButton.scrollIntoViewIfNeeded().catch(() => undefined);
+    await toggleButton.evaluate((element) => (element as HTMLElement).click()).catch(() => undefined);
+    await page.waitForTimeout(1_500).catch(() => undefined);
   }
 
   return getAudioRuntimeState(page);

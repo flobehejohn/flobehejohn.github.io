@@ -21,7 +21,7 @@ export async function probeInteractiveModule(page: Page, name: string, url: stri
   await page.waitForTimeout(1_000);
 
   return page.evaluate(({ moduleName, moduleUrl, fatalCount }) => {
-    const visibleElements = Array.from(document.querySelectorAll('canvas, svg, button, input, select, [data-module], [id], [class]'))
+    const visibleElements = Array.from(document.querySelectorAll('canvas, svg, button, input, select, [data-module], main, body, #app, #canvas, #video, #camera, #startButton, #toggleBtn, #openAudioPlayer')).slice(0, 160).slice(0, 160)
       .filter((element) => {
         const html = element as HTMLElement;
         const rect = html.getBoundingClientRect();

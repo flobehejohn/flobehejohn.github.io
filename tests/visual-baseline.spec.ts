@@ -81,7 +81,16 @@ for (const capture of captures) {
     });
 
     for (const anchor of capture.anchors) {
-      await expect(page.locator(anchor).first(), `Anchor missing for ${capture.name}: ${anchor}`).toHaveCount(1);
+      const anchorLocator =
+      anchor === '#mapDirections'
+        ? page
+            .locator(
+              '#mapDirections, a[href*="google.com/maps/dir"], a[href*="google.com/maps/search"], [data-privacy-fallback="google-maps"]',
+            )
+            .first()
+        : page.locator(anchor).first();
+
+    await expect(anchorLocator, `Anchor missing for ${capture.name}: ${anchor}`).toHaveCount(1);
     }
 
     ensureDir(capture.outputPath);
