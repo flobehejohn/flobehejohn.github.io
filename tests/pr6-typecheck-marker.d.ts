@@ -1,1 +1,1 @@
-export {};
+type Page = unknown;
