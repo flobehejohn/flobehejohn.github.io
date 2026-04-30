@@ -13,7 +13,7 @@ type DeepPage = {
 
 type AssetProbe = { url: string; ok: boolean; status: number };
 type ImageProbe = { src: string; loaded: boolean; width: number; height: number };
-type LocalImageProbe = { src: string; ok: boolean; status: number; timedOut?: boolean };
+type LocalImageProbe = { src: string; ok: boolean; status: number; timedOut?: boolean; method?: string };
 
 const deepPages: DeepPage[] = [
   { name: 'nuage-magique', path: '/assets/portfolio/nuage_magique/nuage_magique_def.html', expectedText: /nuage|magique|particle|particule/i, proofSelectors: ['canvas', '#cloud-bg', '[data-page]', 'script[src*="nuage"]'] },
@@ -92,12 +92,17 @@ for (const deepPage of deepPages) {
       async function probeLocalImage(src: string): Promise<LocalImageProbe> {
         const url = new URL(src, window.location.href).pathname;
         const controller = new AbortController();
-        const timeout = window.setTimeout(() => controller.abort(), 1500);
+        const timeout = window.setTimeout(() => controller.abort(), 5000);
         try {
-          const response = await fetch(url, { cache: 'no-store', signal: controller.signal });
-          return { src: url, ok: response.ok, status: response.status };
+          const headResponse = await fetch(url, { method: 'HEAD', cache: 'no-store', signal: controller.signal });
+          if (headResponse.ok) {
+            return { src: url, ok: true, status: headResponse.status, method: 'HEAD' };
+          }
+
+          const getResponse = await fetch(url, { cache: 'no-store', signal: controller.signal });
+          return { src: url, ok: getResponse.ok, status: getResponse.status, method: 'GET' };
         } catch {
-          return { src: url, ok: false, status: 0, timedOut: true };
+          return { src: url, ok: false, status: 0, timedOut: true, method: 'HEAD' };
         } finally {
           window.clearTimeout(timeout);
         }
