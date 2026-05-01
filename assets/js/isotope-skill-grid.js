@@ -8,6 +8,183 @@
   const STORE = new WeakMap();
   const $pjaxRoot = () => document.querySelector('main[data-pjax-root]');
 
+  const MOTION_STYLE_ID = 'skill-grid-motion-contract-style';
+  const MOTION_DURATION_MS = 520;
+  const MOTION_DURATION = '0.52s';
+
+  const SKILL_GRID_AUDIT = window.__SKILL_GRID_AUDIT__ = Object.assign({
+    version: 'pr6-isotope-pjax-motion-contract',
+    ready: false,
+    initCount: 0,
+    idempotentInitCount: 0,
+    teardownCount: 0,
+    arrangeCount: 0,
+    fallbackCount: 0,
+    lastFilter: '*',
+    lastSortBy: 'original-order',
+    lastMovedCount: 0,
+    lastVisibleCount: 0,
+    lastHiddenCount: 0,
+    transitionDurationMs: MOTION_DURATION_MS,
+    lastSource: 'bootstrap',
+    lastError: null
+  }, window.__SKILL_GRID_AUDIT__ || {});
+
+  function markSkillGridAudit(partial) {
+    try {
+      Object.assign(SKILL_GRID_AUDIT, partial, { updatedAt: new Date().toISOString() });
+    } catch {}
+  }
+
+  function ensureSkillGridMotionStyle() {
+    if (document.getElementById(MOTION_STYLE_ID)) return;
+
+    const style = document.createElement('style');
+    style.id = MOTION_STYLE_ID;
+    style.textContent = `
+#skills-grid.skill-grid-ready .grid-item,
+.grid-wrapper.skill-grid-ready .grid-item {
+  transition-property: opacity, transform, filter;
+  transition-duration: ${MOTION_DURATION};
+  transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+  will-change: opacity, transform;
+}
+#skills-grid.skill-grid-arranging .grid-item,
+.grid-wrapper.skill-grid-arranging .grid-item {
+  filter: saturate(1.03);
+}
+#skills-grid .grid-item.isotope-hidden,
+.grid-wrapper .grid-item.isotope-hidden {
+  pointer-events: none;
+}
+`;
+    document.head.appendChild(style);
+  }
+
+  function prepareSkillGridMotion(grid) {
+    try {
+      ensureSkillGridMotionStyle();
+      grid.classList.add('skill-grid-ready');
+      grid.dataset.skillGridReady = '1';
+      grid.dataset.skillGridMotion = 'certified';
+      grid.style.position = grid.style.position || 'relative';
+
+      Array.from(grid.querySelectorAll('.grid-item')).forEach((item, index) => {
+        item.dataset.skillGridKey = item.dataset.skillGridKey || `skill-${index}`;
+        item.style.transitionProperty = item.style.transitionProperty || 'opacity, transform, filter';
+        item.style.transitionDuration = item.style.transitionDuration || MOTION_DURATION;
+        item.style.transitionTimingFunction = item.style.transitionTimingFunction || 'cubic-bezier(.22, 1, .36, 1)';
+      });
+    } catch {}
+  }
+
+  function measureSkillGridPositions(grid) {
+    const positions = new Map();
+
+    try {
+      Array.from(grid.querySelectorAll('.grid-item')).forEach((item, index) => {
+        const rect = item.getBoundingClientRect();
+        const key = item.dataset.skillGridKey || `skill-${index}`;
+        positions.set(key, {
+          x: Math.round(rect.left),
+          y: Math.round(rect.top)
+        });
+      });
+    } catch {}
+
+    return positions;
+  }
+
+  function countSkillGridMoves(before, after) {
+    let moved = 0;
+
+    after.forEach((position, key) => {
+      const previous = before.get(key);
+      if (!previous) return;
+      if (Math.abs(previous.x - position.x) > 2 || Math.abs(previous.y - position.y) > 2) moved += 1;
+    });
+
+    return moved;
+  }
+
+  function visibleSkillItems(grid) {
+    return Array.from(grid.querySelectorAll('.grid-item')).filter((item) => {
+      const style = getComputedStyle(item);
+      const rect = item.getBoundingClientRect();
+
+      return style.display !== 'none'
+        && style.visibility !== 'hidden'
+        && parseFloat(style.opacity || '1') > 0.05
+        && rect.width > 0
+        && rect.height > 0
+        && !item.classList.contains('isotope-hidden');
+    });
+  }
+
+  function finalizeSkillGridArrange(grid, before, source) {
+    try {
+      const after = measureSkillGridPositions(grid);
+      const total = grid.querySelectorAll('.grid-item').length;
+      const visible = visibleSkillItems(grid).length;
+      const moved = countSkillGridMoves(before, after);
+
+      grid.classList.remove('skill-grid-arranging');
+      grid.dataset.skillGridLastMoved = String(moved);
+      grid.dataset.skillGridVisibleCount = String(visible);
+
+      markSkillGridAudit({
+        ready: true,
+        lastSource: source,
+        lastMovedCount: moved,
+        lastVisibleCount: visible,
+        lastHiddenCount: Math.max(0, total - visible),
+        transitionDurationMs: MOTION_DURATION_MS
+      });
+    } catch (error) {
+      markSkillGridAudit({
+        lastError: error instanceof Error ? error.message : String(error)
+      });
+    }
+  }
+
+  function arrangeSkillGridWithAudit(iso, grid, options, source) {
+    if (!iso || !grid) return false;
+
+    prepareSkillGridMotion(grid);
+
+    const before = measureSkillGridPositions(grid);
+    grid.classList.add('skill-grid-arranging');
+
+    markSkillGridAudit({
+      arrangeCount: SKILL_GRID_AUDIT.arrangeCount + 1,
+      lastFilter: options.filter || SKILL_GRID_AUDIT.lastFilter || '*',
+      lastSortBy: options.sortBy || SKILL_GRID_AUDIT.lastSortBy || 'original-order',
+      lastSource: source,
+      lastError: null
+    });
+
+    let finalized = false;
+    const done = () => {
+      if (finalized) return;
+      finalized = true;
+      finalizeSkillGridArrange(grid, before, source);
+    };
+
+    try {
+      if (typeof iso.once === 'function') iso.once('arrangeComplete', done);
+      if (options.sortBy && typeof iso.updateSortData === 'function') iso.updateSortData();
+      iso.arrange(options);
+      window.setTimeout(done, MOTION_DURATION_MS + 180);
+      return true;
+    } catch (error) {
+      grid.classList.remove('skill-grid-arranging');
+      markSkillGridAudit({
+        lastError: error instanceof Error ? error.message : String(error)
+      });
+      return false;
+    }
+  }
+
   // Dépendances dynamiques: Isotope + imagesLoaded (robuste post-PJAX)
   function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -83,7 +260,7 @@
       if (!btn || !scope.contains(btn)) return;
 
       e.preventDefault();
-      e.stopPropagation();
+      e.stopImmediatePropagation();
 
       const sortBy = btn.dataset.sortBy || 'original-order';
       const order  = (btn.dataset.sortOrder || 'asc').toLowerCase();
@@ -91,8 +268,7 @@
 
       let targetGrid = grid; try { const toolbar = btn.closest('.sorters'); const targetSel = toolbar?.getAttribute?.('data-grid') || toolbar?.dataset?.grid || null; if (targetSel) targetGrid = scope.querySelector(targetSel) || document.querySelector(targetSel) || targetGrid; } catch {} const activeIso = (targetGrid && targetGrid.__iso) || (grid && grid.__iso) || iso;
       if (!activeIso) return;
-      try { activeIso.updateSortData(); } catch {}
-      try { activeIso.arrange({ sortBy, sortAscending }); } catch {}
+      arrangeSkillGridWithAudit(activeIso, targetGrid || grid, { sortBy, sortAscending }, 'sort-click');
 
       const group = btn.closest('.sorters') || scope;
       try { group.querySelectorAll('.btn.active').forEach(b => b.classList.remove('active')); } catch {}
@@ -108,7 +284,7 @@
       if (!nav) return;
 
       if (el.tagName === 'A') { e.preventDefault(); e.stopImmediatePropagation(); }
-      else { e.preventDefault(); e.stopPropagation(); }
+      else { e.preventDefault(); e.stopImmediatePropagation(); }
 
       const filterValue = el.dataset.filter || '*';
       let targetGrid = grid;
@@ -118,7 +294,7 @@
       } catch {}
       const activeIso = (targetGrid && targetGrid.__iso) || (grid && grid.__iso) || iso;
       if (!activeIso) return;
-      try { activeIso.arrange({ filter: filterValue }); } catch {}
+      arrangeSkillGridWithAudit(activeIso, targetGrid || grid, { filter: filterValue }, 'filter-click');
 
       try { nav.querySelectorAll('[data-filter].active').forEach(x => x.classList.remove('active')); } catch {}
       el.classList.add('active');
@@ -150,7 +326,7 @@
       const order         = (defSortBtn?.dataset?.sortOrder || 'asc').toLowerCase();
       const sortAscending = order !== 'desc';
 
-      iso.arrange({ filter: defFilter, sortBy, sortAscending });
+      arrangeSkillGridWithAudit(iso, grid, { filter: defFilter, sortBy, sortAscending }, 'init-default');
     } catch {}
 
     return { sorterScope, onSorterClick, onSorterTouch, onSorterPointer, filterScope, onFilterClick, onFilterTouch, onFilterPointer };
@@ -182,8 +358,31 @@
     const grid = resolveGrid(scope, container);
     if (!grid) return; // Rien à initialiser sur cette page
 
-    // Évite les doublons si on relance l’init (PJAX / auto-init)
+    // Évite les doublons si on relance l’init (PJAX / visualReload / auto-init)
+    const existingState = STORE.get(grid);
+    if (existingState?.iso && grid.__iso === existingState.iso) {
+      prepareSkillGridMotion(grid);
+      try {
+        existingState.iso.reloadItems?.();
+        existingState.iso.updateSortData?.();
+        existingState.iso.layout?.();
+      } catch {}
+
+      window._skillsIso = existingState.iso;
+
+      markSkillGridAudit({
+        ready: true,
+        idempotentInitCount: SKILL_GRID_AUDIT.idempotentInitCount + 1,
+        lastSource: 'idempotent-init',
+        lastError: null
+      });
+
+      return existingState.iso;
+    }
+
     try { teardown(scope); } catch {}
+
+    prepareSkillGridMotion(grid);
 
     // CSS de sécurité
     try {
@@ -207,10 +406,10 @@
         date:   (itemElem) => itemElem.getAttribute('data-date') || ''
       },
       sortBy: 'original-order',
-      transitionDuration: '0.40s',
-      stagger: 25,
-      hiddenStyle:  { opacity: 0, transform: 'translateY(12px) scale(0.98)' },
-      visibleStyle: { opacity: 1, transform: 'translateY(0)  scale(1)' }
+      transitionDuration: MOTION_DURATION,
+      stagger: 35,
+      hiddenStyle:  { opacity: 0, transform: 'translate3d(0, 18px, 0) scale(0.965)' },
+      visibleStyle: { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
     });
 
     // Layout après images
@@ -223,6 +422,13 @@
     // Expose pour debug
     grid.__iso = iso;
     window._skillsIso = iso;
+
+    markSkillGridAudit({
+      ready: true,
+      initCount: SKILL_GRID_AUDIT.initCount + 1,
+      lastSource: 'init',
+      lastError: null
+    });
 
     // Stocke pour teardown propre
     STORE.set(grid, { iso, scope, ...handlers });
@@ -249,6 +455,17 @@
       STORE.delete(grid);
     }
     try { delete grid.__iso; } catch {}
+
+    try {
+      grid.classList.remove('skill-grid-ready', 'skill-grid-arranging');
+      delete grid.dataset.skillGridReady;
+    } catch {}
+
+    markSkillGridAudit({
+      ready: false,
+      teardownCount: SKILL_GRID_AUDIT.teardownCount + 1,
+      lastSource: 'teardown'
+    });
   }
 
   // API globale
@@ -289,7 +506,7 @@
       // Fallback sans Isotope: filtrage manuel via CSS
       if (!iso) {
         e.preventDefault();
-        e.stopPropagation();
+        e.stopImmediatePropagation();
         const sel = btn.dataset.filter || '*';
         const all = (grid || document).querySelectorAll('.grid-item');
         all.forEach(it => {
@@ -303,9 +520,9 @@
       }
     }
     e.preventDefault();
-    e.stopPropagation();
+    e.stopImmediatePropagation();
     const filterValue = btn.dataset.filter || '*';
-    try { iso.arrange({ filter: filterValue }); } catch {}
+    arrangeSkillGridWithAudit(iso, grid, { filter: filterValue }, 'filter-click');
     try { nav.querySelectorAll('[data-filter].active').forEach(x => x.classList.remove('active')); } catch {}
     btn.classList.add('active');
   }
@@ -330,7 +547,7 @@
       // Fallback: tri manuel (réordonne le DOM)
       if (!iso && grid) {
         e.preventDefault();
-        e.stopPropagation();
+        e.stopImmediatePropagation();
         const sortBy = btn.dataset.sortBy || 'original-order';
         const order  = (btn.dataset.sortOrder || 'asc').toLowerCase();
         const asc    = order !== 'desc';
@@ -348,12 +565,11 @@
       }
     }
     e.preventDefault();
-    e.stopPropagation();
+    e.stopImmediatePropagation();
     const sortBy = btn.dataset.sortBy || 'original-order';
     const order  = (btn.dataset.sortOrder || 'asc').toLowerCase();
     const sortAscending = order !== 'desc';
-    try { iso.updateSortData(); } catch {}
-    try { iso.arrange({ sortBy, sortAscending }); } catch {}
+    arrangeSkillGridWithAudit(iso, grid, { sortBy, sortAscending }, 'sort-click');
     const group = btn.closest('.sorters') || scope;
     try { group.querySelectorAll('.btn.active').forEach(b => b.classList.remove('active')); } catch {}
     btn.classList.add('active');
