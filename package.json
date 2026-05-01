@@ -80,7 +80,7 @@
     "test:audio-runtime": "playwright test tests/legacy-audio-runtime.spec.ts tests/audio-pjax-resume-contract.spec.ts --workers=1 --timeout=120000 --output=test-results/audio-online && node scripts/ci/write-runtime-proof.mjs audio-online",
     "test:audio-r2-runtime": "playwright test tests/audio-r2-contract.spec.ts --workers=1 --timeout=120000 --output=test-results/audio-r2 && node scripts/ci/write-runtime-proof.mjs audio-r2-runtime",
     "test:dynamic-text": "playwright test tests/legacy-dynamic-text.spec.ts",
-    "test:ga4-runtime": "playwright test tests/analytics-ga4-runtime.spec.ts",
+    "test:ga4-runtime": "playwright test tests/analytics-ga4-runtime.spec.ts tests/usage-signals-runtime.spec.ts --workers=1 --timeout=120000 --output=test-results/ga4-runtime",
     "test:rich-runtime": "playwright test tests/legacy-rich-runtime.spec.ts",
     "test:pjax-runtime": "playwright test tests/pjax-navigation-contract.spec.ts --workers=1 --timeout=120000 --output=test-results/pjax && node scripts/ci/write-runtime-proof.mjs pjax-runtime",
     "test:interactive-runtime": "playwright test tests/interactive-modules.contract.spec.ts tests/musicam-runtime.spec.ts tests/synth-runtime.spec.ts tests/magic-cloud-runtime.spec.ts --workers=1 --timeout=120000 --output=test-results/interactive && node scripts/ci/write-runtime-proof.mjs interactive-runtime",
