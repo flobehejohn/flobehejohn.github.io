@@ -1,4 +1,9 @@
-import { expect, test, type Page } from '@playwright/test';
+import * as pw from '@playwright/test';
+import type { Page } from '@playwright/test';
+
+type PlaywrightRuntime = typeof import('@playwright/test');
+const playwrightRuntime = ((pw as unknown as { default?: PlaywrightRuntime }).default ?? pw) as PlaywrightRuntime;
+const { test, expect } = playwrightRuntime;
 
 test.setTimeout(120_000);
 
