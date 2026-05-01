@@ -77,7 +77,7 @@
     "test:smoke": "playwright test tests/smoke.spec.ts",
     "test:runtime": "playwright test tests/runtime-contract.spec.ts",
     "test:particles-runtime": "playwright test tests/legacy-particles-runtime.spec.ts",
-    "test:audio-runtime": "playwright test tests/legacy-audio-runtime.spec.ts --workers=1 --timeout=120000 --output=test-results/audio-online && node scripts/ci/write-runtime-proof.mjs audio-online",
+    "test:audio-runtime": "playwright test tests/legacy-audio-runtime.spec.ts tests/audio-pjax-resume-contract.spec.ts --workers=1 --timeout=120000 --output=test-results/audio-online && node scripts/ci/write-runtime-proof.mjs audio-online",
     "test:audio-r2-runtime": "playwright test tests/audio-r2-contract.spec.ts --workers=1 --timeout=120000 --output=test-results/audio-r2 && node scripts/ci/write-runtime-proof.mjs audio-r2-runtime",
     "test:dynamic-text": "playwright test tests/legacy-dynamic-text.spec.ts",
     "test:ga4-runtime": "playwright test tests/analytics-ga4-runtime.spec.ts",
