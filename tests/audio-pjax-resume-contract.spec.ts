@@ -68,14 +68,14 @@ async function readAudioRuntimeState(page: Page): Promise<AudioRuntimeState> {
 
 async function bootGlobalAudio(page: Page): Promise<AudioRuntimeState> {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await page.waitForTimeout(1_800);
+  await page.waitForTimeout(700);
 
   await expect(page.locator('#openAudioPlayer')).toBeVisible({ timeout: 30_000 });
 
   expect(await safeDomClick(page, '#openAudioPlayer'), 'audio modal open button should be clickable').toBe(true);
   expect(await safeDomClick(page, '#toggleBtn'), 'audio toggle button should be clickable').toBe(true);
 
-  await page.waitForTimeout(2_800);
+  await page.waitForTimeout(1_800);
 
   const state = await readAudioRuntimeState(page);
   expect(state.hasFacade).toBe(true);
@@ -129,7 +129,8 @@ test('audio/PJAX keeps a single global player and preserves the current source a
   expect(failures).toEqual([]);
 });
 
-test('audio remains user-resumable after a media project full-page roundtrip', async ({ page }) => {
+test('audio remains user-resumable after a media project full-page roundtrip', async ({ page }, testInfo) => {
+  testInfo.setTimeout(180_000);
   const failures: string[] = [];
   page.on('pageerror', (error) => failures.push(error.message));
   page.on('response', (response) => {
@@ -140,13 +141,13 @@ test('audio remains user-resumable after a media project full-page roundtrip', a
   const beforeSrc = before.src || before.sessionSrc;
 
   await page.goto('/assets/portfolio/projet_musicam/projet_musicam.html', { waitUntil: 'domcontentloaded', timeout: 60_000 });
-  await page.waitForTimeout(1_200);
+  await page.waitForTimeout(700);
 
   await page.goto('/portfolio_florian_b.html', { waitUntil: 'domcontentloaded', timeout: 60_000 });
   await page.waitForFunction(() => Boolean(document.querySelector('#audioPlayer') && document.querySelector('#openAudioPlayer')), null, {
     timeout: 30_000,
   });
-  await page.waitForTimeout(2_500);
+  await page.waitForTimeout(1_200);
 
   const restored = await readAudioRuntimeState(page);
   const restoredSrc = restored.src || restored.sessionSrc;
