@@ -5,8 +5,13 @@ on:
     branches:
       - main
       - 'refactor/**'
+      - 'fix/**'
       - 'backup/**'
   pull_request:
+
+permissions:
+  contents: read
+  actions: read
 
 jobs:
   lint:
@@ -111,9 +116,40 @@ jobs:
           path: docs
       - run: npm run audit:build
 
+  security:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npm run audit:security
+      - run: npm run test:security
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-security
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-security
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
   smoke:
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, build, seo, analytics, content, build_guard]
+    needs: [lint, typecheck, build, seo, analytics, content, build_guard, security]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -159,6 +195,7 @@ jobs:
           path: |
             playwright-report
             test-results
+            audit/_latest
           if-no-files-found: ignore
 
   deep:
@@ -230,7 +267,44 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with:
+          name: audit-audio-runtime
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
           name: playwright-report-audio-runtime
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  audio_r2_runtime:
+    runs-on: ubuntu-latest
+    needs: audio_runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:audio-r2-runtime
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-audio-r2-runtime
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-audio-r2-runtime
           path: |
             playwright-report
             test-results
@@ -288,7 +362,7 @@ jobs:
 
   rich_runtime:
     runs-on: ubuntu-latest
-    needs: [particles_runtime, audio_runtime, dynamic_text_runtime, ga4_runtime]
+    needs: [particles_runtime, audio_r2_runtime, dynamic_text_runtime, ga4_runtime]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -311,7 +385,7 @@ jobs:
             test-results
           if-no-files-found: ignore
 
-  visual:
+  pjax_runtime:
     runs-on: ubuntu-latest
     needs: rich_runtime
     steps:
@@ -326,7 +400,110 @@ jobs:
           name: docs-build
           path: docs
       - run: npx playwright install --with-deps chromium
+      - run: npm run test:pjax-runtime
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-pjax-runtime
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-pjax-runtime
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  interactive_runtime:
+    runs-on: ubuntu-latest
+    needs: pjax_runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:interactive-runtime
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-interactive-runtime
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-interactive-runtime
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  site_matrix:
+    runs-on: ubuntu-latest
+    needs: interactive_runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:site-matrix
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-site-matrix
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-site-matrix
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  visual:
+    runs-on: ubuntu-latest
+    needs: site_matrix
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
       - run: npm run test:visual
+      - name: Write visual proof summary
+        run: |
+          mkdir -p audit/_latest
+          node -e "const fs=require('fs'); fs.writeFileSync('audit/_latest/visual-summary.json', JSON.stringify({timestamp:new Date().toISOString(), verdict:'passed', source:'npm run test:visual'}, null, 2) + '\n')"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-visual
+          path: audit/_latest
+          if-no-files-found: error
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -341,3 +518,61 @@ jobs:
             playwright-report
             test-results
           if-no-files-found: ignore
+
+  rawgithack_preview:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:rawgithack-preview
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-rawgithack-preview
+          path: audit/_latest
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-rawgithack-preview
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+
+  release_manifest:
+    runs-on: ubuntu-latest
+    needs: [visual, rawgithack_preview]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: docs
+      - name: Download audit proof artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: audit-*
+          path: audit/_latest
+          merge-multiple: true
+      - run: npm run audit:release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-manifest
+          path: audit/_latest/release-manifest.json
+          if-no-files-found: error

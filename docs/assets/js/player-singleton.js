@@ -428,8 +428,8 @@
         if (cur && (cur === next || cur === src)) return;
         safePause();
         try {
-          player.setAttribute('crossorigin','anonymous');
-          try { player.crossOrigin = 'anonymous'; } catch {}
+          player.removeAttribute('crossorigin');
+          try { player.crossOrigin = null; } catch {}
           try { player.setAttribute('playsinline',''); } catch {}
           player.src = next;
           player.load();
@@ -873,7 +873,8 @@
       modalEl.classList.add('open', 'show', 'is-open');
       modalEl.style.display = 'flex';
       modalEl.setAttribute('aria-hidden', 'false');
-      // Pas de body.modal-open pour le lecteur audio → scroll page autorisé
+      // Ne pas bloquer le scroll de la page pour le lecteur audio (UX mobile)
+      // Pas de body.modal-open ici; laisser le scroll global actif.
       ensureBodyUnblockedOnDesktop();
     }
     function closeModal() {

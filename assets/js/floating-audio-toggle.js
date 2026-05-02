@@ -130,3 +130,42 @@
   // (Optionnel) exposer une API
   window.initFloatingAudio = init;
 })();
+
+(function pr6DedupeFloatingAudioRuntime() {
+  function dedupe(selector) {
+    const nodes = Array.from(document.querySelectorAll(selector));
+    if (nodes.length <= 1) return;
+
+    for (const node of nodes.slice(1)) {
+      node.remove();
+    }
+  }
+
+  function dedupeAudioRuntime() {
+    dedupe('#openAudioPlayer');
+    dedupe('#audioPlayer');
+  }
+
+  const schedule = () => {
+    window.requestAnimationFrame(() => {
+      dedupeAudioRuntime();
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', schedule, { once: true });
+  } else {
+    schedule();
+  }
+
+  window.addEventListener('load', schedule);
+  document.addEventListener('pjax:complete', schedule);
+  document.addEventListener('pjax:end', schedule);
+  document.addEventListener('astro:page-load', schedule);
+
+  const observer = new MutationObserver(schedule);
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+})();

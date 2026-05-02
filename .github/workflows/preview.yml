@@ -5,9 +5,16 @@ on:
   push:
     branches:
       - 'refactor/validate-unblock-20260423'
+      - 'fix/legacy-interactions-audio-pjax-certification-20260425'
+
+concurrency:
+  group: preview-refactor-live
+  cancel-in-progress: true
 
 permissions:
   contents: write
+  actions: read
+  pull-requests: read
 
 env:
   PREVIEW_BRANCH: preview/refactor-live
@@ -50,6 +57,9 @@ jobs:
       - name: Deep content inventory audit
         run: npm run audit:content
 
+      - name: Security audit
+        run: npm run audit:security
+
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
@@ -68,6 +78,9 @@ jobs:
       - name: Run audio runtime certification
         run: npm run test:audio-runtime
 
+      - name: Run audio R2 certification
+        run: npm run test:audio-r2-runtime
+
       - name: Run dynamic text runtime certification
         run: npm run test:dynamic-text
 
@@ -77,8 +90,31 @@ jobs:
       - name: Run rich legacy runtime certification
         run: npm run test:rich-runtime
 
+      - name: Run PJAX certification
+        run: npm run test:pjax-runtime
+
+      - name: Run interactive modules certification
+        run: npm run test:interactive-runtime
+
+      - name: Run site matrix certification
+        run: npm run test:site-matrix
+
+      - name: Run security runtime certification
+        run: npm run test:security
+
       - name: Capture visual baseline
         run: npm run test:visual
+
+      - name: Write visual proof summary
+        run: |
+          mkdir -p audit/_latest
+          node -e "const fs=require('fs'); fs.writeFileSync('audit/_latest/visual-summary.json', JSON.stringify({timestamp:new Date().toISOString(), verdict:'passed', source:'npm run test:visual'}, null, 2) + '\n')"
+
+      - name: Run RawGitHack preview certification
+        run: npm run test:rawgithack-preview
+
+      - name: Generate release proof manifest
+        run: npm run audit:release
 
       - name: Build preview bundle
         run: node scripts/build-preview.mjs
@@ -90,7 +126,30 @@ jobs:
           publish_branch: ${{ env.PREVIEW_BRANCH }}
           publish_dir: ./preview-dist
           force_orphan: true
-          commit_message: "deploy(preview): publish refactor preview"
+          commit_message: "deploy(preview): publish certified legacy runtime preview ${{ github.sha }}"
+
+      - name: Verify preview branch references certified head
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_HEAD: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          for i in $(seq 1 12); do
+            message="$(gh api "/repos/${{ github.repository }}/commits/preview/refactor-live" --jq '.commit.message')"
+            echo "preview/refactor-live message: $message"
+
+            if echo "$message" | grep -F "$EXPECTED_HEAD"; then
+              echo "[OK] preview/refactor-live references $EXPECTED_HEAD"
+              exit 0
+            fi
+
+            echo "[WAIT] preview branch not updated yet, retry $i/12"
+            sleep 5
+          done
+
+          echo "[FAIL] preview/refactor-live does not reference $EXPECTED_HEAD"
+          exit 1
 
       - name: Upload preview artifact
         if: always()
@@ -109,6 +168,7 @@ jobs:
           path: |
             playwright-report
             test-results
+            audit/_latest
           if-no-files-found: ignore
 
       - name: Upload visual baseline screenshots

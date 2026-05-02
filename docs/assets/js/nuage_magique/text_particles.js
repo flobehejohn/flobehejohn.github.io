@@ -11,10 +11,11 @@ import THREE from './bootstrap.js';
  * Ici : Noto Sans_Regular.json (typeface JSON) — accents OK.
  * Place le fichier dans: /assets/js/nuage_magique/fonts/
  */
+const resolveFontUrl = (path) => (window.AppRuntimeUrl && typeof window.AppRuntimeUrl.asset === 'function') ? window.AppRuntimeUrl.asset(path) : new URL(path.replace(/^\/+/, ''), window.location.origin + '/').href;
 const DEFAULT_FONT_URLS = [
-  '/assets/js/nuage_magique/fonts/Noto%20Sans_Regular.json',               // 1) Latin étendu (accents)
-  '/assets/js/nuage_magique/fonts/NotoSans-Regular.typeface.json',         // 2) autre option
-  '/assets/js/nuage_magique/fonts/helvetiker_regular.typeface.json'        // 3) fallback ASCII
+  resolveFontUrl('assets/js/nuage_magique/fonts/Noto%20Sans_Regular.json'),
+  resolveFontUrl('assets/js/nuage_magique/fonts/NotoSans-Regular.typeface.json'),
+  resolveFontUrl('assets/js/nuage_magique/fonts/helvetiker_regular.typeface.json')
 ];
 
 const DEFAULTS = {
@@ -465,7 +466,7 @@ export function createTextGroup(message = '', options = {}) {
 
   return new Promise((resolve, reject) => {
     const tryLoad = (i) => {
-      if (i >= urls.length) return reject(new Error('Aucune police n’a pu être chargée.'));
+      if (i >= urls.length) { window.__NUAGE_AUDIT__ = Object.assign(window.__NUAGE_AUDIT__ || {}, { fontFallback: true, fallbackControlled: true, fontFailures: urls.slice() }); return reject(new Error('NUAGE_FONT_FALLBACK_CONTROLLED')); }
       loader.load(
         urls[i],
         (font) => { buildGroupFromFont(font, message, options).then(resolve).catch(reject); },

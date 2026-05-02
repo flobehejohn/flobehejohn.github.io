@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "owner": "flobehejohn",
+  "repository": "flobehejohn/flobehejohn.github.io",
+  "baselineHead": "86b5fe9c171f8479f1871227a9f88bedb7c546f4",
+  "pages": [
+    "/",
+    "/portfolio_florian_b.html",
+    "/parcours.html",
+    "/contact.html",
+    "/assets/portfolio/nuage_magique/nuage_magique_def.html",
+    "/assets/portfolio/projet_musicam/projet_musicam.html",
+    "/assets/portfolio/projet_synth/main_synth_fm.html"
+  ],
+  "features": [
+    "audio-player",
+    "cloudflare-r2-playlist",
+    "pjax-navigation",
+    "magic-cloud",
+    "musicam",
+    "synthesizer",
+    "dynamic-text",
+    "particles",
+    "rich-runtime",
+    "jquery-compat",
+    "seo-meta",
+    "analytics-local-signals",
+    "ga4-consent-shell",
+    "local-assets",
+    "security-baseline"
+  ],
+  "criticalInvariants": {
+    "fatalJavaScriptErrors": 0,
+    "localAssetFailures": 0,
+    "audioSingletonCount": 1,
+    "ga4NetworkBeforeConsent": 0,
+    "piiEvents": 0,
+    "requiredModulesMissing": 0
+  },
+  "externalDependencies": [
+    {
+      "name": "Cloudflare R2 audio",
+      "kind": "audio-storage",
+      "blocking": false,
+      "requiredFallback": true
+    },
+    {
+      "name": "Cloudflare Pages",
+      "kind": "external-deployment",
+      "blocking": false,
+      "trackingIssue": 5
+    }
+  ]
+}

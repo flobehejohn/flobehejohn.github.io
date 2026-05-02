@@ -5,6 +5,7 @@ const root = process.cwd();
 const docsDir = join(root, 'docs');
 const pages = ['index.html', 'portfolio_florian_b.html', 'parcours.html', 'contact.html'];
 const failures = [];
+const analyticsLoaderPattern = /src="(?:\.\.\/)*assets\/js\/analytics\.js"/i;
 
 function read(relativePath) {
   const fullPath = join(docsDir, relativePath);
@@ -23,7 +24,7 @@ for (const page of pages) {
   if (!/meta\s+name="description"/i.test(html)) failures.push(`${page}: missing meta description`);
   if (!/link\s+rel="canonical"/i.test(html)) failures.push(`${page}: missing canonical`);
   if (!/meta\s+name="robots"/i.test(html)) failures.push(`${page}: missing robots meta`);
-  if (!/src="\/assets\/js\/analytics\.js"/i.test(html)) failures.push(`${page}: analytics hook not injected`);
+  if (!analyticsLoaderPattern.test(html)) failures.push(`${page}: analytics hook not injected`);
   if (/linkedin\.com\/in\/tonprofil/i.test(html)) failures.push(`${page}: placeholder LinkedIn still present`);
 }
 
