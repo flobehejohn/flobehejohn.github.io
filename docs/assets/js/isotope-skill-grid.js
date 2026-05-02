@@ -491,88 +491,153 @@
     return pickGrid(scope);
   }
 
+  function activateSkillSorterButton(btn, scope) {
+    try {
+      const group = btn.closest('.sorters') || scope || document;
+      group.querySelectorAll('.btn.active').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    } catch {}
+  }
+
+  function activateSkillFilterButton(btn, nav) {
+    try {
+      nav.querySelectorAll('[data-filter].active').forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+    } catch {}
+  }
+
+  function manualFilterSkillGrid(grid, selector) {
+    if (!grid) return false;
+    prepareSkillGridMotion(grid);
+
+    const before = measureSkillGridPositions(grid);
+    const items = Array.from(grid.querySelectorAll('.grid-item'));
+
+    items.forEach((item) => {
+      const show = selector === '*' || item.matches(selector);
+      if (show) {
+        item.classList.remove('isotope-hidden');
+        item.style.removeProperty('display');
+        item.style.opacity = '1';
+        item.style.transform = 'translate3d(0, 0, 0) scale(1)';
+      } else {
+        item.classList.add('isotope-hidden');
+        item.style.display = 'none';
+        item.style.opacity = '0';
+        item.style.transform = 'translate3d(0, 18px, 0) scale(0.965)';
+      }
+    });
+
+    finalizeSkillGridArrange(grid, before, 'filter-click-fallback');
+    return true;
+  }
+
+  function manualSortSkillGrid(grid, sortBy, sortAscending) {
+    if (!grid) return false;
+    prepareSkillGridMotion(grid);
+
+    const before = measureSkillGridPositions(grid);
+    const items = Array.from(grid.querySelectorAll('.grid-item'));
+
+    const getRating = el => parseFloat(el.getAttribute('data-rating') || el.dataset.rating || '0') || 0;
+    const getTitle = el => (el.querySelector('.skill-card h3, .carte-projet-body h3')?.textContent || '').toLowerCase();
+
+    if (sortBy === 'rating') {
+      items.sort((a, b) => (getRating(a) - getRating(b)) * (sortAscending ? 1 : -1));
+    } else if (sortBy === 'title') {
+      items.sort((a, b) => (getTitle(a) > getTitle(b) ? 1 : -1) * (sortAscending ? 1 : -1));
+    }
+
+    if (sortBy !== 'original-order') {
+      items.forEach(node => grid.appendChild(node));
+    }
+
+    finalizeSkillGridArrange(grid, before, 'sort-click-fallback');
+    return true;
+  }
+
   async function globalFilterHandler(e) {
     const btn = e.target.closest('[data-filter]');
     if (!btn) return;
     const nav = btn.closest('.skills-filters, .filters');
     if (!nav) return;
+
     const scope = findScopeFrom(nav);
-    const grid  = findGridFromNav(nav, scope);
-    let iso   = (grid && grid.__iso) || window._skillsIso;
-    if (!iso) {
-      try { await ensureDeps(); } catch {}
-      try { await (window.initSkillGrid ? window.initSkillGrid(scope) : init(scope)); } catch {}
-      iso = (grid && grid.__iso) || window._skillsIso;
-      // Fallback sans Isotope: filtrage manuel via CSS
-      if (!iso) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        const sel = btn.dataset.filter || '*';
-        const all = (grid || document).querySelectorAll('.grid-item');
-        all.forEach(it => {
-          const show = (sel === '*') ? true : it.matches(sel);
-          if (show) { it.classList.remove('isotope-hidden'); it.style.removeProperty('display'); }
-          else      { it.classList.add('isotope-hidden'); it.style.display = 'none'; }
-        });
-        try { nav.querySelectorAll('[data-filter].active').forEach(x => x.classList.remove('active')); } catch {}
-        btn.classList.add('active');
-        return;
-      }
-    }
+    const grid = findGridFromNav(nav, scope);
+    const filterValue = btn.dataset.filter || '*';
+
     e.preventDefault();
     e.stopImmediatePropagation();
-    const filterValue = btn.dataset.filter || '*';
-    arrangeSkillGridWithAudit(iso, grid, { filter: filterValue }, 'filter-click');
-    try { nav.querySelectorAll('[data-filter].active').forEach(x => x.classList.remove('active')); } catch {}
-    btn.classList.add('active');
+
+    if (grid) prepareSkillGridMotion(grid);
+    activateSkillFilterButton(btn, nav);
+
+    markSkillGridAudit({
+      ready: Boolean(grid?.dataset?.skillGridReady === '1'),
+      lastFilter: filterValue,
+      lastSource: 'filter-click',
+      lastError: null
+    });
+
+    let iso = (grid && grid.__iso) || window._skillsIso;
+
+    if (!iso) {
+      try { await (window.initSkillGrid ? window.initSkillGrid(scope) : init(scope)); } catch {}
+      iso = (grid && grid.__iso) || window._skillsIso;
+    }
+
+    if (iso && grid) {
+      arrangeSkillGridWithAudit(iso, grid, { filter: filterValue }, 'filter-click');
+      return;
+    }
+
+    manualFilterSkillGrid(grid, filterValue);
   }
 
   async function globalSorterHandler(e) {
     const btn = e.target.closest('.sorters [data-sort-by]');
     if (!btn) return;
+
     const scope = findScopeFrom(btn);
-    // Résoudre grille depuis data-grid sur .sorters si présent
+    const sortBy = btn.dataset.sortBy || 'original-order';
+    const order = (btn.dataset.sortOrder || 'asc').toLowerCase();
+    const sortAscending = order !== 'desc';
+
     let grid = null;
     try {
       const toolbar = btn.closest('.sorters');
       const sel = toolbar?.getAttribute?.('data-grid') || toolbar?.dataset?.grid || '#skills-grid';
       grid = scope.querySelector(sel) || document.querySelector(sel);
     } catch {}
+
     if (!grid) grid = pickGrid(scope);
-    let iso = (grid && grid.__iso) || window._skillsIso;
-    if (!iso) {
-      try { await ensureDeps(); } catch {}
-      try { await (window.initSkillGrid ? window.initSkillGrid(scope) : init(scope)); } catch {}
-      iso = (grid && grid.__iso) || window._skillsIso;
-      // Fallback: tri manuel (réordonne le DOM)
-      if (!iso && grid) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        const sortBy = btn.dataset.sortBy || 'original-order';
-        const order  = (btn.dataset.sortOrder || 'asc').toLowerCase();
-        const asc    = order !== 'desc';
-        const items  = Array.from(grid.querySelectorAll('.grid-item'));
-        const getRating = el => parseFloat(el.getAttribute('data-rating')||el.dataset.rating||'0') || 0;
-        const getTitle  = el => (el.querySelector('.skill-card h3, .carte-projet-body h3')?.textContent || '').toLowerCase();
-        if (sortBy === 'rating') items.sort((a,b) => (getRating(a)-getRating(b)) * (asc?1:-1));
-        else if (sortBy === 'title') items.sort((a,b) => (getTitle(a) > getTitle(b) ? 1 : -1) * (asc?1:-1));
-        else {/* original-order: do nothing */}
-        items.forEach(n => grid.appendChild(n));
-        const group = btn.closest('.sorters') || scope;
-        try { group.querySelectorAll('.btn.active').forEach(b => b.classList.remove('active')); } catch {}
-        btn.classList.add('active');
-        return;
-      }
-    }
+
     e.preventDefault();
     e.stopImmediatePropagation();
-    const sortBy = btn.dataset.sortBy || 'original-order';
-    const order  = (btn.dataset.sortOrder || 'asc').toLowerCase();
-    const sortAscending = order !== 'desc';
-    arrangeSkillGridWithAudit(iso, grid, { sortBy, sortAscending }, 'sort-click');
-    const group = btn.closest('.sorters') || scope;
-    try { group.querySelectorAll('.btn.active').forEach(b => b.classList.remove('active')); } catch {}
-    btn.classList.add('active');
+
+    if (grid) prepareSkillGridMotion(grid);
+    activateSkillSorterButton(btn, scope);
+
+    markSkillGridAudit({
+      ready: Boolean(grid?.dataset?.skillGridReady === '1'),
+      lastSortBy: sortBy,
+      lastSource: 'sort-click',
+      lastError: null
+    });
+
+    let iso = (grid && grid.__iso) || window._skillsIso;
+
+    if (!iso) {
+      try { await (window.initSkillGrid ? window.initSkillGrid(scope) : init(scope)); } catch {}
+      iso = (grid && grid.__iso) || window._skillsIso;
+    }
+
+    if (iso && grid) {
+      arrangeSkillGridWithAudit(iso, grid, { sortBy, sortAscending }, 'sort-click');
+      return;
+    }
+
+    manualSortSkillGrid(grid, sortBy, sortAscending);
   }
 
   // Abonnements globaux (desktop + mobile)
