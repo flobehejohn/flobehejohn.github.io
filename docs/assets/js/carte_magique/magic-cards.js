@@ -101,14 +101,27 @@
 
   function playOpenSound() {
     initAudio();
-    playBufferSound(generateNoise(audioCtx.sampleRate * 1.5), 0.15, 1.4, 0.025);
+    try {
+      markMagicCardsAudit({ openSoundCount: MAGIC_CARDS_AUDIT.openSoundCount + 1, lastError: null });
+      if (!audioCtx) return;
+      playBufferSound(generateNoise(audioCtx.sampleRate * 1.5), 0.15, 1.4, 0.025);
+    } catch (error) {
+      markMagicCardsAudit({ lastError: error instanceof Error ? error.message : String(error) });
+    }
   }
   function playCloseSound() {
     initAudio();
-    playBufferSound(generateNoise(audioCtx.sampleRate * 0.8), 0.1, 0.9, 0.02);
+    try {
+      markMagicCardsAudit({ closeSoundCount: MAGIC_CARDS_AUDIT.closeSoundCount + 1, lastError: null });
+      if (!audioCtx) return;
+      playBufferSound(generateNoise(audioCtx.sampleRate * 0.8), 0.1, 0.9, 0.02);
+    } catch (error) {
+      markMagicCardsAudit({ lastError: error instanceof Error ? error.message : String(error) });
+    }
   }
   function playTypingClick() {
     initAudio();
+    markMagicCardsAudit({ typingClickCount: MAGIC_CARDS_AUDIT.typingClickCount + 1, lastError: null });
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     const now = audioCtx.currentTime;
@@ -125,6 +138,7 @@
   }
   function playHoverSound() {
     initAudio();
+    markMagicCardsAudit({ hoverSoundCount: MAGIC_CARDS_AUDIT.hoverSoundCount + 1, lastError: null });
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     const now = audioCtx.currentTime;
@@ -182,6 +196,29 @@
   const stateMap = new WeakMap();
   const originalTexts = new WeakMap();
 
+  const MAGIC_CARDS_AUDIT = window.__MAGIC_CARDS_AUDIT__ = Object.assign({
+    ready: false,
+    initCount: 0,
+    boundCount: 0,
+    openedCount: 0,
+    closedCount: 0,
+    hoverSoundCount: 0,
+    openSoundCount: 0,
+    closeSoundCount: 0,
+    typingClickCount: 0,
+    lastOpenedCardId: '',
+    lastClosedCardId: '',
+    lastError: null
+  }, window.__MAGIC_CARDS_AUDIT__ || {});
+
+  function markMagicCardsAudit(partial) {
+    try {
+      Object.assign(MAGIC_CARDS_AUDIT, partial, {
+        updatedAt: new Date().toISOString()
+      });
+    } catch {}
+  }
+
   function bindCard(card, cards, index) {
     if (BOUND.has(card)) return;
     const textEl = card.querySelector('.mgc-magic-text');
@@ -195,6 +232,11 @@
       const isOpen = stateMap.get(card);
       if (!isOpen) {
         card.classList.add('mgc-expanded', 'mgc-scintillate');
+        markMagicCardsAudit({
+          openedCount: MAGIC_CARDS_AUDIT.openedCount + 1,
+          lastOpenedCardId: card.id || String(index),
+          lastError: null
+        });
         playOpenSound();
         textEl.innerHTML = '';
 
@@ -222,6 +264,11 @@
         playCloseSound();
         card.classList.remove('mgc-expanded', 'mgc-show-close');
         textEl.innerHTML = originalTexts.get(card);
+        markMagicCardsAudit({
+          closedCount: MAGIC_CARDS_AUDIT.closedCount + 1,
+          lastClosedCardId: card.id || '',
+          lastError: null
+        });
         stateMap.set(card, false);
       }
     };
@@ -248,6 +295,12 @@
     }
     const cards = Array.from(grid.querySelectorAll('.mgc-card'));
     cards.forEach((card, i) => bindCard(card, cards, i));
+    markMagicCardsAudit({
+      ready: true,
+      initCount: MAGIC_CARDS_AUDIT.initCount + 1,
+      boundCount: cards.length,
+      lastError: null
+    });
   }
 
   function teardownMagicCards(container) {

@@ -42,8 +42,17 @@
     const style = document.createElement('style');
     style.id = MOTION_STYLE_ID;
     style.textContent = `
+#skills-grid.skill-grid-ready,
+.grid-wrapper.skill-grid-ready {
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: clip;
+  contain: layout paint;
+}
 #skills-grid.skill-grid-ready .grid-item,
 .grid-wrapper.skill-grid-ready .grid-item {
+  box-sizing: border-box;
+  max-width: 100%;
   transition-property: opacity, transform, filter;
   transition-duration: ${MOTION_DURATION};
   transition-timing-function: cubic-bezier(.22, 1, .36, 1);
@@ -68,9 +77,14 @@
       grid.dataset.skillGridReady = '1';
       grid.dataset.skillGridMotion = 'certified';
       grid.style.position = grid.style.position || 'relative';
+      grid.style.maxWidth = grid.style.maxWidth || '100%';
+      grid.style.overflowX = grid.style.overflowX || 'clip';
+      grid.style.boxSizing = grid.style.boxSizing || 'border-box';
 
       Array.from(grid.querySelectorAll('.grid-item')).forEach((item, index) => {
         item.dataset.skillGridKey = item.dataset.skillGridKey || `skill-${index}`;
+        item.style.boxSizing = item.style.boxSizing || 'border-box';
+        item.style.maxWidth = item.style.maxWidth || '100%';
         item.style.transitionProperty = item.style.transitionProperty || 'opacity, transform, filter';
         item.style.transitionDuration = item.style.transitionDuration || MOTION_DURATION;
         item.style.transitionTimingFunction = item.style.transitionTimingFunction || 'cubic-bezier(.22, 1, .36, 1)';
@@ -121,8 +135,44 @@
     });
   }
 
+  function enforceSkillGridViewportFit(grid) {
+    if (!grid) return;
+
+    try {
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
+      if (!viewportWidth) return;
+
+      const visible = visibleSkillItems(grid);
+      if (!visible.length) return;
+
+      let maxRight = 0;
+      let minLeft = Number.POSITIVE_INFINITY;
+
+      visible.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        maxRight = Math.max(maxRight, rect.right);
+        minLeft = Math.min(minLeft, rect.left);
+      });
+
+      const rightOverflow = Math.ceil(maxRight - viewportWidth);
+      if (rightOverflow <= 2) return;
+
+      const safeShift = Math.min(rightOverflow + 2, Math.max(0, Math.floor(minLeft)));
+
+      if (safeShift > 0) {
+        grid.style.transform = 'translateX(-' + safeShift + 'px)';
+        grid.dataset.skillGridViewportShift = String(safeShift);
+      } else {
+        grid.style.maxWidth = 'calc(100% - ' + Math.min(rightOverflow + 4, 16) + 'px)';
+        grid.dataset.skillGridViewportFit = 'width-clamped';
+        try { grid.__iso?.layout?.(); } catch {}
+      }
+    } catch {}
+  }
+
   function finalizeSkillGridArrange(grid, before, source) {
     try {
+      enforceSkillGridViewportFit(grid);
       const after = measureSkillGridPositions(grid);
       const total = grid.querySelectorAll('.grid-item').length;
       const visible = visibleSkillItems(grid).length;
@@ -147,10 +197,34 @@
     }
   }
 
+  function resetSkillGridFallbackResidues(grid) {
+    if (!grid) return;
+
+    try {
+      Array.from(grid.querySelectorAll('.grid-item')).forEach((item) => {
+        // Le fallback manuel peut laisser display:none / opacity / transform.
+        // Avant de rendre la main à Isotope, on enlève uniquement les résidus
+        // qui empêchent une carte de redevenir visible après filtres répétés/PJAX.
+        item.style.removeProperty('display');
+
+        if (item.classList.contains('isotope-hidden')) {
+          item.style.removeProperty('opacity');
+          item.style.removeProperty('transform');
+        }
+      });
+    } catch {}
+  }
+
   function arrangeSkillGridWithAudit(iso, grid, options, source) {
     if (!iso || !grid) return false;
 
     prepareSkillGridMotion(grid);
+    resetSkillGridFallbackResidues(grid);
+
+    try {
+      iso.reloadItems?.();
+      iso.updateSortData?.();
+    } catch {}
 
     const before = measureSkillGridPositions(grid);
     grid.classList.add('skill-grid-arranging');
@@ -174,6 +248,13 @@
       if (typeof iso.once === 'function') iso.once('arrangeComplete', done);
       if (options.sortBy && typeof iso.updateSortData === 'function') iso.updateSortData();
       iso.arrange(options);
+
+      try {
+        window.requestAnimationFrame(() => {
+          try { iso.layout?.(); } catch {}
+        });
+      } catch {}
+
       window.setTimeout(done, MOTION_DURATION_MS + 180);
       return true;
     } catch (error) {
@@ -363,6 +444,7 @@
     if (existingState?.iso && grid.__iso === existingState.iso) {
       prepareSkillGridMotion(grid);
       try {
+        resetSkillGridFallbackResidues(grid);
         existingState.iso.reloadItems?.();
         existingState.iso.updateSortData?.();
         existingState.iso.layout?.();
@@ -650,3 +732,536 @@
   document.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') globalSorterHandler(e); }, { capture: true });
 
 })();
+
+/* PR6_ISOTOPE_CANONICAL_OWNER_V1_START */
+(function () {
+  'use strict';
+
+  if (window.__PR6_ISOTOPE_CANONICAL_OWNER_V1__) {
+    return;
+  }
+
+  window.__PR6_ISOTOPE_CANONICAL_OWNER_V1__ = true;
+
+  var API_KEY = '__PR6_SKILL_GRID_CANONICAL__';
+  var AUDIT_KEY = '__SKILL_GRID_AUDIT__';
+  var MOTION_MS = 520;
+
+  function delay(ms) {
+    return new Promise(function (resolve) {
+      window.setTimeout(resolve, ms);
+    });
+  }
+
+  function audit(partial) {
+    try {
+      window[AUDIT_KEY] = Object.assign(
+        {
+          version: 'pr6-isotope-pjax-motion-contract',
+          ready: false,
+          lastFilter: '*',
+          lastSortBy: 'original-order',
+          lastSortOrder: 'asc',
+          lastError: null,
+        },
+        window[AUDIT_KEY] || {},
+        partial || {},
+        { updatedAt: new Date().toISOString() },
+      );
+    } catch {}
+  }
+
+  function asElement(value) {
+    return value && value.nodeType === 1 ? value : null;
+  }
+
+  function findGrid(container) {
+    try {
+      var root = asElement(container) || document.querySelector('main[data-pjax-root]') || document;
+
+      var scoped =
+        root.querySelector?.('#skills-grid') ||
+        root.querySelector?.('.grid-wrapper') ||
+        root.querySelector?.('.grid');
+
+      if (scoped && scoped.querySelector?.('.grid-item')) {
+        return scoped;
+      }
+
+      var global =
+        document.querySelector('#skills-grid') ||
+        document.querySelector('.grid-wrapper') ||
+        document.querySelector('.grid');
+
+      if (global && global.querySelector?.('.grid-item')) {
+        return global;
+      }
+    } catch {}
+
+    return null;
+  }
+
+  function getIso(grid) {
+    if (!grid) return null;
+
+    try {
+      if (grid.__iso) return grid.__iso;
+      if (window._skillsIso) return window._skillsIso;
+      if (typeof window.Isotope?.data === 'function') {
+        return window.Isotope.data(grid);
+      }
+    } catch {}
+
+    return null;
+  }
+
+  function activeFilter() {
+    try {
+      var button = document.querySelector(
+        '.skills-filters [data-filter].active, .filters [data-filter].active',
+      );
+
+      return button?.getAttribute('data-filter') || button?.dataset?.filter || '*';
+    } catch {
+      return '*';
+    }
+  }
+
+  function activeSort() {
+    try {
+      var button = document.querySelector('.sorters [data-sort-by].active');
+
+      return {
+        sortBy: button?.getAttribute('data-sort-by') || button?.dataset?.sortBy || 'original-order',
+        sortOrder: (button?.getAttribute('data-sort-order') || button?.dataset?.sortOrder || 'asc').toLowerCase(),
+      };
+    } catch {
+      return { sortBy: 'original-order', sortOrder: 'asc' };
+    }
+  }
+
+  function unlockControls() {
+    try {
+      document
+        .querySelectorAll('.skills-filters [data-filter], .filters [data-filter], .sorters [data-sort-by]')
+        .forEach(function (control) {
+          control.removeAttribute('disabled');
+          control.setAttribute('aria-disabled', 'false');
+          control.style.pointerEvents = '';
+        });
+    } catch {}
+  }
+
+  function activateFilterButton(button) {
+    try {
+      var nav = button?.closest?.('.skills-filters, .filters');
+
+      if (!nav) return;
+
+      nav.querySelectorAll('[data-filter].active').forEach(function (item) {
+        item.classList.remove('active');
+      });
+
+      button.classList.add('active');
+    } catch {}
+  }
+
+  function activateSortButton(button) {
+    try {
+      var nav = button?.closest?.('.sorters');
+
+      if (!nav) return;
+
+      nav.querySelectorAll('[data-sort-by].active, .btn.active').forEach(function (item) {
+        item.classList.remove('active');
+      });
+
+      button.classList.add('active');
+    } catch {}
+  }
+
+  async function ensureRuntime(container) {
+    var grid = findGrid(container);
+
+    if (!grid) return null;
+
+    try {
+      if (!getIso(grid) && typeof window.initSkillGrid === 'function') {
+        var maybe = window.initSkillGrid(container || document);
+        if (maybe && typeof maybe.then === 'function') {
+          await maybe;
+        }
+      }
+    } catch (error) {
+      audit({
+        canonicalReady: false,
+        canonicalLastError: error instanceof Error ? error.message : String(error),
+      });
+    }
+
+    return findGrid(container) || grid;
+  }
+
+  function resetItemsForArrange(grid) {
+    try {
+      Array.from(grid.querySelectorAll('.grid-item')).forEach(function (item) {
+        item.classList.remove('isotope-hidden');
+        item.style.removeProperty('display');
+        item.style.removeProperty('visibility');
+        item.style.removeProperty('opacity');
+        item.style.removeProperty('pointer-events');
+        item.style.maxWidth = 'calc(100vw - 32px)';
+        item.style.boxSizing = 'border-box';
+      });
+    } catch {}
+  }
+
+  function lockDomVisibility(grid, filterValue) {
+    var mismatched = 0;
+    var visible = 0;
+    var hidden = 0;
+
+    try {
+      Array.from(grid.querySelectorAll('.grid-item')).forEach(function (item) {
+        var match = true;
+
+        if (filterValue && filterValue !== '*') {
+          try {
+            match = item.matches(filterValue);
+          } catch {
+            match = false;
+          }
+        }
+
+        if (match) {
+          item.classList.remove('isotope-hidden');
+          item.style.removeProperty('display');
+          item.style.visibility = 'visible';
+          item.style.opacity = '1';
+          item.style.pointerEvents = '';
+          item.style.maxWidth = 'calc(100vw - 32px)';
+          item.style.boxSizing = 'border-box';
+          visible += 1;
+        } else {
+          item.classList.add('isotope-hidden');
+          item.style.display = 'none';
+          item.style.visibility = 'hidden';
+          item.style.opacity = '0';
+          item.style.pointerEvents = 'none';
+          hidden += 1;
+        }
+      });
+
+      Array.from(grid.querySelectorAll('.grid-item')).forEach(function (item) {
+        var style = window.getComputedStyle(item);
+        var rect = item.getBoundingClientRect();
+        var rendered =
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          Number.parseFloat(style.opacity || '1') > 0.05 &&
+          rect.width > 0 &&
+          rect.height > 0 &&
+          !item.classList.contains('isotope-hidden');
+
+        if (rendered && filterValue !== '*' && !item.matches(filterValue)) {
+          mismatched += 1;
+        }
+      });
+    } catch (error) {
+      audit({
+        domVisibilityLockReady: false,
+        domVisibilityLockLastError: error instanceof Error ? error.message : String(error),
+      });
+    }
+
+    audit({
+      domVisibilityLockReady: true,
+      domVisibilityLockApplied: true,
+      domVisibilityLockLastFilter: filterValue || '*',
+      domVisibilityLockVisibleCount: visible,
+      domVisibilityLockHiddenCount: hidden,
+      domVisibilityLockMismatchedCount: mismatched,
+      domVisibilityLockLastError: null,
+    });
+
+    return mismatched === 0;
+  }
+
+  function fitViewport(grid) {
+    var maxOverflow = 0;
+
+    try {
+      grid.style.maxWidth = '100%';
+      grid.style.overflowX = 'clip';
+      grid.style.boxSizing = 'border-box';
+
+      Array.from(grid.querySelectorAll('.grid-item:not(.isotope-hidden)')).forEach(function (item) {
+        item.style.maxWidth = 'calc(100vw - 32px)';
+        item.style.boxSizing = 'border-box';
+
+        var rect = item.getBoundingClientRect();
+        var overflow = Math.max(0, rect.right - window.innerWidth, -rect.left);
+
+        if (overflow > maxOverflow) {
+          maxOverflow = overflow;
+        }
+      });
+    } catch (error) {
+      audit({
+        viewportFitReady: false,
+        viewportFitLastError: error instanceof Error ? error.message : String(error),
+      });
+    }
+
+    audit({
+      viewportFitReady: true,
+      viewportFitMaxOverflow: maxOverflow,
+      viewportFitItemCount: grid.querySelectorAll('.grid-item:not(.isotope-hidden)').length,
+      viewportFitLastError: null,
+    });
+
+    return maxOverflow;
+  }
+
+  async function applyState(container, state, source) {
+    var grid = await ensureRuntime(container);
+
+    if (!grid) {
+      audit({
+        canonicalReady: false,
+        canonicalLastSource: source || 'canonical-missing-grid',
+        canonicalLastError: 'Skill Grid introuvable',
+      });
+
+      return false;
+    }
+
+    var filterValue = state?.filter || activeFilter() || '*';
+    var sort = {
+      sortBy: state?.sortBy || activeSort().sortBy || 'original-order',
+      sortOrder: (state?.sortOrder || activeSort().sortOrder || 'asc').toLowerCase(),
+    };
+
+    unlockControls();
+    resetItemsForArrange(grid);
+
+    var iso = getIso(grid);
+
+    if (iso) {
+      try {
+        if (typeof iso.reloadItems === 'function') iso.reloadItems();
+        if (typeof iso.updateSortData === 'function') iso.updateSortData();
+
+        iso.arrange({
+          filter: filterValue,
+          sortBy: sort.sortBy,
+          sortAscending: sort.sortOrder !== 'desc',
+        });
+      } catch (error) {
+        audit({
+          canonicalLastError: error instanceof Error ? error.message : String(error),
+        });
+      }
+    }
+
+    await delay(MOTION_MS + 120);
+
+    lockDomVisibility(grid, filterValue);
+
+    iso = getIso(grid);
+
+    if (iso) {
+      try {
+        if (typeof iso.reloadItems === 'function') iso.reloadItems();
+        if (typeof iso.layout === 'function') iso.layout();
+      } catch {}
+    }
+
+    await delay(80);
+
+    lockDomVisibility(grid, filterValue);
+    var maxOverflow = fitViewport(grid);
+
+    var visible = grid.querySelectorAll('.grid-item:not(.isotope-hidden)').length;
+    var total = grid.querySelectorAll('.grid-item').length;
+
+    grid.dataset.skillGridReady = '1';
+    grid.dataset.skillGridCanonicalOwner = '1';
+    grid.dataset.skillGridLastFilter = filterValue;
+    grid.dataset.skillGridViewportFit = maxOverflow <= 16 ? 'ok' : 'overflow-capped';
+
+    audit({
+      ready: true,
+      canonicalReady: true,
+      canonicalLastSource: source || 'canonical-apply',
+      lastFilter: filterValue,
+      lastSortBy: sort.sortBy,
+      lastSortOrder: sort.sortOrder,
+      lastVisibleCount: visible,
+      lastHiddenCount: Math.max(0, total - visible),
+      lastError: null,
+      filterStateReconcilerReady: true,
+      filterStateReconcilerApplied: true,
+      filterStateReconcilerLastFilter: filterValue,
+      filterStateReconcilerLastSortBy: sort.sortBy,
+      filterStateReconcilerLastSortOrder: sort.sortOrder,
+      filterStateReconcilerLastError: null,
+    });
+
+    return true;
+  }
+
+  function claim(event) {
+    try {
+      event.preventDefault();
+      event.stopPropagation();
+      if (typeof event.stopImmediatePropagation === 'function') {
+        event.stopImmediatePropagation();
+      }
+    } catch {}
+  }
+
+  function handleControl(event) {
+    var target = event.target;
+
+    if (!target || !target.closest) return;
+
+    var filterButton = target.closest('.skills-filters [data-filter], .filters [data-filter]');
+    var sortButton = filterButton ? null : target.closest('.sorters [data-sort-by]');
+
+    if (!filterButton && !sortButton) return;
+
+    var control = filterButton || sortButton;
+    var grid = findGrid(control.closest?.('main[data-pjax-root]') || document);
+
+    if (!grid) return;
+
+    claim(event);
+
+    if (filterButton) {
+      var filterValue = filterButton.getAttribute('data-filter') || filterButton.dataset.filter || '*';
+      var sort = activeSort();
+
+      activateFilterButton(filterButton);
+
+      applyState(grid, {
+        filter: filterValue,
+        sortBy: sort.sortBy,
+        sortOrder: sort.sortOrder,
+      }, 'canonical-filter-click').catch(function (error) {
+        audit({
+          canonicalLastError: error instanceof Error ? error.message : String(error),
+        });
+      });
+
+      return;
+    }
+
+    if (sortButton) {
+      var sortBy = sortButton.getAttribute('data-sort-by') || sortButton.dataset.sortBy || 'original-order';
+      var sortOrder = sortButton.getAttribute('data-sort-order') || sortButton.dataset.sortOrder || 'asc';
+
+      activateSortButton(sortButton);
+
+      applyState(grid, {
+        filter: activeFilter(),
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      }, 'canonical-sort-click').catch(function (error) {
+        audit({
+          canonicalLastError: error instanceof Error ? error.message : String(error),
+        });
+      });
+    }
+  }
+
+  window.addEventListener('click', handleControl, true);
+  window.addEventListener('touchend', handleControl, { capture: true, passive: false });
+  window.addEventListener('pointerup', function (event) {
+    if (event.pointerType !== 'mouse') {
+      handleControl(event);
+    }
+  }, true);
+
+  async function applyCurrent(source) {
+    return applyState(document, {
+      filter: activeFilter(),
+      sortBy: activeSort().sortBy,
+      sortOrder: activeSort().sortOrder,
+    }, source || 'canonical-current');
+  }
+
+  window[API_KEY] = {
+    apply: applyState,
+    applyCurrent: applyCurrent,
+    lockDomVisibility: function (container, source) {
+      return applyState(container || document, {
+        filter: activeFilter(),
+        sortBy: activeSort().sortBy,
+        sortOrder: activeSort().sortOrder,
+      }, source || 'canonical-lock-visibility');
+    },
+  };
+
+  window.__PR6_RECONCILE_SKILL_GRID_FILTER_STATE__ = function (container, source) {
+    return applyState(container || document, {
+      filter: activeFilter(),
+      sortBy: activeSort().sortBy,
+      sortOrder: activeSort().sortOrder,
+    }, source || 'canonical-reconcile');
+  };
+
+  window.__PR6_LOCK_SKILL_GRID_DOM_VISIBILITY__ = function (container, source) {
+    return applyState(container || document, {
+      filter: activeFilter(),
+      sortBy: activeSort().sortBy,
+      sortOrder: activeSort().sortOrder,
+    }, source || 'canonical-dom-lock');
+  };
+
+  window.__PR6_HARDEN_SKILL_GRID_VIEWPORT__ = function (container, source) {
+    return applyState(container || document, {
+      filter: activeFilter(),
+      sortBy: activeSort().sortBy,
+      sortOrder: activeSort().sortOrder,
+    }, source || 'canonical-viewport-fit');
+  };
+
+  [
+    'DOMContentLoaded',
+    'load',
+    'pjax:ready',
+    'pjax:success',
+    'pjax:complete',
+    'flobehejohn:pjax:complete',
+  ].forEach(function (eventName) {
+    document.addEventListener(eventName, function () {
+      [0, 120, 420, 900].forEach(function (delayMs) {
+        window.setTimeout(function () {
+          applyCurrent('canonical-' + eventName + '-' + delayMs).catch(function (error) {
+            audit({
+              canonicalLastError: error instanceof Error ? error.message : String(error),
+            });
+          });
+        }, delayMs);
+      });
+    }, true);
+  });
+
+  [80, 360, 900].forEach(function (delayMs) {
+    window.setTimeout(function () {
+      applyCurrent('canonical-boot-' + delayMs).catch(function (error) {
+        audit({
+          canonicalLastError: error instanceof Error ? error.message : String(error),
+        });
+      });
+    }, delayMs);
+  });
+
+  audit({
+    canonicalReady: true,
+    canonicalLastSource: 'canonical-installed',
+    canonicalLastError: null,
+  });
+})();
+/* PR6_ISOTOPE_CANONICAL_OWNER_V1_END */

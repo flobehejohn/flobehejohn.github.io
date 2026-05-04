@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, rmSync, readFileSync, writeFileSync, cpSync, readdirSync, statSync } from 'fs';
+import { existsSync, mkdirSync, rmSync, readFileSync, writeFileSync, cpSync, readdirSync, statSync, renameSync } from 'fs';
 import { dirname, join, relative } from 'path';
 
 const root = process.cwd();
@@ -19,7 +19,64 @@ const contactLegacyShims = [
 ];
 
 function ensureDir(path) { mkdirSync(path, { recursive: true }); }
-function cleanOutDir() { rmSync(outDir, { recursive: true, force: true }); ensureDir(outDir); }
+function sleepSync(ms) {
+  try {
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+  } catch {
+    // ignore
+  }
+}
+
+function rmDirRobust(path) {
+  if (!existsSync(path)) return true;
+
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= 8; attempt += 1) {
+    try {
+      rmSync(path, {
+        recursive: true,
+        force: true,
+        maxRetries: 10,
+        retryDelay: 150
+      });
+
+      if (!existsSync(path)) return true;
+    } catch (error) {
+      lastError = error;
+    }
+
+    sleepSync(150 * attempt);
+  }
+
+  try {
+    const quarantine = `${path}.__delete_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    renameSync(path, quarantine);
+    ensureDir(path);
+
+    try {
+      rmSync(quarantine, {
+        recursive: true,
+        force: true,
+        maxRetries: 20,
+        retryDelay: 200
+      });
+    } catch (error) {
+      console.warn(`[build-docs] WARN: deferred cleanup for ${quarantine}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+
+    return true;
+  } catch (error) {
+    lastError = error;
+  }
+
+  throw lastError instanceof Error ? lastError : new Error(String(lastError || 'Unable to clean output directory'));
+}
+
+function cleanOutDir() {
+  rmDirRobust(outDir);
+  ensureDir(outDir);
+}
 function copyTreeIfExists(src, dst = src) {
   const fullSrc = join(root, src);
   if (!existsSync(fullSrc)) return;

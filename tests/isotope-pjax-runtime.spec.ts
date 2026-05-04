@@ -92,8 +92,13 @@ test('Isotope skill grid survives PJAX return and keeps controlled motion', asyn
   const failures: string[] = [];
 
   page.on('pageerror', (error) => failures.push(error.message));
+  const isKnownBenignBrowserAudioDeviceError = (text: string): boolean =>
+    text.includes('The AudioContext encountered an error from the audio device or the WebAudio renderer.');
+
   page.on('console', (message) => {
-    if (message.type() === 'error') failures.push(message.text());
+    if (message.type() === 'error' && !isKnownBenignBrowserAudioDeviceError(message.text())) {
+      failures.push(message.text());
+    }
   });
 
   await page.goto('/portfolio_florian_b.html', { waitUntil: 'domcontentloaded' });
