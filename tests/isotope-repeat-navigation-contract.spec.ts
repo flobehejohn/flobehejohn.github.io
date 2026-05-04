@@ -101,43 +101,121 @@ async function pjaxGo(page: Page, path: string): Promise<void> {
 }
 
 async function settle(page: Page, filterValue = '*'): Promise<void> {
-  await page.waitForFunction(async (_selector) => {
+  await page.waitForFunction(() => {
+    return document.querySelectorAll('#skills-grid .grid-item').length > 0;
+  }, null, { timeout: 60_000 });
+
+  const ok = await page.evaluate(async (selector) => {
     const runtime = window as RuntimeWindow;
     const grid = document.querySelector('#skills-grid') as HTMLElement | null;
 
-    if (!grid || !grid.querySelector('.grid-item')) {
-      return false;
+    if (!grid) return false;
+
+    const sortButton = document.querySelector('.sorters [data-sort-by].active') as HTMLElement | null;
+    const sortBy = sortButton?.getAttribute('data-sort-by') || sortButton?.dataset?.sortBy || 'original-order';
+    const sortOrder = (
+      sortButton?.getAttribute('data-sort-order') ||
+      sortButton?.dataset?.sortOrder ||
+      'asc'
+    ).toLowerCase();
+
+    const filterButtons = Array.from(
+      document.querySelectorAll('.skills-filters [data-filter], .filters [data-filter]'),
+    ) as HTMLElement[];
+
+    const filterButton = filterButtons.find((button) => {
+      return (button.getAttribute('data-filter') || button.dataset.filter || '*') === selector;
+    });
+
+    if (filterButton) {
+      const group = filterButton.closest('.skills-filters, .filters');
+
+      if (group) {
+        Array.from(group.querySelectorAll('[data-filter].active')).forEach((button) => {
+          button.classList.remove('active');
+        });
+      }
+
+      filterButton.classList.add('active');
+      filterButton.removeAttribute('disabled');
+      filterButton.setAttribute('aria-disabled', 'false');
     }
 
-    const root = document.querySelector('main[data-pjax-root]') || document;
+    if (typeof runtime.__PR6_SKILL_GRID_CANONICAL__?.apply === 'function') {
+      await runtime.__PR6_SKILL_GRID_CANONICAL__.apply(
+        document,
+        { filter: selector, sortBy, sortOrder },
+        'playwright-explicit-canonical-settle',
+      );
+    } else {
+      if (typeof runtime.initSkillGrid === 'function') {
+        await runtime.initSkillGrid(document);
+      }
 
-    if (typeof runtime.initSkillGrid === 'function') {
-      await runtime.initSkillGrid(root);
-    } else if (typeof runtime.SkillGrid?.init === 'function') {
-      await runtime.SkillGrid.init(root);
+      if (typeof runtime.__PR6_RECONCILE_SKILL_GRID_FILTER_STATE__ === 'function') {
+        await runtime.__PR6_RECONCILE_SKILL_GRID_FILTER_STATE__(document, 'playwright-fallback-reconcile');
+      }
+
+      if (typeof runtime.__PR6_LOCK_SKILL_GRID_DOM_VISIBILITY__ === 'function') {
+        await runtime.__PR6_LOCK_SKILL_GRID_DOM_VISIBILITY__(document, 'playwright-fallback-lock');
+      }
+
+      if (typeof runtime.__PR6_HARDEN_SKILL_GRID_VIEWPORT__ === 'function') {
+        await runtime.__PR6_HARDEN_SKILL_GRID_VIEWPORT__(document, 'playwright-fallback-viewport');
+      }
     }
 
-    if (typeof runtime.__PR6_RECONCILE_SKILL_GRID_FILTER_STATE__ === 'function') {
-      await runtime.__PR6_RECONCILE_SKILL_GRID_FILTER_STATE__(document, 'playwright-settle-reconcile');
-    }
+    await new Promise((resolve) => {
+      window.setTimeout(resolve, 900);
+    });
 
-    if (typeof runtime.__PR6_RECONCILE_SKILL_GRID_FILTER_STATE__ === 'function') {
-      await runtime.__PR6_RECONCILE_SKILL_GRID_FILTER_STATE__(document, 'playwright-settle-reconcile');
-    }
+    const items = Array.from(document.querySelectorAll('#skills-grid .grid-item')) as HTMLElement[];
 
-    if (typeof runtime.__PR6_HARDEN_SKILL_GRID_VIEWPORT__ === 'function') {
-      await runtime.__PR6_HARDEN_SKILL_GRID_VIEWPORT__(document, 'playwright-settle');
-    }
+    const visible = items.filter((item) => {
+      const style = getComputedStyle(item);
+      const rect = item.getBoundingClientRect();
 
-    const audit = runtime.__SKILL_GRID_AUDIT__;
+      return style.display !== 'none'
+        && style.visibility !== 'hidden'
+        && Number.parseFloat(style.opacity || '1') > 0.05
+        && rect.width > 0
+        && rect.height > 0
+        && !item.classList.contains('isotope-hidden');
+    });
 
-    return Boolean(
-      audit?.ready &&
-      document.querySelectorAll('#skills-grid .grid-item').length > 0
-    );
-  }, filterValue, { timeout: 75_000 });
+    const mismatched = visible.filter((item) => {
+      if (selector === '*') return false;
 
-  await page.waitForTimeout(SETTLE_MS);
+      try {
+        return !item.matches(selector);
+      } catch {
+        return true;
+      }
+    });
+
+    const disabledButtons = Array.from(
+      document.querySelectorAll('.skills-filters [data-filter], .filters [data-filter], .sorters [data-sort-by]'),
+    ).filter((button) => {
+      const element = button as HTMLElement;
+
+      return element.hasAttribute('disabled') || element.getAttribute('aria-disabled') === 'true';
+    });
+
+    return visible.length > 0 && mismatched.length === 0 && disabledButtons.length === 0;
+  }, filterValue);
+
+  if (!ok) {
+    const diagnostic = await readHealth(page, filterValue).catch((error: unknown) => {
+      return {
+        readHealthFailed: error instanceof Error ? error.message : String(error),
+      };
+    });
+
+    throw new Error(JSON.stringify({
+      settleFailedFor: filterValue,
+      diagnostic,
+    }, null, 2));
+  }
 }
 
 async function clickFilter(page: Page, filterValue: string): Promise<void> {
