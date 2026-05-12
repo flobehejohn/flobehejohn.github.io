@@ -1,169 +1,365 @@
 ﻿/**
  * ========================================================
- * 🎧 BOUTON FLOTTANT DU LECTEUR AUDIO — COMPATIBLE PJAX
- * - Trouve ses éléments DANS le conteneur PJAX courant
- * - Se (re)branche à chaque pjax:ready
- * - Évite les doubles inits via un flag posé sur le container
+ * 🎧 BOUTON FLOTTANT DU LECTEUR AUDIO — SINGLETON TOGGLE
+ * PR6_AUDIO_MODAL_TOGGLE_SINGLETON_V2
+ *
+ * Contrat certifié :
+ * - clic 1 sur #openAudioPlayer => ouverture
+ * - clic 2 sur #openAudioPlayer => fermeture
+ * - clic 3 sur #openAudioPlayer => réouverture
+ *
+ * Le contrôleur est global et délégué afin de survivre aux remplacements PJAX,
+ * aux duplications temporaires et aux réinitialisations du PlayerSingleton.
  * ========================================================
  */
 (() => {
-  // Init (appelé au 1er chargement ET après chaque navigation PJAX)
-  function init(container = document) {
-    const root =
-      container instanceof Element ? container : document.querySelector('main[data-pjax-root]') || document;
+  'use strict';
 
-    // Exécute si l'UI du lecteur global est présente dans le DOM
-    if (!(root instanceof Element)) return;
+  const CONTRACT_VERSION = 'PR6_AUDIO_MODAL_TOGGLE_SINGLETON_V2';
+  const ROOT_DATA_KEY = 'audioModalOpen';
 
-    // Déjà initialisé pour CE container ? (le flag disparaît quand PJAX remplace le <main>)
-    if (root.__floatingAudioInit) return;
-    root.__floatingAudioInit = true;
+  const SELECTORS = {
+    button: '#openAudioPlayer',
+    modal: '#audioPlayerModal',
+    wrapper: '#responsiveWrapper',
+    audio: '#audioPlayer',
+    close: '#closePlayerModal',
+  };
 
-    // ——————————————————————————————————————————
-    // Sélection des éléments (dans le container, avec fallback global)
-    // ——————————————————————————————————————————
-    const playerWrapper =
-      root.querySelector('#responsiveWrapper') || document.getElementById('responsiveWrapper');
-    const toggleButton =
-      root.querySelector('#openAudioPlayer') || document.getElementById('openAudioPlayer');
-    const closeBtn =
-      root.querySelector('#closePlayerModal') || document.getElementById('closePlayerModal');
-    const audio = root.querySelector('#audioPlayer') || document.getElementById('audioPlayer');
+  function toArray(nodes) {
+    return Array.prototype.slice.call(nodes || []);
+  }
 
-    // Sécurité : si l’un manque, on ne fait rien (ex. page sans lecteur)
-    if (!playerWrapper || !toggleButton || !audio) return;
+  function first(selector) {
+    return document.querySelector(selector);
+  }
 
-    // ——————————————————————————————————————————
-    // État + helpers
-    // ——————————————————————————————————————————
-    let isPlayerVisible = false;
-
-    function showPlayer() {
-      playerWrapper.style.display = 'flex';
-      playerWrapper.classList.add('is-open');
-      toggleButton.classList.add('active');
-      isPlayerVisible = true;
-    }
-
-    function hidePlayer() {
-      playerWrapper.style.display = 'none';
-      playerWrapper.classList.remove('is-open');
-      toggleButton.classList.remove('active');
-      isPlayerVisible = false;
-    }
-
-    function togglePlayerVisibility() {
-      isPlayerVisible ? hidePlayer() : showPlayer();
-    }
-
-    // ——————————————————————————————————————————
-    // Liaison des événements (pour CE container)
-    // ——————————————————————————————————————————
-    // Si PlayerSingleton est dispo → ouvrir la modale via son API (plus robuste)
-    async function ensureSingletonReady() {
-      // Si non initialisé mais UI présente → recharger le singleton à la volée
-      try {
-        const needsInit = (!window.AudioApp || window.AudioApp.initialized !== true) && !!document.getElementById('audioPlayer');
-        if (needsInit) {
-          await new Promise((resolve, reject) => {
-            const s = document.createElement('script');
-            s.src = '/assets/js/player-singleton.js?v=' + Date.now();
-            s.async = false;
-            s.onload = () => resolve();
-            s.onerror = (e) => reject(e);
-            document.head.appendChild(s);
-          });
-        }
-      } catch {}
-    }
-
-    toggleButton.addEventListener('click', async (e) => {
-      e.preventDefault();
-      await ensureSingletonReady();
-      if (window.AudioApp && typeof window.AudioApp.open === 'function') {
-        window.AudioApp.open();
-      } else {
-        togglePlayerVisibility();
-      }
-    });
-    if (closeBtn) closeBtn.addEventListener('click', hidePlayer);
-
-    const onPlay = () => { toggleButton.classList.add('playing', 'large'); };
-    const onPause = () => { toggleButton.classList.remove('playing'); };
-    const onEnded = () => { toggleButton.classList.remove('playing'); };
-
-    audio.addEventListener('play', onPlay);
-    audio.addEventListener('pause', onPause);
-    audio.addEventListener('ended', onEnded);
-
-    // État initial propre
-    hidePlayer();
-
-    // (Optionnel) Teardown pour ce container (si jamais tu en as besoin)
-    root.__floatingAudioTeardown = () => {
-      toggleButton.removeEventListener('click', togglePlayerVisibility);
-      if (closeBtn) closeBtn.removeEventListener('click', hidePlayer);
-      audio.removeEventListener('play', onPlay);
-      audio.removeEventListener('pause', onPause);
-      audio.removeEventListener('ended', onEnded);
-      delete root.__floatingAudioInit;
-      delete root.__floatingAudioTeardown;
+  function nodes() {
+    return {
+      button: first(SELECTORS.button),
+      modal: first(SELECTORS.modal),
+      wrapper: first(SELECTORS.wrapper),
+      audio: first(SELECTORS.audio),
+      close: first(SELECTORS.close),
     };
   }
 
-  // Premier chargement
-  document.addEventListener('DOMContentLoaded', () => {
-    init(document.querySelector('main[data-pjax-root]') || document);
-  });
+  function visible(node) {
+    if (!node || node.nodeType !== 1) return false;
 
-  // À chaque navigation PJAX
-  document.addEventListener('pjax:ready', (e) => {
-    init(e.detail?.container || document.querySelector('main[data-pjax-root]') || document);
-  });
+    try {
+      const element = node;
+      const style = window.getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
 
-  // (Facultatif) si tu veux fermer l’UI juste avant de quitter la page courante
-  document.addEventListener('pjax:before', () => {
-    const root = document.querySelector('main[data-pjax-root]');
-    root?.__floatingAudioTeardown?.();
-  });
-
-  // (Optionnel) exposer une API
-  window.initFloatingAudio = init;
-})();
-
-(function pr6DedupeFloatingAudioRuntime() {
-  function dedupe(selector) {
-    const nodes = Array.from(document.querySelectorAll(selector));
-    if (nodes.length <= 1) return;
-
-    for (const node of nodes.slice(1)) {
-      node.remove();
+      return style.display !== 'none'
+        && style.visibility !== 'hidden'
+        && Number.parseFloat(style.opacity || '1') > 0.05
+        && rect.width > 0
+        && rect.height > 0;
+    } catch (_) {
+      return false;
     }
   }
 
-  function dedupeAudioRuntime() {
-    dedupe('#openAudioPlayer');
-    dedupe('#audioPlayer');
+  function getContractState() {
+    return document.documentElement.dataset[ROOT_DATA_KEY] === 'true';
   }
 
-  const schedule = () => {
-    window.requestAnimationFrame(() => {
-      dedupeAudioRuntime();
+  function setContractState(open) {
+    document.documentElement.dataset[ROOT_DATA_KEY] = open ? 'true' : 'false';
+  }
+
+  function isOpen() {
+    const state = getContractState();
+    const current = nodes();
+
+    return Boolean(
+      state
+      || current.wrapper?.classList?.contains('is-open')
+      || current.modal?.classList?.contains('is-open')
+      || current.modal?.classList?.contains('show')
+      || visible(current.wrapper)
+      || visible(current.modal)
+    );
+  }
+
+  function writeAudit(open, source, error) {
+    try {
+      const current = nodes();
+
+      window.__AUDIO_MODAL_TOGGLE_AUDIT__ = Object.assign(
+        {},
+        window.__AUDIO_MODAL_TOGGLE_AUDIT__ || {},
+        {
+          version: CONTRACT_VERSION,
+          ready: true,
+          open: Boolean(open),
+          source: source || 'unknown',
+          buttonCount: document.querySelectorAll(SELECTORS.button).length,
+          modalCount: document.querySelectorAll(SELECTORS.modal).length,
+          wrapperCount: document.querySelectorAll(SELECTORS.wrapper).length,
+          audioCount: document.querySelectorAll(SELECTORS.audio).length,
+          hasAudioApp: Boolean(window.AudioApp),
+          audioAppInitialized: Boolean(window.AudioApp && window.AudioApp.initialized === true),
+          buttonExpanded: current.button ? current.button.getAttribute('aria-expanded') : null,
+          lastError: error ? (error.message || String(error)) : null,
+          updatedAt: new Date().toISOString(),
+        }
+      );
+    } catch (_) {}
+  }
+
+  function syncButton(open) {
+    const current = nodes();
+    const button = current.button;
+
+    if (!button) return;
+
+    try {
+      button.classList.toggle('active', Boolean(open));
+      button.setAttribute('aria-expanded', open ? 'true' : 'false');
+      button.setAttribute('aria-controls', 'audioPlayerModal');
+      button.setAttribute('type', button.getAttribute('type') || 'button');
+    } catch (_) {}
+  }
+
+  function showDom() {
+    const current = nodes();
+
+    try {
+      if (current.wrapper) {
+        current.wrapper.style.display = 'flex';
+        current.wrapper.style.visibility = 'visible';
+        current.wrapper.style.opacity = '1';
+        current.wrapper.classList.add('is-open');
+        current.wrapper.setAttribute('aria-hidden', 'false');
+      }
+
+      if (current.modal) {
+        current.modal.style.display = 'flex';
+        current.modal.style.visibility = 'visible';
+        current.modal.style.opacity = '1';
+        current.modal.classList.add('is-open');
+        current.modal.setAttribute('aria-hidden', 'false');
+      }
+    } catch (_) {}
+  }
+
+  function hideDom() {
+    const current = nodes();
+
+    try {
+      if (current.wrapper) {
+        current.wrapper.style.display = 'none';
+        current.wrapper.classList.remove('is-open');
+        current.wrapper.setAttribute('aria-hidden', 'true');
+      }
+
+      if (current.modal) {
+        current.modal.style.display = 'none';
+        current.modal.classList.remove('show', 'is-open');
+        current.modal.setAttribute('aria-hidden', 'true');
+      }
+    } catch (_) {}
+  }
+
+  async function ensureSingletonReady() {
+    try {
+      const current = nodes();
+      const needsInit =
+        (!window.AudioApp || window.AudioApp.initialized !== true)
+        && Boolean(current.audio);
+
+      if (!needsInit) return;
+
+      await new Promise((resolve, reject) => {
+        const existing = toArray(document.scripts).find((script) => {
+          return /\/assets\/js\/player-singleton\.js/.test(script.src || '');
+        });
+
+        if (existing && window.AudioApp) {
+          resolve();
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src = '/assets/js/player-singleton.js?v=' + Date.now();
+        script.async = false;
+        script.onload = () => resolve();
+        script.onerror = (event) => reject(event);
+        document.head.appendChild(script);
+      });
+    } catch (error) {
+      writeAudit(isOpen(), 'ensure-singleton-error', error);
+    }
+  }
+
+  async function openAudioModal(source) {
+    setContractState(true);
+    showDom();
+    syncButton(true);
+
+    try {
+      await ensureSingletonReady();
+
+      if (window.AudioApp && typeof window.AudioApp.open === 'function') {
+        window.AudioApp.open();
+      }
+    } catch (error) {
+      writeAudit(true, source || 'open-error', error);
+    }
+
+    setContractState(true);
+    showDom();
+    syncButton(true);
+    writeAudit(true, source || 'open');
+    return true;
+  }
+
+  async function closeAudioModal(source) {
+    try {
+      if (window.AudioApp && typeof window.AudioApp.close === 'function') {
+        window.AudioApp.close();
+      } else if (window.AudioApp && typeof window.AudioApp.hide === 'function') {
+        window.AudioApp.hide();
+      }
+    } catch (error) {
+      writeAudit(false, source || 'close-audioapp-error', error);
+    }
+
+    setContractState(false);
+    hideDom();
+    syncButton(false);
+    writeAudit(false, source || 'close');
+    return false;
+  }
+
+  async function toggleAudioModal(source) {
+    return isOpen()
+      ? closeAudioModal(source || 'button-toggle-close')
+      : openAudioModal(source || 'button-toggle-open');
+  }
+
+  function isToggleTarget(event) {
+    const target = event && event.target;
+
+    if (!target || !target.closest) return false;
+
+    return Boolean(target.closest(SELECTORS.button));
+  }
+
+  function isCloseTarget(event) {
+    const target = event && event.target;
+
+    if (!target || !target.closest) return false;
+
+    return Boolean(target.closest(SELECTORS.close));
+  }
+
+  function onDocumentClick(event) {
+    if (isToggleTarget(event)) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      toggleAudioModal('button-click').catch((error) => {
+        writeAudit(isOpen(), 'button-click-error', error);
+      });
+
+      return;
+    }
+
+    if (isCloseTarget(event)) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      closeAudioModal('close-button').catch((error) => {
+        writeAudit(false, 'close-button-error', error);
+      });
+    }
+  }
+
+  function dedupe(selector) {
+    const found = toArray(document.querySelectorAll(selector));
+
+    if (found.length <= 1) return;
+
+    found.slice(1).forEach((node) => {
+      try {
+        node.remove();
+      } catch (_) {}
     });
+  }
+
+  function dedupeAudioRuntime() {
+    dedupe(SELECTORS.button);
+    dedupe(SELECTORS.audio);
+  }
+
+  function syncInitialState() {
+    const currentOpen = getContractState();
+
+    if (currentOpen) {
+      showDom();
+      syncButton(true);
+      writeAudit(true, 'sync-open');
+    } else {
+      hideDom();
+      syncButton(false);
+      writeAudit(false, 'sync-closed');
+    }
+  }
+
+  function init() {
+    dedupeAudioRuntime();
+    syncInitialState();
+  }
+
+  if (!window.__PR6_AUDIO_MODAL_TOGGLE_BOUND__) {
+    window.__PR6_AUDIO_MODAL_TOGGLE_BOUND__ = true;
+
+    document.addEventListener('click', onDocumentClick, true);
+    document.addEventListener('touchend', onDocumentClick, { capture: true, passive: false });
+    document.addEventListener('pointerup', (event) => {
+      if (event.pointerType !== 'mouse') {
+        onDocumentClick(event);
+      }
+    }, true);
+
+    document.addEventListener('pjax:before', () => {
+      closeAudioModal('pjax-before').catch(() => {});
+    });
+
+    document.addEventListener('pjax:ready', () => {
+      window.setTimeout(init, 0);
+      window.setTimeout(init, 120);
+    });
+
+    window.addEventListener('load', init);
+  }
+
+  window.__PR6_AUDIO_MODAL_TOGGLE__ = {
+    version: CONTRACT_VERSION,
+    init,
+    isOpen,
+    open: () => openAudioModal('api-open'),
+    close: () => closeAudioModal('api-close'),
+    toggle: () => toggleAudioModal('api-toggle'),
   };
 
+  window.initFloatingAudio = init;
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', schedule, { once: true });
+    document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {
-    schedule();
+    init();
   }
 
-  window.addEventListener('load', schedule);
-  document.addEventListener('pjax:complete', schedule);
-  document.addEventListener('pjax:end', schedule);
-  document.addEventListener('astro:page-load', schedule);
+  const observer = new MutationObserver(() => {
+    window.clearTimeout(window.__PR6_AUDIO_MODAL_TOGGLE_OBSERVER_TIMER__);
+    window.__PR6_AUDIO_MODAL_TOGGLE_OBSERVER_TIMER__ = window.setTimeout(init, 80);
+  });
 
-  const observer = new MutationObserver(schedule);
   observer.observe(document.documentElement, {
     childList: true,
     subtree: true,
