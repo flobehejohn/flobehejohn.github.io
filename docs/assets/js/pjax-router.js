@@ -65,6 +65,88 @@
 
   const ROOT_SELECTOR = 'main[data-pjax-root]';
 
+  /* PR6_SKILL_GRID_SINGLE_OWNER_LOADER_START */
+  function pr6SkillGridAssetUrl(fileName) {
+    try {
+      const routerScript = Array.from(document.scripts).find((script) => {
+        return /(^|\/)pjax-router\.js(\?|$)/.test(script.getAttribute('src') || script.src || '');
+      });
+
+      if (routerScript?.src) {
+        return new URL(fileName, routerScript.src).href;
+      }
+    } catch (error) {
+      void error;
+    }
+
+    return new URL('/assets/js/' + fileName, location.href).href;
+  }
+
+  function pr6LoadScriptOnce(src, key) {
+    return new Promise((resolve, reject) => {
+      const absolute = new URL(src, location.href).href;
+
+      const existing = Array.from(document.scripts).some((script) => {
+        try {
+          return script.src && new URL(script.src, location.href).href === absolute;
+        } catch (error) {
+          void error;
+          return false;
+        }
+      });
+
+      if (existing || (key && window[key])) {
+        resolve(true);
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = absolute;
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      script.onload = () => resolve(true);
+      script.onerror = () => reject(new Error('load failed: ' + absolute));
+      document.head.appendChild(script);
+    });
+  }
+
+  async function pr6EnsureSkillGridRuntime(container) {
+    const root = container || document;
+    const grid = root.querySelector?.('#skills-grid') || document.querySelector('#skills-grid');
+
+    if (!grid || !grid.querySelector('.grid-item')) {
+      return false;
+    }
+
+    if (!window.SkillGrid?.init) {
+      await pr6LoadScriptOnce(
+        pr6SkillGridAssetUrl('isotope-skill-grid.js'),
+        '__PR6_SKILL_GRID_SINGLE_OWNER_READY__',
+      );
+    }
+
+    if (typeof window.SkillGrid?.init === 'function') {
+      await window.SkillGrid.init(root);
+      return true;
+    }
+
+    if (typeof window.initSkillGrid === 'function') {
+      await window.initSkillGrid(root);
+      return true;
+    }
+
+    return false;
+  }
+
+  function pr6DestroySkillGridRuntime(container) {
+    try {
+      window.SkillGrid?.destroy?.(container || document);
+    } catch (error) {
+      warn('skill grid destroy failed', error);
+    }
+  }
+  /* PR6_SKILL_GRID_SINGLE_OWNER_LOADER_END */
+
   // EXCLUSION: navigation "pleine page" (pas de PJAX) pour ces chemins
   const EXCLUDE_PATHS = [
     '/assets/portfolio/Projet_dotnet/',
@@ -490,6 +572,7 @@
 
       // Hook + teardown media avec le bon flag
       fire('pjax:beforeReplace', { url, container, newRoot, pauseGlobalAudio, isVisualOnly, targetPage });
+      pr6DestroySkillGridRuntime(container);
       teardownMediaBeforeReplace({ pauseGlobalAudio });
 
       // Remplacement interne (sans scripts)
@@ -503,7 +586,7 @@
       } catch (e) { warn('installPageScopedCSSFromFragment call failed', e); }
 
       // Pré-initialiser rapidement la grille compétences si disponible (réactivité filtres)
-      try { (window.initSkillGrid || window.SkillGrid?.init)?.(container); } catch (e) { /* silent */ }
+      try { await pr6EnsureSkillGridRuntime(container); } catch (e) { warn('skill grid runtime init failed', e); }
 
       // Purge des overlays/backdrops orphelins (post-swap)
       document.body.classList.remove('modal-open');
@@ -644,3 +727,130 @@
 // fin IIFE
       // Avant tout, s'assurer que l'UI audio globale est présente
       try { syncGlobalAudioUIFrom(doc); } catch {}
+
+
+/* PR6_SKILL_GRID_POST_PJAX_INIT_RETRY_START */
+(function () {
+  if (window.__PR6_SKILL_GRID_POST_PJAX_INIT_RETRY__) return;
+  window.__PR6_SKILL_GRID_POST_PJAX_INIT_RETRY__ = true;
+
+  function hasSkillGrid() {
+    return Boolean(document.querySelector('#skills-grid .grid-item'));
+  }
+
+  function resolveSkillGridScriptUrl() {
+    var current = document.currentScript && document.currentScript.getAttribute('src');
+    var base = '';
+
+    if (current && current.indexOf('/assets/js/') >= 0) {
+      base = current.slice(0, current.indexOf('/assets/js/') + '/assets/js/'.length);
+      return base + 'isotope-skill-grid.js';
+    }
+
+    return '/assets/js/isotope-skill-grid.js';
+  }
+
+  function loadSkillGridScriptOnce() {
+    if (window.SkillGrid && typeof window.SkillGrid.init === 'function') {
+      return Promise.resolve();
+    }
+
+    var src = resolveSkillGridScriptUrl();
+    var existing = Array.prototype.slice.call(document.scripts).find(function (script) {
+      var scriptSrc = script.getAttribute('src') || '';
+      return scriptSrc.indexOf('isotope-skill-grid.js') >= 0;
+    });
+
+    if (existing) {
+      return new Promise(function (resolve) {
+        if (window.SkillGrid && typeof window.SkillGrid.init === 'function') {
+          resolve();
+          return;
+        }
+
+        existing.addEventListener('load', function () { resolve(); }, { once: true });
+        existing.addEventListener('error', function () { resolve(); }, { once: true });
+        window.setTimeout(resolve, 1200);
+      });
+    }
+
+    return new Promise(function (resolve) {
+      var script = document.createElement('script');
+      script.src = src;
+      script.defer = true;
+      script.setAttribute('data-pr6-skill-grid-loader', 'post-pjax-init-retry');
+      script.onload = function () { resolve(); };
+      script.onerror = function () { resolve(); };
+      document.head.appendChild(script);
+      window.setTimeout(resolve, 1500);
+    });
+  }
+
+  async function ensureSkillGridAfterPjax(source) {
+    if (!hasSkillGrid()) return false;
+
+    try {
+      await loadSkillGridScriptOnce();
+
+      if (window.SkillGrid && typeof window.SkillGrid.init === 'function') {
+        await window.SkillGrid.init(document);
+        return true;
+      }
+    } catch (error) {
+      console.warn('[PR6] SkillGrid post-PJAX init failed', source, error);
+    }
+
+    return false;
+  }
+
+  function scheduleSkillGridInit(source) {
+    [0, 50, 150, 350, 800, 1600].forEach(function (delay) {
+      window.setTimeout(function () {
+        ensureSkillGridAfterPjax(source + ':' + delay);
+      }, delay);
+    });
+  }
+
+  ['DOMContentLoaded', 'pjax:ready', 'pjax:complete', 'pjax:success', 'pjax:end'].forEach(function (eventName) {
+    document.addEventListener(eventName, function () {
+      scheduleSkillGridInit(eventName);
+    });
+  });
+
+  window.addEventListener('pageshow', function () {
+    scheduleSkillGridInit('pageshow');
+  });
+
+  var observer = new MutationObserver(function (mutations) {
+    for (var index = 0; index < mutations.length; index += 1) {
+      var mutation = mutations[index];
+
+      for (var childIndex = 0; childIndex < mutation.addedNodes.length; childIndex += 1) {
+        var node = mutation.addedNodes[childIndex];
+
+        if (!node || node.nodeType !== 1) continue;
+
+        var element = node;
+
+        if (
+          element.matches && (
+            element.matches('#skills-grid') ||
+            element.matches('.grid-item') ||
+            element.querySelector && element.querySelector('#skills-grid .grid-item')
+          )
+        ) {
+          scheduleSkillGridInit('mutation');
+          return;
+        }
+      }
+    }
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+
+  scheduleSkillGridInit('boot');
+})();
+/* PR6_SKILL_GRID_POST_PJAX_INIT_RETRY_END */

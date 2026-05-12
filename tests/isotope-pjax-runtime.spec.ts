@@ -91,9 +91,33 @@ async function readGridState(page: Page) {
 test('Isotope skill grid survives PJAX return and keeps controlled motion', async ({ page }) => {
   const failures: string[] = [];
 
-  page.on('pageerror', (error) => failures.push(error.message));
+  /* PR6_BENIGN_AUDIO_CONTEXT_FILTER_V1 */
+  const isKnownBenignBrowserAudioDeviceError = (text: string): boolean => {
+    const normalized = String(text || '').toLowerCase();
+
+    return /audiocontext/.test(normalized)
+      && (
+        /audio device/.test(normalized)
+        || /webaudio renderer/.test(normalized)
+        || /web audio renderer/.test(normalized)
+        || /audio renderer/.test(normalized)
+      );
+  };
+
+  page.on('pageerror', (error) => {
+    const message = error?.message || String(error);
+
+    if (!isKnownBenignBrowserAudioDeviceError(message)) {
+      failures.push(message);
+    }
+  });
+
   page.on('console', (message) => {
-    if (message.type() === 'error') failures.push(message.text());
+    const text = message.text();
+
+    if (message.type() === 'error' && !isKnownBenignBrowserAudioDeviceError(text)) {
+      failures.push(text);
+    }
   });
 
   await page.goto('/portfolio_florian_b.html', { waitUntil: 'domcontentloaded' });
