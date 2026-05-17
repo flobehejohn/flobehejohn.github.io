@@ -1,0 +1,19 @@
+{
+  "version": "AUDIO_SCENE_FIXTURE_V1",
+  "name": "drone-basic",
+  "drone": {
+    "enabled": true,
+    "renderer": "binaural",
+    "rootMidi": 45,
+    "scale": "minor-pentatonic",
+    "intervals": [0, 7, 12, 19, 24],
+    "detuneCents": 4,
+    "azimuthDeg": -25,
+    "elevationDeg": 8,
+    "distance": 1.4,
+    "spreadDeg": 70,
+    "lfoRateHz": 0.08,
+    "textureSeed": "drone-basic-v1",
+    "gain": 0.35
+  }
+}

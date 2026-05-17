@@ -1,0 +1,15 @@
+{
+  "version": "AUDIO_POLICY_FIXTURE_V1",
+  "preferences": {
+    "muted": false,
+    "masterVolume": 1,
+    "mediaVolume": 1,
+    "soundDesignVolume": 0.7,
+    "droneVolume": 0.5,
+    "allowSoundDesign": true,
+    "allowMedia": true,
+    "allowDrone": true,
+    "consent": "unknown"
+  },
+  "soundDesignEvents": ["uiClick", "isotopeFilter", "cardMotion"]
+}

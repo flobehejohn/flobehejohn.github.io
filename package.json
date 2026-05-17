@@ -96,6 +96,10 @@
     "prefix-css": "postcss assets/css/theme.css -o assets/css/theme-prefixed.css",
     "clean:docs": "node -e \"require('fs').rmSync('docs',{recursive:true,force:true})\"",
     "audit:architecture-owners": "node scripts/ci/verify-architecture-owners.mjs",
-    "test:audio-modal": "playwright test tests/audio-modal-toggle-contract.spec.ts --workers=1 --timeout=120000 --output=test-results/audio-modal && node scripts/ci/write-runtime-proof.mjs audio-modal"
+    "test:audio-modal": "playwright test tests/audio-modal-toggle-contract.spec.ts --workers=1 --timeout=120000 --output=test-results/audio-modal && node scripts/ci/write-runtime-proof.mjs audio-modal",
+    "test:audio-policy": "node --test tests/audio-ci-lab/audio-policy.test.mjs",
+    "test:audio-contracts": "node --test tests/audio-ci-lab/audio-contracts.test.mjs tests/audio-ci-lab/binaural-drone-state.test.mjs",
+    "audit:audio-ci-lab": "node scripts/audio/audit-audio-ci-lab.mjs",
+    "test:audio-ci-lab": "npm run test:audio-policy && npm run test:audio-contracts && npm run audit:audio-ci-lab"
   }
 }
