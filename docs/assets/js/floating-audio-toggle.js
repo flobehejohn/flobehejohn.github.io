@@ -1807,3 +1807,430 @@ syncDom(stateOpen(), 'harden-sync', false);
   }
 })();
 /* PR6_AUDIO_MODAL_TITLE_MARQUEE_PLAYBOUND_V28_FINAL_CSS_STABLE_END */
+
+/* PR6_AUDIO_MODAL_DESKTOP_DRAG_V4_DOT_HANDLE_STABLE_START */
+;(() => {
+  'use strict';
+
+  const VERSION = 'PR6_AUDIO_MODAL_DESKTOP_DRAG_V4_DOT_HANDLE_STABLE';
+  const STYLE_ID = 'pr6-audio-modal-desktop-drag-v4-dot-handle-style';
+  const OLD_STYLE_IDS = [
+    'pr6-audio-modal-desktop-drag-v1-style',
+    'pr6-audio-modal-desktop-drag-v2-dot-handle-style',
+    'pr6-audio-modal-desktop-drag-v3-dot-handle-style',
+  ];
+  const DOT_HANDLE_SELECTOR = '#dragBar.drag-bar, #dragBar, .drag-bar';
+  const ADDED_HANDLE_SELECTOR = '#pr6AudioDragHandle, .pr6-audio-drag-handle, [data-pr6-audio-drag-handle]';
+  const MARGIN = 8;
+
+  let drag = null;
+  let pending = null;
+  let raf = 0;
+
+  function q(selector, root = document) {
+    return root.querySelector(selector);
+  }
+
+  function qa(selector, root = document) {
+    return Array.prototype.slice.call(root.querySelectorAll(selector));
+  }
+
+  function clamp(value, min, max) {
+    if (max < min) return min;
+    return Math.max(min, Math.min(max, value));
+  }
+
+  function viewport() {
+    return {
+      width: window.innerWidth || document.documentElement.clientWidth || 0,
+      height: window.innerHeight || document.documentElement.clientHeight || 0,
+    };
+  }
+
+  function rectOf(node) {
+    if (!node) {
+      return { left: 0, top: 0, right: 0, bottom: 0, width: 0, height: 0 };
+    }
+
+    const rect = node.getBoundingClientRect();
+
+    return {
+      left: rect.left,
+      top: rect.top,
+      right: rect.right,
+      bottom: rect.bottom,
+      width: rect.width,
+      height: rect.height,
+    };
+  }
+
+  function isVisible(node) {
+    if (!node) return false;
+
+    try {
+      const style = window.getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+
+      return style.display !== 'none'
+        && style.visibility !== 'hidden'
+        && Number.parseFloat(style.opacity || '1') > 0.05
+        && rect.width > 0
+        && rect.height > 0;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function stopEvent(event) {
+    try { event.preventDefault(); } catch (_) {}
+    try { event.stopPropagation(); } catch (_) {}
+    try { event.stopImmediatePropagation(); } catch (_) {}
+  }
+
+  function nodes() {
+    return {
+      wrapper: q('#responsiveWrapper'),
+      modal: q('#audioPlayerModal'),
+      dotHandle: q(DOT_HANDLE_SELECTOR),
+      addedHandles: qa(ADDED_HANDLE_SELECTOR),
+    };
+  }
+
+  function removeAddedHandles() {
+    qa(ADDED_HANDLE_SELECTOR).forEach((node) => {
+      if (!node || node.id === 'dragBar' || node.classList?.contains('drag-bar')) return;
+
+      try {
+        node.remove();
+      } catch (_) {}
+    });
+  }
+
+  function injectStyle() {
+    OLD_STYLE_IDS.forEach((id) => {
+      const style = document.getElementById(id);
+      if (style) style.remove();
+    });
+
+    const previous = document.getElementById(STYLE_ID);
+    if (previous) previous.remove();
+
+    const style = document.createElement('style');
+    style.id = STYLE_ID;
+    style.textContent = [
+      '/* PR6_AUDIO_MODAL_DESKTOP_DRAG_V4_DOT_HANDLE_STYLE */',
+      '#responsiveWrapper.pr6-audio-v15-compact #pr6AudioDragHandle,',
+      '#responsiveWrapper.pr6-audio-v15-compact .pr6-audio-drag-handle {',
+      '  display: none !important;',
+      '  visibility: hidden !important;',
+      '  opacity: 0 !important;',
+      '  pointer-events: none !important;',
+      '}',
+      '#responsiveWrapper.pr6-audio-v15-compact #dragBar.drag-bar,',
+      '#responsiveWrapper.pr6-audio-v15-compact .drag-bar {',
+      '  cursor: grab !important;',
+      '  touch-action: none !important;',
+      '  user-select: none !important;',
+      '  -webkit-user-select: none !important;',
+      '  pointer-events: auto !important;',
+      '  z-index: 7 !important;',
+      '}',
+      '#responsiveWrapper.pr6-audio-v15-compact.pr6-audio-dragging #dragBar.drag-bar,',
+      '#responsiveWrapper.pr6-audio-v15-compact.pr6-audio-dragging .drag-bar {',
+      '  cursor: grabbing !important;',
+      '}',
+      '#responsiveWrapper.pr6-audio-v15-compact.pr6-audio-dragging {',
+      '  transition: none !important;',
+      '  will-change: left, top !important;',
+      '}',
+    ].join('\n');
+
+    document.head.appendChild(style);
+  }
+
+  function freezeAtCurrentRect(wrapper) {
+    const rect = wrapper.getBoundingClientRect();
+
+    wrapper.dataset.pr6AudioDragged = 'true';
+
+    wrapper.style.setProperty('position', 'fixed', 'important');
+    wrapper.style.setProperty('left', rect.left + 'px', 'important');
+    wrapper.style.setProperty('top', rect.top + 'px', 'important');
+    wrapper.style.setProperty('right', 'auto', 'important');
+    wrapper.style.setProperty('bottom', 'auto', 'important');
+    wrapper.style.setProperty('transform', 'none', 'important');
+    wrapper.style.setProperty('width', rect.width + 'px', 'important');
+    wrapper.style.setProperty('max-width', rect.width + 'px', 'important');
+    wrapper.style.setProperty('min-width', '0px', 'important');
+
+    return rect;
+  }
+
+  function applyPosition(wrapper, left, top, width, height) {
+    const vp = viewport();
+    const safeWidth = width || wrapper.getBoundingClientRect().width || 0;
+    const safeHeight = height || wrapper.getBoundingClientRect().height || 0;
+
+    const maxLeft = Math.max(MARGIN, vp.width - safeWidth - MARGIN);
+    const maxTop = Math.max(MARGIN, vp.height - safeHeight - MARGIN);
+
+    const nextLeft = clamp(left, MARGIN, maxLeft);
+    const nextTop = clamp(top, MARGIN, maxTop);
+
+    wrapper.style.setProperty('left', nextLeft + 'px', 'important');
+    wrapper.style.setProperty('top', nextTop + 'px', 'important');
+    wrapper.style.setProperty('right', 'auto', 'important');
+    wrapper.style.setProperty('bottom', 'auto', 'important');
+    wrapper.style.setProperty('transform', 'none', 'important');
+    wrapper.style.setProperty('width', safeWidth + 'px', 'important');
+    wrapper.style.setProperty('max-width', safeWidth + 'px', 'important');
+
+    return { left: nextLeft, top: nextTop };
+  }
+
+  function scheduleMove() {
+    if (!drag || !pending || raf) return;
+
+    raf = window.requestAnimationFrame(() => {
+      raf = 0;
+
+      if (!drag || !pending) return;
+
+      const targetLeft = pending.clientX - drag.offsetX;
+      const targetTop = pending.clientY - drag.offsetY;
+
+      const applied = applyPosition(
+        drag.wrapper,
+        targetLeft,
+        targetTop,
+        drag.startRect.width,
+        drag.startRect.height
+      );
+
+      drag.last = {
+        pointerX: pending.clientX,
+        pointerY: pending.clientY,
+        left: applied.left,
+        top: applied.top,
+      };
+
+      pending = null;
+      writeAudit('drag-move');
+    });
+  }
+
+  function isDotHandleTarget(target) {
+    return Boolean(target && target.closest && target.closest(DOT_HANDLE_SELECTOR));
+  }
+
+  function onPointerDown(event) {
+    if (!isDotHandleTarget(event.target)) return;
+    if (event.pointerType && event.pointerType !== 'mouse') return;
+    if (event.button !== undefined && event.button !== 0) return;
+
+    const current = nodes();
+    const wrapper = current.wrapper;
+    const handle = current.dotHandle;
+
+    if (!wrapper || !handle || !isVisible(wrapper) || !isVisible(handle)) return;
+
+    stopEvent(event);
+    removeAddedHandles();
+
+    const before = rectOf(wrapper);
+    const frozen = freezeAtCurrentRect(wrapper);
+    const afterFreeze = rectOf(wrapper);
+
+    const offsetX = event.clientX - frozen.left;
+    const offsetY = event.clientY - frozen.top;
+
+    drag = {
+      wrapper,
+      handle,
+      pointerId: event.pointerId,
+      offsetX,
+      offsetY,
+      startPointerX: event.clientX,
+      startPointerY: event.clientY,
+      startRect: {
+        left: before.left,
+        top: before.top,
+        width: before.width,
+        height: before.height,
+      },
+      frozenRect: {
+        left: afterFreeze.left,
+        top: afterFreeze.top,
+        width: afterFreeze.width,
+        height: afterFreeze.height,
+      },
+      last: {
+        pointerX: event.clientX,
+        pointerY: event.clientY,
+        left: afterFreeze.left,
+        top: afterFreeze.top,
+      },
+    };
+
+    wrapper.classList.add('pr6-audio-dragging');
+    document.documentElement.dataset.pr6AudioDragging = 'true';
+
+    try {
+      handle.setPointerCapture(event.pointerId);
+    } catch (_) {}
+
+    applyPosition(wrapper, frozen.left, frozen.top, frozen.width, frozen.height);
+    writeAudit('drag-start');
+  }
+
+  function onMouseDownCapture(event) {
+    if (!isDotHandleTarget(event.target)) return;
+    stopEvent(event);
+  }
+
+  function onPointerMove(event) {
+    if (!drag) return;
+    if (event.pointerId !== undefined && drag.pointerId !== undefined && event.pointerId !== drag.pointerId) return;
+
+    stopEvent(event);
+
+    pending = {
+      clientX: event.clientX,
+      clientY: event.clientY,
+    };
+
+    scheduleMove();
+  }
+
+  function finishDrag(source, event) {
+    if (!drag) return;
+
+    try {
+      if (drag.handle && event && event.pointerId !== undefined) {
+        drag.handle.releasePointerCapture(event.pointerId);
+      }
+    } catch (_) {}
+
+    try {
+      drag.wrapper.classList.remove('pr6-audio-dragging');
+    } catch (_) {}
+
+    try {
+      delete document.documentElement.dataset.pr6AudioDragging;
+    } catch (_) {}
+
+    writeAudit(source || 'drag-end');
+
+    drag = null;
+    pending = null;
+
+    if (raf) {
+      window.cancelAnimationFrame(raf);
+      raf = 0;
+    }
+  }
+
+  function clampCurrentIntoViewport() {
+    const current = nodes();
+
+    removeAddedHandles();
+
+    if (!current.wrapper || !isVisible(current.wrapper)) {
+      writeAudit('viewport-clamp-hidden');
+      return;
+    }
+
+    if (current.wrapper.dataset.pr6AudioDragged !== 'true') {
+      writeAudit('viewport-clamp-skip-not-dragged');
+      return;
+    }
+
+    const rect = current.wrapper.getBoundingClientRect();
+    applyPosition(current.wrapper, rect.left, rect.top, rect.width, rect.height);
+    writeAudit('viewport-clamp');
+  }
+
+  function writeAudit(source) {
+    try {
+      const current = nodes();
+      const wrapperRect = rectOf(current.wrapper);
+      const handleRect = rectOf(current.dotHandle);
+      const vp = viewport();
+
+      window.__PR6_AUDIO_MODAL_DRAG__ = {
+        version: VERSION,
+        ready: true,
+        source: source || 'unknown',
+        dragging: Boolean(drag),
+        activeHandleId: current.dotHandle?.id || null,
+        activeHandleClass: current.dotHandle?.className || null,
+        dotHandleCount: qa('#dragBar.drag-bar, #dragBar, .drag-bar').length,
+        addedHandleCount: qa('#pr6AudioDragHandle, .pr6-audio-drag-handle').length,
+        handleVisible: isVisible(current.dotHandle),
+        wrapperRect,
+        handleRect,
+        viewport: vp,
+        offset: drag ? { x: drag.offsetX, y: drag.offsetY } : null,
+        startRect: drag ? drag.startRect : null,
+        frozenRect: drag ? drag.frozenRect : null,
+        last: drag ? drag.last : null,
+        inViewport: wrapperRect.left >= MARGIN - 1
+          && wrapperRect.top >= MARGIN - 1
+          && wrapperRect.right <= vp.width - MARGIN + 1
+          && wrapperRect.bottom <= vp.height - MARGIN + 1,
+        updatedAt: new Date().toISOString(),
+      };
+    } catch (_) {}
+  }
+
+  function boot() {
+    injectStyle();
+    removeAddedHandles();
+
+    const current = nodes();
+
+    if (current.dotHandle) {
+      current.dotHandle.dataset.pr6AudioDragHandleOwner = VERSION;
+      current.dotHandle.removeAttribute('title');
+      current.dotHandle.setAttribute('aria-label', 'Déplacer le lecteur audio');
+    }
+
+    writeAudit('boot');
+  }
+
+  if (!window.__PR6_AUDIO_MODAL_DESKTOP_DRAG_V4_BOUND__) {
+    window.__PR6_AUDIO_MODAL_DESKTOP_DRAG_V4_BOUND__ = true;
+
+    document.addEventListener('pointerdown', onPointerDown, true);
+    document.addEventListener('mousedown', onMouseDownCapture, true);
+    document.addEventListener('pointermove', onPointerMove, true);
+    document.addEventListener('pointerup', (event) => finishDrag('drag-end', event), true);
+    document.addEventListener('pointercancel', (event) => finishDrag('drag-cancel', event), true);
+
+    window.addEventListener('resize', () => {
+      window.setTimeout(clampCurrentIntoViewport, 0);
+      window.setTimeout(clampCurrentIntoViewport, 160);
+    });
+
+    document.addEventListener('pjax:ready', () => {
+      window.setTimeout(boot, 0);
+      window.setTimeout(boot, 160);
+    });
+
+    window.addEventListener('load', () => window.setTimeout(boot, 0));
+  }
+
+  window.__PR6_AUDIO_MODAL_DRAG_API__ = {
+    version: VERSION,
+    boot,
+    clamp: clampCurrentIntoViewport,
+    audit: () => window.__PR6_AUDIO_MODAL_DRAG__ || null,
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+/* PR6_AUDIO_MODAL_DESKTOP_DRAG_V4_DOT_HANDLE_STABLE_END */
