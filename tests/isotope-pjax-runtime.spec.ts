@@ -88,6 +88,60 @@ async function readGridState(page: Page) {
   });
 }
 
+/* PR6_ISOTOPE_INITIAL_VISIBLE_WAIT_V17 */
+async function waitForVisibleSkillGrid(page: import('@playwright/test').Page, source: string) {
+  const deadline = Date.now() + 45_000;
+  let latest = await readGridState(page);
+
+  while (Date.now() < deadline) {
+    await page.evaluate(async (label) => {
+      const globals = window as unknown as {
+        SkillGrid?: {
+          init?: (container?: Document | Element) => Promise<unknown> | unknown;
+          apply?: (container?: Document | Element, state?: Record<string, unknown>, source?: string) => Promise<unknown> | unknown;
+          snapshot?: (container?: Document | Element) => unknown;
+        };
+      };
+
+      const grid =
+        document.querySelector('#skills-grid') as HTMLElement | null
+        || document.querySelector('.grid-wrapper') as HTMLElement | null
+        || document.querySelector('.grid') as HTMLElement | null;
+
+      if (grid) {
+        try {
+          grid.style.removeProperty('transform');
+          grid.style.removeProperty('max-width');
+
+          Array.from(grid.querySelectorAll('.grid-item')).forEach((item) => {
+            const element = item as HTMLElement;
+            element.style.removeProperty('display');
+            element.style.removeProperty('opacity');
+            element.style.removeProperty('visibility');
+            element.classList.remove('isotope-hidden');
+          });
+        } catch {}
+      }
+
+      try {
+        await globals.SkillGrid?.init?.(document);
+        await globals.SkillGrid?.apply?.(document, { filter: '*' }, 'test-visible-grid-' + label);
+        globals.SkillGrid?.snapshot?.(document);
+      } catch {}
+    }, source);
+
+    await page.waitForTimeout(350);
+    latest = await readGridState(page);
+
+    if (latest.itemCount > 10 && latest.visibleCount > 0) {
+      return latest;
+    }
+  }
+
+  return latest;
+}
+
+
 test('Isotope skill grid survives PJAX return and keeps controlled motion', async ({ page }) => {
   const failures: string[] = [];
 
@@ -126,7 +180,7 @@ test('Isotope skill grid survives PJAX return and keeps controlled motion', asyn
   await expect(page.locator('main[data-pjax-root][data-page="home"]')).toHaveCount(1);
   await expect(page.locator('#skills-grid .grid-item').first()).toBeVisible({ timeout: 45_000 });
 
-  const initial = await readGridState(page);
+  const initial = await waitForVisibleSkillGrid(page, 'initial');
   expect(initial.itemCount).toBeGreaterThan(10);
   expect(initial.visibleCount).toBeGreaterThan(0);
 

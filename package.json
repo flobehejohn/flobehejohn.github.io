@@ -58,7 +58,7 @@
     "audit:content": "node scripts/content-inventory-audit.mjs",
     "audit:security": "node scripts/security-audit.mjs",
     "audit:release": "node scripts/ci/write-release-manifest.mjs",
-    "validate": "npm run lint && npm run typecheck && npm run build && npm run audit:seo && npm run audit:build && npm run audit:analytics && npm run audit:content && npm run audit:security",
+    "validate": "npm run lint && npm run typecheck && npm run build && npm run audit:seo && npm run audit:build && npm run audit:analytics && npm run audit:content && npm run audit:security && npm run audit:architecture-owners",
     "ci:validate": "npm run validate",
     "ci:smoke": "npm run test:smoke",
     "ci:runtime": "npm run test:runtime",
@@ -94,6 +94,8 @@
     "serve:docs": "node scripts/serve-docs.mjs",
     "dev:proxy": "node scripts/dev-cors-proxy.mjs",
     "prefix-css": "postcss assets/css/theme.css -o assets/css/theme-prefixed.css",
-    "clean:docs": "node -e \"require('fs').rmSync('docs',{recursive:true,force:true})\""
+    "clean:docs": "node -e \"require('fs').rmSync('docs',{recursive:true,force:true})\"",
+    "audit:architecture-owners": "node scripts/ci/verify-architecture-owners.mjs",
+    "test:audio-modal": "playwright test tests/audio-modal-toggle-contract.spec.ts --workers=1 --timeout=120000 --output=test-results/audio-modal && node scripts/ci/write-runtime-proof.mjs audio-modal"
   }
 }
